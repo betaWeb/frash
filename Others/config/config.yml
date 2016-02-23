@@ -1,0 +1,7 @@
+database:
+    host: localhost
+    username:
+    password:
+    dbname:
+
+env: local
