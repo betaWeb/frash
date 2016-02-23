@@ -1,6 +1,6 @@
 <?php
 	namespace Bundles\GameBundle\Requests;
-    use Composants\ORM\Request\QueryBuilder;
+    use Composants\ORM\QueryBuilder;
     use Composants\ORM\Request\Order;
     use Composants\ORM\Request\Select;
     use Composants\ORM\Request\Where;
@@ -13,8 +13,7 @@
             $wh = new Where;
             $ord = new Order('time_creation', 'DESC');
             $wh->initNormalWhere([ 'cat', ':cat' ], '=');
-            $sel->setWhere($wh->getWhere());
-            $sel->setArrayWhere($wh->getArrayWhere());
+            $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setOrder($ord->getOrder());
             $sel->setExecute([ 1 ]);
             $sel->requestSelect();
