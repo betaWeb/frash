@@ -1,5 +1,5 @@
 <?php
-    namespace Composants\ORM\Request;
+    namespace Composants\ORM;
     use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Framework\CreateLog\CreateRequestLog;
     use Composants\ORM\Orm;
