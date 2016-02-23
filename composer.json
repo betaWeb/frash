@@ -1,0 +1,15 @@
+{
+  "require": {
+    "twig/twig": "1.24.0"
+  },
+  "require-dev": {
+    "phpdocumentor/phpdocumentor": "2.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Composants\\": "Composants/",
+      "Console\\": "Console/",
+      "Bundles\\": "Bundles/"
+    }
+  }
+}
