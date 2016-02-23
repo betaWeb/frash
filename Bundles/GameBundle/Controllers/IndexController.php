@@ -11,8 +11,7 @@
      */
     class IndexController{
         /**
-         * @param bool $params
-         * @return Response
+         * @return Redirect|Response
          */
         public function indexAction(){
             if(!isset($_SESSION['id'])){
