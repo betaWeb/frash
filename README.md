@@ -1,7 +1,7 @@
 # LFW
 Light FrameWork
 
- - <kbd>Framework</kbd> : 2.9.3
+ - <kbd>Framework</kbd> : 2.9.4
  - <kbd>Jeu</kbd> :
 
 Installation
