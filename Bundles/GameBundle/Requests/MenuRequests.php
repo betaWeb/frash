@@ -2,7 +2,7 @@
 	namespace Bundles\GameBundle\Requests;
     use Composants\ORM\Request\Select;
     use Composants\ORM\Request\Where;
-    use Composants\ORM\Request\QueryBuilder;
+    use Composants\ORM\QueryBuilder;
 
 	class MenuRequests{
 		/**
@@ -14,8 +14,7 @@
             $wh = new Where;
             $wh->initNormalWhere([ 'id', ':id' ], '=');
             $wh->andWhere([ 'pseudo', ':pseudo' ], '=');
-            $sel->setWhere($wh->getWhere());
-            $sel->setArrayWhere($wh->getArrayWhere());
+            $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $_SESSION['id'], $_SESSION['pseudo'] ]);
             $sel->requestSelect();
             $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\User');
@@ -35,8 +34,7 @@
             $wh->initNormalWhere([ 'destinataire', ':dest' ], '=');
             $wh->andWhere([ 'destinataire_id', ':dest_id' ], '=');
             $wh->andWhere([ 'nombre_vue', ':nb_vue' ], '=');
-            $sel->setWhere($wh->getWhere());
-            $sel->setArrayWhere($wh->getArrayWhere());
+            $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ 'dest' => $_SESSION['pseudo'], 'dest_id' => $_SESSION['id'], 'nb_vue' => 0 ]);
             $sel->requestSelect();
             $count = $req->countResult($sel->getRequest(), $sel->getExecute());
@@ -52,8 +50,7 @@
             $sel = new Select('territoire');
             $wh = new Where;
             $wh->initNormalWhere([ 'id', ':id' ], '=');
-            $sel->setWhere($wh->getWhere());
-            $sel->setArrayWhere($wh->getArrayWhere());
+            $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $_SESSION['terri'] ]);
             $sel->requestSelect();
             $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Territoire');
