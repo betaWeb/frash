@@ -1,0 +1,2 @@
+accueil:
+    path: GameBundle:IndexController:IndexAction
