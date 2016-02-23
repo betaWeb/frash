@@ -2,7 +2,7 @@
 Light FrameWork
 
  - <kbd>Framework</kbd> : 3.24.10
- - <kbd>Jeu</kbd> : 3.2
+ - <kbd>Jeu</kbd> : 4.2
 
 Installation
 ----------
