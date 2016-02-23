@@ -1,0 +1,94 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div id="corps">
+        <p id="pres">Pour Un Lendemain est un jeu en ligne de simulation de guerre.<br>
+            Vous aurez à gérer vos ressources, votre armée, vos infrastructures.<br>
+            Vous pourrez également conquérir des territoires, en occuper.<br><br>
+            Concernant les combats, ils pourront se faire dans les villes des territoires,<br>
+            ou à l'extérieur de ces villes, en visant des groupes.<br>
+            L'efficacité, la préparation, d'un groupe peut changer le rapport de force lors du combat.
+        </p>
+        <div id="form">
+            <h3>Connexion</h3>
+            {{ form_conn.start | raw }}
+                {{ form_conn.mail | raw }}<br>
+                {{ form_conn.password | raw }}<br>
+                {{ form_conn.submit | raw }}
+            {{ form_conn.end | raw }}<br><br>
+            <h3>Inscription</h3>
+            {{ form_insc.start | raw }}
+                {{ form_insc.pseudo | raw }} <span id="use_pseudo"></span><br>
+                {{ form_insc.mail | raw }}<br>
+                {{ form_insc.password | raw }} {{ form_insc.password_check | raw }}<br>
+                {{ form_insc.pos_x | raw }} / {{ form_insc.pos_y | raw }} - <a href="#" onclick="affich_carte_inscrip()">Choisir un territoire de départ</a><br>
+                <div id="carte_terri_depart">
+                    <table id="table_carte_depart" class="table table-bordered">
+                        <tr>
+                            {% for data in line1_table %}
+                                {% if data.territoire > 0 %}<td class="td_map_user">Utilisé
+                                {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">
+                                {% elseif data.statut == 2 %}<td class="td_map_mer">
+                                {% elseif data.statut == 4 %}<td class="td_map_mont">
+                                {% endif %}
+                                ( {{ data.position_x }} / {{ data.position_y }} )
+                                </td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            {% for data in line2_table %}
+                                {% if data.territoire > 0 %}<td class="td_map_user">Utilisé
+                                {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">
+                                {% elseif data.statut == 2 %}<td class="td_map_mer">
+                                {% elseif data.statut == 4 %}<td class="td_map_mont">
+                                {% endif %}
+                                ( {{ data.position_x }} / {{ data.position_y }} )
+                                </td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            {% for data in line3_table %}
+                                {% if data.territoire > 0 %}<td class="td_map_user">Utilisé
+                                {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">
+                                {% elseif data.statut == 2 %}<td class="td_map_mer">
+                                {% elseif data.statut == 3 %}<td class="td_map_ville">
+                                {% elseif data.statut == 4 %}<td class="td_map_mont">
+                                {% endif %}
+                                ( {{ data.position_x }} / {{ data.position_y }} )
+                                </td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            {% for data in line4_table %}
+                                {% if data.territoire > 0 %}<td class="td_map_user">Utilisé
+                                {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">
+                                {% elseif data.statut == 2 %}<td class="td_map_mer">
+                                {% elseif data.statut == 4 %}<td class="td_map_mont">
+                                {% endif %}
+                                ( {{ data.position_x }} / {{ data.position_y }} )
+                                </td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            {% for data in line5_table %}
+                                {% if data.territoire > 0 %}<td class="td_map_user">Utilisé
+                                {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">
+                                {% elseif data.statut == 2 %}<td class="td_map_mer">
+                                {% elseif data.statut == 4 %}<td class="td_map_mont">
+                                {% endif %}
+                                ( {{ data.position_x }} / {{ data.position_y }} )
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div><br>
+                {{ form_insc.submit | raw }}
+            {{ form_insc.end | raw }}
+        </div>
+    </div>
+{% endblock %}
+{% block js_end %}
+    {{ parent() }}
+    <script src="/LFW/Ressources/javascript/carte_inscrip.js"></script>
+    <script src="/LFW/Ressources/javascript/use_pseudo.js"></script>
+{% endblock %}

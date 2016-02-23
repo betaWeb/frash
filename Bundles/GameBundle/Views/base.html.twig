@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Pour Un Lendemain</title>
+        <link rel="stylesheet" media="screen" type="text/css" title="Design" href="/LFW/Ressources/css/design.css">
+        <link rel="stylesheet" href="/LFW/Ressources/css/bootstrap/bootstrap.css">
+        <link rel="icon" type="image/png" href="/LFW/Ressources/images/favicon.png">
+        <link rel="shortcut icon" type="image/x-icon" href="/LFW/Ressources/images/favicon.ico">
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <div id="banniere"><h1>POUR UN LENDEMAIN</h1></div>
+        {% block body %}
+            <nav class="navbar navbar-inverse container-fluid">
+                <div class="navbar-header"><a class="navbar-brand" href="../game/">Pour un Lendemain</a></div>
+                <ul class="nav navbar-nav">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Développement <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../batiment/">Bâtiments</a></li>
+                            <li><a href="../techno/">Technologies</a></li>
+                            <li><a href="../mission/">Missions</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Armée <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../camp_entrain/">Camp d'entraînement</a></li>
+                            <li class="dropdown-submenu"><a>Groupes</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="../groupe/1/">Liste des groupes</a></li>
+                                    <li><a href="../groupe/2/">Créer un groupe</a></li>
+                                    <li><a href="../groupe/3/">Enlever une unité d'un groupe</a></li>
+                                    <li><a href="../groupe/4/">Rajouter une unité à un groupe</a></li>
+                                    <li><a href="../groupe/5/">Renommer un groupe</a></li>
+                                    <li><a href="../groupe/6/">Ajouter des munitions à un groupe</a></li>
+                                    <li><a href="../groupe/7/">Positionner un groupe</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="../reserve/">Réserve</a></li>
+                            <li class="dropdown-submenu"><a>Usine</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="../usine/1/">Véhicules</a></li>
+                                    <li><a href="../usine/2/">Avions et hélicos</a></li>
+                                    <li><a href="../usine/3/">Navires</a></li>
+                                    <li><a href="../usine/4/">Armes et munitions</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="../alliance/">Alliance</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Carte <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../carte/">Carte</a></li>
+                            <li><a href="../mouvement/">Voir les mouvements</a></li>
+                            <li><a href="../creer_mouvement/">Créer un mouvement</a></li>
+                            <li><a href="../chang_terri/">Changer de territoire</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Options <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            {% if rang == 4 %}<li><a href="../admin/">Panel Admin</a></li>{% endif %}
+                            <li><a href="../contact/">Contact</a></li>
+                            <li class="dropdown-submenu"><a href="../forum/">Forum</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="../voir_forum/1/">News</a></li>
+                                    <li><a href="../voir_forum/2/">Commerce</a></li>
+                                    <li><a href="../voir_forum/3/">Discussion générale</a></li>
+                                    <li><a href="../voir_forum/4/">Combats</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="../aide/">Aide</a></li>
+                            <li><a href="../classement/1/">Classement Joueurs</a></li>
+                            <li><a href="../classement/2/">Classement Alliances</a></li>
+                            <li><a href="../simul_combat/">Simulateur de combat</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Monnaie : <em>{{ nb_monnaie }}</em></a></li>
+                    <li><a href="#">Uranium : <em>{{ nb_uranium }}</em></a></li>
+                    <li><a href="#">Acier : <em>{{ nb_acier }}</em></a></li>
+                    <li><a href="#">Pétrole : <em>{{ nb_petrole }}</em></a></li>
+                    <li><a href="#">Composant : <em>{{ nb_composant }}</em></a></li>
+                    <li><a href="../mp/"><span class="glyphicon glyphicon-envelope"></span>
+                        {% if nbmp > 1 %} {{ nbmp }} messages
+                        {% elseif nbmp == 1 %} 1 message
+                        {% elseif nbmp == 0 %} 0 message
+                        {% endif %}
+                    </a></li>
+                    <li><a href="../deconnexion/"><span class="glyphicon glyphicon-off"></span> Déconnexion</a></li>
+                </ul>
+            </nav>
+        {% endblock %}
+        {% block js_end %}
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+            <script src="/framework/Ressources/javascript/bootstrap/bootstrap.min.js"></script>
+        {% endblock %}
+    </body>
+</html>
