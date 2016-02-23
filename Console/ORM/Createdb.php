@@ -21,7 +21,7 @@
 
                 new CreateRequestLog('CREATE DATABASE IF NOT EXISTS '.$array['database']['dbname']);
             }
-            catch(PDOException $e){
+            catch(\PDOException $e){
                 new CreateErrorLog($e->getMessage());
                 die($e->getMessage());
             }
