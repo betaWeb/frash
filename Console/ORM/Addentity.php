@@ -1,6 +1,6 @@
 <?php
     namespace Console\ORM;
-    use Composants\ORM\General\Orm;
+    use Composants\ORM\Orm;
     use Composants\Yaml\Yaml;
 
     /**
