@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div id="corps">
+        {{ parent() }}
+        <div id="bloc_classement">
+            <table id="classement" class="table table-bordered">
+                <tr><td>Rang</td><td>Joueur</td><td>Points</td></tr>
+                {% for data in clmnt %}
+                    <tr>
+                        <td>{{ data.rang }}</td>
+                        <td>{{ data.pseudo }}</td>
+                        <td>{{ data.point }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div id="bloc_news">
+            <table>
+                <tr><td colspan="2"><h2>Derniers topics</h2></td></tr>
+                {% for data in news %}
+                    <tr>
+                        <td><a href="../voir_topic/1/{{ data.id }}/">{{ data.nom }}</a></td>
+                        <td><strong>{{ data.pseudo }}</strong></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
+{% block js_end %}
+    {{ parent() }}
+{% endblock %}

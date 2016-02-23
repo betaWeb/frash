@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div id="corps">
+        {{ parent() }}
+        <div>
+            {{ form.start | raw }}
+                {{ form.pos_x | raw }} - {{ form.pos_y | raw }} - {{ form.submit | raw }}
+            {{ form.end | raw }}<br><br>
+            <table id="table_carte_depart" class="table table-bordered">
+                <tr>
+                    {% for data in line1 %}
+                        {% if data.statut == 1 and data.territoire > 0 %}<td class="td_map_user">{{ data.joueur }}</td>
+                        {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 2 %}<td class="td_map_mer">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 4 and data.territoire > 0 %}<td class="td_map_mont">{{ data.joueur }}</td>
+                        {% elseif data.statut == 4 and data.territoire == 0 %}<td class="td_map_mont">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for data in line2 %}
+                        {% if data.statut == 1 and data.territoire > 0 %}<td class="td_map_user">{{ data.joueur }}</td>
+                        {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 2 %}<td class="td_map_mer">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 4 and data.territoire > 0 %}<td class="td_map_mont">{{ data.joueur }}</td>
+                        {% elseif data.statut == 4 and data.territoire == 0 %}<td class="td_map_mont">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for data in line3 %}
+                        {% if data.statut == 1 and data.territoire > 0 %}<td class="td_map_user">{{ data.joueur }}</td>
+                        {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 2 %}<td class="td_map_mer">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 4 and data.territoire > 0 %}<td class="td_map_mont">{{ data.joueur }}</td>
+                        {% elseif data.statut == 4 and data.territoire == 0 %}<td class="td_map_mont">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for data in line4 %}
+                        {% if data.statut == 1 and data.territoire > 0 %}<td class="td_map_user">{{ data.joueur }}</td>
+                        {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 2 %}<td class="td_map_mer">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 4 and data.territoire > 0 %}<td class="td_map_mont">{{ data.joueur }}</td>
+                        {% elseif data.statut == 4 and data.territoire == 0 %}<td class="td_map_mont">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for data in line5 %}
+                        {% if data.statut == 1 and data.territoire > 0 %}<td class="td_map_user">{{ data.joueur }}</td>
+                        {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 2 %}<td class="td_map_mer">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 4 and data.territoire > 0 %}<td class="td_map_mont">{{ data.joueur }}</td>
+                        {% elseif data.statut == 4 and data.territoire == 0 %}<td class="td_map_mont">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for data in line6 %}
+                        {% if data.statut == 1 and data.territoire > 0 %}<td class="td_map_user">{{ data.joueur }}</td>
+                        {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 2 %}<td class="td_map_mer">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 4 and data.territoire > 0 %}<td class="td_map_mont">{{ data.joueur }}</td>
+                        {% elseif data.statut == 4 and data.territoire == 0 %}<td class="td_map_mont">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for data in line7 %}
+                        {% if data.statut == 1 and data.territoire > 0 %}<td class="td_map_user">{{ data.joueur }}</td>
+                        {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 2 %}<td class="td_map_mer">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 4 and data.territoire > 0 %}<td class="td_map_mont">{{ data.joueur }}</td>
+                        {% elseif data.statut == 4 and data.territoire == 0 %}<td class="td_map_mont">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for data in line8 %}
+                        {% if data.statut == 1 and data.territoire > 0 %}<td class="td_map_user">{{ data.joueur }}</td>
+                        {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 2 %}<td class="td_map_mer">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 4 and data.territoire > 0 %}<td class="td_map_mont">{{ data.joueur }}</td>
+                        {% elseif data.statut == 4 and data.territoire == 0 %}<td class="td_map_mont">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for data in line9 %}
+                        {% if data.statut == 1 and data.territoire > 0 %}<td class="td_map_user">{{ data.joueur }}</td>
+                        {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 2 %}<td class="td_map_mer">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 4 and data.territoire > 0 %}<td class="td_map_mont">{{ data.joueur }}</td>
+                        {% elseif data.statut == 4 and data.territoire == 0 %}<td class="td_map_mont">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for data in line10 %}
+                        {% if data.statut == 1 and data.territoire > 0 %}<td class="td_map_user">{{ data.joueur }}</td>
+                        {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 2 %}<td class="td_map_mer">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 4 and data.territoire > 0 %}<td class="td_map_mont">{{ data.joueur }}</td>
+                        {% elseif data.statut == 4 and data.territoire == 0 %}<td class="td_map_mont">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for data in line11 %}
+                        {% if data.statut == 1 and data.territoire > 0 %}<td class="td_map_user">{{ data.joueur }}</td>
+                        {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 2 %}<td class="td_map_mer">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% elseif data.statut == 4 and data.territoire > 0 %}<td class="td_map_mont">{{ data.joueur }}</td>
+                        {% elseif data.statut == 4 and data.territoire == 0 %}<td class="td_map_mont">{{ data.position_x }} / {{ data.position_y }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            </table>
+        </div><br>
+    </div>
+{% endblock %}
+{% block js_end %}
+    {{ parent() }}
+{% endblock %}

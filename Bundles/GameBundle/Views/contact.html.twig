@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div id="corps">
+        {{ parent() }}
+        {{ form.start | raw }}
+            {{ form.textarea | raw }}<br>
+            {{ form.submit | raw }}
+        {{ form_conn.end | raw }}
+    </div>
+{% endblock %}
+{% block js_end %}{{ parent() }}{% endblock %}
