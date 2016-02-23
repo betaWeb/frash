@@ -1,8 +1,8 @@
 <?php
     require('vendor/autoload.php');
-    use Console\ORM_Console\Createdb;
-    use Console\ORM_Console\Addentity;
-    use Console\ORM_Console\Updentity;
+    use Console\ORM\Createdb;
+    use Console\ORM\Addentity;
+    use Console\ORM\Updentity;
     use Console\Bundle\GenerateBundle;
 
     function read_stdin(){
