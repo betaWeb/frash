@@ -11,6 +11,7 @@
         /**
          * Addentity constructor.
          * @param $table
+         * @param $bundle
          * @param $champ
          */
         public function __construct($table, $bundle, $champ){
