@@ -13,13 +13,13 @@ Installation
 
 ----------
 Pour générer une entité et une table :
-> php Console.php ORM:addentity:**nomtable** "nom_colonne!int(11)!unsigned!NOT NULL!auto_increment/nom_colonne!...".
+> php Console.php ORM:addentity:**nombundle**:**nomtable** "nom_colonne!int(11)!unsigned!NOT NULL!auto_increment/nom_colonne!...".
 
 Pour créer la base de données renseignée dans le fichier routing.yml :
 > php Console.php ORM:createdb
 
 Pour créer une entité à partir d'une table :
-> php Console.php ORM:updentity:**nomtable**
+> php Console.php ORM:updentity:**nombundle**:**nomtable**
 
 Pour accéder aux commandes disponibles par la console :
 > php Console.php console:listcommand
