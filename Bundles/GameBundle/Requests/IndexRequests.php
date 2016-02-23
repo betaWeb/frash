@@ -1,6 +1,6 @@
 <?php
     namespace Bundles\GameBundle\Requests;
-    use Composants\ORM\Request\QueryBuilder;
+    use Composants\ORM\QueryBuilder;
     use Composants\ORM\Request\Select;
     use Composants\ORM\Request\Where;
     use Composants\ORM\Request\Order;
