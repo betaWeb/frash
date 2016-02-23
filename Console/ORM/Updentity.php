@@ -10,10 +10,10 @@
     class Updentity{
         /**
          * Updentity constructor.
-         * @param $table
          * @param $bundle
+         * @param $table
          */
-        public function __construct($table, $bundle){
+        public function __construct($bundle, $table){
             $array = Yaml::parse(file_get_contents('Others/config/config.yml'));
             Orm::init($array['database']['host'], $array['database']['dbname'], $array['database']['username'], $array['database']['password']);
 

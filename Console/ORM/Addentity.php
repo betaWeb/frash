@@ -10,11 +10,11 @@
     class Addentity{
         /**
          * Addentity constructor.
-         * @param $table
          * @param $bundle
+         * @param $table
          * @param $champ
          */
-        public function __construct($table, $bundle, $champ){
+        public function __construct($bundle, $table, $champ){
             $array = Yaml::parse(file_get_contents('Others/config/config.yml'));
             Orm::init($array['database']['host'], $array['database']['dbname'], $array['database']['username'], $array['database']['password']);
 
