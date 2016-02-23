@@ -42,7 +42,7 @@
                 }
 
                 $get = [];
-                foreach($this->url as $v){
+                foreach($nurl as $v){
                     $get[] = urldecode(htmlentities($v));
                 }
 
