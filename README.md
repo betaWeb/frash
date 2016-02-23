@@ -1,7 +1,7 @@
 # LFW
 Light FrameWork
 
- - <kbd>Framework</kbd> : 1.0.1
+ - <kbd>Framework</kbd> : 1.1.1
  - <kbd>Jeu</kbd> :
 
 Installation
