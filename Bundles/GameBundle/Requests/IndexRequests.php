@@ -23,8 +23,7 @@
             $wh->initNormalWhere([ 'position_x', ':pos_x' ], '=');
             $wh->andWhere([ 'position_y', ':pos_y_min' ], '>');
             $wh->andWhere([ 'position_y', ':pos_y_max' ], '<');
-            $sel->setWhere($wh->getWhere());
-            $sel->setArrayWhere($wh->getArrayWhere());
+            $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $pos_x, $y_min, $y_max ]);
             $sel->requestSelect();
             return $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Carte');
