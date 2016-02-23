@@ -1,13 +1,13 @@
 # LFW
 Light FrameWork
 
- - <kbd>Framework</kbd> : 0.33.1
+ - <kbd>Framework</kbd> : 0.66.1
  - <kbd>Jeu</kbd> :
 
 Installation
 ----------
 
-> - git clone https://github.com/AlixSperoza/framework
+> - git clone https://github.com/AlixSperoza/LFW
 > - php composer.phar install
 > - Pour générer la documentation : php vendor/bin/phpdoc -d ./ -i vendor/ -i Views/
 
