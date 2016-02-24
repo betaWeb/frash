@@ -27,9 +27,9 @@
         private $insertExecute;
 
         /**
-         * @var
+         * @var array
          */
-        private $execute;
+        private $execute = [];
 
         /**
          * Insert constructor.
@@ -74,7 +74,7 @@
         }
 
         /**
-         * @return mixed
+         * @return array
          */
         public function getExecute(){
             return $this->execute;
