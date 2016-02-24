@@ -80,7 +80,7 @@
         /**
          * @param bool $exec
          */
-        public function setExecute($exec = false){
+        public function setExecute($exec = []){
             if(!empty($this->arrayWhere)){
                 $result = explode(' ||| ', $this->arrayWhere);
             }
