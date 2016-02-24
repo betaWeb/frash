@@ -2,9 +2,6 @@
     namespace Bundles\GameBundle\Controllers;
     use Bundles\GameBundle\Requests\InscriptionRequests;
     use Composants\Framework\Response\Redirect;
-    use Composants\Framework\Forms\VerifForm;
-    use Composants\ORM\Request\Insert;
-    use Composants\ORM\Request\QueryBuilder;
 
     /**
      * Class InscriptionController
@@ -16,10 +13,9 @@
          */
         public function inscriptionAction(){
             if(isset($_POST['submit'])){
-                $vf = new VerifForm;
-                if($vf->isEqualInferLength($_POST['pseudo'], 40) === false){ return new Redirect('../accueil/'); }
+                if(strlen($_POST['pseudo']) > 40){ return new Redirect('../accueil/'); }
                 elseif($_POST['password'] != $_POST['password_check']){ return new Redirect('../accueil/'); }
-                elseif($vf->isEqualInferLength($_POST['mail'], 100) === false){ return new Redirect('../accueil/'); }
+                elseif(strlen($_POST['mail']) > 100){ return new Redirect('../accueil/'); }
                 //elseif($_POST['pos_x'] < $_SESSION['x_min'] || $_POST['pos_x'] > $_SESSION['x_max']){ return new Redirect('../accueil/'); }
                 //elseif($_POST['pos_y'] < $_SESSION['y_min'] || $_POST['pos_y'] > $_SESSION['y_max']){ return new Redirect('../accueil/'); }
                 else{
@@ -34,7 +30,7 @@
                     elseif($i->sqlCountTerri($pos_x, $pos_y) > 0){ return new Redirect('../accueil/'); }
                     else{
                         $i->sqlInsertUser($pseudo, sha1($_POST['password']), $mail);
-                        /*$id_user = $i->sqlGetIdInsertUser($pseudo);
+                        $id_user = $i->sqlGetIdInsertUser($pseudo);
                         $i->sqlInsertTerri($id_user, $pseudo, $pos_x, $pos_y);
                         $id_terri = $i->sqlGetIdInsertTerri($pseudo);
                         $i->sqlUpdateCarte($id_terri, $id_user, $pseudo, $pos_x, $pos_y);
@@ -44,7 +40,7 @@
                             $i->sqlForeachBat($v, $id_user, $id_terri);
                         }
 
-                        $i->sqlInsertRech($id_user);*/
+                        $i->sqlInsertRech($id_user);
 
                         /*$_SESSION['id'] = $id_user;
                         $_SESSION['pseudo'] = $pseudo;
