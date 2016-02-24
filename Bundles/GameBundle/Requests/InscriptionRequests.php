@@ -45,9 +45,8 @@
         public function sqlInsertUser($pseudo, $mdp, $mail){
             $req = new QueryBuilder();
             $ins = new Insert('user');
-            $ins->setInsert([ 'pseudo', 'password', 'mail', 'inscription' ]);
-            $ins->setExecute([ $pseudo, $mdp, $mail, time() ]);
-            $ins->requestInsert();
+            $ins->setInsert([ 'pseudo', 'password', 'mail', 'inscription', 'connexion' ]);
+            $ins->setExecute([ $pseudo, $mdp, $mail, time(), time() ]);
             $req->execRequest($ins->getRequest(), $ins->getExecute());
         }
 
@@ -71,7 +70,6 @@
             $ins = new Insert('territoire');
             $ins->setInsert([ 'joueur_id', 'joueur', 'position_x', 'position_y', 'terri_principal' ]);
             $ins->setExecute([ $id_user, $pseudo, $pos_x, $pos_y, 1 ]);
-            $ins->requestInsert();
             $req->execRequest($ins->getRequest(), $ins->getExecute());
         }
 
@@ -99,7 +97,7 @@
             $upd->setUpdate([ 'territoire = :terri', 'joueur_id = :jid', 'joueur = :joueur' ]);
             $wh->initNormalWhere([ 'position_x', ':pos_x' ], '=');
             $wh->andWhere([ 'position_y', ':pos_y' ], '=');
-            $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
+            $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $upd->setExecute([ $id_terri, $id_user, $pseudo, $pos_x, $pos_y ]);
             $upd->requestUpdate();
             $req->execRequest($upd->getRequest(), $upd->getExecute());
@@ -110,7 +108,6 @@
             $ins = new Insert($bat);
             $ins->setInsert([ 'joueur', 'territoire' ]);
             $ins->setExecute([ $id_user, $id_terri ]);
-            $ins->requestInsert();
             $req->execRequest($ins->getRequest(), $ins->getExecute());
         }
 
@@ -119,7 +116,6 @@
             $ins = new Insert('recherche');
             $ins->setInsert([ 'joueur' ]);
             $ins->setExecute([ $id_user ]);
-            $ins->requestInsert();
             $req->execRequest($ins->getRequest(), $ins->getExecute());
         }
     }
