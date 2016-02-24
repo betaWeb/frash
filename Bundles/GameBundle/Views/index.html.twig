@@ -26,58 +26,47 @@
                     <table id="table_carte_depart" class="table table-bordered">
                         <tr>
                             {% for data in line1_table %}
-                                {% if data.territoire > 0 %}<td class="td_map_user">Utilisé
-                                {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">
-                                {% elseif data.statut == 2 %}<td class="td_map_mer">
-                                {% elseif data.statut == 4 %}<td class="td_map_mont">
+                                {% if data.territoire > 0 %}<td class="td_map_user">Utilisé ({{ data.position_x }} / {{ data.position_y }})</td>
+                                {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">{{ data.position_x }} / {{ data.position_y }}</td>
+                                {% elseif data.statut == 2 %}<td class="td_map_mer">{{ data.position_x }} / {{ data.position_y }}</td>
+                                {% elseif data.statut == 4 %}<td class="td_map_mont">{{ data.position_x }} / {{ data.position_y }}</td>
                                 {% endif %}
-                                ( {{ data.position_x }} / {{ data.position_y }} )
-                                </td>
                             {% endfor %}
                         </tr>
                         <tr>
                             {% for data in line2_table %}
-                                {% if data.territoire > 0 %}<td class="td_map_user">Utilisé
-                                {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">
-                                {% elseif data.statut == 2 %}<td class="td_map_mer">
-                                {% elseif data.statut == 4 %}<td class="td_map_mont">
+                                {% if data.territoire > 0 %}<td class="td_map_user">Utilisé ({{ data.position_x }} / {{ data.position_y }})</td>
+                                {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">{{ data.position_x }} / {{ data.position_y }}</td>
+                                {% elseif data.statut == 2 %}<td class="td_map_mer">{{ data.position_x }} / {{ data.position_y }}</td>
+                                {% elseif data.statut == 4 %}<td class="td_map_mont">{{ data.position_x }} / {{ data.position_y }}</td>
                                 {% endif %}
-                                ( {{ data.position_x }} / {{ data.position_y }} )
-                                </td>
                             {% endfor %}
                         </tr>
                         <tr>
                             {% for data in line3_table %}
-                                {% if data.territoire > 0 %}<td class="td_map_user">Utilisé
-                                {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">
-                                {% elseif data.statut == 2 %}<td class="td_map_mer">
-                                {% elseif data.statut == 3 %}<td class="td_map_ville">
-                                {% elseif data.statut == 4 %}<td class="td_map_mont">
+                                {% if data.territoire > 0 %}<td class="td_map_user">Utilisé ({{ data.position_x }} / {{ data.position_y }})</td>
+                                {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">{{ data.position_x }} / {{ data.position_y }}</td>
+                                {% elseif data.statut == 2 %}<td class="td_map_mer">{{ data.position_x }} / {{ data.position_y }}</td>
+                                {% elseif data.statut == 4 %}<td class="td_map_mont">{{ data.position_x }} / {{ data.position_y }}</td>
                                 {% endif %}
-                                ( {{ data.position_x }} / {{ data.position_y }} )
-                                </td>
                             {% endfor %}
                         </tr>
                         <tr>
                             {% for data in line4_table %}
-                                {% if data.territoire > 0 %}<td class="td_map_user">Utilisé
-                                {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">
-                                {% elseif data.statut == 2 %}<td class="td_map_mer">
-                                {% elseif data.statut == 4 %}<td class="td_map_mont">
+                                {% if data.territoire > 0 %}<td class="td_map_user">Utilisé ({{ data.position_x }} / {{ data.position_y }})</td>
+                                {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">{{ data.position_x }} / {{ data.position_y }}</td>
+                                {% elseif data.statut == 2 %}<td class="td_map_mer">{{ data.position_x }} / {{ data.position_y }}</td>
+                                {% elseif data.statut == 4 %}<td class="td_map_mont">{{ data.position_x }} / {{ data.position_y }}</td>
                                 {% endif %}
-                                ( {{ data.position_x }} / {{ data.position_y }} )
-                                </td>
                             {% endfor %}
                         </tr>
                         <tr>
                             {% for data in line5_table %}
-                                {% if data.territoire > 0 %}<td class="td_map_user">Utilisé
-                                {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">
-                                {% elseif data.statut == 2 %}<td class="td_map_mer">
-                                {% elseif data.statut == 4 %}<td class="td_map_mont">
+                                {% if data.territoire > 0 %}<td class="td_map_user">Utilisé ({{ data.position_x }} / {{ data.position_y }})</td>
+                                {% elseif data.statut == 1 and data.territoire == 0 %}<td class="td_map">{{ data.position_x }} / {{ data.position_y }}</td>
+                                {% elseif data.statut == 2 %}<td class="td_map_mer">{{ data.position_x }} / {{ data.position_y }}</td>
+                                {% elseif data.statut == 4 %}<td class="td_map_mont">{{ data.position_x }} / {{ data.position_y }}</td>
                                 {% endif %}
-                                ( {{ data.position_x }} / {{ data.position_y }} )
-                                </td>
                             {% endfor %}
                         </tr>
                     </table>
