@@ -26,14 +26,14 @@
 
         /**
          * @param $request
-         * @param bool $exec
+         * @param array $exec
          */
-        public function execRequest($request, $exec = false){
+        public function execRequest($request, $exec = []){
             try{
                 $req = $this->conn->prepare($request);
+                $req->execute($exec);
 
-                if(!empty($exec)){ $req->execute($exec); }
-                else{ $req->execute(); }
+                if($req){ echo 'Good !'; }
 
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request."\n");
             }
