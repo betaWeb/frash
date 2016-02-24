@@ -46,14 +46,12 @@
             $this->insertCol = implode(', ', $val);
 
             $array = [];
-            $arrayExec = [];
             foreach($val as $v){
                 $array[] = ':'.$v;
-                $arrayExec[] = $v;
             }
 
             $this->insertVal = implode(', ', $array);
-            $this->insertExecute = implode(' ||| ', $arrayExec);
+            $this->insertExecute = implode(' ||| ', $array);
         }
 
         /**
