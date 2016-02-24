@@ -45,17 +45,14 @@
 
         /**
          * @param $request
-         * @param bool $exec
+         * @param array $exec
          * @param $class
          * @return array
          */
-        public function execRequestSelect($request, $exec = false, $class){
+        public function execRequestSelect($request, $exec = [], $class){
             try{
                 $req = $this->conn->prepare($request);
-
-                if(!empty($exec)){ $req->execute($exec); }
-                else{ $req->execute(); }
-
+                $req->execute($exec);
                 $data = $req->fetchAll(\PDO::FETCH_CLASS, $class);
             }
             catch(\Exception $e){
@@ -100,16 +97,14 @@
 
         /**
          * @param $request
-         * @param bool $exec
+         * @param array $exec
          * @return mixed
          */
-        public function countResult($request, $exec = false){
+        public function countResult($request, $exec = []){
             if(!empty($request) && !strstr(' LIMIT ', $request) && !strstr(' ORDER BY ', $request)){
                 try{
                     $req = $this->conn->prepare($request);
-
-                    if(!empty($exec)){ $req->execute($exec); }
-                    else{ $req->execute(); }
+                    $req->execute($exec);
                 }
                 catch(\Exception $e){
                     new CreateErrorLog($e->getMessage());
