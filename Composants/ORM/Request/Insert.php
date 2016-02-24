@@ -32,11 +32,6 @@
         private $execute;
 
         /**
-         * @var
-         */
-        private $request;
-
-        /**
          * Insert constructor.
          * @param $table
          */
@@ -51,32 +46,30 @@
             $this->insertCol = implode(', ', $val);
 
             $array = [];
+            $arrayExec = [];
             foreach($val as $v){
                 $array[] = ':'.$v;
+                $arrayExec[] = $v;
             }
 
             $this->insertVal = implode(', ', $array);
-            $this->insertExecute = implode(' ||| ', $array);
+            $this->insertExecute = implode(' ||| ', $arrayExec);
         }
 
         /**
          * @param $exec
          */
         public function setExecute($exec){
-            $val = str_replace(':', '', $this->insertExecute);
-            $resval = explode(' ||| ', $val);
+            $resval = explode(' ||| ', $this->insertExecute);
             $this->execute = array_combine($resval, $exec);
         }
 
         /**
-         *
+         * @return mixed
          */
-        public function requestInsert(){
-            if(!empty($this->table)){
-                if(!empty($this->insertCol) && !empty($this->insertVal) && count($this->insertCol) == count($this->insertVal)){
-                    $this->request = 'INSERT INTO '.$this->table.' ('.$this->insertCol.') VALUES ('.$this->insertVal.')';
-                    echo $this->request;
-                }
+        public function getRequest(){
+            if(!empty($this->table) && !empty($this->insertCol) && !empty($this->insertVal) && count($this->insertCol) == count($this->insertVal)){
+               return 'INSERT INTO '.$this->table.' ('.$this->insertCol.') VALUES ('.$this->insertVal.')';
             }
         }
 
@@ -85,12 +78,5 @@
          */
         public function getExecute(){
             return $this->execute;
-        }
-
-        /**
-         * @return mixed
-         */
-        public function getRequest(){
-            return $this->request;
         }
     }
