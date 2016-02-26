@@ -18,7 +18,7 @@
             $user = $met->sqlGetInfoUser();
             $terri = $met->sqlGetInfoTerri();
 
-            return new Response('aide.html', 'GameBundle', [
+            return new Response('aide.html.twig', 'GameBundle', [
                 'rang' => $user['rang'], 'nbmp' => $met->sqlCountMP(), 'nb_monnaie' => $terri['nb_monnaie'], 'nb_uranium' => $terri['nb_uranium'],
                 'nb_acier' => $terri['nb_acier'], 'nb_petrole' => $terri['nb_petrole'], 'nb_composant' => $terri['nb_composant']
             ]);
