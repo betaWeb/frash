@@ -2,6 +2,7 @@
     namespace Bundles\GameBundle\Controllers;
     use Composants\Framework\Response\Response;
     use Bundles\GameBundle\Requests\MenuRequests;
+    use Composants\Framework\Response\Redirect;
 
     /**
      * Class AideController
@@ -12,7 +13,7 @@
          * @return Response
          */
         public function aideAction(){
-            if(!isset($_SESSION['id']) || !isset($_SESSION['pseudo']) || !isset($_SESSION['terri'])){ return new Redirect('../accueil/'); }
+            if(!isset($_SESSION['id']) || !isset($_SESSION['pseudo']) || !isset($_SESSION['terri'])){ return new Redirect('accueil'); }
             
             $met = new MenuRequests;
             $user = $met->sqlGetInfoUser();
