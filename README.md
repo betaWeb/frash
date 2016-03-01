@@ -29,6 +29,9 @@ Pour accéder aux commandes disponibles par la console :
 Pour la configuration :
 
  - env : prod/local
+ - log_error : yes/no
+ - log_request (SQL) : yes/no
+ - log_access (HTTP) : yes/no
 
 ----------
 
