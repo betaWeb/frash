@@ -16,11 +16,17 @@
         private $conn;
 
         /**
+         * @var
+         */
+        private $yaml;
+
+        /**
          * QueryBuilder constructor.
          */
         public function __construct(){
             $yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
             Orm::init($yaml['database']['host'], $yaml['database']['dbname'], $yaml['database']['username'], $yaml['database']['password']);
+            $this->yaml = $yaml;
             $this->conn = Orm::getConnexion();
         }
 
@@ -33,12 +39,15 @@
                 $req = $this->conn->prepare($request);
                 $req->execute($exec);
 
-                if($req){ echo 'Good !'; }
-
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request."\n");
+                if($this->yaml['log']['request'] == 'yes'){
+                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request."\n");
+                }
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                if($this->yaml['log']['error'] == 'yes'){
+                    new CreateErrorLog($e->getMessage());
+                }
+
                 die('Il y a eu une erreur.');
             }
         }
@@ -56,7 +65,10 @@
                 $data = $req->fetchAll(\PDO::FETCH_CLASS, $class);
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                if($this->yaml['log']['error'] == 'yes'){
+                    new CreateErrorLog($e->getMessage());
+                }
+
                 die('Il y a eu une erreur.');
             }
 
@@ -66,7 +78,10 @@
                 $array[] = $v;
             }
 
-            new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request."\n");
+            if($this->yaml['log']['request'] == 'yes'){
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request."\n");
+            }
+
             return $array;
         }
 
@@ -82,7 +97,10 @@
                 $data = $req->fetchAll(\PDO::FETCH_CLASS, 'Bundles\\'.$bundle.'\\Entity\\'.ucfirst($table));
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                if($this->yaml['log']['error'] == 'yes'){
+                    new CreateErrorLog($e->getMessage());
+                }
+
                 die('Il y a eu une erreur.');
             }
 
@@ -91,7 +109,10 @@
                 $array[] = $v;
             }
 
-            new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : SELECT * FROM '.$table."\n");
+            if($this->yaml['log']['request'] == 'yes'){
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : SELECT * FROM '.$table."\n");
+            }
+
             return $array;
         }
 
@@ -101,18 +122,22 @@
          * @return mixed
          */
         public function countResult($request, $exec = []){
-            if(!empty($request) && !strstr(' LIMIT ', $request) && !strstr(' ORDER BY ', $request)){
-                try{
-                    $req = $this->conn->prepare($request);
-                    $req->execute($exec);
-                }
-                catch(\Exception $e){
+            try{
+                $req = $this->conn->prepare($request);
+                $req->execute($exec);
+            }
+            catch(\Exception $e){
+                if($this->yaml['log']['error'] == 'yes'){
                     new CreateErrorLog($e->getMessage());
-                    die('Il y a eu une erreur.');
                 }
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request."\n");
-                return $req->rowCount();
+                die('Il y a eu une erreur.');
             }
+
+            if($this->yaml['log']['request'] == 'yes'){
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request."\n");
+            }
+
+            return $req->rowCount();
         }
     }
