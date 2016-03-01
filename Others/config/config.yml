@@ -2,6 +2,11 @@ database:
     host: localhost
     username:
     password:
-    dbname:
+    dbname: 
 
 env: local
+
+log:
+    error : yes
+    request : yes
+    access : yes
