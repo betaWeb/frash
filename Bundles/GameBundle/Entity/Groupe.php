@@ -10,8 +10,6 @@
 		protected $mouvement;
 		protected $pos_x;
 		protected $pos_y;
-		protected $pos_x_mini;
-		protected $pos_y_mini;
 		protected $monnaie;
 		protected $uranium;
 		protected $acier;
@@ -165,22 +163,6 @@
 
 		public function setPos_y($pos_y){
 			$this->pos_y = $pos_y;
-		}
-		
-		public function getPos_x_mini(){
-			return $this->pos_x_mini;
-		}
-
-		public function setPos_x_mini($pos_x_mini){
-			$this->pos_x_mini = $pos_x_mini;
-		}
-		
-		public function getPos_y_mini(){
-			return $this->pos_y_mini;
-		}
-
-		public function setPos_y_mini($pos_y_mini){
-			$this->pos_y_mini = $pos_y_mini;
 		}
 		
 		public function getMonnaie(){
