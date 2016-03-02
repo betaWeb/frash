@@ -24,11 +24,6 @@
         /**
          * @var
          */
-        private $request;
-
-        /**
-         * @var
-         */
         private $execute;
 
         /**
@@ -58,16 +53,6 @@
         }
 
         /**
-         *
-         */
-        public function requestDelete(){
-            if(!empty($this->table)){
-                $this->request = 'DELETE FROM '.$this->table;
-                if($this->where != ''){ $this->request .= $this->where; }
-            }
-        }
-
-        /**
          * @return mixed
          */
         public function getExecute(){
@@ -78,6 +63,11 @@
          * @return mixed
          */
         public function getRequest(){
-            return $this->request;
+            if(!empty($this->table)){
+                $request = 'DELETE FROM '.$this->table;
+                if($this->where != ''){ $request .= $this->where; }
+
+                return $request;
+            }
         }
     }
