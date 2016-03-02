@@ -42,11 +42,11 @@
 
                         $i->sqlInsertRech($id_user);
 
-                        /*$_SESSION['id'] = $id_user;
+                        $_SESSION['id'] = $id_user;
                         $_SESSION['pseudo'] = $pseudo;
-                        $_SESSION['terri'] = $id_terri;*/
+                        $_SESSION['terri'] = $id_terri;
 
-                        //return new Redirect('../game/');
+                        return new Redirect('../game/');
                     }
                 }
             }
