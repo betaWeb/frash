@@ -1,7 +1,7 @@
 <?php
 	namespace Bundles\GameBundle\Requests;
     use Composants\ORM\Request\Insert;
-    use Composants\ORM\Request\QueryBuilder;
+    use Composants\ORM\QueryBuilder;
 
 	class ContactRequests{
 		public function sqlInsertContact($text){
@@ -9,7 +9,6 @@
             $ins = new Insert('contact');
             $ins->setInsert([ 'texte', 'pseudo' ]);
             $ins->setExecute([ $text, $_SESSION['pseudo'] ]);
-            $ins->requestInsert();
             $req->execRequest($ins->getRequest(), $ins->getExecute());
         }
 	}
