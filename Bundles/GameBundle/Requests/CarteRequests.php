@@ -27,4 +27,22 @@
             $sel->requestSelect();
             return $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Carte');
         }
+
+        /**
+         * @param $terri
+         * @return array
+         */
+        public function sqlGetPosTerri($terri){
+            $req = new QueryBuilder();
+            $sel = new Select('territoire');
+            $wh = new Where();
+            $wh->initNormalWhere([ 'id', ':id' ], '=');
+            $sel->setExecute([ $terri ]);
+            $sel->requestSelect();
+            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Territoire');
+
+            foreach($data as $v){
+                return [ 'x' => $v->getPosition_x(), 'y' => $v->getPosition_y() ];
+            }
+        }
 	}
