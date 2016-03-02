@@ -7,7 +7,15 @@
     use Composants\ORM\Request\Update;
     use Composants\ORM\Request\Insert;
 
+    /**
+     * Class InscriptionRequests
+     * @package Bundles\GameBundle\Requests
+     */
     class InscriptionRequests{
+        /**
+         * @param $pseudo
+         * @return mixed
+         */
     	public function sqlCountPseudo($pseudo){
             $req = new QueryBuilder();
             $sel = new Select('user');
@@ -19,6 +27,10 @@
             return $req->countResult($sel->getRequest(), $sel->getExecute());
         }
 
+        /**
+         * @param $mail
+         * @return mixed
+         */
         public function sqlCountMail($mail){
             $req = new QueryBuilder();
             $sel = new Select('user');
@@ -30,6 +42,11 @@
             return $req->countResult($sel->getRequest(), $sel->getExecute());
         }
 
+        /**
+         * @param $pos_x
+         * @param $pos_y
+         * @return mixed
+         */
         public function sqlCountTerri($pos_x, $pos_y){
             $req = new QueryBuilder();
             $sel = new Select('territoire');
@@ -42,6 +59,11 @@
             return $req->countResult($sel->getRequest(), $sel->getExecute());
         }
 
+        /**
+         * @param $pseudo
+         * @param $mdp
+         * @param $mail
+         */
         public function sqlInsertUser($pseudo, $mdp, $mail){
             $req = new QueryBuilder();
             $ins = new Insert('user');
@@ -50,6 +72,10 @@
             $req->execRequest($ins->getRequest(), $ins->getExecute());
         }
 
+        /**
+         * @param $pseudo
+         * @return mixed
+         */
         public function sqlGetIdInsertUser($pseudo){
             $req = new QueryBuilder();
             $sel = new Select('user');
@@ -65,6 +91,12 @@
             }
         }
 
+        /**
+         * @param $id_user
+         * @param $pseudo
+         * @param $pos_x
+         * @param $pos_y
+         */
         public function sqlInsertTerri($id_user, $pseudo, $pos_x, $pos_y){
             $req = new QueryBuilder();
             $ins = new Insert('territoire');
@@ -73,6 +105,10 @@
             $req->execRequest($ins->getRequest(), $ins->getExecute());
         }
 
+        /**
+         * @param $pseudo
+         * @return mixed
+         */
         public function sqlGetIdInsertTerri($pseudo){
             $req = new QueryBuilder();
             $sel = new Select('territoire');
@@ -90,6 +126,13 @@
             }
         }
 
+        /**
+         * @param $id_terri
+         * @param $id_user
+         * @param $pseudo
+         * @param $pos_x
+         * @param $pos_y
+         */
         public function sqlUpdateCarte($id_terri, $id_user, $pseudo, $pos_x, $pos_y){
             $req = new QueryBuilder();
             $upd = new Update('carte');
@@ -103,6 +146,11 @@
             $req->execRequest($upd->getRequest(), $upd->getExecute());
         }
 
+        /**
+         * @param $bat
+         * @param $id_user
+         * @param $id_terri
+         */
         public function sqlForeachBat($bat, $id_user, $id_terri){
             $req = new QueryBuilder();
             $ins = new Insert($bat);
@@ -111,6 +159,9 @@
             $req->execRequest($ins->getRequest(), $ins->getExecute());
         }
 
+        /**
+         * @param $id_user
+         */
         public function sqlInsertRech($id_user){
             $req = new QueryBuilder();
             $ins = new Insert('recherche');
