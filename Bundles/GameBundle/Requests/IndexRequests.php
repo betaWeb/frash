@@ -5,6 +5,10 @@
     use Composants\ORM\Request\Where;
     use Composants\ORM\Request\Order;
 
+    /**
+     * Class IndexRequests
+     * @package Bundles\GameBundle\Requests
+     */
     class IndexRequests{
         public function getSqlRandPositon(){
             $req = new QueryBuilder();
@@ -16,6 +20,12 @@
             return $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Territoire');
         }
 
+        /**
+         * @param $pos_x
+         * @param $y_min
+         * @param $y_max
+         * @return array
+         */
         public function sqlGetPosXLine($pos_x, $y_min, $y_max){
             $req = new QueryBuilder();
             $sel = new Select('carte');
