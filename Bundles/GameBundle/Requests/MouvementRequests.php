@@ -1,17 +1,23 @@
 <?php
 	namespace Bundles\GameBundle\Requests;
-    use Composants\ORM\Request\QueryBuilder;
+    use Composants\ORM\QueryBuilder;
     use Composants\ORM\Request\Select;
     use Composants\ORM\Request\Where;
 
+    /**
+     * Class MouvementRequests
+     * @package Bundles\GameBundle\Requests
+     */
     class MouvementRequests{
+        /**
+         * @return array
+         */
     	public function sqlGetInfoMouvPlayer(){
 			$req = new QueryBuilder();
             $sel = new Select('mouvement');
             $wh = new Where;
             $wh->initNormalWhere([ 'lanceur_id', ':joueur' ], '=');
-            $sel->setWhere($wh->getWhere());
-            $sel->setArrayWhere($wh->getArrayWhere());
+            $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $_SESSION['id'] ]);
             $sel->requestSelect();
             $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Mouvement');
@@ -35,6 +41,9 @@
             return $array;
 		}
 
+        /**
+         * @return array
+         */
 		public function sqlGetInfoMouvOther(){
 			$req = new QueryBuilder();
             $sel = new Select('mouvement');
@@ -44,8 +53,7 @@
             $wh->andWhere([ 'type', ':type2' ], '!=');
             $wh->andWhere([ 'type', ':type3' ], '!=');
             $wh->andWhere([ 'type', ':type4' ], '!=');
-            $sel->setWhere($wh->getWhere());
-            $sel->setArrayWhere($wh->getArrayWhere());
+            $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $_SESSION['id'], 4, 6, 7, 8 ]);
             $sel->requestSelect();
             $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Mouvement');
