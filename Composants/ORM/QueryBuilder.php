@@ -63,6 +63,17 @@
                 $req = $this->conn->prepare($request);
                 $req->execute($exec);
                 $data = $req->fetchAll(\PDO::FETCH_CLASS, $class);
+
+                $array = [];
+                foreach($data as $v){
+                    $array[] = $v;
+                }
+
+                if($this->yaml['log']['request'] == 'yes'){
+                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request."\n");
+                }
+
+                return $array;
             }
             catch(\Exception $e){
                 if($this->yaml['log']['error'] == 'yes'){
@@ -71,18 +82,6 @@
 
                 die('Il y a eu une erreur.');
             }
-
-            $array = [];
-
-            foreach($data as $v){
-                $array[] = $v;
-            }
-
-            if($this->yaml['log']['request'] == 'yes'){
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request."\n");
-            }
-
-            return $array;
         }
 
         /**
@@ -95,6 +94,17 @@
                 $req = $this->conn->prepare('SELECT * FROM '.$table);
                 $req->execute();
                 $data = $req->fetchAll(\PDO::FETCH_CLASS, 'Bundles\\'.$bundle.'\\Entity\\'.ucfirst($table));
+
+                $array = [];
+                foreach($data as $v){
+                    $array[] = $v;
+                }
+
+                if($this->yaml['log']['request'] == 'yes'){
+                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : SELECT * FROM '.$table."\n");
+                }
+
+                return $array;
             }
             catch(\Exception $e){
                 if($this->yaml['log']['error'] == 'yes'){
@@ -103,17 +113,6 @@
 
                 die('Il y a eu une erreur.');
             }
-
-            $array = [];
-            foreach($data as $v){
-                $array[] = $v;
-            }
-
-            if($this->yaml['log']['request'] == 'yes'){
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : SELECT * FROM '.$table."\n");
-            }
-
-            return $array;
         }
 
         /**
