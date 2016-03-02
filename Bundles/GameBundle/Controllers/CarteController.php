@@ -4,35 +4,23 @@
     use Bundles\GameBundle\Requests\MenuRequests;
     use Bundles\GameBundle\Requests\CarteRequests;
     use Composants\Framework\Forms\CreateForm;
-    use Composants\ORM\Request\QueryBuilder;
-    use Composants\ORM\Request\Select;
-    use Composants\ORM\Request\Where;
 
     class CarteController{
         public function carteAction(){
             if(!isset($_SESSION['id']) || !isset($_SESSION['pseudo']) || !isset($_SESSION['terri'])){ return new Redirect('../accueil/'); }
-            
+
+            $cr = new CarteRequests;
             $met = new MenuRequests;
             $user = $met->sqlGetInfoUser();
             $terri = $met->sqlGetInfoTerri();
 
-            $req = new QueryBuilder();
-            $pos_x;
-            $pos_y;
+            $pos_x = 0;
+            $pos_y = 0;
 
             if(!isset($_POST['submit'])){
-                $req = new QueryBuilder();
-                $sel = new Select('territoire');
-                $wh = new Where();
-                $wh->initNormalWhere([ 'id', ':id' ], '=');
-                $sel->setExecute([ $_SESSION['terri'] ]);
-                $sel->requestSelect();
-                $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Territoire');
-
-                foreach($data as $v){
-                    $pos_x = $v->getPosition_x();
-                    $pos_y = $v->getPosition_y();
-                }
+                $data = $cr->sqlGetPosTerri($_SESSION['terri']);
+                $pos_x = $data['x'];
+                $pos_y = $data['y'];
             }
             else{
                 if(isset($_POST['pos_x']) && is_numeric($_POST['pos_x']) && isset($_POST['pos_y']) && is_numeric($_POST['pos_y'])){
@@ -71,7 +59,6 @@
             $pos_y_min = $array_y[0] - 1;
             $pos_y_max = $array_y[10] + 1;
 
-            $cr = new CarteRequests;
             $data1 = $cr->sqlGetLineX($array_x[0], $pos_y_min, $pos_y_max);
             $data2 = $cr->sqlGetLineX($array_x[1], $pos_y_min, $pos_y_max);
             $data3 = $cr->sqlGetLineX($array_x[2], $pos_y_min, $pos_y_max);
@@ -86,7 +73,7 @@
 
             $form = new CreateForm;
 
-            return new Response('carte.html', 'GameBundle', [
+            return new Response('carte.html.twig', 'GameBundle', [
                 'rang' => $user['rang'], 'nbmp' => $met->sqlCountMP(), 'nb_monnaie' => $terri['nb_monnaie'], 'nb_uranium' => $terri['nb_uranium'],
                 'nb_acier' => $terri['nb_acier'], 'nb_petrole' => $terri['nb_petrole'], 'nb_composant' => $terri['nb_composant'],
                 'line1' => $data1, 'line2' => $data2, 'line3' => $data3, 'line4' => $data4, 'line5' => $data5, 'line6' => $data6, 'line7' => $data7,
