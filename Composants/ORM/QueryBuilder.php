@@ -125,6 +125,12 @@
             try{
                 $req = $this->conn->prepare($request);
                 $req->execute($exec);
+
+                if($this->yaml['log']['request'] == 'yes'){
+                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request."\n");
+                }
+
+                return $req->rowCount();
             }
             catch(\Exception $e){
                 if($this->yaml['log']['error'] == 'yes'){
@@ -133,11 +139,5 @@
 
                 die('Il y a eu une erreur.');
             }
-
-            if($this->yaml['log']['request'] == 'yes'){
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request."\n");
-            }
-
-            return $req->rowCount();
         }
     }
