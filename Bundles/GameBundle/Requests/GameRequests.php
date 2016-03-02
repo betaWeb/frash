@@ -6,7 +6,14 @@
     use Composants\ORM\Request\Where;
     use Composants\ORM\Request\Limit;
 
+    /**
+     * Class GameRequests
+     * @package Bundles\GameBundle\Requests
+     */
 	class GameRequests{
+        /**
+         * @return array
+         */
 		public function sqlGetListNews(){
             $req = new QueryBuilder();
             $sel = new Select('topic');
@@ -24,6 +31,9 @@
             }
         }
 
+        /**
+         * @return array
+         */
         public function sqlGetClassement(){
             $data = [];
             $rang = 1;
