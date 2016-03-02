@@ -4,7 +4,16 @@
     use Composants\ORM\Request\Where;
     use Composants\ORM\QueryBuilder;
 
+    /**
+     * Class ConnexionRequests
+     * @package Bundles\GameBundle\Requests
+     */
     class ConnexionRequests{
+        /**
+         * @param $pseudo
+         * @param $password
+         * @return bool
+         */
         public function sqlVerifPassword($pseudo, $password){
             $req = new QueryBuilder();
             $sel = new Select('user');
@@ -24,6 +33,11 @@
             }
         }
 
+        /**
+         * @param $pseudo
+         * @param $password
+         * @return array
+         */
         public function sqlGetInfoUser($pseudo, $password){
             $req = new QueryBuilder();
             $sel = new Select('user');
@@ -40,6 +54,10 @@
             }
         }
 
+        /**
+         * @param $pseudo
+         * @return mixed
+         */
         public function sqlGetInfoTerri($pseudo){
             $req = new QueryBuilder();
             $sel = new Select('territoire');
