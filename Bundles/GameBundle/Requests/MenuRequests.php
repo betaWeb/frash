@@ -4,6 +4,10 @@
     use Composants\ORM\Request\Where;
     use Composants\ORM\QueryBuilder;
 
+    /**
+     * Class MenuRequests
+     * @package Bundles\GameBundle\Requests
+     */
 	class MenuRequests{
 		/**
          * @return array
