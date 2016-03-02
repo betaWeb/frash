@@ -1,7 +1,8 @@
 <?php
     namespace Bundles\GameBundle\Controllers;
     use Composants\Framework\Response\Response;
-    use Composants\ORM\Request\QueryBuilder;
+    use Composants\Framework\Response\Redirect;
+    use Composants\ORM\QueryBuilder;
     use Bundles\GameBundle\Requests\MenuRequests;
 
     /**
