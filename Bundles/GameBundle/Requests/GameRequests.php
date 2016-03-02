@@ -30,7 +30,7 @@
 
             $req = new QueryBuilder();
             $sel = new Select('user');
-            $lim = new Limit(20);
+            $lim = new Limit('0, 20');
             $ord = new Order('point', 'DESC');
             $sel->setOrder($ord->getOrder());
             $sel->setLimit($lim->getLimit());
