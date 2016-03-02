@@ -5,7 +5,14 @@
     use Bundles\GameBundle\Requests\CarteRequests;
     use Composants\Framework\Forms\CreateForm;
 
+    /**
+     * Class CarteController
+     * @package Bundles\GameBundle\Controllers
+     */
     class CarteController{
+        /**
+         * @return Response
+         */
         public function carteAction(){
             if(!isset($_SESSION['id']) || !isset($_SESSION['pseudo']) || !isset($_SESSION['terri'])){ return new Redirect('../accueil/'); }
 
