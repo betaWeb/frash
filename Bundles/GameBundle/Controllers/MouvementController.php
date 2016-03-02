@@ -1,14 +1,18 @@
 <?php
     namespace Bundles\GameBundle\Controllers;
     use Composants\Framework\Response\Response;
+    use Composants\Framework\Response\Redirect;
     use Bundles\GameBundle\Requests\MenuRequests;
     use Bundles\GameBundle\Requests\MouvementRequests;
-    use Composants\ORM\Request\QueryBuilder;
-    use Composants\ORM\Request\Select;
-    use Composants\ORM\Request\Where;
-    use Composants\ORM\Request\Order;
 
+    /**
+     * Class MouvementController
+     * @package Bundles\GameBundle\Controllers
+     */
 	class MouvementController{
+        /**
+         * @return Redirect|Response
+         */
 		public function showMouvAction(){
             if(!isset($_SESSION['id']) || !isset($_SESSION['pseudo']) || !isset($_SESSION['terri'])){ return new Redirect('../accueil/'); }
             
