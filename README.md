@@ -1,7 +1,7 @@
 # LFW
 Light FrameWork
 
- - <kbd>Framework</kbd> : 3.24.18
+ - <kbd>Framework</kbd> : 3.24.19
  - <kbd>Jeu</kbd> : 7.8
 
 Installation
