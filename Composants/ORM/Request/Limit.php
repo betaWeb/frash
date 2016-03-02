@@ -7,9 +7,9 @@
      */
     class Limit{
         /**
-         * @var
+         * @var string
          */
-        private $limit;
+        private $limit = '';
 
         /**
          * Limit constructor.
@@ -17,7 +17,7 @@
          */
         public function __construct($limit){
             if(!is_array($limit)){
-                $this->limit = $limit;
+                $this->limit = 'LIMIT '.$limit;
             }
         }
 
