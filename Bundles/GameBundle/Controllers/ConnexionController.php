@@ -3,7 +3,14 @@
     use Composants\Framework\Response\Redirect;
     use Bundles\GameBundle\Requests\ConnexionRequests;
 
+    /**
+     * Class ConnexionController
+     * @package Bundles\GameBundle\Controllers
+     */
     class ConnexionController{
+        /**
+         * @return Redirect
+         */
         public function connexionAction(){
             if(isset($_POST['submit']) && strlen($_POST['pseudo']) <= 40){
                 $pseudo = htmlentities($_POST['pseudo']);
