@@ -5,6 +5,7 @@
 		protected $id;
 		protected $joueur;
 		protected $territoire;
+		protected $niveau;
 		protected $cout_monnaie;
 		protected $cout_acier;
 		protected $cout_composant;
@@ -32,6 +33,14 @@
 
 		public function setTerritoire($territoire){
 			$this->territoire = $territoire;
+		}
+
+		public function getNiveau(){
+			return $this->niveau;
+		}
+
+		public function setNiveau($niveau){
+			$this->niveau = $niveau;
 		}
 		
 		public function getCout_monnaie(){
