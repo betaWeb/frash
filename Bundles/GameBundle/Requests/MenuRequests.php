@@ -66,7 +66,8 @@
                     'nb_acier' => number_format($v->getNombre_acier(), 0, ',', ' '),
                     'nb_petrole' => number_format($v->getNombre_petrole(), 0, ',', ' '),
                     'nb_composant' => number_format($v->getNombre_composant(), 0, ',', ' '),
-                    'terri_p' => $v->getTerri_principal()
+                    'terri_p' => $v->getTerri_principal(),
+                    'point' => $v->getPoint()
                 ];
             }
         }
