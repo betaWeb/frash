@@ -2,7 +2,7 @@
 Light FrameWork
 
  - <kbd>Framework</kbd> : 3.24.22
- - <kbd>Jeu</kbd> : 8.21
+ - <kbd>Jeu</kbd> : 8.22
 
 Installation
 ----------
@@ -42,7 +42,3 @@ Pour la configuration :
 > - Un mailer
 > - Un debugger
 > - Une refonte de la configuration
-
-**A faire**
-
-> - Continuer l'intégration des bâtiments
