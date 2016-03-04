@@ -33,3 +33,6 @@ mouvement:
 
 batiment:
     path: GameBundle:BatimentController:batimentAction
+
+batConf:
+    path: GameBundle:BatimentController:batConfAction
