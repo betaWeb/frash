@@ -22,7 +22,7 @@
 
             $m = new MouvementRequests;
 
-			return new Response('show_mouv.html', 'GameBundle', [
+			return new Response('show_mouv.html.twig', 'GameBundle', [
 				'rang' => $user['rang'], 'nbmp' => $met->sqlCountMP(), 'nb_monnaie' => $terri['nb_monnaie'], 'nb_uranium' => $terri['nb_uranium'],
                 'nb_acier' => $terri['nb_acier'], 'nb_petrole' => $terri['nb_petrole'], 'nb_composant' => $terri['nb_composant'], 'mouv_vous' => $m->sqlGetInfoMouvPlayer(), 
                 'mouv_autre' => $m->sqlGetInfoMouvOther()
