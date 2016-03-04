@@ -1,0 +1,9 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div id="corps">
+        {{ parent() }}<br>
+        {{ phrase }}
+    </div>
+{% endblock %}
+{% block js_end %}{{ parent() }}{% endblock %}

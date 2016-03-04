@@ -1,0 +1,32 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div id="corps">
+        {{ parent() }}<br>
+        {{ form.start | raw }}
+            <table id="bat">
+                <tr>
+                    <td>Nom</td>
+                    <td>Niveau actuel</td>
+                    <td>Temps de construction</td>
+                    <td>Monnaie</td>
+                    <td>Acier</td>
+                    <td>Composant</td>
+                </tr>
+                {% for data in list %}
+                    <tr>
+                        <td class="nom_bat">{{ data.nom }}</td>
+                        <td>{{ data.niveau }}</td>
+                        <td>{{ data.temps }}</td>
+                        <td>{{ data.monnaie }}</td>
+                        <td>{{ data.acier }}</td>
+                        <td>{{ data.composant }}</td>
+                        <td><input type="radio" name="bat" value="{{ data.name }}"> Sélectionner</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {{ form.submit | raw }}
+        {{ form.end | raw }}
+    </div>
+{% endblock %}
+{% block js_end %}{{ parent() }}{% endblock %}
