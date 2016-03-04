@@ -1,6 +1,7 @@
 <?php
     namespace Bundles\GameBundle\Controllers;
     use Composants\Framework\Response\Response;
+    use Composants\Framework\Response\Redirect;
     use Bundles\GameBundle\Requests\MenuRequests;
     use Bundles\GameBundle\Requests\CarteRequests;
     use Composants\Framework\Forms\CreateForm;
