@@ -2,7 +2,7 @@
 Light FrameWork
 
  - <kbd>Framework</kbd> : 3.24.22
- - <kbd>Jeu</kbd> : 8.19
+ - <kbd>Jeu</kbd> : 8.20
 
 Installation
 ----------
@@ -46,5 +46,4 @@ Pour la configuration :
 
 **A faire**
 
-> - Mettre à jour les entités bat (Ajout de la colonne niveau)
 > - Continuer l'intégration des bâtiments
