@@ -30,3 +30,6 @@ carte:
 
 mouvement:
     path: GameBundle:MouvementController:showMouvAction
+
+batiment:
+    path: GameBundle:BatimentController:batimentAction
