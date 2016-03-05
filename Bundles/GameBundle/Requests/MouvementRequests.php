@@ -19,7 +19,6 @@
             $wh->initNormalWhere([ 'lanceur_id', ':joueur' ], '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $_SESSION['id'] ]);
-            $sel->requestSelect();
             $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Mouvement');
 
             $array = [];
@@ -55,7 +54,6 @@
             $wh->andWhere([ 'type', ':type4' ], '!=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $_SESSION['id'], 4, 6, 7, 8 ]);
-            $sel->requestSelect();
             $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Mouvement');
 
             $array = [];

@@ -23,7 +23,6 @@
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setOrder($ord->getOrder());
             $sel->setExecute([ 1 ]);
-            $sel->requestSelect();
             $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Topic');
 
             foreach($data as $v){
@@ -45,7 +44,6 @@
             $sel->setOrder($ord->getOrder());
             $sel->setLimit($lim->getLimit());
             $sel->setExecute();
-            $sel->requestSelect();
             $datat = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\User');
 
             foreach($datat as $v){

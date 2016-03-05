@@ -16,7 +16,6 @@
             $ord = new Order('RAND()');
             $sel->setOrder($ord->getOrder());
             $sel->setExecute();
-            $sel->requestSelect();
             return $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Territoire');
         }
 
@@ -35,7 +34,6 @@
             $wh->andWhere([ 'position_y', ':pos_y_max' ], '<');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $pos_x, $y_min, $y_max ]);
-            $sel->requestSelect();
             return $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Carte');
         }
     }

@@ -22,7 +22,6 @@
             $wh->andWhere([ 'password', ':mdp' ], '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ 'pseudo' => $pseudo, 'mdp' => $password ]);
-            $sel->requestSelect();
             $count = $req->countResult($sel->getRequest(), $sel->getExecute());
 
             if($count == 1){
@@ -46,7 +45,6 @@
             $wh->andWhere([ 'password', ':mdp' ], '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $pseudo, $password ]);
-            $sel->requestSelect();
             $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\User');
 
             foreach($data as $v){
@@ -66,7 +64,6 @@
             $wh->andWhere([ 'terri_principal', ':tp' ], '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $pseudo, 1 ]);
-            $sel->requestSelect();
             $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Territoire');
 
             foreach($data as $v){

@@ -23,7 +23,6 @@
             $wh->initNormalWhere([ 'pseudo', ':pseudo' ], '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ 'pseudo' => $pseudo ]);
-            $sel->requestSelect();
             return $req->countResult($sel->getRequest(), $sel->getExecute());
         }
 
@@ -38,7 +37,6 @@
             $wh->initNormalWhere([ 'mail', ':mail' ], '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ 'mail' => $mail ]);
-            $sel->requestSelect();
             return $req->countResult($sel->getRequest(), $sel->getExecute());
         }
 
@@ -55,7 +53,6 @@
             $wh->andWhere([ 'position_y', ':pos_y' ], '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ 'pos_x' => $pos_x, 'pos_y' => $pos_y ]);
-            $sel->requestSelect();
             return $req->countResult($sel->getRequest(), $sel->getExecute());
         }
 
@@ -83,7 +80,6 @@
             $wh->initNormalWhere([ 'pseudo', ':pseudo' ], '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $pseudo ]);
-            $sel->requestSelect();
             $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\User');
 
             foreach($data as $v){
@@ -118,7 +114,6 @@
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setOrder($ord->getOrder());
             $sel->setExecute([ $pseudo ]);
-            $sel->requestSelect();
             $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Territoire');
 
             foreach($data as $v){
