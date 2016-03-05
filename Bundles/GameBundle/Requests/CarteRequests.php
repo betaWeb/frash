@@ -24,7 +24,6 @@
             $wh->andWhere([ 'position_y', ':pos_y_max' ], '<');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $pos_x, $pos_y_min, $pos_y_max ]);
-            $sel->requestSelect();
             return $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Carte');
         }
 
@@ -38,7 +37,6 @@
             $wh = new Where();
             $wh->initNormalWhere([ 'id', ':id' ], '=');
             $sel->setExecute([ $terri ]);
-            $sel->requestSelect();
             $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Territoire');
 
             foreach($data as $v){
