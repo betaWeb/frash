@@ -33,14 +33,20 @@
         /**
          * @param $request
          * @param array $exec
+         * @param bool $lastid
+         * @return mixed
          */
-        public function execRequest($request, $exec = []){
+        public function execRequest($request, $exec = [], $lastid = false){
             try{
                 $req = $this->conn->prepare($request);
                 $req->execute($exec);
 
                 if($this->yaml['log']['request'] == 'yes'){
                     new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request."\n");
+                }
+
+                if($lastid === true){
+                    return $this->conn->lastInsertId();
                 }
             }
             catch(\Exception $e){
