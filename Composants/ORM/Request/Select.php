@@ -7,9 +7,9 @@
      */
     class Select{
         /**
-         * @var
+         * @var string
          */
-        private $table;
+        private $table = '';
 
         /**
          * @var string
@@ -29,22 +29,17 @@
         /**
          * @var
          */
-        private $request;
-
-        /**
-         * @var
-         */
         private $execute;
 
         /**
-         * @var
+         * @var string
          */
-        private $order;
+        private $order = '';
 
         /**
-         * @var
+         * @var string
          */
-        private $limit;
+        private $limit = '';
 
         /**
          * Select constructor.
@@ -94,15 +89,6 @@
         }
 
         /**
-         *
-         */
-        public function requestSelect(){
-            if(!empty($this->table) && !empty($this->colSel)){
-                $this->request = 'SELECT '.$this->colSel.' FROM '.$this->table.' '.$this->where.' '.$this->order.' '.$this->limit;
-            }
-        }
-
-        /**
          * @return mixed
          */
         public function getExecute(){
@@ -113,6 +99,8 @@
          * @return mixed
          */
         public function getRequest(){
-            return $this->request;
+            if(!empty($this->table) && !empty($this->colSel)){
+                return 'SELECT '.$this->colSel.' FROM '.$this->table.' '.$this->where.' '.$this->order.' '.$this->limit;
+            }
         }
     }
