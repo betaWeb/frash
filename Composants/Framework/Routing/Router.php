@@ -7,7 +7,7 @@
     use Composants\Framework\CreateLog\CreateHTTPLog;
 
     /**
-     * Class qui traite l'URL et détermine le controller et l'action
+     * Traite l'URL et détermine le bundle, le controller et l'action
      *
      * Class Router
      * @package Composants\Framework\Routing
@@ -21,7 +21,10 @@
             $routarr = Yaml::parse(file_get_contents('Others/config/routing.yml'));
             $confarr = Yaml::parse(file_get_contents('Others/config/config.yml'));
 
-            new CreateHTTPLog($url);
+            if($confarr['log']['access'] == 'yes'){
+                new CreateHTTPLog($url);
+            }
+
             $nurl = explode('/', $url);
 
             if($confarr['env'] == 'local'){
