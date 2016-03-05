@@ -20,11 +20,13 @@
             $wh->andWhere([ 'pseudo', ':pseudo' ], '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $_SESSION['id'], $_SESSION['pseudo'] ]);
-            $sel->requestSelect();
             $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\User');
 
             foreach($data as $v){
-                return [ 'rang' => $v->getRang() ];
+                return [
+                    'rang' => $v->getRang(),
+                    'point' => $v->getPoint()
+                ];
             }
         }
 
@@ -40,7 +42,6 @@
             $wh->andWhere([ 'nombre_vue', ':nb_vue' ], '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ 'dest' => $_SESSION['pseudo'], 'dest_id' => $_SESSION['id'], 'nb_vue' => 0 ]);
-            $sel->requestSelect();
             $count = $req->countResult($sel->getRequest(), $sel->getExecute());
 
             return $count;
@@ -56,7 +57,6 @@
             $wh->initNormalWhere([ 'id', ':id' ], '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $_SESSION['terri'] ]);
-            $sel->requestSelect();
             $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Territoire');
 
             foreach($data as $v){
@@ -66,8 +66,7 @@
                     'nb_acier' => number_format($v->getNombre_acier(), 0, ',', ' '),
                     'nb_petrole' => number_format($v->getNombre_petrole(), 0, ',', ' '),
                     'nb_composant' => number_format($v->getNombre_composant(), 0, ',', ' '),
-                    'terri_p' => $v->getTerri_principal(),
-                    'point' => $v->getPoint()
+                    'terri_p' => $v->getTerri_principal()
                 ];
             }
         }
