@@ -289,7 +289,7 @@
                     $br->sqlUpdateTerriConstBatNoProd($new_nb_monnaie, $new_nb_acier, $new_nb_comp, $_SESSION['terri']);
                     $br->sqlUpdatePointUser($_SESSION['id'], $user['point'] + 34);
                 }
-                elseif($_POST['bat'] == 'chantier_naval' && $data2['level_usine_tactique'] > 0){
+                elseif($_POST['bat'] == 'chantier_naval'){
                     $det = $br->sqlGetInfoConfBat('bat_'.$_POST['bat'], $_SESSION['id'], $_SESSION['terri']);
                     if($det['cout_monnaie'] > $terri['dep_monnaie'] || $det['cout_acier'] > $terri['dep_acier'] || $det['cout_composant'] > $terri['dep_composant']){ return new Redirect($curl->getUrlForm('batiment/')); }
 
@@ -315,18 +315,19 @@
 
         private function defineTypeConstructBat($bat){
             $res = 0;
-            if($bat == 'Ministère de la défense'){ $res = 1; }
-            elseif($bat == 'Etat-major de la Marine'){ $res = 2; }
-            elseif($bat == 'Etat-major de l\'Armée de Terre'){ $res = 3; }
-            elseif($bat == 'Etat-major de l\'Armée de l\'Air'){ $res = 4; }
-            elseif($bat == 'Usine d\'extraction d\'uranium'){ $res = 5; }
-            elseif($bat == 'Fonderie'){ $res = 6; }
-            elseif($bat == 'Puit de pétrole'){ $res = 7; }
-            elseif($bat == 'Usine'){ $res = 8; }
-            elseif($bat == 'Radar'){ $res = 9; }
-            elseif($bat == 'Centre de recherche'){ $res = 10; }
-            elseif($bat == 'Camp d\'entraînement'){ $res = 11; }
-            elseif($bat == 'Chantier naval'){ $res = 12; }
+
+            if($bat == 'ministere_defense'){ $res = 1; }
+            elseif($bat == 'etat_major_marine'){ $res = 2; }
+            elseif($bat == 'etat_major_armee_terre'){ $res = 3; }
+            elseif($bat == 'etat_major_armee_air'){ $res = 4; }
+            elseif($bat == 'usine_extract_ura'){ $res = 5; }
+            elseif($bat == 'fonderie'){ $res = 6; }
+            elseif($bat == 'puit_petrole'){ $res = 7; }
+            elseif($bat == 'usine'){ $res = 8; }
+            elseif($bat == 'radar'){ $res = 9; }
+            elseif($bat == 'centre_recherche'){ $res = 10; }
+            elseif($bat == 'camp_entrainement'){ $res = 11; }
+            elseif($bat == 'chantier_naval'){ $res = 12; }
 
             return $res;
         }
