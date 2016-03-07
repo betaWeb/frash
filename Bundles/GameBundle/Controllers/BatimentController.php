@@ -100,15 +100,16 @@
                 $terri = $met->sqlGetInfoTerri();
 
                 $rech = $br->sqlGetRechJoueur($_SESSION['id']);
+                $curl = new ClassUrl;
 
                 if($_POST['bat'] == 'ministere_defense'){
                     $det = $br->sqlGetInfoConfBat('bat_'.$_POST['bat'], $_SESSION['id'], $_SESSION['terri']);
-                    if($det['cout_monnaie'] > $terri['nb_monnaie'] || $det['cout_acier'] > $terri['nb_acier'] || $det['cout_composant'] > $terri['nb_composant']){ return new Redirect('../batiment/'); }
+                    if($det['cout_monnaie'] > $terri['dep_monnaie'] || $det['cout_acier'] > $terri['dep_acier'] || $det['cout_composant'] > $terri['dep_composant']){ return new Redirect($curl->getUrlForm('batiment/')); }
 
                     $temps_fin = time() + $det['temps_construction'];
-                    $new_nb_monnaie = $terri['nb_monnaie'] - $det['cout_monnaie'];
-                    $new_nb_acier = $terri['nb_acier'] - $det['cout_acier'];
-                    $new_nb_comp = $terri['nb_composant'] - $det['cout_composant'];
+                    $new_nb_monnaie = $terri['dep_monnaie'] - $det['cout_monnaie'];
+                    $new_nb_acier = $terri['dep_acier'] - $det['cout_acier'];
+                    $new_nb_comp = $terri['dep_composant'] - $det['cout_composant'];
 
                     $cout_monn = ceil($det['cout_monnaie'] * 1.2);
                     $cout_acier = ceil($det['cout_acier'] * 1.2);
@@ -123,12 +124,12 @@
                 }
                 elseif($_POST['bat'] == 'etat_major_marine' || $_POST['bat'] == 'etat_major_armee_terre' || $_POST['bat'] == 'etat_major_armee_air'){
                     $det = $br->sqlGetInfoConfBat('bat_'.$_POST['bat'], $_SESSION['id'], $_SESSION['terri']);
-                    if($det['cout_monnaie'] > $terri['nb_monnaie'] || $det['cout_acier'] > $terri['nb_acier'] || $det['cout_composant'] > $terri['nb_composant']){ return new Redirect('../batiment/'); }
+                    if($det['cout_monnaie'] > $terri['dep_monnaie'] || $det['cout_acier'] > $terri['dep_acier'] || $det['cout_composant'] > $terri['dep_composant']){ return new Redirect($curl->getUrlForm('batiment/')); }
 
                     $temps_fin = time() + $det['temps_construction'];
-                    $new_nb_monnaie = $terri['nb_monnaie'] - $det['cout_monnaie'];
-                    $new_nb_acier = $terri['nb_acier'] - $det['cout_acier'];
-                    $new_nb_comp = $terri['nb_composant'] - $det['cout_composant'];
+                    $new_nb_monnaie = $terri['dep_monnaie'] - $det['cout_monnaie'];
+                    $new_nb_acier = $terri['dep_acier'] - $det['cout_acier'];
+                    $new_nb_comp = $terri['dep_composant'] - $det['cout_composant'];
 
                     $cout_monn = ceil($det['cout_monnaie'] * 1.2);
                     $cout_acier = ceil($det['cout_acier'] * 1.2);
@@ -142,12 +143,12 @@
                 }
                 elseif($_POST['bat'] == 'usine_extract_ura' && $rech['uranium'] == 1){
                     $det = $br->sqlGetInfoConfBat('bat_'.$_POST['bat'], $_SESSION['id'], $_SESSION['terri']);
-                    if($det['cout_monnaie'] > $terri['nb_monnaie'] || $det['cout_acier'] > $terri['nb_acier'] || $det['cout_composant'] > $terri['nb_composant']){ return new Redirect('../batiment/'); }
+                    if($det['cout_monnaie'] > $terri['dep_monnaie'] || $det['cout_acier'] > $terri['dep_acier'] || $det['cout_composant'] > $terri['dep_composant']){ return new Redirect($curl->getUrlForm('batiment/')); }
 
                     $temps_fin = time() + $det['temps_construction'];
-                    $new_nb_monnaie = $terri['nb_monnaie'] - $det['cout_monnaie'];
-                    $new_nb_acier = $terri['nb_acier'] - $det['cout_acier'];
-                    $new_nb_comp = $terri['nb_composant'] - $det['cout_composant'];
+                    $new_nb_monnaie = $terri['dep_monnaie'] - $det['cout_monnaie'];
+                    $new_nb_acier = $terri['dep_acier'] - $det['cout_acier'];
+                    $new_nb_comp = $terri['dep_composant'] - $det['cout_composant'];
 
                     $cout_monn = ceil($det['cout_monnaie'] * 1.2);
                     $cout_acier = ceil($det['cout_acier'] * 1.2);
@@ -162,12 +163,12 @@
                 }
                 elseif($_POST['bat'] == 'fonderie'){
                     $det = $br->sqlGetInfoConfBat('bat_'.$_POST['bat'], $_SESSION['id'], $_SESSION['terri']);
-                    if($det['cout_monnaie'] > $terri['nb_monnaie'] || $det['cout_acier'] > $terri['nb_acier'] || $det['cout_composant'] > $terri['nb_composant']){ return new Redirect('../batiment/'); }
+                    if($det['cout_monnaie'] > $terri['dep_monnaie'] || $det['cout_acier'] > $terri['dep_acier'] || $det['cout_composant'] > $terri['dep_composant']){ return new Redirect($curl->getUrlForm('batiment/')); }
 
                     $temps_fin = time() + $det['temps_construction'];
-                    $new_nb_monnaie = $terri['nb_monnaie'] - $det['cout_monnaie'];
-                    $new_nb_acier = $terri['nb_acier'] - $det['cout_acier'];
-                    $new_nb_comp = $terri['nb_composant'] - $det['cout_composant'];
+                    $new_nb_monnaie = $terri['dep_monnaie'] - $det['cout_monnaie'];
+                    $new_nb_acier = $terri['dep_acier'] - $det['cout_acier'];
+                    $new_nb_comp = $terri['dep_composant'] - $det['cout_composant'];
 
                     $cout_monn = ceil($det['cout_monnaie'] * 1.2);
                     $cout_acier = ceil($det['cout_acier'] * 1.2);
@@ -182,12 +183,12 @@
                 }
                 elseif($_POST['bat'] == 'puit_petrole'){
                     $det = $br->sqlGetInfoConfBat('bat_'.$_POST['bat'], $_SESSION['id'], $_SESSION['terri']);
-                    if($det['cout_monnaie'] > $terri['nb_monnaie'] || $det['cout_acier'] > $terri['nb_acier'] || $det['cout_composant'] > $terri['nb_composant']){ return new Redirect('../batiment/'); }
+                    if($det['cout_monnaie'] > $terri['dep_monnaie'] || $det['cout_acier'] > $terri['dep_acier'] || $det['cout_composant'] > $terri['dep_composant']){ return new Redirect($curl->getUrlForm('batiment/')); }
 
                     $temps_fin = time() + $det['temps_construction'];
-                    $new_nb_monnaie = $terri['nb_monnaie'] - $det['cout_monnaie'];
-                    $new_nb_acier = $terri['nb_acier'] - $det['cout_acier'];
-                    $new_nb_comp = $terri['nb_composant'] - $det['cout_composant'];
+                    $new_nb_monnaie = $terri['dep_monnaie'] - $det['cout_monnaie'];
+                    $new_nb_acier = $terri['dep_acier'] - $det['cout_acier'];
+                    $new_nb_comp = $terri['dep_composant'] - $det['cout_composant'];
 
                     $cout_monn = ceil($det['cout_monnaie'] * 1.2);
                     $cout_acier = ceil($det['cout_acier'] * 1.2);
@@ -202,12 +203,12 @@
                 }
                 elseif($_POST['bat'] == 'usine'){
                     $det = $br->sqlGetInfoConfBat('bat_'.$_POST['bat'], $_SESSION['id'], $_SESSION['terri']);
-                    if($det['cout_monnaie'] > $terri['nb_monnaie'] || $det['cout_acier'] > $terri['nb_acier'] || $det['cout_composant'] > $terri['nb_composant']){ return new Redirect('../batiment/'); }
+                    if($det['cout_monnaie'] > $terri['dep_monnaie'] || $det['cout_acier'] > $terri['dep_acier'] || $det['cout_composant'] > $terri['dep_composant']){ return new Redirect($curl->getUrlForm('batiment/')); }
 
                     $temps_fin = time() + $det['temps_construction'];
-                    $new_nb_monnaie = $terri['nb_monnaie'] - $det['cout_monnaie'];
-                    $new_nb_acier = $terri['nb_acier'] - $det['cout_acier'];
-                    $new_nb_comp = $terri['nb_composant'] - $det['cout_composant'];
+                    $new_nb_monnaie = $terri['dep_monnaie'] - $det['cout_monnaie'];
+                    $new_nb_acier = $terri['dep_acier'] - $det['cout_acier'];
+                    $new_nb_comp = $terri['dep_composant'] - $det['cout_composant'];
 
                     $cout_monn = ceil($det['cout_monnaie'] * 1.2);
                     $cout_acier = ceil($det['cout_acier'] * 1.2);
@@ -226,12 +227,12 @@
                 }
                 elseif($_POST['bat'] == 'radar'){
                     $det = $br->sqlGetInfoConfBat('bat_'.$_POST['bat'], $_SESSION['id'], $_SESSION['terri']);
-                    if($det['cout_monnaie'] > $terri['nb_monnaie'] || $det['cout_acier'] > $terri['nb_acier'] || $det['cout_composant'] > $terri['nb_composant']){ return new Redirect('../batiment/'); }
+                    if($det['cout_monnaie'] > $terri['dep_monnaie'] || $det['cout_acier'] > $terri['dep_acier'] || $det['cout_composant'] > $terri['dep_composant']){ return new Redirect($curl->getUrlForm('batiment/')); }
 
                     $temps_fin = time() + $det['temps_construction'];
-                    $new_nb_monnaie = $terri['nb_monnaie'] - $det['cout_monnaie'];
-                    $new_nb_acier = $terri['nb_acier'] - $det['cout_acier'];
-                    $new_nb_comp = $terri['nb_composant'] - $det['cout_composant'];
+                    $new_nb_monnaie = $terri['dep_monnaie'] - $det['cout_monnaie'];
+                    $new_nb_acier = $terri['dep_acier'] - $det['cout_acier'];
+                    $new_nb_comp = $terri['dep_composant'] - $det['cout_composant'];
 
                     $cout_monn = ceil($det['cout_monnaie'] * 1.2);
                     $cout_acier = ceil($det['cout_acier'] * 1.2);
@@ -252,12 +253,12 @@
                 }
                 elseif($_POST['bat'] == 'centre_recherche'){
                     $det = $br->sqlGetInfoConfBat('bat_'.$_POST['bat'], $_SESSION['id'], $_SESSION['terri']);
-                    if($det['cout_monnaie'] > $terri['nb_monnaie'] || $det['cout_acier'] > $terri['nb_acier'] || $det['cout_composant'] > $terri['nb_composant']){ return new Redirect('../batiment/'); }
+                    if($det['cout_monnaie'] > $terri['dep_monnaie'] || $det['cout_acier'] > $terri['dep_acier'] || $det['cout_composant'] > $terri['dep_composant']){ return new Redirect($curl->getUrlForm('batiment/')); }
 
                     $temps_fin = time() + $det['temps_construction'];
-                    $new_nb_monnaie = $terri['nb_monnaie'] - $det['cout_monnaie'];
-                    $new_nb_acier = $terri['nb_acier'] - $det['cout_acier'];
-                    $new_nb_comp = $terri['nb_composant'] - $det['cout_composant'];
+                    $new_nb_monnaie = $terri['dep_monnaie'] - $det['cout_monnaie'];
+                    $new_nb_acier = $terri['dep_acier'] - $det['cout_acier'];
+                    $new_nb_comp = $terri['dep_composant'] - $det['cout_composant'];
 
                     $cout_monn = ceil($det['cout_monnaie'] * 1.2);
                     $cout_acier = ceil($det['cout_acier'] * 1.2);
@@ -271,12 +272,12 @@
                 }
                 elseif($_POST['bat'] == 'camp_entrainement'){
                     $det = $br->sqlGetInfoConfBat('bat_'.$_POST['bat'], $_SESSION['id'], $_SESSION['terri']);
-                    if($det['cout_monnaie'] > $terri['nb_monnaie'] || $det['cout_acier'] > $terri['nb_acier'] || $det['cout_composant'] > $terri['nb_composant']){ return new Redirect('../batiment/'); }
+                    if($det['cout_monnaie'] > $terri['dep_monnaie'] || $det['cout_acier'] > $terri['dep_acier'] || $det['cout_composant'] > $terri['dep_composant']){ return new Redirect($curl->getUrlForm('batiment/')); }
 
                     $temps_fin = time() + $det['temps_construction'];
-                    $new_nb_monnaie = $terri['nb_monnaie'] - $det['cout_monnaie'];
-                    $new_nb_acier = $terri['nb_acier'] - $det['cout_acier'];
-                    $new_nb_comp = $terri['nb_composant'] - $det['cout_composant'];
+                    $new_nb_monnaie = $terri['dep_monnaie'] - $det['cout_monnaie'];
+                    $new_nb_acier = $terri['dep_acier'] - $det['cout_acier'];
+                    $new_nb_comp = $terri['dep_composant'] - $det['cout_composant'];
 
                     $cout_monn = ceil($det['cout_monnaie'] * 1.2);
                     $cout_acier = ceil($det['cout_acier'] * 1.2);
@@ -290,12 +291,12 @@
                 }
                 elseif($_POST['bat'] == 'chantier_naval' && $data2['level_usine_tactique'] > 0){
                     $det = $br->sqlGetInfoConfBat('bat_'.$_POST['bat'], $_SESSION['id'], $_SESSION['terri']);
-                    if($det['cout_monnaie'] > $terri['nb_monnaie'] || $det['cout_acier'] > $terri['nb_acier'] || $det['cout_composant'] > $terri['nb_composant']){ return new Redirect('../batiment/'); }
+                    if($det['cout_monnaie'] > $terri['dep_monnaie'] || $det['cout_acier'] > $terri['dep_acier'] || $det['cout_composant'] > $terri['dep_composant']){ return new Redirect($curl->getUrlForm('batiment/')); }
 
                     $temps_fin = time() + $det['temps_construction'];
-                    $new_nb_monnaie = $terri['nb_monnaie'] - $det['cout_monnaie'];
-                    $new_nb_acier = $terri['nb_acier'] - $det['cout_acier'];
-                    $new_nb_comp = $terri['nb_composant'] - $det['cout_composant'];
+                    $new_nb_monnaie = $terri['dep_monnaie'] - $det['cout_monnaie'];
+                    $new_nb_acier = $terri['dep_acier'] - $det['cout_acier'];
+                    $new_nb_comp = $terri['dep_composant'] - $det['cout_composant'];
 
                     $cout_monn = ceil($det['cout_monnaie'] * 1.2);
                     $cout_acier = ceil($det['cout_acier'] * 1.2);
@@ -308,7 +309,7 @@
                     $br->sqlUpdatePointUser($_SESSION['id'], $user['point'] + 27);
                 }
 
-                return new Redirect('../batiment/');
+                return new Redirect($curl->getUrlForm('batiment/'));
             }
         }
 
