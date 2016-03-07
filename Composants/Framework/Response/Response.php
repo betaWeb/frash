@@ -1,6 +1,7 @@
 <?php
     namespace Composants\Framework\Response;
     use Composants\Framework\Exception\TwigChargementTemplateFail;
+    use Composants\Yaml\Yaml;
 
     /**
      * Class Response
@@ -22,6 +23,20 @@
             elseif(file_exists('Bundles/'.$bundle.'/Views/'.$templ)){
                 $tlf = new \Twig_Loader_Filesystem('Bundles/'.$bundle.'/Views');
                 $twig = new \Twig_Environment($tlf, [ 'cache' => false ]);
+
+                $url = new \Twig_SimpleFunction('url', function($url){
+                    $yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
+                    $nurl = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
+
+                    if($yaml['env'] == 'local'){
+                        echo '/'.$nurl[0].'/'.$url.'/';
+                    }
+                    elseif($yaml['env'] == 'prod'){
+                        echo '/'.$url.'/';
+                    }
+                });
+
+                $twig->addFunction($url);
                 echo $twig->render($templ, $param);
             }
             else{
