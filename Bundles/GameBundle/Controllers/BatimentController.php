@@ -5,6 +5,7 @@
     use Bundles\GameBundle\Requests\MenuRequests;
     use Bundles\GameBundle\Requests\BatimentRequests;
     use Composants\Framework\Forms\CreateForm;
+    use Composants\Framework\Response\ClassUrl;
 
     /**
      * Class BatimentController
@@ -74,11 +75,13 @@
                 $arrayBat[] = $br->sqlGetInfoBat('bat_centre_rech', 'Centre de recherches', $_SESSION['id'], $_SESSION['terri']);
                 $arrayBat[] = $br->sqlGetInfoBat('bat_camp_entrainement', 'Camp d\'entraînement', $_SESSION['id'], $_SESSION['terri']);
 
+                $curl = new ClassUrl;
+
                 return new Response('Batiment/batiment_selection.html.twig', 'GameBundle', [
                     'rang' => $user['rang'], 'nbmp' => $met->sqlCountMP(), 'nb_monnaie' => $terri['nb_monnaie'], 'nb_uranium' => $terri['nb_uranium'],
                     'nb_acier' => $terri['nb_acier'], 'nb_petrole' => $terri['nb_petrole'], 'nb_composant' => $terri['nb_composant'], 'list' => $arrayBat,
                     'form' => [
-                        'start' => $form->startForm([ 'method' => 'post', 'action' => '../batConf/' ]),
+                        'start' => $form->startForm([ 'method' => 'post', 'action' => $curl->getUrlForm('batConf/') ]),
                         'submit' => $form->addInput([ 'name' => 'submit', 'type' => 'submit', 'value' => 'Construire' ]),
                         'end' => $form->endForm()
                     ]
