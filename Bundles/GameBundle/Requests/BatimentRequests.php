@@ -113,13 +113,7 @@
             $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\\'.ucfirst($table));
 
             foreach($data as $v){
-                return [
-                    'cout_monnaie' => number_format($v->getCout_monnaie(), 0, ',', ' '),
-                    'cout_acier' => number_format($v->getCout_acier(), 0, ',', ' '),
-                    'cout_composant' => number_format($v->getCout_composant(), 0, ',', ' '),
-                    'temps_construction' => number_format($v->getTemps_construction(), 0, ',', ' '),
-                    'niveau' => $v->getNiveau()
-                ];
+                return [ 'cout_monnaie' => $v->getCout_monnaie(), 'cout_acier' => $v->getCout_acier(), 'cout_composant' => $v->getCout_composant(), 'temps_construction' => $v->getTemps_construction(), 'niveau' => $v->getNiveau() ];
             }
         }
 
