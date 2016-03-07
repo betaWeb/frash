@@ -66,6 +66,11 @@
                     'nb_acier' => number_format($v->getNombre_acier(), 0, ',', ' '),
                     'nb_petrole' => number_format($v->getNombre_petrole(), 0, ',', ' '),
                     'nb_composant' => number_format($v->getNombre_composant(), 0, ',', ' '),
+                    'dep_monnaie' => $v->getNombre_monnaie(),
+                    'dep_uranium' => $v->getNombre_uranium(),
+                    'dep_acier' => $v->getNombre_acier(),
+                    'dep_petrole' => $v->getNombre_petrole(),
+                    'dep_composant' => $v->getNombre_composant(),
                     'terri_p' => $v->getTerri_principal(),
                     'pos_x' => $v->getPosition_x(), 'pos_y' => $v->getPosition_y()
                 ];
