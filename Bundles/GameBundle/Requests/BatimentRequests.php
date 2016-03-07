@@ -286,4 +286,104 @@
             $upd->requestUpdate();
             $req->execRequest($upd->getRequest(), $upd->getExecute());
         }
+
+        /**
+         * @param $terri
+         * @return mixed
+         */
+        public function sqlCountConstArmee($terri){
+            $req = new QueryBuilder();
+            $sel = new Select('construct_unit');
+            $wh = new Where;
+            $wh->initNormalWhere([ 'territoire', ':terri' ], '=');
+            $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
+            $sel->setExecute([ 'terri' => $terri ]);
+            return $req->countResult($sel->getRequest(), $sel->getExecute());
+        }
+
+        /**
+         * @param $terri
+         * @param $time
+         * @return array
+         */
+        public function sqlSelectConstArmee($terri, $time){
+            $req = new QueryBuilder();
+            $sel = new Select('construct_unit');
+            $wh = new Where;
+            $wh->initNormalWhere([ 'territoire', ':terri' ], '=');
+            $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
+            $sel->setExecute([ $terri ]);
+            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Construct_unit');
+
+            foreach($data as $v){
+                $this->sqlUpdConstArmee($terri, $v->getTemps_fin() + $time);
+            }
+        }
+
+        /**
+         * @param $terri
+         * @param $time
+         */
+        public function sqlUpdConstArmee($terri, $time){
+            $req = new QueryBuilder();
+            $upd = new Update('construct_unit');
+            $wh = new Where;
+            $upd->setUpdate([ 'temps_fin = :time' ]);
+            $wh->initNormalWhere([ 'territoire', ':terri' ], '=');
+            $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
+            $upd->setExecute([ $time, $terri ]);
+            $upd->requestUpdate();
+            $req->execRequest($upd->getRequest(), $upd->getExecute());
+        }
+
+        /**
+         * @param $joueur
+         * @param $x_min
+         * @param $x_max
+         * @param $y_min
+         * @param $y_max
+         */
+        public function sqlInsertLevelRadar($joueur, $x_min, $x_max, $y_min, $y_max){
+            $req = new QueryBuilder();
+            $ins = new Insert('radar');
+            $ins->setInsert([ 'joueur', 'type_radar', 'position_x_min', 'position_x_max', 'position_y_min', 'position_y_max' ]);
+            $ins->setExecute([ $joueur, 1, $x_min, $x_max, $y_min, $y_max ]);
+            $req->execRequest($ins->getRequest(), $ins->getExecute());
+        }
+
+        /**
+         * @param $joueur
+         */
+        public function sqlSelectRadar($joueur){
+            $req = new QueryBuilder();
+            $sel = new Select('radar');
+            $wh = new Where;
+            $wh->initNormalWhere([ 'joueur', ':joueur' ], '=');
+            $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
+            $sel->setExecute([ $joueur ]);
+            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Radar');
+
+            foreach($data as $v){
+                $this->sqlUpdateLevelRadar($joueur, $v->Position_x_min() - 2, $v->Position_x_max() + 2, $v->Position_y_min() - 2, $v->Position_y_max() + 2);
+            }
+        }
+
+        /**
+         * @param $joueur
+         * @param $x_min
+         * @param $x_max
+         * @param $y_min
+         * @param $y_max
+         */
+        public function sqlUpdateLevelRadar($joueur, $x_min, $x_max, $y_min, $y_max){
+            $req = new QueryBuilder();
+            $upd = new Update('radar');
+            $wh = new Where;
+            $upd->setUpdate([ 'position_x_min = :x_min', 'position_x_max = :x_max', 'position_y_min = :y_min', 'position_y_max = :y_max' ]);
+            $wh->initNormalWhere([ 'joueur', ':joueur' ], '=');
+            $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
+            $upd->setExecute([ $x_min, $x_max, $y_min, $y_max, $joueur ]);
+            $upd->requestUpdate();
+            $req->execRequest($upd->getRequest(), $upd->getExecute());
+        }
     }
