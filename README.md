@@ -2,7 +2,7 @@
 Light FrameWork
 
  - <kbd>Framework</kbd> : 3.24.26
- - <kbd>Jeu</kbd> : 8.24
+ - <kbd>Jeu</kbd> : 9.25
 
 Installation
 ----------
