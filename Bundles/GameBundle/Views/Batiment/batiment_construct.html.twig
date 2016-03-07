@@ -3,7 +3,7 @@
 {% block body %}
     <div id="corps">
         {{ parent() }}<br>
-        {{ phrase }}
+        {{ phrase | raw }}
     </div>
 {% endblock %}
 {% block js_end %}{{ parent() }}{% endblock %}
