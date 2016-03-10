@@ -17,14 +17,14 @@
         private $colSel = '*';
 
         /**
-         * @var
+         * @var string
          */
-        private $where;
+        private $where = '';
 
         /**
-         * @var
+         * @var string
          */
-        private $arrayWhere;
+        private $arrayWhere = '';
 
         /**
          * @var
