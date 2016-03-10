@@ -29,10 +29,10 @@
                     $nurl = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
 
                     if($yaml['env'] == 'local'){
-                        echo '/'.$nurl[0].'/'.$url.'/';
+                        echo '/'.$nurl[0].'/'.$url;
                     }
                     elseif($yaml['env'] == 'prod'){
-                        echo '/'.$url.'/';
+                        echo '/'.$url;
                     }
                 });
 
