@@ -91,6 +91,28 @@
         }
 
         /**
+         * @param $request
+         * @param array $exec
+         */
+        public function delete($request, $exec = []){
+            try{
+                $req = $this->conn->prepare($request);
+                $req->execute($exec);
+
+                if($this->yaml['log']['request'] == 'yes'){
+                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request."\n");
+                }
+            }
+            catch(\Exception $e){
+                if($this->yaml['log']['error'] == 'yes'){
+                    new CreateErrorLog($e->getMessage());
+                }
+
+                die('Il y a eu une erreur.');
+            }
+        }
+
+        /**
          * @param $table
          * @param $bundle
          * @return array
