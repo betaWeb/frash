@@ -19,12 +19,12 @@
             $req = new QueryBuilder();
             $sel = new Select('carte');
             $wh = new Where;
-            $wh->initNormalWhere([ 'position_x', ':pos_x' ], '=');
-            $wh->andWhere([ 'position_y', ':pos_y_min' ], '>');
-            $wh->andWhere([ 'position_y', ':pos_y_max' ], '<');
+            $wh->initNormalWhere('position_x', '=');
+            $wh->andWhere('position_y', '>');
+            $wh->andWhere('position_y', '<');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $pos_x, $pos_y_min, $pos_y_max ]);
-            return $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Carte');
+            return $req->select($sel->getRequest(), $sel->getExecute(), 'Carte', 'GameBundle');
         }
 
         /**
@@ -35,9 +35,9 @@
             $req = new QueryBuilder();
             $sel = new Select('territoire');
             $wh = new Where();
-            $wh->initNormalWhere([ 'id', ':id' ], '=');
+            $wh->initNormalWhere('id', '=');
             $sel->setExecute([ $terri ]);
-            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Territoire');
+            $data = $req->select($sel->getRequest(), $sel->getExecute(), 'Territoire', 'GameBundle');
 
             foreach($data as $v){
                 return [ 'x' => $v->getPosition_x(), 'y' => $v->getPosition_y() ];
