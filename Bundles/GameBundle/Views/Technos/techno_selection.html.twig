@@ -1,0 +1,104 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div id="corps">
+        {{ parent() }}<br>
+        {{ form.start | raw }}
+            <table id="bat">
+                <tr><td>Nom</td><td>Niveau actuel</td><td>Temps de recherche</td><td>Monnaie</td><td>Uranium</td><td>Acier</td><td>Pétrole</td><td>Composant</td></tr>
+                {% if lvlcr >= 1 and rech.ura == 0 %}
+                    <tr>
+                        <td>Maniement de l'uranium</td><td>0</td><td>6 minutes 40 secondes</td><td>290 000 000</td><td>2 000</td><td>60 000</td><td></td><td>20 000</td>
+                        <td><input type="radio" name="rech" value="maniement_uranium"> Sélectionner</td>
+                    </tr>
+                {% endif %}
+
+                {% if lvlcr >= 7 and lvus >= 6 and rech.unit_nav == 0 %}
+                    <tr>
+                        <td>Unités navales</td><td>0</td><td>503 secondes</td><td>600 000 000</td><td>7 000</td><td>90 000</td><td>50 000</td><td>70 000</td>
+                        <td><input type="radio" name="rech" value="unites_navales"></td>
+                    </tr>
+                {% endif %}
+
+                {% if lvlcr >= 6 and rech.voil_to == 0 %}
+                    <tr>
+                        <td>Voilure tournante</td><td>0</td><td>470 secondes</td><td>350 000 000</td><td></td><td colspan="2">20 000</td><td>40 000</td>
+                        <td><input type="radio" name="rech" value="voilure_tournante"></td>
+                    </tr>
+                {% endif %}
+
+                {% if lvlcr >= 2 and rech.boucl_tour == 0 %}
+                    <tr>
+                        <td>Bouclier de tourelle</td><td>0</td><td>347 secondes</td><td>30 000 000</td><td></td><td>5 000</td><td colspan="2"></td>
+                        <td><input type="radio" name="rech" value="bouclier_tourelle"></td>
+                    </tr>
+                {% endif %}
+
+                {% if lvlcr >= 11 and rech.furt == 0 %}
+                    <tr>
+                        <td>Furtivité</td><td>0</td><td>450 secondes</td><td>300 000 000</td><td colspan="3"></td><td>10 000</td>
+                        <td><input type="radio" name="rech" value="furtivite"></td>
+                    </tr>
+                {% endif %}
+
+                {% if lvlcr >= 3 and rech.anti_roq == 0 %}
+                    <tr>
+                        <td>Grille anti-roquettes</td><td>0</td><td>301 secondes</td><td>70 000 000</td><td colspan="3"></td><td>5 000</td>
+                        <td><input type="radio" name="rech" value="grille_anti_roq"></td>
+                    </tr>
+                {% endif %}
+
+                {% if lvlcr >= 5 and rech.teleop == 0 %}
+                    <tr>
+                        <td>Mitrailleuse télé-opérée</td><td>0</td><td>413 secondes</td><td>130 000 000</td><td></td><td>5 000</td><td></td><td>15 000</td>
+                        <td><input type="radio" name="rech" value="mitrailleuse_teleop"></td>
+                    </tr>
+                {% endif %}
+
+                {% if lvlcr >= 4 and rech.syst_tir == 0 %}
+                    <tr>
+                        <td>Système de tir déporté</td><td>0</td><td>397 secondes</td><td>110 000 000</td><td colspan="3"></td><td>10 000</td>
+                        <td><input type="radio" name="rech" value="systeme_tir_deporte"></td>
+                    </tr>
+                {% endif %}
+
+                {% if lvlcr >= 13 and rech.canon == 0 %}
+                    <tr>
+                        <td>Canon électromagnétique</td><td>0</td><td>682 secondes</td><td>480 000 000</td><td></td><td>15 000</td><td></td><td>100 000</td>
+                        <td><input type="radio" name="rech" value="canon_electro"></td>
+                    </tr>
+                {% endif %}
+
+                {% if lvlcr >= 8 and rech.aeron == 0 %}
+                    <tr>
+                        <td>Aéronavale</td><td>0</td><td>518 secondes</td><td>350 000 000</td><td></td><td>9 000</td><td></td><td>80 000</td>
+                        <td><input type="radio" name="rech" value="aeronavale"></td>
+                    </tr>
+                {% endif %}
+
+                {% if lvlcr >= 9 and rech.aesa == 0 %}
+                    <tr>
+                        <td>Radar AESA</td><td>0</td><td>667 secondes</td><td>220 000 000</td><td colspan="3"></td><td>110 000</td>
+                        <td><input type="radio" name="rech" value="radar_aesa"></td>
+                    </tr>
+                {% endif %}
+
+                {% if lvlcr >= 5 and rech.dhale == 0 %}
+                    <tr>
+                        <td>Drone HALE</td><td>0</td><td>312 secondes</td><td>310 000 000</td><td></td><td>22 000</td><td>16 000</td><td>37 000</td>
+                        <td><input type="radio" name="rech" value="drone_hale"></td>
+                    </tr>
+                {% endif %}
+
+                {% if lvlcr >= 12 and rech.vtol == 0 %}
+                    <tr>
+                        <td>Réacteur VTOL</td><td>0</td><td>291 secondes</td><td>324 000 000</td><td></td><td>22 000</td><td>33 000</td><td>35 000</td>
+                        <td><input type="radio" name="rech" value="reacteur_vtol"></td>
+                    </tr>
+                {% endif %}
+            </table>
+            {{ form.submit | raw }}
+        {{ form.end | raw }}
+    </div>
+{% endblock %}
+{% block js_end %}{{ parent() }}{% endblock %}
