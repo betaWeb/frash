@@ -1,10 +1,10 @@
 <?php
 	namespace Bundles\GameBundle\Requests;
-    use Composants\ORM\QueryBuilder;
-    use Composants\ORM\Request\Order;
-    use Composants\ORM\Request\Select;
-    use Composants\ORM\Request\Where;
-    use Composants\ORM\Request\Limit;
+    use Composants\Framework\ORM\MySQL\QueryBuilder;
+    use Composants\Framework\ORM\MySQL\Request\Order;
+    use Composants\Framework\ORM\MySQL\Request\Select;
+    use Composants\Framework\ORM\MySQL\Request\Where;
+    use Composants\Framework\ORM\MySQL\Request\Limit;
 
     /**
      * Class GameRequests
@@ -19,11 +19,11 @@
             $sel = new Select('topic');
             $wh = new Where;
             $ord = new Order('time_creation', 'DESC');
-            $wh->initNormalWhere([ 'cat', ':cat' ], '=');
+            $wh->initNormalWhere('cat', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setOrder($ord->getOrder());
             $sel->setExecute([ 1 ]);
-            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Topic');
+            $data = $req->select($sel->getRequest(), $sel->getExecute(), 'Topic', 'GameBundle');
 
             foreach($data as $v){
                 return [ 'id' => $v->getId(), 'nom' => $v->getNom(), 'pseudo' => $v->getPseudo_auteur() ];
@@ -44,8 +44,9 @@
             $sel->setOrder($ord->getOrder());
             $sel->setLimit($lim->getLimit());
             $sel->setExecute();
-            $datat = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\User');
+            $datat = $req->select($sel->getRequest(), $sel->getExecute(), 'User', 'GameBundle');
 
+            $data = [];
             foreach($datat as $v){
                 $data[] = [ 'rang' => $rang++, 'pseudo' => $v->getPseudo(), 'point' => number_format($v->getPoint(), 0, ',', ' ') ];
             }

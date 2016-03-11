@@ -1,10 +1,10 @@
 <?php
     namespace Bundles\GameBundle\Requests;
-    use Composants\ORM\Request\Select;
-    use Composants\ORM\Request\Where;
-    use Composants\ORM\Request\Insert;
-    use Composants\ORM\Request\Update;
-    use Composants\ORM\QueryBuilder;
+    use Composants\Framework\ORM\MySQL\Request\Select;
+    use Composants\Framework\ORM\MySQL\Request\Where;
+    use Composants\Framework\ORM\MySQL\Request\Insert;
+    use Composants\Framework\ORM\MySQL\Request\Update;
+    use Composants\Framework\ORM\MySQL\QueryBuilder;
 
     /**
      * Class BatimentRequests
@@ -19,9 +19,9 @@
             $req = new QueryBuilder();
             $sel = new Select('construct_bat');
             $wh = new Where;
-            $wh->initNormalWhere([ 'territoire', ':terri' ], '=');
+            $wh->initNormalWhere('territoire', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
-            $sel->setExecute([ 'terri' => $terri ]);
+            $sel->setExecute([ $terri ]);
             return $req->countResult($sel->getRequest(), $sel->getExecute());
         }
 
@@ -33,10 +33,10 @@
             $req = new QueryBuilder();
             $sel = new Select('construct_bat');
             $wh = new Where();
-            $wh->initNormalWhere([ 'territoire', ':terri' ], '=');
+            $wh->initNormalWhere('territoire', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $terri ]);
-            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Construct_bat');
+            $data = $req->select($sel->getRequest(), $sel->getExecute(), 'Construct_bat', 'GameBundle');
 
             foreach($data as $v){
                 return [ 'bat' => $v->getBat(), 'temps_fin' => $v->getTemps_fin() ];
@@ -54,11 +54,11 @@
             $req = new QueryBuilder();
             $sel = new Select($table);
             $wh = new Where();
-            $wh->initNormalWhere([ 'joueur', ':joueur' ], '=');
-            $wh->andWhere([ 'territoire', ':terri' ], '=');
+            $wh->initNormalWhere('joueur', '=');
+            $wh->andWhere('territoire', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $joueur, $terri ]);
-            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\\'.ucfirst($table));
+            $data = $req->select($sel->getRequest(), $sel->getExecute(), ucfirst($table), 'GameBundle');
 
             foreach($data as $v){
                 return [
@@ -81,10 +81,10 @@
             $req = new QueryBuilder();
             $sel = new Select('recherche');
             $wh = new Where();
-            $wh->initNormalWhere([ 'joueur', ':joueur' ], '=');
+            $wh->initNormalWhere('joueur', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $joueur ]);
-            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Recherche');
+            $data = $req->select($sel->getRequest(), $sel->getExecute(), 'Recherche', 'GameBundle');
 
             foreach($data as $v){
                 return [
@@ -106,14 +106,20 @@
             $req = new QueryBuilder();
             $sel = new Select($table);
             $wh = new Where();
-            $wh->initNormalWhere([ 'joueur', ':joueur' ], '=');
-            $wh->andWhere([ 'territoire', ':terri' ], '=');
+            $wh->initNormalWhere('joueur', '=');
+            $wh->andWhere('territoire', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $joueur, $terri ]);
-            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\\'.ucfirst($table));
+            $data = $req->select($sel->getRequest(), $sel->getExecute(), ucfirst($table), 'GameBundle');
 
             foreach($data as $v){
-                return [ 'cout_monnaie' => $v->getCout_monnaie(), 'cout_acier' => $v->getCout_acier(), 'cout_composant' => $v->getCout_composant(), 'temps_construction' => $v->getTemps_construction(), 'niveau' => $v->getNiveau() ];
+                return [
+                    'cout_monnaie' => $v->getCout_monnaie(),
+                    'cout_acier' => $v->getCout_acier(),
+                    'cout_composant' => $v->getCout_composant(),
+                    'temps_construction' => $v->getTemps_construction(),
+                    'niveau' => $v->getNiveau()
+                ];
             }
         }
 
@@ -128,7 +134,7 @@
             $ins = new Insert('construct_bat');
             $ins->setInsert([ 'bat', 'time', 'temps_fin', 'territoire' ]);
             $ins->setExecute([ $bat, $temps_const, $temps_fin, $terri ]);
-            $req->execRequest($ins->getRequest(), $ins->getExecute());
+            $req->insert($ins->getRequest(), $ins->getExecute());
         }
 
         /**
@@ -144,12 +150,11 @@
             $req = new QueryBuilder();
             $upd = new Update($table);
             $wh = new Where;
-            $upd->setUpdate([ 'niveau = :niveau', 'cout_monnaie = :monn', 'cout_acier = :acier', 'cout_composant = :comp', 'temps_construction = :time' ]);
-            $wh->initNormalWhere([ 'territoire', ':terri' ], '=');
+            $upd->setUpdate([ 'niveau', 'cout_monnaie', 'cout_acier', 'cout_composant', 'temps_construction' ]);
+            $wh->initNormalWhere('territoire', '=');
             $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $upd->setExecute([ $niveau, $cout_monn, $cout_acier, $cout_comp, $temps_construct, $terri ]);
-            $upd->requestUpdate();
-            $req->execRequest($upd->getRequest(), $upd->getExecute());
+            $req->update($upd->getRequest(), $upd->getExecute());
         }
 
         /**
@@ -163,12 +168,11 @@
             $req = new QueryBuilder();
             $upd = new Update('territoire');
             $wh = new Where;
-            $upd->setUpdate([ 'nombre_monnaie = :monn', 'nombre_acier = :acier', 'nombre_composant = :comp', 'prod_monnaie = :prod' ]);
-            $wh->initNormalWhere([ 'territoire', ':terri' ], '=');
+            $upd->setUpdate([ 'nombre_monnaie', 'nombre_acier', 'nombre_composant', 'prod_monnaie' ]);
+            $wh->initNormalWhere('territoire', '=');
             $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $upd->setExecute([ $new_nb_monnaie, $new_nb_acier, $new_nb_comp, $new_prod, $terri ]);
-            $upd->requestUpdate();
-            $req->execRequest($upd->getRequest(), $upd->getExecute());
+            $req->update($upd->getRequest(), $upd->getExecute());
         }
 
         /**
@@ -182,12 +186,11 @@
             $req = new QueryBuilder();
             $upd = new Update('territoire');
             $wh = new Where;
-            $upd->setUpdate([ 'nombre_monnaie = :monn', 'nombre_acier = :acier', 'nombre_composant = :comp', 'prod_uranium = :prod' ]);
-            $wh->initNormalWhere([ 'territoire', ':terri' ], '=');
+            $upd->setUpdate([ 'nombre_monnaie', 'nombre_acier', 'nombre_composant', 'prod_uranium' ]);
+            $wh->initNormalWhere('territoire', '=');
             $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $upd->setExecute([ $new_nb_monnaie, $new_nb_acier, $new_nb_comp, $new_prod, $terri ]);
-            $upd->requestUpdate();
-            $req->execRequest($upd->getRequest(), $upd->getExecute());
+            $req->update($upd->getRequest(), $upd->getExecute());
         }
 
         /**
@@ -201,12 +204,11 @@
             $req = new QueryBuilder();
             $upd = new Update('territoire');
             $wh = new Where;
-            $upd->setUpdate([ 'nombre_monnaie = :monn', 'nombre_acier = :acier', 'nombre_composant = :comp', 'prod_acier = :prod' ]);
-            $wh->initNormalWhere([ 'territoire', ':terri' ], '=');
+            $upd->setUpdate([ 'nombre_monnaie', 'nombre_acier', 'nombre_composant', 'prod_acier' ]);
+            $wh->initNormalWhere('territoire', '=');
             $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $upd->setExecute([ $new_nb_monnaie, $new_nb_acier, $new_nb_comp, $new_prod, $terri ]);
-            $upd->requestUpdate();
-            $req->execRequest($upd->getRequest(), $upd->getExecute());
+            $req->update($upd->getRequest(), $upd->getExecute());
         }
 
         /**
@@ -220,12 +222,11 @@
             $req = new QueryBuilder();
             $upd = new Update('territoire');
             $wh = new Where;
-            $upd->setUpdate([ 'nombre_monnaie = :monn', 'nombre_acier = :acier', 'nombre_composant = :comp', 'prod_petrole = :prod' ]);
-            $wh->initNormalWhere([ 'territoire', ':terri' ], '=');
+            $upd->setUpdate([ 'nombre_monnaie', 'nombre_acier', 'nombre_composant', 'prod_petrole' ]);
+            $wh->initNormalWhere('territoire', '=');
             $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $upd->setExecute([ $new_nb_monnaie, $new_nb_acier, $new_nb_comp, $new_prod, $terri ]);
-            $upd->requestUpdate();
-            $req->execRequest($upd->getRequest(), $upd->getExecute());
+            $req->update($upd->getRequest(), $upd->getExecute());
         }
 
         /**
@@ -239,12 +240,11 @@
             $req = new QueryBuilder();
             $upd = new Update('territoire');
             $wh = new Where;
-            $upd->setUpdate([ 'nombre_monnaie = :monn', 'nombre_acier = :acier', 'nombre_composant = :comp', 'prod_composant = :prod' ]);
-            $wh->initNormalWhere([ 'territoire', ':terri' ], '=');
+            $upd->setUpdate([ 'nombre_monnaie', 'nombre_acier', 'nombre_composant', 'prod_composant' ]);
+            $wh->initNormalWhere('territoire', '=');
             $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $upd->setExecute([ $new_nb_monnaie, $new_nb_acier, $new_nb_comp, $new_prod, $terri ]);
-            $upd->requestUpdate();
-            $req->execRequest($upd->getRequest(), $upd->getExecute());
+            $req->update($upd->getRequest(), $upd->getExecute());
         }
 
         /**
@@ -257,12 +257,11 @@
             $req = new QueryBuilder();
             $upd = new Update('territoire');
             $wh = new Where;
-            $upd->setUpdate([ 'nombre_monnaie = :monn', 'nombre_acier = :acier', 'nombre_composant = :comp' ]);
-            $wh->initNormalWhere([ 'territoire', ':terri' ], '=');
+            $upd->setUpdate([ 'nombre_monnaie', 'nombre_acier', 'nombre_composant' ]);
+            $wh->initNormalWhere('territoire', '=');
             $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $upd->setExecute([ $new_nb_monnaie, $new_nb_acier, $new_nb_comp, $terri ]);
-            $upd->requestUpdate();
-            $req->execRequest($upd->getRequest(), $upd->getExecute());
+            $req->update($upd->getRequest(), $upd->getExecute());
         }
 
         /**
@@ -273,12 +272,11 @@
             $req = new QueryBuilder();
             $upd = new Update('user');
             $wh = new Where;
-            $upd->setUpdate([ 'point = :points' ]);
-            $wh->initNormalWhere([ 'id', ':id' ], '=');
+            $upd->setUpdate([ 'point' ]);
+            $wh->initNormalWhere('id', '=');
             $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $upd->setExecute([ $point, $user ]);
-            $upd->requestUpdate();
-            $req->execRequest($upd->getRequest(), $upd->getExecute());
+            $req->update($upd->getRequest(), $upd->getExecute());
         }
 
         /**
@@ -289,9 +287,9 @@
             $req = new QueryBuilder();
             $sel = new Select('construct_unit');
             $wh = new Where;
-            $wh->initNormalWhere([ 'territoire', ':terri' ], '=');
+            $wh->initNormalWhere('territoire', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
-            $sel->setExecute([ 'terri' => $terri ]);
+            $sel->setExecute([ $terri ]);
             return $req->countResult($sel->getRequest(), $sel->getExecute());
         }
 
@@ -304,10 +302,10 @@
             $req = new QueryBuilder();
             $sel = new Select('construct_unit');
             $wh = new Where;
-            $wh->initNormalWhere([ 'territoire', ':terri' ], '=');
+            $wh->initNormalWhere('territoire', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $terri ]);
-            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Construct_unit');
+            $data = $req->select($sel->getRequest(), $sel->getExecute(), 'Construct_unit', 'GameBundle');
 
             foreach($data as $v){
                 $this->sqlUpdConstArmee($terri, $v->getTemps_fin() + $time);
@@ -322,12 +320,11 @@
             $req = new QueryBuilder();
             $upd = new Update('construct_unit');
             $wh = new Where;
-            $upd->setUpdate([ 'temps_fin = :time' ]);
-            $wh->initNormalWhere([ 'territoire', ':terri' ], '=');
+            $upd->setUpdate([ 'temps_fin' ]);
+            $wh->initNormalWhere('territoire', '=');
             $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $upd->setExecute([ $time, $terri ]);
-            $upd->requestUpdate();
-            $req->execRequest($upd->getRequest(), $upd->getExecute());
+            $req->update($upd->getRequest(), $upd->getExecute());
         }
 
         /**
@@ -342,7 +339,7 @@
             $ins = new Insert('radar');
             $ins->setInsert([ 'joueur', 'type_radar', 'position_x_min', 'position_x_max', 'position_y_min', 'position_y_max' ]);
             $ins->setExecute([ $joueur, 1, $x_min, $x_max, $y_min, $y_max ]);
-            $req->execRequest($ins->getRequest(), $ins->getExecute());
+            $req->insert($ins->getRequest(), $ins->getExecute());
         }
 
         /**
@@ -352,10 +349,10 @@
             $req = new QueryBuilder();
             $sel = new Select('radar');
             $wh = new Where;
-            $wh->initNormalWhere([ 'joueur', ':joueur' ], '=');
+            $wh->initNormalWhere('joueur', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $joueur ]);
-            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Radar');
+            $data = $req->select($sel->getRequest(), $sel->getExecute(), 'Radar', 'GameBundle');
 
             foreach($data as $v){
                 $this->sqlUpdateLevelRadar($joueur, $v->Position_x_min() - 2, $v->Position_x_max() + 2, $v->Position_y_min() - 2, $v->Position_y_max() + 2);
@@ -373,11 +370,10 @@
             $req = new QueryBuilder();
             $upd = new Update('radar');
             $wh = new Where;
-            $upd->setUpdate([ 'position_x_min = :x_min', 'position_x_max = :x_max', 'position_y_min = :y_min', 'position_y_max = :y_max' ]);
-            $wh->initNormalWhere([ 'joueur', ':joueur' ], '=');
+            $upd->setUpdate([ 'position_x_min', 'position_x_max', 'position_y_min', 'position_y_max' ]);
+            $wh->initNormalWhere('joueur', '=');
             $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $upd->setExecute([ $x_min, $x_max, $y_min, $y_max, $joueur ]);
-            $upd->requestUpdate();
-            $req->execRequest($upd->getRequest(), $upd->getExecute());
+            $req->update($upd->getRequest(), $upd->getExecute());
         }
     }

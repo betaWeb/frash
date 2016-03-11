@@ -1,8 +1,8 @@
 <?php
     namespace Bundles\GameBundle\Requests;
-    use Composants\ORM\Request\Select;
-    use Composants\ORM\Request\Where;
-    use Composants\ORM\QueryBuilder;
+    use Composants\Framework\ORM\MySQL\Request\Select;
+    use Composants\Framework\ORM\MySQL\Request\Where;
+    use Composants\Framework\ORM\MySQL\QueryBuilder;
 
     /**
      * Class ConnexionRequests
@@ -18,13 +18,12 @@
             $req = new QueryBuilder();
             $sel = new Select('user');
             $wh = new Where;
-            $wh->initNormalWhere([ 'pseudo', ':pseudo' ], '=');
-            $wh->andWhere([ 'password', ':mdp' ], '=');
+            $wh->initNormalWhere('pseudo', '=');
+            $wh->andWhere('password', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
-            $sel->setExecute([ 'pseudo' => $pseudo, 'mdp' => $password ]);
-            $count = $req->countResult($sel->getRequest(), $sel->getExecute());
+            $sel->setExecute([ $pseudo, $password ]);
 
-            if($count == 1){
+            if($req->countResult($sel->getRequest(), $sel->getExecute()) == 1){
                 return true;
             }
             else{
@@ -41,11 +40,11 @@
             $req = new QueryBuilder();
             $sel = new Select('user');
             $wh = new Where;
-            $wh->initNormalWhere([ 'pseudo', ':pseudo' ], '=');
-            $wh->andWhere([ 'password', ':mdp' ], '=');
+            $wh->initNormalWhere('pseudo', '=');
+            $wh->andWhere('password', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $pseudo, $password ]);
-            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\User');
+            $data = $req->select($sel->getRequest(), $sel->getExecute(), 'User', 'GameBundle');
 
             foreach($data as $v){
                 return [ 'id' => $v->getId(), 'pseudo' => $v->getPseudo() ];
@@ -60,11 +59,11 @@
             $req = new QueryBuilder();
             $sel = new Select('territoire');
             $wh = new Where;
-            $wh->initNormalWhere([ 'joueur', ':pseudo' ], '=');
-            $wh->andWhere([ 'terri_principal', ':tp' ], '=');
+            $wh->initNormalWhere('joueur', '=');
+            $wh->andWhere('terri_principal', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $pseudo, 1 ]);
-            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Territoire');
+            $data = $req->select($sel->getRequest(), $sel->getExecute(), 'Territoire', 'GameBundle');
 
             foreach($data as $v){
                 return $v->getId();

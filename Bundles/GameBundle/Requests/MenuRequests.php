@@ -1,8 +1,8 @@
 <?php
 	namespace Bundles\GameBundle\Requests;
-    use Composants\ORM\Request\Select;
-    use Composants\ORM\Request\Where;
-    use Composants\ORM\QueryBuilder;
+    use Composants\Framework\ORM\MySQL\Request\Select;
+    use Composants\Framework\ORM\MySQL\Request\Where;
+    use Composants\Framework\ORM\MySQL\QueryBuilder;
 
     /**
      * Class MenuRequests
@@ -16,11 +16,11 @@
             $req = new QueryBuilder();
             $sel = new Select('user');
             $wh = new Where;
-            $wh->initNormalWhere([ 'id', ':id' ], '=');
-            $wh->andWhere([ 'pseudo', ':pseudo' ], '=');
+            $wh->initNormalWhere('id', '=');
+            $wh->andWhere('pseudo', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $_SESSION['id'], $_SESSION['pseudo'] ]);
-            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\User');
+            $data = $req->select($sel->getRequest(), $sel->getExecute(), 'User', 'GameBundle');
 
             foreach($data as $v){
                 return [
@@ -37,14 +37,12 @@
             $req = new QueryBuilder();
             $sel = new Select('mp');
             $wh = new Where;
-            $wh->initNormalWhere([ 'destinataire', ':dest' ], '=');
-            $wh->andWhere([ 'destinataire_id', ':dest_id' ], '=');
-            $wh->andWhere([ 'nombre_vue', ':nb_vue' ], '=');
+            $wh->initNormalWhere('destinataire', '=');
+            $wh->andWhere('destinataire_id', '=');
+            $wh->andWhere('nombre_vue', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
-            $sel->setExecute([ 'dest' => $_SESSION['pseudo'], 'dest_id' => $_SESSION['id'], 'nb_vue' => 0 ]);
-            $count = $req->countResult($sel->getRequest(), $sel->getExecute());
-
-            return $count;
+            $sel->setExecute([ $_SESSION['pseudo'], $_SESSION['id'], 0 ]);
+            return $req->countResult($sel->getRequest(), $sel->getExecute());
         }
 
         /**
@@ -54,10 +52,10 @@
             $req = new QueryBuilder();
             $sel = new Select('territoire');
             $wh = new Where;
-            $wh->initNormalWhere([ 'id', ':id' ], '=');
+            $wh->initNormalWhere('id', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $_SESSION['terri'] ]);
-            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Territoire');
+            $data = $req->select($sel->getRequest(), $sel->getExecute(), 'Territoire', 'GameBundle');
 
             foreach($data as $v){
                 return [
@@ -71,8 +69,7 @@
                     'dep_acier' => $v->getNombre_acier(),
                     'dep_petrole' => $v->getNombre_petrole(),
                     'dep_composant' => $v->getNombre_composant(),
-                    'terri_p' => $v->getTerri_principal(),
-                    'pos_x' => $v->getPosition_x(), 'pos_y' => $v->getPosition_y()
+                    'terri_p' => $v->getTerri_principal(), 'pos_x' => $v->getPosition_x(), 'pos_y' => $v->getPosition_y()
                 ];
             }
         }

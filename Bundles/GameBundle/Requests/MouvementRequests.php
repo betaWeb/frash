@@ -1,8 +1,8 @@
 <?php
 	namespace Bundles\GameBundle\Requests;
-    use Composants\ORM\QueryBuilder;
-    use Composants\ORM\Request\Select;
-    use Composants\ORM\Request\Where;
+    use Composants\Framework\ORM\MySQL\QueryBuilder;
+    use Composants\Framework\ORM\MySQL\Request\Select;
+    use Composants\Framework\ORM\MySQL\Request\Where;
 
     /**
      * Class MouvementRequests
@@ -16,10 +16,10 @@
 			$req = new QueryBuilder();
             $sel = new Select('mouvement');
             $wh = new Where;
-            $wh->initNormalWhere([ 'lanceur_id', ':joueur' ], '=');
+            $wh->initNormalWhere('lanceur_id', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $_SESSION['id'] ]);
-            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Mouvement');
+            $data = $req->select($sel->getRequest(), $sel->getExecute(), 'Mouvement', 'GameBundle');
 
             $array = [];
             foreach($data as $v){
@@ -47,22 +47,22 @@
 			$req = new QueryBuilder();
             $sel = new Select('mouvement');
             $wh = new Where;
-            $wh->initNormalWhere([ 'cible_id', ':joueur' ], '=');
-            $wh->andWhere([ 'type', ':type1' ], '!=');
-            $wh->andWhere([ 'type', ':type2' ], '!=');
-            $wh->andWhere([ 'type', ':type3' ], '!=');
-            $wh->andWhere([ 'type', ':type4' ], '!=');
+            $wh->initNormalWhere('cible_id', '=');
+            $wh->andWhere('type', '!=');
+            $wh->andWhere('type', '!=');
+            $wh->andWhere('type', '!=');
+            $wh->andWhere('type', '!=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $_SESSION['id'], 4, 6, 7, 8 ]);
-            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Mouvement');
+            $data = $req->select($sel->getRequest(), $sel->getExecute(), 'Mouvement', 'GameBundle');
 
             $array = [];
             foreach($data as $v){
-	            if($m['type'] == 1){ $type = 'Attaque'; }
-				elseif($m['type'] == 2){ $type = 'Annexion'; }
-				elseif($m['type'] == 3){ $type = 'Don'; }
-				elseif($m['type'] == 5){ $type = 'Transport'; }
-				elseif($m['type'] == 9){ $type = 'Déplacement'; }
+	            if($v->getType() == 1){ $type = 'Attaque'; }
+				elseif($v->getType() == 2){ $type = 'Annexion'; }
+				elseif($v->getType() == 3){ $type = 'Don'; }
+				elseif($v->getType() == 5){ $type = 'Transport'; }
+				elseif($v->getType() == 9){ $type = 'Déplacement'; }
 				else{ $type = 'Autre'; }
 
 	        	$array[] = [ 'assaillant' => $v->getLanceur(), 'pos_cible' => $v->getPosition_cible(), 'vt' => $v->getTemps_fin() - time(), 'type' => $type ];

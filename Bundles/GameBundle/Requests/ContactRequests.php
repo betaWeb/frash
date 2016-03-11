@@ -1,7 +1,7 @@
 <?php
 	namespace Bundles\GameBundle\Requests;
-    use Composants\ORM\Request\Insert;
-    use Composants\ORM\QueryBuilder;
+    use Composants\Framework\ORM\MySQL\Request\Insert;
+    use Composants\Framework\ORM\MySQL\QueryBuilder;
 
     /**
      * Class ContactRequests
@@ -16,6 +16,6 @@
             $ins = new Insert('contact');
             $ins->setInsert([ 'texte', 'pseudo' ]);
             $ins->setExecute([ $text, $_SESSION['pseudo'] ]);
-            $req->execRequest($ins->getRequest(), $ins->getExecute());
+            $req->insert($ins->getRequest(), $ins->getExecute());
         }
 	}

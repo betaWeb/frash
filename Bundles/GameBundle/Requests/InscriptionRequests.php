@@ -1,11 +1,11 @@
 <?php
 	namespace Bundles\GameBundle\Requests;
-    use Composants\ORM\QueryBuilder;
-    use Composants\ORM\Request\Select;
-    use Composants\ORM\Request\Where;
-    use Composants\ORM\Request\Order;
-    use Composants\ORM\Request\Update;
-    use Composants\ORM\Request\Insert;
+    use Composants\Framework\ORM\MySQL\QueryBuilder;
+    use Composants\Framework\ORM\MySQL\Request\Select;
+    use Composants\Framework\ORM\MySQL\Request\Where;
+    use Composants\Framework\ORM\MySQL\Request\Order;
+    use Composants\Framework\ORM\MySQL\Request\Update;
+    use Composants\Framework\ORM\MySQL\Request\Insert;
 
     /**
      * Class InscriptionRequests
@@ -20,9 +20,9 @@
             $req = new QueryBuilder();
             $sel = new Select('user');
             $wh = new Where;
-            $wh->initNormalWhere([ 'pseudo', ':pseudo' ], '=');
+            $wh->initNormalWhere('pseudo', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
-            $sel->setExecute([ 'pseudo' => $pseudo ]);
+            $sel->setExecute([ $pseudo ]);
             return $req->countResult($sel->getRequest(), $sel->getExecute());
         }
 
@@ -34,9 +34,9 @@
             $req = new QueryBuilder();
             $sel = new Select('user');
             $wh = new Where;
-            $wh->initNormalWhere([ 'mail', ':mail' ], '=');
+            $wh->initNormalWhere('mail', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
-            $sel->setExecute([ 'mail' => $mail ]);
+            $sel->setExecute([ $mail ]);
             return $req->countResult($sel->getRequest(), $sel->getExecute());
         }
 
@@ -49,10 +49,10 @@
             $req = new QueryBuilder();
             $sel = new Select('territoire');
             $wh = new Where;
-            $wh->initNormalWhere([ 'position_x', ':pos_x' ], '=');
-            $wh->andWhere([ 'position_y', ':pos_y' ], '=');
+            $wh->initNormalWhere('position_x', '=');
+            $wh->andWhere('position_y', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
-            $sel->setExecute([ 'pos_x' => $pos_x, 'pos_y' => $pos_y ]);
+            $sel->setExecute([ $pos_x, $pos_y ]);
             return $req->countResult($sel->getRequest(), $sel->getExecute());
         }
 
@@ -66,7 +66,7 @@
             $ins = new Insert('user');
             $ins->setInsert([ 'pseudo', 'password', 'mail', 'inscription', 'connexion' ]);
             $ins->setExecute([ $pseudo, $mdp, $mail, time(), time() ]);
-            $req->execRequest($ins->getRequest(), $ins->getExecute());
+            $req->insert($ins->getRequest(), $ins->getExecute());
         }
 
         /**
@@ -77,10 +77,10 @@
             $req = new QueryBuilder();
             $sel = new Select('user');
             $wh = new Where;
-            $wh->initNormalWhere([ 'pseudo', ':pseudo' ], '=');
+            $wh->initNormalWhere('pseudo', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setExecute([ $pseudo ]);
-            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\User');
+            $data = $req->select($sel->getRequest(), $sel->getExecute(), 'User', 'GameBundle');
 
             foreach($data as $v){
                 return $v->getId();
@@ -98,7 +98,7 @@
             $ins = new Insert('territoire');
             $ins->setInsert([ 'joueur_id', 'joueur', 'position_x', 'position_y', 'terri_principal' ]);
             $ins->setExecute([ $id_user, $pseudo, $pos_x, $pos_y, 1 ]);
-            $req->execRequest($ins->getRequest(), $ins->getExecute());
+            $req->insert($ins->getRequest(), $ins->getExecute());
         }
 
         /**
@@ -114,7 +114,7 @@
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $sel->setOrder($ord->getOrder());
             $sel->setExecute([ $pseudo ]);
-            $data = $req->execRequestSelect($sel->getRequest(), $sel->getExecute(), '\Bundles\GameBundle\Entity\Territoire');
+            $data = $req->select($sel->getRequest(), $sel->getExecute(), 'Territoire', 'GameBundle');
 
             foreach($data as $v){
                 return $v->getId();
@@ -132,13 +132,12 @@
             $req = new QueryBuilder();
             $upd = new Update('carte');
             $wh = new Where;
-            $upd->setUpdate([ 'territoire = :terri', 'joueur_id = :jid', 'joueur = :joueur' ]);
-            $wh->initNormalWhere([ 'position_x', ':pos_x' ], '=');
-            $wh->andWhere([ 'position_y', ':pos_y' ], '=');
+            $upd->setUpdate([ 'territoire', 'joueur_id', 'joueur' ]);
+            $wh->initNormalWhere('position_x', '=');
+            $wh->andWhere('position_y', '=');
             $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $upd->setExecute([ $id_terri, $id_user, $pseudo, $pos_x, $pos_y ]);
-            $upd->requestUpdate();
-            $req->execRequest($upd->getRequest(), $upd->getExecute());
+            $req->update($upd->getRequest(), $upd->getExecute());
         }
 
         /**
@@ -151,7 +150,7 @@
             $ins = new Insert($bat);
             $ins->setInsert([ 'joueur', 'territoire' ]);
             $ins->setExecute([ $id_user, $id_terri ]);
-            $req->execRequest($ins->getRequest(), $ins->getExecute());
+            $req->insert($ins->getRequest(), $ins->getExecute());
         }
 
         /**
@@ -162,6 +161,6 @@
             $ins = new Insert('recherche');
             $ins->setInsert([ 'joueur' ]);
             $ins->setExecute([ $id_user ]);
-            $req->execRequest($ins->getRequest(), $ins->getExecute());
+            $req->insert($ins->getRequest(), $ins->getExecute());
         }
     }
