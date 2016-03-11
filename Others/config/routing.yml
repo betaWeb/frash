@@ -36,3 +36,6 @@ batiment:
 
 batConf:
     path: GameBundle:BatimentController:batConfAction
+
+techno:
+    path: GameBundle:TechnoController:technoAction
