@@ -4,7 +4,7 @@
     use Composants\Framework\Response\Redirect;
     use Bundles\GameBundle\Requests\MenuRequests;
     use Bundles\GameBundle\Requests\CarteRequests;
-    use Composants\Framework\Forms\Utility\CreateForm;
+    use Composants\Framework\Utility\Forms\CreateForm;
 
     /**
      * Class CarteController
