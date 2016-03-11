@@ -36,6 +36,7 @@
                 elseif($constr['rech'] == 9){ $nom = 'Canon électromagnétique'; }
                 elseif($constr['rech'] == 10){ $nom = 'Aéronavale'; }
                 elseif($constr['rech'] == 11){ $nom = 'Radar AESA'; }
+                elseif($constr['rech'] == 12){ $nom = 'Drone HALE'; }
                 else{ $nom = 'Undefined'; }
 
                 $tr = $constr['temps_fin'] - time();
