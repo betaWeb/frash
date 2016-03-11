@@ -4,7 +4,7 @@
     use Composants\Framework\Response\Redirect;
     use Bundles\GameBundle\Requests\MenuRequests;
     use Bundles\GameBundle\Requests\BatimentRequests;
-    use Composants\Framework\Forms\CreateForm;
+    use Composants\Framework\Utility\Forms\CreateForm;
     use Composants\Framework\Response\ClassUrl;
 
     /**

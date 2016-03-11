@@ -2,7 +2,7 @@
     namespace Bundles\GameBundle\Controllers;
     use Composants\Framework\Response\Response;
     use Composants\Framework\Response\Redirect;
-    use Composants\Framework\Forms\CreateForm;
+    use Composants\Framework\Utility\Forms\CreateForm;
     use Bundles\GameBundle\Requests\IndexRequests;
 
     /**
