@@ -1,8 +1,8 @@
 <?php
 	namespace Bundles\GameBundle\Requests;
-    use Composants\ORM\Request\Select;
-    use Composants\ORM\Request\Where;
-    use Composants\ORM\QueryBuilder;
+    use Composants\Framework\ORM\MySQL\Request\Select;
+    use Composants\Framework\ORM\MySQL\Request\Where;
+    use Composants\Framework\ORM\MySQL\QueryBuilder;
 
     /**
      * Class CarteRequests
