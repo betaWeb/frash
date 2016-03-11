@@ -169,7 +169,7 @@
             $upd = new Update('territoire');
             $wh = new Where;
             $upd->setUpdate([ 'nombre_monnaie', 'nombre_acier', 'nombre_composant', 'prod_monnaie' ]);
-            $wh->initNormalWhere('territoire', '=');
+            $wh->initNormalWhere('id', '=');
             $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $upd->setExecute([ $new_nb_monnaie, $new_nb_acier, $new_nb_comp, $new_prod, $terri ]);
             $req->update($upd->getRequest(), $upd->getExecute());
@@ -187,7 +187,7 @@
             $upd = new Update('territoire');
             $wh = new Where;
             $upd->setUpdate([ 'nombre_monnaie', 'nombre_acier', 'nombre_composant', 'prod_uranium' ]);
-            $wh->initNormalWhere('territoire', '=');
+            $wh->initNormalWhere('id', '=');
             $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $upd->setExecute([ $new_nb_monnaie, $new_nb_acier, $new_nb_comp, $new_prod, $terri ]);
             $req->update($upd->getRequest(), $upd->getExecute());
@@ -205,7 +205,7 @@
             $upd = new Update('territoire');
             $wh = new Where;
             $upd->setUpdate([ 'nombre_monnaie', 'nombre_acier', 'nombre_composant', 'prod_acier' ]);
-            $wh->initNormalWhere('territoire', '=');
+            $wh->initNormalWhere('id', '=');
             $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $upd->setExecute([ $new_nb_monnaie, $new_nb_acier, $new_nb_comp, $new_prod, $terri ]);
             $req->update($upd->getRequest(), $upd->getExecute());
@@ -223,7 +223,7 @@
             $upd = new Update('territoire');
             $wh = new Where;
             $upd->setUpdate([ 'nombre_monnaie', 'nombre_acier', 'nombre_composant', 'prod_petrole' ]);
-            $wh->initNormalWhere('territoire', '=');
+            $wh->initNormalWhere('id', '=');
             $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $upd->setExecute([ $new_nb_monnaie, $new_nb_acier, $new_nb_comp, $new_prod, $terri ]);
             $req->update($upd->getRequest(), $upd->getExecute());
@@ -241,7 +241,7 @@
             $upd = new Update('territoire');
             $wh = new Where;
             $upd->setUpdate([ 'nombre_monnaie', 'nombre_acier', 'nombre_composant', 'prod_composant' ]);
-            $wh->initNormalWhere('territoire', '=');
+            $wh->initNormalWhere('id', '=');
             $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $upd->setExecute([ $new_nb_monnaie, $new_nb_acier, $new_nb_comp, $new_prod, $terri ]);
             $req->update($upd->getRequest(), $upd->getExecute());
@@ -258,7 +258,7 @@
             $upd = new Update('territoire');
             $wh = new Where;
             $upd->setUpdate([ 'nombre_monnaie', 'nombre_acier', 'nombre_composant' ]);
-            $wh->initNormalWhere('territoire', '=');
+            $wh->initNormalWhere('id', '=');
             $upd->setWhere($wh->getWhere(), $wh->getArrayWhere());
             $upd->setExecute([ $new_nb_monnaie, $new_nb_acier, $new_nb_comp, $terri ]);
             $req->update($upd->getRequest(), $upd->getExecute());
