@@ -36,7 +36,7 @@
          * @param bool $lastid
          * @return mixed
          */
-        public function execRequest($request, $exec = [], $lastid = false){
+        public function insert($request, $exec = [], $lastid = false){
             try{
                 $req = $this->conn->prepare($request);
                 $req->execute($exec);
