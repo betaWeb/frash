@@ -2,7 +2,7 @@
     namespace Bundles\GameBundle\Controllers;
     use Composants\Framework\Response\Response;
     use Composants\Framework\Response\Redirect;
-    use Composants\Framework\Forms\Utility\CreateForm;
+    use Composants\Framework\Utility\Forms\CreateForm;
     use Bundles\GameBundle\Requests\MenuRequests;
     use Bundles\GameBundle\Requests\ContactRequests;
 
@@ -23,7 +23,7 @@
 
             $form = new CreateForm;
 
-            return new Response('contact.html', 'GameBundle', [
+            return new Response('contact.html.twig', 'GameBundle', [
                 'form' => [
                     'start' => $form->startForm([ 'method' => 'post', 'action' => '../confContact/' ]),
                     'textarea' => $form->addTextarea([ 'name' => 'texte', 'classcss' => 'textarea_contact' ]),
