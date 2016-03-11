@@ -41,4 +41,3 @@ Pour la configuration :
 
 > - Un mailer
 > - Un debugger
-> - Une refonte de la configuration
