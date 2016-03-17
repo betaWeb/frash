@@ -73,6 +73,13 @@
         }
 
         /**
+         * @param $col
+         */
+        public function setColSel($col){
+            $this->colSel = $col;
+        }
+
+        /**
          * @param bool $exec
          */
         public function setExecute($exec = []){
