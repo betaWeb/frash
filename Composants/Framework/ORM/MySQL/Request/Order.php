@@ -13,19 +13,14 @@
 
         /**
          * @param $order
-         * @param bool $dir
+         * @param $dir
          */
-        public function __construct($order, $dir = false){
-            if(!empty($dir)){
-                $this->order = 'ORDER BY '.$order.' '.$dir;
-            }
-            else{
-                $this->order = 'ORDER BY '.$order;
-            }
+        public function __construct($order, $dir){
+            $this->order = 'ORDER BY '.$order.' '.$dir;
         }
 
         /**
-         * @return mixed
+         * @return string
          */
         public function getOrder(){
             return $this->order;
