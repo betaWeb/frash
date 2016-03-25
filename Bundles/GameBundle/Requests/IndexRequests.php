@@ -3,7 +3,6 @@
     use Composants\Framework\ORM\MySQL\QueryBuilder;
     use Composants\Framework\ORM\MySQL\Request\Select;
     use Composants\Framework\ORM\MySQL\Request\Where;
-    use Composants\Framework\ORM\MySQL\Request\Order;
 
     /**
      * Class IndexRequests
@@ -16,8 +15,7 @@
         public function getSqlRandPositon(){
             $req = new QueryBuilder();
             $sel = new Select('territoire');
-            $ord = new Order('RAND()');
-            $sel->setOrder($ord->getOrder());
+            $sel->setOrder('RAND()');
             $sel->setExecute();
             return $req->select($sel->getRequest(), $sel->getExecute(), 'Territoire', 'GameBundle');
         }
