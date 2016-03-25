@@ -3,7 +3,6 @@
     use Composants\Framework\ORM\MySQL\QueryBuilder;
     use Composants\Framework\ORM\MySQL\Request\Select;
     use Composants\Framework\ORM\MySQL\Request\Where;
-    use Composants\Framework\ORM\MySQL\Request\Order;
     use Composants\Framework\ORM\MySQL\Request\Update;
     use Composants\Framework\ORM\MySQL\Request\Insert;
 
@@ -109,10 +108,9 @@
             $req = new QueryBuilder();
             $sel = new Select('territoire');
             $wh = new Where;
-            $ord = new Order('id', 'DESC');
-            $wh->initNormalWhere([ 'joueur', ':joueur' ], '=');
+            $wh->initNormalWhere('joueur', '=');
             $sel->setWhere($wh->getWhere(), $wh->getArrayWhere());
-            $sel->setOrder($ord->getOrder());
+            $sel->setOrder('id DESC');
             $sel->setExecute([ $pseudo ]);
             $data = $req->select($sel->getRequest(), $sel->getExecute(), 'Territoire', 'GameBundle');
 
