@@ -28,6 +28,7 @@
             $nurl = explode('/', $url);
 
             if($confarr['env'] == 'local'){
+                $this->dir = $nurl[0];
                 $path = $nurl[1];
             }
             else{
@@ -35,6 +36,9 @@
             }
 
             if($path == '__debug' && $confarr['env'] == 'local'){
+
+            }
+            elseif($path == '__clientsql'){
 
             }
             elseif(isset($routarr[ $path ])){
