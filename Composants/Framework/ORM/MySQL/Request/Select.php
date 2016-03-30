@@ -27,6 +27,11 @@
         private $arrayWhere = '';
 
         /**
+         * @var string
+         */
+        private $join = '';
+
+        /**
          * @var
          */
         private $execute;
@@ -59,17 +64,24 @@
         }
 
         /**
+         * @param $join
+         */
+        public function setJoin($join){
+            $this->join = $join;
+        }
+
+        /**
          * @param $order
          */
         public function setOrder($order){
-            $this->order = $order;
+            $this->order = 'ORDER BY '.$order;
         }
 
         /**
          * @param $limit
          */
         public function setLimit($limit){
-            $this->limit = $limit;
+            $this->limit = 'LIMIT '.$limit;
         }
 
         /**
@@ -103,11 +115,20 @@
         }
 
         /**
-         * @return mixed
+         * @return string
          */
         public function getRequest(){
             if(!empty($this->table) && !empty($this->colSel)){
                 return 'SELECT '.$this->colSel.' FROM '.$this->table.' '.$this->where.' '.$this->order.' '.$this->limit;
+            }
+        }
+
+        /**
+         * @return string
+         */
+        public function getRequestJoin(){
+            if(!empty($this->table) && !empty($this->colSel) && $this->colSel != '*'){
+                return 'SELECT '.$this->colSel.' FROM '.$this->table.' '.$this->join.' '.$this->where.' '.$this->order.' '.$this->limit;
             }
         }
     }
