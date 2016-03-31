@@ -16,8 +16,7 @@
     }
 
     if(count($argv) == 1){
-        echo 'Aucun paramètre'.PHP_EOL;
-        exit();
+        echo 'Aucun paramètre';
     }
 
     $expl = explode(':', $argv[1]);
