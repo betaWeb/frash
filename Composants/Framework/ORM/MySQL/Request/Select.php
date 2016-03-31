@@ -67,7 +67,7 @@
          * @param $join
          */
         public function setJoin($join){
-            $this->join = $join;
+            $this->join .= $join;
         }
 
         /**
