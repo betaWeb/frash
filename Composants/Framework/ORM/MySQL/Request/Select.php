@@ -32,7 +32,7 @@
         private $join = '';
 
         /**
-         * @var
+         * @var array
          */
         private $execute;
 
@@ -127,7 +127,7 @@
          * @return string
          */
         public function getRequestJoin(){
-            if(!empty($this->table) && !empty($this->colSel) && $this->colSel != '*'){
+            if(!empty($this->table) && !empty($this->colSel)){
                 return 'SELECT '.$this->colSel.' FROM '.$this->table.' '.$this->join.' '.$this->where.' '.$this->order.' '.$this->limit;
             }
         }
