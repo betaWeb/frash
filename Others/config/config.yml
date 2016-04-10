@@ -1,11 +1,5 @@
-database:
-    host: localhost
-    username:
-    password:
-    dbname: 
-
 env: local
-racine: GameBundle:index.html.twig
+racine: GameBundle:IndexController:indexAction
 
 log:
     error : yes
