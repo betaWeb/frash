@@ -3,7 +3,7 @@
     use Composants\Yaml\Yaml;
 
     class ClassUrl{
-        public function getUrlForm($url){
+        public function getUrl($url){
             $yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
             $nurl = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
 
