@@ -4,6 +4,7 @@
     use Composants\Framework\Response\Redirect;
     use Composants\Framework\Utility\Forms\CreateForm;
     use Bundles\GameBundle\Requests\IndexRequests;
+    use Composants\Framework\Response\ClassUrl;
 
     /**
      * Class IndexController
@@ -14,6 +15,8 @@
          * @return Redirect|Response
          */
         public function indexAction(){
+            $curl = new ClassUrl();
+
             if(!isset($_SESSION['id'])){
                 $form_conn = new CreateForm;
                 $form_insc = new CreateForm;
@@ -74,7 +77,7 @@
                 ]);
             }
             else{
-                return new Redirect('../game/');
+                return new Redirect($curl->getUrl('game/'));
             }
         }
     }
