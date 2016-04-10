@@ -5,6 +5,7 @@ database:
     dbname: 
 
 env: local
+racine: GameBundle:index.html.twig
 
 log:
     error : yes
