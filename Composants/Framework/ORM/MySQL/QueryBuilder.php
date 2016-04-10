@@ -24,8 +24,8 @@
          * QueryBuilder constructor.
          */
         public function __construct(){
-            $yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
-            Orm::init($yaml['database']['host'], $yaml['database']['dbname'], $yaml['database']['username'], $yaml['database']['password']);
+            $yaml = Yaml::parse(file_get_contents('Others/config/database.yml'));
+            Orm::init($yaml['host'], $yaml['dbname'], $yaml['username'], $yaml['password']);
             $this->yaml = $yaml;
             $this->conn = Orm::getConnexion();
         }
