@@ -1,7 +1,7 @@
 <?php
     $array = [
-        'ORM:addentity' => 'Generer une entite et sa table',
-        'ORM:createdb' => 'Creer la base de donnees',
-        'ORM:updentity' => 'Generer l\'entite de la table selectionnee',
-        'Bundle:generate' => 'Generer un bundle'
+        'ORM:addentity:bundle:table     ' => 'Générer une entité et sa table',
+        'ORM:createdb                   ' => 'Créer la base de données',
+        'ORM:updentity:bundle:table     ' => 'Générer l\'entité de la table sélectionnée',
+        'Bundle:generate:bundle         ' => 'Générer un bundle'
     ];
