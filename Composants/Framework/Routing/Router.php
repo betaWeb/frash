@@ -41,6 +41,21 @@
             elseif($path == '__clientsql'){
 
             }
+            elseif($path == ''){
+                list($bundle, $controller, $action) = explode(':', $confarr['racine']);
+                $routing = 'Bundles\\'.$bundle.'\\Controllers\\'.$controller;
+
+                if(file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php') && method_exists($routing, $action)){
+                    $rout = new $routing;
+                    return $rout->$action();
+                }
+                elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')){
+                    return new ControllerChargementFail($controller);
+                }
+                elseif(!method_exists($routing, $action)){
+                    return new ActionChargementFail($action);
+                }
+            }
             elseif(isset($routarr[ $path ])){
                 unset($nurl[0]);
 
