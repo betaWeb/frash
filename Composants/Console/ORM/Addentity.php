@@ -1,6 +1,6 @@
 <?php
     namespace Composants\Console\ORM;
-    use Composants\ORM\Orm;
+    use Composants\Framework\ORM\MySQL\Orm;
     use Composants\Yaml\Yaml;
 
     /**
@@ -15,8 +15,8 @@
          * @param $champ
          */
         public function __construct($bundle, $table, $champ){
-            $array = Yaml::parse(file_get_contents('Others/config/config.yml'));
-            Orm::init($array['database']['host'], $array['database']['dbname'], $array['database']['username'], $array['database']['password']);
+            $array = Yaml::parse(file_get_contents('Others/config/database.yml'));
+            Orm::init($array['host'], $array['dbname'], $array['username'], $array['password']);
 
             $champs = explode('/', $champ);
             $pk = 'false';

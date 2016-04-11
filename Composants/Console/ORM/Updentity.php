@@ -1,6 +1,6 @@
 <?php
     namespace Composants\Console\ORM;
-    use Composants\ORM\Orm;
+    use Composants\Framework\ORM\MySQL\Orm;
     use Composants\Yaml\Yaml;
 
     /**
@@ -14,8 +14,8 @@
          * @param $table
          */
         public function __construct($bundle, $table){
-            $array = Yaml::parse(file_get_contents('Others/config/config.yml'));
-            Orm::init($array['database']['host'], $array['database']['dbname'], $array['database']['username'], $array['database']['password']);
+            $array = Yaml::parse(file_get_contents('Others/config/database.yml'));
+            Orm::init($array['host'], $array['dbname'], $array['username'], $array['password']);
 
             $req = Orm::getConnexion()->prepare('SHOW COLUMNS FROM '.$table);
             $req->execute();
