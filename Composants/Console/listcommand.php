@@ -3,5 +3,5 @@
         'ORM:addentity:bundle:table     ' => 'Générer une entité et sa table',
         'ORM:createdb                   ' => 'Créer la base de données',
         'ORM:updentity:bundle:table     ' => 'Générer l\'entité de la table sélectionnée',
-        'Bundle:generate:bundle         ' => 'Générer un bundle'
+        'Bundle:generate:nombundle      ' => 'Générer un bundle'
     ];
