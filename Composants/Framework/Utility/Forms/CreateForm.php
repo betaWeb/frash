@@ -21,6 +21,14 @@
                 $stringForm .= ' action="'.$array['action'].'"';
             }
 
+            if(!empty($array['idcss'])){
+                $stringForm .= ' id="'.$array['idcss'].'"';
+            }
+
+            if(!empty($array['classcss'])){
+                $stringForm .= ' class="'.$array['classcss'].'"';
+            }
+
             $stringForm .= '>';
 
             return $stringForm;
