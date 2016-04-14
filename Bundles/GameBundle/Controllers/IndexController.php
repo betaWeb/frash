@@ -56,14 +56,14 @@
 
                 return new Response('index.html.twig', 'GameBundle', [
                     'form_conn' => [
-                        'start' => $form_conn->startForm([ 'method' => 'post', 'action' => '../connexion/' ]),
+                        'start' => $form_conn->startForm([ 'method' => 'post', 'action' => $curl->getUrl('connexion/') ]),
                         'mail' => $form_conn->addInput([ 'name' => 'pseudo', 'type' => 'text', 'placeholder' => 'Pseudo', 'require' => true, 'classcss' => 'input_conn' ]),
                         'password' => $form_conn->addInput([ 'name' => 'password', 'type' => 'password', 'placeholder' => 'Password', 'require' => true, 'classcss' => 'input_conn' ]),
                         'submit' => $form_conn->addInput([ 'name' => 'submit', 'type' => 'submit', 'value' => 'Connexion' ]),
                         'end' => $form_conn->endForm()
                     ],
                     'form_insc' => [
-                        'start' => $form_insc->startForm([ 'method' => 'post', 'action' => '../inscription/' ]),
+                        'start' => $form_insc->startForm([ 'method' => 'post', 'action' => $curl->getUrl('inscription/') ]),
                         'pseudo' => $form_insc->addInput([ 'name' => 'pseudo', 'type' => 'text', 'placeholder' => 'Pseudo', 'require' => true, 'id' => 'pseudo', 'classcss' => 'input_insc' ]),
                         'password' => $form_insc->addInput([ 'name' => 'password', 'type' => 'password', 'placeholder' => 'Password', 'require' => true, 'classcss' => 'input_insc' ]),
                         'password_check' => $form_insc->addInput([ 'name' => 'password_check', 'type' => 'password', 'placeholder' => 'Password', 'require' => true, 'classcss' => 'input_insc' ]),
