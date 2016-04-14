@@ -40,4 +40,3 @@ Pour la configuration :
 
 > - Un mailer
 > - Un debugger
-> - Un utilitaire de traduction
