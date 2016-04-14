@@ -135,6 +135,14 @@
                 $stringForm .= ' name="'.$arr_select['name'].'"';
             }
 
+            if(!empty($array['idcss'])){
+                $stringForm .= ' id="'.$array['idcss'].'"';
+            }
+
+            if(!empty($array['classcss'])){
+                $stringForm .= ' class="'.$array['classcss'].'"';
+            }
+
             $stringForm .= '>';
 
             foreach($arr_option as $k => $v){
