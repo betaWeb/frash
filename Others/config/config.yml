@@ -1,6 +1,10 @@
 env: local
 racine: GameBundle:IndexController:indexAction
-traduction: yes
+
+traduction:
+    activate: yes
+    available:
+        - fr
 
 log:
     error : yes
