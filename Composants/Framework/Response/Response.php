@@ -36,7 +36,25 @@
                     }
                 });
 
+                $trad = new \Twig_SimpleFunction('trad', function($traduction){
+                    $yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
+                    $nurl = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
+
+                    if($yaml['env'] == 'local'){
+                        $lang =  $nurl[1];
+                    }
+                    elseif($yaml['env'] == 'prod'){
+                        $lang =  $nurl[0];
+                    }
+
+                    $traduct = 'show'.ucfirst(strtolower($traduction));
+                    $class = 'Composants\\Framework\\Utility\\Traductions\\Trad'.ucfirst($lang);
+                    $tr = new $class;
+                    echo $tr->$traduct();
+                });
+
                 $twig->addFunction($url);
+                $twig->addFunction($trad);
                 echo $twig->render($templ, $param);
             }
             else{
