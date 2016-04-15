@@ -29,9 +29,7 @@
                 $stringForm .= ' class="'.$array['classcss'].'"';
             }
 
-            $stringForm .= '>';
-
-            return $stringForm;
+            return $stringForm.'>';
         }
 
         /**
@@ -80,9 +78,7 @@
                 $stringForm .= ' class="'.$array['classcss'].'"';
             }
 
-            $stringForm .= '>';
-
-            return $stringForm;
+            return $stringForm.'>';
         }
 
         /**
@@ -118,9 +114,7 @@
                 $stringForm .= $array['value'];
             }
 
-            $stringForm .= '</textarea>';
-
-            return $stringForm;
+            return $stringForm.'</textarea>';
         }
 
         /**
@@ -135,12 +129,12 @@
                 $stringForm .= ' name="'.$arr_select['name'].'"';
             }
 
-            if(!empty($array['idcss'])){
-                $stringForm .= ' id="'.$array['idcss'].'"';
+            if(!empty($arr_select['idcss'])){
+                $stringForm .= ' id="'.$arr_select['idcss'].'"';
             }
 
-            if(!empty($array['classcss'])){
-                $stringForm .= ' class="'.$array['classcss'].'"';
+            if(!empty($arr_select['classcss'])){
+                $stringForm .= ' class="'.$arr_select['classcss'].'"';
             }
 
             $stringForm .= '>';
@@ -155,9 +149,7 @@
                 $stringForm .= '>'.$v.'</option>';
             }
 
-            $stringForm .= '</select>';
-
-            return $stringForm;
+            return $stringForm.'</select>';
         }
 
         /**
@@ -195,8 +187,6 @@
                 $stringForm .= ' class="'.$array['classcss'].'"';
             }
 
-            $stringForm .= '>';
-
-            return $stringForm;
+            return $stringForm.'>';
         }
     }
