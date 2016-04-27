@@ -16,9 +16,11 @@
             $array = Yaml::parse(file_get_contents('Others/config/database.yml'));
 
             try{
-                $db = new \PDO('mysql:host='.$array['host'], $array['username'], $array['password']);
-                $db->exec('CREATE DATABASE IF NOT EXISTS '.$array['dbname']);
-                new CreateRequestLog('CREATE DATABASE IF NOT EXISTS '.$array['dbname']);
+                if($array['system'] == 'MySQL'){
+                    $db = new \PDO('mysql:host='.$array['host'], $array['username'], $array['password']);
+                    $db->exec('CREATE DATABASE IF NOT EXISTS '.$array['dbname']);
+                    new CreateRequestLog('CREATE DATABASE IF NOT EXISTS '.$array['dbname']);
+                }
             }
             catch(\PDOException $e){
                 new CreateErrorLog($e->getMessage());
