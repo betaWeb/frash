@@ -2,7 +2,7 @@
     namespace Composants\Framework\ORM\MySQL;
     use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Framework\CreateLog\CreateRequestLog;
-    use Composants\Framework\ORM\MySQL\Orm;
+    use Composants\Framework\ORM\Orm;
     use Composants\Yaml\Yaml;
 
     /**
