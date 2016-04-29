@@ -5,7 +5,8 @@
   "autoload": {
     "psr-4": {
       "Composants\\": "Composants/",
-      "Bundles\\": "Bundles/"
+      "Bundles\\": "Bundles/",
+      "Traductions\\": "Traductions/"
     }
   }
 }
