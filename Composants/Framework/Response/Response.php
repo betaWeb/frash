@@ -9,12 +9,11 @@
      */
     class Response{
         /**
-         * Response constructor.
          * @param $templ
          * @param $bundle
          * @param array $param
          */
-        public function __construct($templ, $bundle, $param = []){
+        public function HTTPres($templ, $bundle, $param = []){
             if($bundle == 'Exception' && file_exists('Composants/Framework/Exception/Views/'.$templ)){
                 $tlf = new \Twig_Loader_Filesystem('Composants/Framework/Exception/Views');
                 $twig = new \Twig_Environment($tlf, [ 'cache' => false ]);
