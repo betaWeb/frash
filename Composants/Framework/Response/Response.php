@@ -56,10 +56,9 @@
                         $lang =  $nurl[0];
                     }
 
-                    $traduct = 'show'.ucfirst(strtolower($traduction));
                     $class = 'Traductions\\Trad'.ucfirst($lang);
                     $tr = new $class;
-                    echo $tr->$traduct();
+                    echo $tr->show($traduction);
                 });
 
                 $twig->addFunction($url);
