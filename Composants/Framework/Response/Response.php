@@ -57,7 +57,7 @@
                     }
 
                     $traduct = 'show'.ucfirst(strtolower($traduction));
-                    $class = 'Composants\\Framework\\Utility\\Traductions\\Trad'.ucfirst($lang);
+                    $class = 'Traductions\\Trad'.ucfirst($lang);
                     $tr = new $class;
                     echo $tr->$traduct();
                 });
