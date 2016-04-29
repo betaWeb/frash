@@ -71,4 +71,11 @@
                 new TwigChargementTemplateFail($templ);
             }
         }
+
+        /**
+         * @param $url
+         */
+        public function redirect($url){
+            header('Location:'.$url);
+        }
     }
