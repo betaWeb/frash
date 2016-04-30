@@ -2,6 +2,7 @@
     namespace Composants\Framework\Routing;
     use Composants\Framework\Exception\ActionChargementFail;
     use Composants\Framework\Exception\ControllerChargementFail;
+    use Composants\Framework\Exception\RouteChargementFail;
     use Composants\Framework\Exception\PathNotFound;
     use Composants\Yaml\Yaml;
     use Composants\Framework\CreateLog\CreateHTTPLog;
@@ -81,6 +82,9 @@
                         return new ActionChargementFail($action);
                     }
                 }
+                else{
+                    return new RouteChargementFail($path);
+                }
             }
             elseif($path == '__clientsql'){
 
@@ -130,6 +134,9 @@
                     elseif(!method_exists($routing, $action)){
                         return new ActionChargementFail($action);
                     }
+                }
+                else{
+                    return new RouteChargementFail($path);
                 }
             }
             else{
