@@ -6,6 +6,13 @@
      * @package Traductions
      */
     class TradFr{
-        // const NOM = value;
-        // public function showConst(){ echo self::NOM; }
+        // private name = 'value';
+
+        /**
+         * @param $trad
+         * @return mixed
+         */
+        public function show($trad){
+            return $this->$trad;
+        }
     }
