@@ -135,9 +135,6 @@
                         return new ActionChargementFail($action);
                     }
                 }
-                else{
-                    return new RouteChargementFail($path);
-                }
             }
             else{
                 return new PathNotFound($path);
