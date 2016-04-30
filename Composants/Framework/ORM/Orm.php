@@ -25,7 +25,7 @@
             $conn = Yaml::parse(file_get_contents('Others/config/database.yml'));
 
             try{
-                if($conn['system'] == 'MYSQL'){
+                if($conn['system'] == 'MySQL'){
                     self::$connexion = new \PDO('mysql:host='.$host.';dbname='.$db.';charset=UTF8;', $user, $password, [ \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC ]);
                 }
             }
