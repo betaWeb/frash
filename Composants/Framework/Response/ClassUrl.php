@@ -8,10 +8,20 @@
             $nurl = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
 
             if($yaml['env'] == 'local'){
-                return '/'.$nurl[0].'/'.$url;
+                if($yaml['traduction']['activate'] == 'yes' && in_array($nurl[1], $yaml['traduction']['available'])){
+                    return '/'.$nurl[0].'/'.$nurl[1].'/'.$url;
+                }
+                else{
+                    return '/'.$nurl[0].'/'.$url;
+                }
             }
             elseif($yaml['env'] == 'prod'){
-                return '/'.$url;
+                if($yaml['traduction']['activate'] == 'yes' && in_array($nurl[0], $yaml['traduction']['available'])){
+                    return '/'.$nurl[0].'/'.$url;
+                }
+                else{
+                    return '/'.$url;
+                }
             }
         }
     }
