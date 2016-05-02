@@ -74,6 +74,24 @@
          * @param $url
          */
         public function redirect($url){
-            header('Location:'.$url);
+            $yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
+            $nurl = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
+
+            if($yaml['env'] == 'local'){
+                if($yaml['traduction']['activate'] == 'yes'){
+                    header('Location:/'.$nurl[0].'/'.$nurl[1].'/'.$url);
+                }
+                else{
+                    header('Location:/'.$nurl[0].'/'.$url);
+                }
+            }
+            elseif($yaml['env'] == 'prod'){
+                if($yaml['traduction']['activate'] == 'yes'){
+                    header('Location:/'.$nurl[0].'/'.$url);
+                }
+                else{
+                    header('Location:/'.$url);
+                }
+            }
         }
     }
