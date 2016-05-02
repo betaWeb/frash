@@ -1,6 +1,6 @@
 <?php
     namespace Composants\Framework\Exception;
-    use Composants\Framework\Response\Response;
+    use Composants\Framework\Controller;
     use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Yaml\Yaml;
 
@@ -8,7 +8,7 @@
      * Class TwigChargementTemplateFail
      * @package Composants\Framework\Exception
      */
-    class TwigChargementTemplateFail{
+    class TwigChargementTemplateFail extends Controller{
         /**
          * TwigChargementTemplateFail constructor.
          * @param $templ
@@ -20,6 +20,6 @@
                 new CreateErrorLog('Template TWIG Not Found');
             }
 
-            return new Response('TplNotFound.html.twig', 'Exception', [ 'tpl' => $templ ]);
+            return $this->view('TplNotFound.html.twig', 'Exception', [ 'tpl' => $templ ]);
         }
     }

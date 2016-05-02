@@ -1,6 +1,6 @@
 <?php
     namespace Composants\Framework\Exception;
-    use Composants\Framework\Response\Response;
+    use Composants\Framework\Controller;
     use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Yaml\Yaml;
 
@@ -8,7 +8,7 @@
      * Class ConnexionORMFail
      * @package Composants\Framework\Exception
      */
-    class ConnexionORMFail{
+    class ConnexionORMFail extends Controller{
         /**
          * ConnexionORMFail constructor.
          */
@@ -19,6 +19,6 @@
                 new CreateErrorLog('La connexion à la base de données par l\'ORM n\'a pu être effectuée');
             }
             
-            return new Response('ConnexionORMFail.html.twig', 'Exception');
+            return $this->view('ConnexionORMFail.html.twig', 'Exception');
         }
     }

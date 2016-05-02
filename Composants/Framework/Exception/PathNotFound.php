@@ -1,6 +1,6 @@
 <?php
     namespace Composants\Framework\Exception;
-    use Composants\Framework\Response\Response;
+    use Composants\Framework\Controller;
     use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Yaml\Yaml;
 
@@ -8,7 +8,7 @@
      * Class PathNotFound
      * @package Composants\Framework\Exception
      */
-    class PathNotFound{
+    class PathNotFound extends Controller{
         /**
          * PathNotFound constructor.
          * @param $path
@@ -20,6 +20,6 @@
                 new CreateErrorLog('Path Not Found');
             }
             
-            return new Response('PathNotFound.html.twig', 'Exception', [ 'path' => $path ]);
+            return $this->view('PathNotFound.html.twig', 'Exception', [ 'path' => $path ]);
         }
     }

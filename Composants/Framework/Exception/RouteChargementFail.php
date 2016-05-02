@@ -1,6 +1,6 @@
 <?php
     namespace Composants\Framework\Exception;
-    use Composants\Framework\Response\Response;
+    use Composants\Framework\Controller;
     use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Yaml\Yaml;
 
@@ -8,7 +8,7 @@
      * Class RouteChargementFail
      * @package Composants\Framework\Exception
      */
-    class RouteChargementFail{
+    class RouteChargementFail extends Controller{
         /**
          * RouteChargementFail constructor.
          * @param $route
@@ -20,6 +20,6 @@
                 new CreateErrorLog('Route '.$route.' Not Found');
             }
 
-            return new Response('RouteNotFound.html.twig', 'Exception', [ 'route' => $route ]);
+            return $this->view('RouteNotFound.html.twig', 'Exception', [ 'route' => $route ]);
         }
     }
