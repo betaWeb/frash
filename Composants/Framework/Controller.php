@@ -64,6 +64,7 @@
                 $twig->addFunction($url);
                 $twig->addFunction($trad);
                 echo $twig->render($templ, $param);
+                return true;
             }
             else{
                 new TwigChargementTemplateFail($templ);
@@ -93,5 +94,7 @@
                     header('Location:/'.$url);
                 }
             }
+
+            return true;
         }
     }
