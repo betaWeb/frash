@@ -51,29 +51,13 @@
 
             }
             elseif($confarr['traduction']['activate'] == 'yes' && in_array($lang, $confarr['traduction']['available'])){
-                unset($nurl[0]);
-                unset($nurl[1]);
-
-                if($confarr['env'] == 'local'){
-                    unset($nurl[2]);
-                }
-
-                $get = [];
-                foreach($nurl as $v){
-                    $get[] = urldecode(htmlentities($v));
-                }
-
-                if(array_key_exists($path, $routarr)){
-                    $expl = explode(':', $routarr[ $path ]['path']);
-
-                    $bundle = $expl[0];
-                    $controller = $expl[1];
-                    $action = $expl[2];
+                if($path == ''){
+                    list($bundle, $controller, $action) = explode(':', $confarr['racine']);
                     $routing = 'Bundles\\'.$bundle.'\\Controllers\\'.$controller;
 
                     if(file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php') && method_exists($routing, $action)){
                         $rout = new $routing;
-                        return $rout->$action($get);
+                        return $rout->$action();
                     }
                     elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')){
                         return new ControllerChargementFail($controller);
@@ -83,7 +67,40 @@
                     }
                 }
                 else{
-                    return new RouteChargementFail($path);
+                    unset($nurl[0]);
+                    unset($nurl[1]);
+
+                    if($confarr['env'] == 'local'){
+                        unset($nurl[2]);
+                    }
+
+                    $get = [];
+                    foreach($nurl as $v){
+                        $get[] = urldecode(htmlentities($v));
+                    }
+
+                    if(array_key_exists($path, $routarr)){
+                        $expl = explode(':', $routarr[ $path ]['path']);
+
+                        $bundle = $expl[0];
+                        $controller = $expl[1];
+                        $action = $expl[2];
+                        $routing = 'Bundles\\'.$bundle.'\\Controllers\\'.$controller;
+
+                        if(file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php') && method_exists($routing, $action)){
+                            $rout = new $routing;
+                            return $rout->$action($get);
+                        }
+                        elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')){
+                            return new ControllerChargementFail($controller);
+                        }
+                        elseif(!method_exists($routing, $action)){
+                            return new ActionChargementFail($action);
+                        }
+                    }
+                    else{
+                        return new RouteChargementFail($path);
+                    }
                 }
             }
             elseif($path == '__clientsql'){
