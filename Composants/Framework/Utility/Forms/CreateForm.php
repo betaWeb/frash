@@ -70,6 +70,10 @@
                 $stringForm .= ' autocomplete="off"';
             }
 
+            if(!empty($array['pattern'])){
+                $stringForm .= ' pattern="'.$array['pattern'].'"';
+            }
+
             if(!empty($array['idcss'])){
                 $stringForm .= ' id="'.$array['idcss'].'"';
             }
@@ -181,6 +185,28 @@
 
             if(!empty($array['step'])){
                 $stringForm .= ' step="'.$array['step'].'"';
+            }
+
+            if(!empty($array['idcss'])){
+                $stringForm .= ' id="'.$array['idcss'].'"';
+            }
+
+            if(!empty($array['classcss'])){
+                $stringForm .= ' class="'.$array['classcss'].'"';
+            }
+
+            return $stringForm.'>';
+        }
+
+        public function addInputFile($array){
+            $stringForm = '<input type="file"';
+
+            if(!empty($array['name'])){
+                $stringForm .= ' name="'.$array['name'].'"';
+            }
+
+            if(!empty($array['mult'])){
+                $stringForm .= ' multiple';
             }
 
             if(!empty($array['idcss'])){
