@@ -45,5 +45,7 @@
             $code .= '	}';
 
             file_put_contents('Bundles/'.$bundle.'/Entity/'.ucfirst($table).'.php', $code);
+
+            echo 'L\'entité '.ucfirst($table).' a bien été mise à jour.'.PHP_EOL;
         }
     }
