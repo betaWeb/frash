@@ -20,6 +20,8 @@
                     $db = new \PDO('mysql:host='.$array['host'], $array['username'], $array['password']);
                     $db->exec('CREATE DATABASE IF NOT EXISTS '.$array['dbname']);
                     new CreateRequestLog('CREATE DATABASE IF NOT EXISTS '.$array['dbname']);
+
+                    echo 'La base de données '.$array['dbname'].' a bien été créée.';
                 }
             }
             catch(\PDOException $e){
