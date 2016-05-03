@@ -24,19 +24,3 @@ Pour générer un bundle :
 
 Pour accéder aux commandes disponibles par la console :
 > php console console:listcommand
-
-----------
-
-Pour la configuration :
-
- - env : prod/local
- - log_error : yes/no
- - log_request (SQL) : yes/no
- - log_access (HTTP) : yes/no
-
-----------
-
-**A venir**
-
-> - Un mailer
-> - Un debugger
