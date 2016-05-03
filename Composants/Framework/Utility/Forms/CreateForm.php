@@ -78,6 +78,10 @@
                 $stringForm .= ' class="'.$array['classcss'].'"';
             }
 
+            if(!empty($array['autofocus'])){
+                $stringForm .= ' autofocus';
+            }
+
             return $stringForm.'>';
         }
 
