@@ -9,5 +9,7 @@
             mkdir('Bundles/'.$name.'/Entity/Jointure');
             mkdir('Bundles/'.$name.'/Requests');
             mkdir('Bundles/'.$name.'/Views');
+
+            echo 'Bundle généré !'.PHP_EOL;
         }
     }
