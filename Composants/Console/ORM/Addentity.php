@@ -1,6 +1,6 @@
 <?php
     namespace Composants\Console\ORM;
-    use Composants\Framework\ORM\MySQL\Orm;
+    use Composants\Framework\ORM\Orm;
     use Composants\Yaml\Yaml;
 
     /**
@@ -69,5 +69,7 @@
             $code .= '	}';
 
             file_put_contents('Bundles/'.$bundle.'/Entity/'.ucfirst($table).'.php', $code);
+
+            echo 'L\'entité '.ucfirst($table).' a bien été créée.'.PHP_EOL;
         }
     }
