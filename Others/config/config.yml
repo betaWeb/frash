@@ -10,3 +10,6 @@ log:
     error : yes
     request : yes
     access : yes
+
+routing:
+    file: test.yml
