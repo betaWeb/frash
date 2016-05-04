@@ -78,7 +78,32 @@
                     $count = count(explode('/', $key));
                     $soust = $count - 1;
 
-                    if($path['0'] == $nv['0']){
+                    if($path['0'] == $nv['0'] && count($nv) == 1){
+                        $good = 1;
+
+                        list($bundle, $controller, $action) = explode(':', $routarr[ $key ]['path']);
+                        $routing = 'Bundles\\'.$bundle.'\\Controllers\\'.$controller;
+
+                        if(count($path) > $count){
+                            $list = explode('/', str_replace($key.'/', '', implode('/', $path)));
+
+                            foreach($list as $v){
+                                $get[] = urldecode(htmlentities($v));
+                            }
+                        }
+
+                        if(file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php') && method_exists($routing, $action)){
+                            $rout = new $routing;
+                            return $rout->$action($get);
+                        }
+                        elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')){
+                            return new ControllerChargementFail($controller);
+                        }
+                        elseif(!method_exists($routing, $action)){
+                            return new ActionChargementFail($action);
+                        }
+                    }
+                    elseif($path['0'] == $nv['0'] && count($nv) > 1){
                         for($i = 1; $i < $count; $i++){
                             if($nv[$i] != $path[$i]){
                                 break;
