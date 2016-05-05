@@ -23,12 +23,12 @@
                 $tlf = new \Twig_Loader_Filesystem('Bundles/'.$bundle.'/Views');
                 $twig = new \Twig_Environment($tlf, [ 'cache' => false ]);
 
-                $url = new \Twig_SimpleFunction('url', function($url, $trad = false){
+                $url = new \Twig_SimpleFunction('url', function($url){
                     $yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
                     $nurl = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
 
                     if($yaml['env'] == 'local'){
-                        if($trad === true){
+                        if($yaml['traduction']['activate'] == 'yes'){
                             echo '/'.$nurl[0].'/'.$nurl[1].'/'.$url;
                         }
                         else{
@@ -36,7 +36,7 @@
                         }
                     }
                     elseif($yaml['env'] == 'prod'){
-                        if($trad === true){
+                        if($yaml['traduction']['activate'] == 'yes'){
                             echo '/'.$nurl[0].'/'.$url;
                         }
                         else{
