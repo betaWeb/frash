@@ -3,7 +3,6 @@
     use Composants\Framework\Exception\ActionChargementFail;
     use Composants\Framework\Exception\ControllerChargementFail;
     use Composants\Framework\Exception\RouteChargementFail;
-    use Composants\Framework\Exception\PathNotFound;
     use Composants\Yaml\Yaml;
     use Composants\Framework\CreateLog\CreateHTTPLog;
 
@@ -62,12 +61,6 @@
                 elseif(!method_exists($routing, $action)){
                     return new ActionChargementFail($action);
                 }
-            }
-            elseif($path['0'] == '__debug' && $confarr['env'] == 'local'){
-
-            }
-            elseif($path['0'] == '__clientsql' && $confarr['env'] == 'local'){
-
             }
             else{
                 $good = 0;
