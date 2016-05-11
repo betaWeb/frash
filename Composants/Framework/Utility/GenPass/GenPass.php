@@ -7,7 +7,7 @@
      */
     class GenPass{
         /**
-         * @var
+         * @var int
          */
         private $size;
 
@@ -69,7 +69,7 @@
             }
 
             if($this->otca === true){
-                $caract .= '&#{([-_/@)]=}+$§?';
+                $caract .= '&#{([-_@)]=}+$§?';
                 $poss += 17;
             }
 
