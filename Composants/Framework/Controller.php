@@ -23,24 +23,24 @@
                 $tlf = new \Twig_Loader_Filesystem('Bundles/'.$bundle.'/Views');
                 $twig = new \Twig_Environment($tlf, [ 'cache' => false ]);
 
-                $url = new \Twig_SimpleFunction('url', function($url){
+                $url = new \Twig_SimpleFunction('url', function($url, $trad = ''){
                     $yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
                     $nurl = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
 
                     if($yaml['env'] == 'local'){
-                        if($yaml['traduction']['activate'] == 'yes'){
-                            echo '/'.$nurl[0].'/'.$nurl[1].'/'.$url;
-                        }
-                        else{
+                        if($trad == 'false' || $yaml['traduction']['activate'] != 'yes'){
                             echo '/'.$nurl[0].'/'.$url;
+                        }
+                        elseif($yaml['traduction']['activate'] == 'yes'){
+                            echo '/'.$nurl[0].'/'.$nurl[1].'/'.$url;
                         }
                     }
                     elseif($yaml['env'] == 'prod'){
-                        if($yaml['traduction']['activate'] == 'yes'){
-                            echo '/'.$nurl[0].'/'.$url;
-                        }
-                        else{
+                        if($trad == 'false' || $yaml['traduction']['activate'] != 'yes'){
                             echo '/'.$url;
+                        }
+                        elseif($yaml['traduction']['activate'] == 'yes'){
+                            echo '/'.$nurl[0].'/'.$url;
                         }
                     }
                 });
