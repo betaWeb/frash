@@ -44,7 +44,7 @@
                 $req->execute($exec);
 
                 if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request."\n");
+                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
                 }
 
                 if($lastid === true){
@@ -78,7 +78,40 @@
                 }
 
                 if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request."\n");
+                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
+                }
+
+                return $array;
+            }
+            catch(\Exception $e){
+                if($this->yaml['log']['error'] == 'yes'){
+                    new CreateErrorLog($e->getMessage());
+                }
+
+                die('Il y a eu une erreur.');
+            }
+        }
+
+        /**
+         * @param $request
+         * @param array $exec
+         * @param $class
+         * @param $bundle
+         * @return array
+         */
+        public function jointure($request, $exec = [], $class, $bundle){
+            try{
+                $req = $this->conn->prepare($request);
+                $req->execute($exec);
+                $data = $req->fetchAll(\PDO::FETCH_CLASS, 'Bundles\\'.$bundle.'\Entity\Jointure\\'.$class);
+
+                $array = [];
+                foreach($data as $v){
+                    $array[] = $v;
+                }
+
+                if($this->yaml['log']['request'] == 'yes'){
+                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
                 }
 
                 return $array;
@@ -102,7 +135,7 @@
                 $req->execute($exec);
 
                 if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request."\n");
+                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
                 }
             }
             catch(\Exception $e){
@@ -124,7 +157,7 @@
                 $req->execute($exec);
 
                 if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request."\n");
+                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
                 }
             }
             catch(\Exception $e){
@@ -153,7 +186,7 @@
                 }
 
                 if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : SELECT * FROM '.$table."\n");
+                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : SELECT * FROM '.$table);
                 }
 
                 return $array;
@@ -178,7 +211,7 @@
                 $req->execute($exec);
 
                 if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request."\n");
+                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
                 }
 
                 return $req->rowCount();
