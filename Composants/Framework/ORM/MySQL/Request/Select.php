@@ -142,7 +142,7 @@
          */
         public function getRequestJoin(){
             if(!empty($this->table) && !empty($this->colSel) && $this->join_comp != '' && $this->join_table != '' && $this->join_type != ''){
-                return 'SELECT '.$this->colSel.' FROM '.$this->table.' '.$this->join_type.' '.$this->join_table.' '.$this->join_comp.' '.$this->where.' '.$this->order.' '.$this->limit;
+                return 'SELECT '.$this->colSel.' FROM '.$this->table.' '.$this->join_type.' '.$this->join_table.' ON '.$this->join_comp.' '.$this->where.' '.$this->order.' '.$this->limit;
             }
         }
     }
