@@ -7,8 +7,7 @@
             $list = [];
 
             foreach($champs as $c){
-                $colonne = explode('!', $c);
-                $list[] = $colonne[0];
+                $list[] = $c;
             }
 
             $code = "<?php\n";
