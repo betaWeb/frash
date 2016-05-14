@@ -2,4 +2,4 @@ host: localhost
 username:
 password:
 dbname:
-system: MYSQL
+system: MySQL
