@@ -1,8 +1,8 @@
 env: local
-racine: GameBundle:IndexController:indexAction
+racine: AppBundle:IndexController:indexAction
 
 traduction:
-    activate: yes
+    activate: no
     available:
         - fr
 
@@ -12,4 +12,4 @@ log:
     access : yes
 
 routing:
-    file: test.yml
+    file: routing.yml
