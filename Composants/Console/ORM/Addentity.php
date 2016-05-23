@@ -19,44 +19,15 @@
             Orm::init($array['host'], $array['dbname'], $array['username'], $array['password']);
 
             $champs = explode('/', $champ);
-            $pk = 'false';
-            $list = [];
-
-            $request = 'CREATE TABLE '.$table.' (';
-            foreach($champs as $c){
-                $colonne = explode('!', $c);
-                $list[] = $colonne[0];
-
-                foreach($colonne as $co){
-                    if($co != 'auto_increment'){
-                        $request .= $co.' ';
-                    }
-                }
-
-                if(end($colonne) == 'auto_increment'){
-                    $request .= end($colonne);
-                    $pk = $colonne[0];
-                }
-
-                $request .= ', ';
-            }
-
-            if($pk != 'false'){
-                $request .= 'PRIMARY KEY ('.$pk.')';
-            }
-            $request .= ')';
-
-            $tab = Orm::getConnexion()->prepare($request);
-            $tab->execute();
 
             $code = "<?php\n";
             $code .= '	namespace Bundles\\'.$bundle.'\\Entity;'."\n\n";
             $code .= '	class '.ucfirst($table).'{'."\n";
-            foreach($list as $l){
+            foreach($champs as $l){
                 $code .= '		protected $'.$l.';'."\n";
             }
 
-            foreach($list as $l2){
+            foreach($champs as $l2){
                 $code .= "		\n";
                 $code .= '		public function get'.ucfirst($l2).'(){'."\n";
                 $code .= '			return $this->'.$l2.';'."\n";
