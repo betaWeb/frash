@@ -29,6 +29,18 @@
                 $stringForm .= ' class="'.$array['classcss'].'"';
             }
 
+            if(!empty($array['title'])){
+                $stringForm .= ' title="'.$array['title'].'"';
+            }
+
+            if(!empty($array['enctype'])){
+                $stringForm .= ' enctype="'.$array['enctype'].'"';
+            }
+
+            if(!empty($array['dir'])){
+                $stringForm .= ' dir="'.$array['dir'].'"';
+            }
+
             return $stringForm.'>';
         }
 
@@ -62,12 +74,24 @@
                 $stringForm .= ' placeholder="'.$array['placeholder'].'"';
             }
 
+            if(!empty($array['maxlen'])){
+                $stringForm .= ' maxlength="'.$array['maxlen'].'"';
+            }
+
+            if(!empty($array['size'])){
+                $stringForm .= ' size="'.$array['size'].'"';
+            }
+
             if(!empty($array['require']) && $array['require'] === true){
                 $stringForm .= ' required';
             }
 
             if(!empty($array['autocomp']) && $array['autocomp'] === false){
                 $stringForm .= ' autocomplete="off"';
+            }
+
+            if(!empty($array['disabled']) && $array['disabled'] === true){
+                $stringForm .= ' disabled';
             }
 
             if(!empty($array['pattern'])){
@@ -137,6 +161,10 @@
                 $stringForm .= ' name="'.$arr_select['name'].'"';
             }
 
+            if(!empty($arr_select['multiple']) && $arr_select['multiple'] === true){
+                $stringForm .= ' multiple';
+            }
+
             if(!empty($arr_select['idcss'])){
                 $stringForm .= ' id="'.$arr_select['idcss'].'"';
             }
@@ -198,6 +226,10 @@
             return $stringForm.'>';
         }
 
+        /**
+         * @param $array
+         * @return string
+         */
         public function addInputFile($array){
             $stringForm = '<input type="file"';
 
@@ -205,8 +237,34 @@
                 $stringForm .= ' name="'.$array['name'].'"';
             }
 
-            if(!empty($array['mult'])){
+            if(!empty($array['multiple']) && $array['multiple'] === true){
                 $stringForm .= ' multiple';
+            }
+
+            if(!empty($array['idcss'])){
+                $stringForm .= ' id="'.$array['idcss'].'"';
+            }
+
+            if(!empty($array['classcss'])){
+                $stringForm .= ' class="'.$array['classcss'].'"';
+            }
+
+            return $stringForm.'>';
+        }
+
+        /**
+         * @param $array
+         * @return string
+         */
+        public function addCheckbox($array){
+            $stringForm = '<input type="checkbox"';
+
+            if(!empty($array['name'])){
+                $stringForm .= ' name="'.$array['name'].'"';
+            }
+
+            if(!empty($array['value'])){
+                $stringForm .= ' value="'.$array['value'].'"';
             }
 
             if(!empty($array['idcss'])){
