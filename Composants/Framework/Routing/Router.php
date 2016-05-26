@@ -3,8 +3,8 @@
     use Composants\Framework\Exception\ActionChargementFail;
     use Composants\Framework\Exception\ControllerChargementFail;
     use Composants\Framework\Exception\RouteChargementFail;
-    use Composants\Yaml\Yaml;
     use Composants\Framework\CreateLog\CreateHTTPLog;
+    use Composants\Yaml\Yaml;
 
     /**
      * Traite l'URL et détermine le bundle, le controller et l'action
@@ -104,6 +104,9 @@
                     elseif(!method_exists($routing, $action)){
                         return new ActionChargementFail($action);
                     }
+                }
+                else{
+                    return new RouteChargementFail($path2);
                 }
             }
         }
