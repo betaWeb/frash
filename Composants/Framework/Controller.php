@@ -29,10 +29,10 @@
 
                     if($yaml['env'] == 'local'){
                         if($trad == 'false' || $yaml['traduction']['activate'] != 'yes'){
-                            echo '/'.$nurl[0].'/'.$url;
+                            echo '/'.$nurl['0'].'/'.$url;
                         }
                         elseif($yaml['traduction']['activate'] == 'yes'){
-                            echo '/'.$nurl[0].'/'.$nurl[1].'/'.$url;
+                            echo '/'.$nurl['0'].'/'.$nurl['1'].'/'.$url;
                         }
                     }
                     elseif($yaml['env'] == 'prod'){
@@ -40,7 +40,7 @@
                             echo '/'.$url;
                         }
                         elseif($yaml['traduction']['activate'] == 'yes'){
-                            echo '/'.$nurl[0].'/'.$url;
+                            echo '/'.$nurl['0'].'/'.$url;
                         }
                     }
                 });
@@ -50,10 +50,10 @@
                     $nurl = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
 
                     if($yaml['env'] == 'local'){
-                        $lang =  $nurl[1];
+                        $lang =  $nurl['1'];
                     }
                     elseif($yaml['env'] == 'prod'){
-                        $lang =  $nurl[0];
+                        $lang =  $nurl['0'];
                     }
 
                     $class = 'Traductions\\Trad'.ucfirst($lang);
@@ -63,6 +63,7 @@
 
                 $twig->addFunction($url);
                 $twig->addFunction($trad);
+                $twig->addExtension(new \Twig_Extension_Debug());
                 echo $twig->render($templ, $param);
                 return true;
             }
@@ -73,26 +74,43 @@
 
         /**
          * @param $url
+         * @return bool
          */
         public function redirect($url){
             $yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
             $nurl = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
 
+            $redirect = '';
+
             if($yaml['env'] == 'local'){
                 if($yaml['traduction']['activate'] == 'yes'){
-                    header('Location:/'.$nurl[0].'/'.$nurl[1].'/'.$url);
+                    if(empty($nurl['1'])){
+                        $redirect = $nurl['0'].'/'.$yaml['traduction']['default'];
+                    }
+                    else{
+                        $redirect = $nurl['0'].'/'.$nurl['1'];
+                    }
                 }
                 else{
-                    header('Location:/'.$nurl[0].'/'.$url);
+                    $redirect = $nurl['0'];
                 }
             }
             elseif($yaml['env'] == 'prod'){
                 if($yaml['traduction']['activate'] == 'yes'){
-                    header('Location:/'.$nurl[0].'/'.$url);
+                    if(empty($nurl['0'])){
+                        $redirect = $yaml['traduction']['default'];
+                    }
+                    else{
+                        $redirect = $nurl['0'];
+                    }
                 }
                 else{
-                    header('Location:/'.$url);
+                    $redirect = '';
                 }
+            }
+
+            if($redirect != ''){
+                header('Location:/'.$redirect.'/'.$url);
             }
 
             return true;
@@ -107,16 +125,16 @@
             $nurl = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
 
             if($yaml['env'] == 'local'){
-                if($yaml['traduction']['activate'] == 'yes' && in_array($nurl[1], $yaml['traduction']['available'])){
-                    return '/'.$nurl[0].'/'.$nurl[1].'/'.$url;
+                if($yaml['traduction']['activate'] == 'yes' && in_array($nurl['1'], $yaml['traduction']['available'])){
+                    return '/'.$nurl['0'].'/'.$nurl['1'].'/'.$url;
                 }
                 else{
-                    return '/'.$nurl[0].'/'.$url;
+                    return '/'.$nurl['0'].'/'.$url;
                 }
             }
             elseif($yaml['env'] == 'prod'){
-                if($yaml['traduction']['activate'] == 'yes' && in_array($nurl[0], $yaml['traduction']['available'])){
-                    return '/'.$nurl[0].'/'.$url;
+                if($yaml['traduction']['activate'] == 'yes' && in_array($nurl['0'], $yaml['traduction']['available'])){
+                    return '/'.$nurl['0'].'/'.$url;
                 }
                 else{
                     return '/'.$url;
