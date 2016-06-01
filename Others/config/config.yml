@@ -3,6 +3,7 @@ racine: AppBundle:IndexController:indexAction
 
 traduction:
     activate: no
+    default: fr
     available:
         - fr
 
