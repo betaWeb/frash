@@ -70,7 +70,7 @@
                 $path2 = implode('/', $path);
 
                 foreach($routarr as $key => $rout){
-                    if(strstr('/'.$path2, '/'.$key)){
+                    if('/'.rtrim($path2, '/') == '/'.$key){
                         $exp = explode('/', $key);
 
                         if(count($exp) > $nb){
