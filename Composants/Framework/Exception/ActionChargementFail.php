@@ -20,6 +20,7 @@
                 new CreateErrorLog('Action '.$action.' Not Found');
             }
 
+            header("HTTP/1.0 404 Not Found");
             return $this->view('ActionNotFound.html.twig', 'Exception', [ 'action' => $action ]);
         }
     }
