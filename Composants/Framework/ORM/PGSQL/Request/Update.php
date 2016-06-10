@@ -59,7 +59,17 @@
         public function setUpdate($update = []){
             $upd = [];
             foreach($update as $v){
-                $upd[] = "\"$v\"".' = ?';
+                if(substr($v, '-2') == ' +'){
+                    $var = substr($v, 0, -2);
+                    $upd[] = "\"$var\" = \"$var\" + ?";
+                }
+                elseif(substr($v, '-2') == ' -'){
+                    $var = substr($v, 0, -2);
+                    $upd[] = "\"$var\" = \"$var\" - ?";
+                }
+                else{
+                    $upd[] = "\"$v\"".' = ?';
+                }
             }
 
             $this->update = implode(', ', $upd);
@@ -105,7 +115,7 @@
         }
 
         /**
-         * @return string
+         * @return mixed
          */
         public function getRequest(){
             if(!empty($this->table) && !empty($this->update)){
