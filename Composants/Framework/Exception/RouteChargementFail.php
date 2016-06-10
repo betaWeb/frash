@@ -20,6 +20,7 @@
                 new CreateErrorLog('Route '.$route.' Not Found');
             }
 
+            header("HTTP/1.0 404 Not Found");
             return $this->view('RouteNotFound.html.twig', 'Exception', [ 'route' => $route ]);
         }
     }
