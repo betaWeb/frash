@@ -2,7 +2,6 @@
     namespace Composants\Framework\ORM\PGSQL;
     use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Framework\CreateLog\CreateRequestLog;
-    use Composants\Framework\ORM\Orm;
     use Composants\Yaml\Yaml;
 
     /**
@@ -16,20 +15,16 @@
         private $conn;
 
         /**
-         * @var
+         * @var array
          */
-        private $yaml;
+        private $yaml = [];
 
         /**
          * QueryBuilder constructor.
          */
-        public function __construct(){
-            $conn = Yaml::parse(file_get_contents('Others/config/database.yml'));
-            $logs = Yaml::parse(file_get_contents('Others/config/config.yml'));
-
-            Orm::init($conn['host'], $conn['dbname'], $conn['username'], $conn['password']);
-            $this->yaml = $logs;
-            $this->conn = Orm::getConnexion();
+        public function __construct($conn){
+            $this->yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
+            $this->conn = $conn;
         }
 
         /**
