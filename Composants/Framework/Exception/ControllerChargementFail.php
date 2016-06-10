@@ -20,6 +20,7 @@
                 new CreateErrorLog('Controller '.$controller.' Not Found');
             }
 
+            header("HTTP/1.0 404 Not Found");
             return $this->view('ControllerNotFound.html.twig', 'Exception', [ 'controller' => $controller ]);
         }
     }
