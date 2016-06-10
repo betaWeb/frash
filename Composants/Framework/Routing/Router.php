@@ -5,6 +5,7 @@
     use Composants\Framework\Exception\RouteChargementFail;
     use Composants\Framework\CreateLog\CreateHTTPLog;
     use Composants\Yaml\Yaml;
+    use Composants\Framework\Controller;
 
     /**
      * Traite l'URL et détermine le bundle, le controller et l'action
