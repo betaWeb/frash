@@ -10,27 +10,29 @@
      */
     class Orm{
         /**
-         * @var string
+         * @var mixed
          */
-        private static $connexion = '';
+        private $connexion;
 
         /**
-         * @param $host
-         * @param $db
-         * @param $user
-         * @param $password
          * @return ConnexionORMFail
          */
-        public static function init($host, $db, $user, $password){
-            $conn = Yaml::parse(file_get_contents('Others/config/database.yml'));
+        public function __construct($bundle, $pathyml){
+            $conn = Yaml::parse(file_get_contents($pathyml));
+
+            $host = $conn[ $bundle ]['host'];
+            $dbname = $conn[ $bundle ]['dbname'];
+            $username = $conn[ $bundle ]['username'];
+            $password = $conn[ $bundle ]['password'];
+            $system = $conn[ $bundle ]['system'];
 
             try{
-                if($conn['system'] == 'MySQL'){
-                    self::$connexion = new \PDO('mysql:host='.$host.';dbname='.$db.';charset=UTF8;', $user, $password, [ \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC ]);
+                if($system == 'MySQL'){
+                    $this->connexion = new \PDO('mysql:host='.$host.';dbname='.$dbname.';charset=UTF8;', $username, $password, [ \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC ]);
                 }
-                elseif($conn['system'] == 'PGSQL'){
-                    self::$connexion = new \PDO('pgsql:dbname='.$db.';host='.$host, $user, $password);
-                    self::$connexion->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+                elseif($system == 'PGSQL'){
+                    $this->connexion = new \PDO('pgsql:dbname='.$dbname.';host='.$host, $username, $password);
+                    $this->connexion->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
                 }
             }
             catch(\Exception $e){
@@ -40,7 +42,9 @@
         }
 
         /**
-         * @return string
+         * @return mixed
          */
-        public static function getConnexion(){ return self::$connexion; }
+        public function getConnexion(){
+            return $this->connexion;
+        }
     }
