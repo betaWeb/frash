@@ -20,6 +20,7 @@
                 new CreateErrorLog('Template TWIG Not Found');
             }
 
+            header("HTTP/1.0 404 Not Found");
             return $this->view('TplNotFound.html.twig', 'Exception', [ 'tpl' => $templ ]);
         }
     }
