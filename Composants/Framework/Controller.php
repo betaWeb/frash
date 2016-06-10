@@ -1,6 +1,8 @@
 <?php
     namespace Composants\Framework;
     use Composants\Framework\Exception\TwigChargementTemplateFail;
+    use Composants\Framework\CreateLog\CreateErrorLog;
+    use Composants\Framework\Exception\ConnexionORMFail;
     use Composants\Yaml\Yaml;
 
     /**
@@ -9,99 +11,122 @@
      */
     class Controller{
         /**
+         * @var array
+         */
+        private $yaml = [];
+
+        /**
+         * @var array
+         */
+        private $nurl = [];
+
+        /**
+         * @var string
+         */
+        protected $bundle = '';
+
+        /**
+         * @var
+         */
+        private $connexion;
+
+        /**
+         * Controller constructor.
+         */
+        public function __construct(){
+            $this->yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
+            $this->nurl = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
+        }
+
+        /**
          * @param $templ
          * @param $bundle
          * @param array $param
          */
         public function view($templ, $bundle, $param = []){
             if($bundle == 'Exception' && file_exists('Composants/Framework/Exception/Views/'.$templ)){
-                $tlf = new \Twig_Loader_Filesystem('Composants/Framework/Exception/Views');
-                $twig = new \Twig_Environment($tlf, [ 'cache' => false ]);
-                echo $twig->render($templ, $param);
+                $path = 'Composants/Framework/Exception/Views/';
             }
             elseif(file_exists('Bundles/'.$bundle.'/Views/'.$templ)){
-                $tlf = new \Twig_Loader_Filesystem('Bundles/'.$bundle.'/Views');
-                $twig = new \Twig_Environment($tlf, [ 'cache' => false ]);
-
-                $url = new \Twig_SimpleFunction('url', function($url, $trad = ''){
-                    $yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
-                    $nurl = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
-
-                    if($yaml['env'] == 'local'){
-                        if($trad == 'false' || $yaml['traduction']['activate'] != 'yes'){
-                            echo '/'.$nurl['0'].'/'.$url;
-                        }
-                        elseif($yaml['traduction']['activate'] == 'yes'){
-                            echo '/'.$nurl['0'].'/'.$nurl['1'].'/'.$url;
-                        }
-                    }
-                    elseif($yaml['env'] == 'prod'){
-                        if($trad == 'false' || $yaml['traduction']['activate'] != 'yes'){
-                            echo '/'.$url;
-                        }
-                        elseif($yaml['traduction']['activate'] == 'yes'){
-                            echo '/'.$nurl['0'].'/'.$url;
-                        }
-                    }
-                });
-
-                $trad = new \Twig_SimpleFunction('trad', function($traduction){
-                    $yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
-                    $nurl = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
-
-                    if($yaml['env'] == 'local'){
-                        $lang =  $nurl['1'];
-                    }
-                    elseif($yaml['env'] == 'prod'){
-                        $lang =  $nurl['0'];
-                    }
-
-                    $class = 'Traductions\\Trad'.ucfirst($lang);
-                    $tr = new $class;
-                    echo $tr->show($traduction);
-                });
-
-                $twig->addFunction($url);
-                $twig->addFunction($trad);
-                $twig->addExtension(new \Twig_Extension_Debug());
-                echo $twig->render($templ, $param);
-                return true;
+                $path = 'Bundles/'.$bundle.'/Views';
             }
             else{
-                new TwigChargementTemplateFail($templ);
+                return new TwigChargementTemplateFail($templ);
             }
+
+            $tlf = new \Twig_Loader_Filesystem($path);
+            $twig = new \Twig_Environment($tlf, [ 'cache' => false ]);
+
+            $url = new \Twig_SimpleFunction('url', function ($url, $trad = ''){
+                $echo = '/';
+                if($this->yaml['env'] == 'local'){
+                    $echo .= $this->nurl['0'].'/';
+
+                    if($trad == 'false' || $this->yaml['traduction']['activate'] != 'yes'){
+                        $echo .= $url;
+                    }
+                    elseif($this->yaml['traduction']['activate'] == 'yes'){
+                        $echo .= $this->nurl['1'].'/'.$url;
+                    }
+                }
+                elseif($this->yaml['env'] == 'prod'){
+                    if($trad == 'false' || $this->yaml['traduction']['activate'] != 'yes'){
+                        $echo .= $url;
+                    }
+                    elseif($this->yaml['traduction']['activate'] == 'yes'){
+                        $echo .= $this->nurl['0'].'/'.$url;
+                    }
+                }
+
+                echo $echo;
+            });
+
+            $trad = new \Twig_SimpleFunction('trad', function($traduction){
+                if($this->yaml['env'] == 'local'){
+                    $lang = $this->nurl['1'];
+                }
+                elseif($this->yaml['env'] == 'prod'){
+                    $lang = $this->nurl['0'];
+                }
+
+                $class = 'Traductions\\Trad'.ucfirst($lang);
+                $tr = new $class;
+                echo $tr->show($traduction);
+            });
+
+            $twig->addFunction($url);
+            $twig->addFunction($trad);
+            echo $twig->render($templ, $param);
+            return true;
         }
 
         /**
          * @param $url
          * @return bool
          */
-        public function redirect($url){
-            $yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
-            $nurl = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
-
+        public function redirectToRoute($url){
             $redirect = '';
 
-            if($yaml['env'] == 'local'){
-                if($yaml['traduction']['activate'] == 'yes'){
-                    if(empty($nurl['1'])){
-                        $redirect = $nurl['0'].'/'.$yaml['traduction']['default'];
+            if($this->yaml['env'] == 'local'){
+                if($this->yaml['traduction']['activate'] == 'yes'){
+                    if(empty($this->nurl['1'])){
+                        $redirect = $this->nurl['0'].'/'.$this->yaml['traduction']['default'];
                     }
                     else{
-                        $redirect = $nurl['0'].'/'.$nurl['1'];
+                        $redirect = $this->nurl['0'].'/'.$this->nurl['1'];
                     }
                 }
                 else{
-                    $redirect = $nurl['0'];
+                    $redirect = $this->nurl['0'];
                 }
             }
-            elseif($yaml['env'] == 'prod'){
-                if($yaml['traduction']['activate'] == 'yes'){
-                    if(empty($nurl['0'])){
-                        $redirect = $yaml['traduction']['default'];
+            elseif($this->yaml['env'] == 'prod'){
+                if($this->yaml['traduction']['activate'] == 'yes'){
+                    if(empty($this->nurl['0'])){
+                        $redirect = $this->yaml['traduction']['default'];
                     }
                     else{
-                        $redirect = $nurl['0'];
+                        $redirect = $this->nurl['0'];
                     }
                 }
                 else{
@@ -112,7 +137,14 @@
             if($redirect != ''){
                 header('Location:/'.$redirect.'/'.$url);
             }
+        }
 
+        /**
+         * @param $url
+         * @return bool
+         */
+        public function redirectToUrl($url){
+            header('Location: '.$url);
             return true;
         }
 
@@ -121,24 +153,55 @@
          * @return string
          */
         public function getUrl($url){
-            $yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
-            $nurl = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
-
-            if($yaml['env'] == 'local'){
-                if($yaml['traduction']['activate'] == 'yes' && in_array($nurl['1'], $yaml['traduction']['available'])){
-                    return '/'.$nurl['0'].'/'.$nurl['1'].'/'.$url;
+            if($this->yaml['env'] == 'local'){
+                if($this->yaml['traduction']['activate'] == 'yes' && in_array($this->nurl['1'], $this->yaml['traduction']['available'])){
+                    return '/'.$this->nurl['0'].'/'.$this->nurl['1'].'/'.$url;
                 }
                 else{
-                    return '/'.$nurl['0'].'/'.$url;
+                    return '/'.$this->nurl['0'].'/'.$url;
                 }
             }
-            elseif($yaml['env'] == 'prod'){
-                if($yaml['traduction']['activate'] == 'yes' && in_array($nurl['0'], $yaml['traduction']['available'])){
-                    return '/'.$nurl['0'].'/'.$url;
+            elseif($this->yaml['env'] == 'prod'){
+                if($this->yaml['traduction']['activate'] == 'yes' && in_array($this->nurl['0'], $this->yaml['traduction']['available'])){
+                    return '/'.$this->nurl['0'].'/'.$url;
                 }
                 else{
                     return '/'.$url;
                 }
             }
+        }
+
+        /**
+         * @return ConnexionORMFail
+         */
+        public function initORM(){
+            $conn = Yaml::parse(file_get_contents('Others/config/database.yml'));
+
+            $host = $conn[ $this->bundle ]['host'];
+            $dbname = $conn[ $this->bundle ]['dbname'];
+            $username = $conn[ $this->bundle ]['username'];
+            $password = $conn[ $this->bundle ]['password'];
+            $system = $conn[ $this->bundle ]['system'];
+
+            try{
+                if($system == 'MySQL'){
+                    $this->connexion = new \PDO('mysql:host='.$host.';dbname='.$dbname.';charset=UTF8;', $username, $password, [ \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC ]);
+                }
+                elseif($system == 'PGSQL'){
+                    $this->connexion = new \PDO('pgsql:dbname='.$dbname.';host='.$host, $username, $password);
+                    $this->connexion->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+                }
+            }
+            catch(\Exception $e){
+                new CreateErrorLog($e->getMessage());
+                return new ConnexionORMFail();
+            }
+        }
+
+        /**
+         * @return mixed
+         */
+        public function getConnexion(){
+            return $this->connexion;
         }
     }
