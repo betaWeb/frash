@@ -10,7 +10,7 @@
      */
     class QueryBuilder{
         /**
-         * @var
+         * @var mixed
          */
         private $conn;
 
@@ -28,10 +28,10 @@
         }
 
         /**
-         * @param $request
+         * @param string $request
          * @param array $exec
          * @param bool $lastid
-         * @return mixed
+         * @return int
          */
         public function insert($request, $exec = [], $lastid = false){
             try{
@@ -56,9 +56,10 @@
         }
 
         /**
-         * @param $request
+         * @param string $request
          * @param array $exec
-         * @param $class
+         * @param string $class
+         * @param string $bundle
          * @return array
          */
         public function select($request, $exec = [], $class, $bundle){
@@ -88,10 +89,10 @@
         }
 
         /**
-         * @param $request
+         * @param string $request
          * @param array $exec
-         * @param $class
-         * @param $bundle
+         * @param string $class
+         * @param string $bundle
          * @return array
          */
         public function jointure($request, $exec = [], $class, $bundle){
@@ -121,7 +122,7 @@
         }
 
         /**
-         * @param $request
+         * @param string $request
          * @param array $exec
          */
         public function delete($request, $exec = []){
@@ -143,7 +144,7 @@
         }
 
         /**
-         * @param $request
+         * @param string $request
          * @param array $exec
          */
         public function update($request, $exec = []){
@@ -165,8 +166,8 @@
         }
 
         /**
-         * @param $table
-         * @param $bundle
+         * @param string $table
+         * @param string $bundle
          * @return array
          */
         public function findAll($table, $bundle){
@@ -196,9 +197,9 @@
         }
 
         /**
-         * @param $request
+         * @param string $request
          * @param array $exec
-         * @return mixed
+         * @return int
          */
         public function countResult($request, $exec = []){
             try{
