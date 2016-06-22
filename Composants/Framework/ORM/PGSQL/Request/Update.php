@@ -70,20 +70,21 @@
                 $comp = substr($k, -2);
                 $col = substr($k, 0, -2);
 
-                if($comp == ' +'){
-                    $upd[] = "\"$col\" = \"$col\" + ".$v;
-                    $this->updateExecute[] = substr($v, 1);
-                }
-                elseif($comp == ' -'){
-                    $upd[] = "\"$col\" = \"$col\" - ".$v;
-                    $this->updateExecute[] = substr($v, 1);
-                }
-                elseif($comp == ' /'){
-                    $upd[] = "\"$col\"".' = '.$v;
-                }
-                else{
-                    $upd[] = "\"$k\"".' = '.$v;
-                    $this->updateExecute[] = substr($v, 1);
+                switch($comp){
+                    case ' +':
+                        $upd[] = "\"$col\" = \"$col\" + ".$v;
+                        $this->updateExecute[] = substr($v, 1);
+                        break;
+                    case ' -':
+                        $upd[] = "\"$col\" = \"$col\" - ".$v;
+                        $this->updateExecute[] = substr($v, 1);
+                        break;
+                    case ' /':
+                        $upd[] = "\"$col\"".' = '.$v;
+                        break;
+                    default:
+                        $upd[] = "\"$k\"".' = '.$v;
+                        $this->updateExecute[] = substr($v, 1);
                 }
             }
 
