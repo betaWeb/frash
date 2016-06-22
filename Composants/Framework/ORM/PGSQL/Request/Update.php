@@ -12,14 +12,14 @@
         private $table = '';
 
         /**
-         * @var
+         * @var string
          */
-        private $update;
+        private $update = '';
 
         /**
-         * @var
+         * @var array
          */
-        private $updateExecute;
+        private $updateExecute = [];
 
         /**
          * @var string
@@ -27,30 +27,37 @@
         private $where = '';
 
         /**
-         * @var string
+         * @var array
          */
-        private $arrayWhere = '';
+        private $arrayWhere = [];
 
         /**
-         * @var
+         * @var array
          */
-        private $execute;
+        private $execute = [];
 
         /**
          * Update constructor.
-         * @param $table
+         * @param string $table
          */
         public function __construct($table){
             $this->table = "\"$table\"";
         }
 
         /**
-         * @param $where
-         * @param $arrayWhere
+         * @param string $exec
+         */
+        public function setAddExec($exec){
+            $this->updateExecute[] = $exec;
+        }
+
+        /**
+         * @param string $where
+         * @param array $arrayWhere
          */
         public function setWhere($where, $arrayWhere){
             $this->where = $where;
-            $this->arrayWhere = implode(' ||| ', $arrayWhere);
+            $this->arrayWhere = $arrayWhere;
         }
 
         /**
@@ -58,68 +65,61 @@
          */
         public function setUpdate($update = []){
             $upd = [];
-            foreach($update as $v){
-                if(substr($v, '-2') == ' +'){
-                    $var = substr($v, 0, -2);
-                    $upd[] = "\"$var\" = \"$var\" + ?";
+
+            foreach($update as $k => $v){
+                $comp = substr($k, -2);
+                $col = substr($k, 0, -2);
+
+                if($comp == ' +'){
+                    $upd[] = "\"$col\" = \"$col\" + ".$v;
+                    $this->updateExecute[] = substr($v, 1);
                 }
-                elseif(substr($v, '-2') == ' -'){
-                    $var = substr($v, 0, -2);
-                    $upd[] = "\"$var\" = \"$var\" - ?";
+                elseif($comp == ' -'){
+                    $upd[] = "\"$col\" = \"$col\" - ".$v;
+                    $this->updateExecute[] = substr($v, 1);
+                }
+                elseif($comp == ' /'){
+                    $upd[] = "\"$col\"".' = '.$v;
                 }
                 else{
-                    $upd[] = "\"$v\"".' = ?';
+                    $upd[] = "\"$k\"".' = '.$v;
+                    $this->updateExecute[] = substr($v, 1);
                 }
             }
 
             $this->update = implode(', ', $upd);
-            $nb = count($upd) - 1;
-
-            for($i = 0; $i <= $nb; $i++){
-                $this->updateExecute[] = '?';
-            }
         }
 
         /**
-         * @param $exec
+         * @param array $exec
          */
         public function setExecute($exec){
-            $arrayNotExec = [];
+            $arrayUpd = [];
 
-            if(count($this->updateExecute) == 1){
-                $arrayNotExec = $this->updateExecute;
-            }
-            else{
-                foreach($this->updateExecute as $v){
-                    $arrayNotExec[] = $v;
-                }
+            foreach($this->updateExecute as $v){
+                $arrayUpd[] = $v;
             }
 
-            if(!empty($this->arrayWhere)){
-                $result = array_merge($arrayNotExec, explode(' ||| ', $this->arrayWhere));
-            }
-            else{
-                $result = $arrayNotExec;
-            }
+            $result = array_merge($arrayUpd, $this->arrayWhere);
 
             if(count($exec) == count($result)){
-                $this->execute = $exec;
+                $this->execute = array_combine($result, $exec);
             }
         }
 
         /**
-         * @return mixed
+         * @return array
          */
         public function getExecute(){
             return $this->execute;
         }
 
         /**
-         * @return mixed
+         * @return string
          */
         public function getRequest(){
             if(!empty($this->table) && !empty($this->update)){
-                $request = 'UPDATE '.$this->table.' SET '.$this->update;
+                $request = 'UPDATE '.$this->table.' SET '.$this->update.' ';
                 if($this->where != ''){ $request .= $this->where; }
                 return $request;
             }
