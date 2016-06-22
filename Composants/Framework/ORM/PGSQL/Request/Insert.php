@@ -22,7 +22,7 @@
         private $insertVal;
 
         /**
-         * @var string
+         * @var array
          */
         private $insertExecute;
 
@@ -33,14 +33,14 @@
 
         /**
          * Insert constructor.
-         * @param $table
+         * @param string $table
          */
         public function __construct($table){
             $this->table = "\"$table\"";
         }
 
         /**
-         * @param $val
+         * @param array $val
          */
         public function setInsert($val){
             $tableau = $val;
@@ -57,15 +57,14 @@
             }
 
             $this->insertVal = implode(', ', $array);
-            $this->insertExecute = implode(' ||| ', $array);
+            $this->insertExecute = $array;
         }
 
         /**
-         * @param $exec
+         * @param array $exec
          */
         public function setExecute($exec){
-            $resval = explode(' ||| ', $this->insertExecute);
-            $this->execute = array_combine($resval, $exec);
+            $this->execute = array_combine($this->insertExecute, $exec);
         }
 
         /**
