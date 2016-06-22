@@ -22,9 +22,9 @@
         private $where = '';
 
         /**
-         * @var string
+         * @var array
          */
-        private $arrayWhere = '';
+        private $arrayWhere = [];
 
         /**
          * @var array
@@ -58,25 +58,25 @@
 
         /**
          * Select constructor.
-         * @param $table
+         * @param string $table
          */
         public function __construct($table){
             $this->table = "\"$table\"";
         }
 
         /**
-         * @param $where
-         * @param $arrayWhere
+         * @param string $where
+         * @param array $arrayWhere
          */
         public function setWhere($where, $arrayWhere){
             $this->where = $where;
-            $this->arrayWhere = implode(' ||| ', $arrayWhere);
+            $this->arrayWhere = $arrayWhere;
         }
 
         /**
-         * @param $type
-         * @param $table
-         * @param $comp
+         * @param string $type
+         * @param string $table
+         * @param string $comp
          */
         public function setJoin($type, $table, $comp){
             $this->join_type = $type;
@@ -85,39 +85,32 @@
         }
 
         /**
-         * @param $order
+         * @param string $order
          */
         public function setOrder($order){
             $this->order = 'ORDER BY '.$order;
         }
 
         /**
-         * @param $limit
+         * @param string $limit
          */
         public function setLimit($limit){
             $this->limit = 'LIMIT '.$limit;
         }
 
         /**
-         * @param $col
+         * @param string $col
          */
         public function setColSel($col){
             $this->colSel = $col;
         }
 
         /**
-         * @param bool $exec
+         * @param array $exec
          */
         public function setExecute($exec = []){
-            if(!empty($this->arrayWhere)){
-                $result = explode(' ||| ', $this->arrayWhere);
-            }
-            else{
-                $result = [];
-            }
-
-            if(count($exec) == count($result)){
-                $this->execute = $exec;
+            if(count($exec) == count($this->arrayWhere)){
+                $this->execute = array_combine($this->arrayWhere, $exec);
             }
         }
 
