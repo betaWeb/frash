@@ -1,8 +1,8 @@
 <?php
     namespace Composants\Framework;
-    use Composants\Framework\Exception\TwigChargementTemplateFail;
     use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Framework\Exception\ConnexionORMFail;
+    use Composants\Framework\Exception\TwigChargementTemplateFail;
     use Composants\Yaml\Yaml;
 
     /**
@@ -26,7 +26,7 @@
         protected $bundle = '';
 
         /**
-         * @var
+         * @var mixed
          */
         private $connexion;
 
@@ -39,8 +39,8 @@
         }
 
         /**
-         * @param $templ
-         * @param $bundle
+         * @param string $templ
+         * @param string $bundle
          * @param array $param
          */
         public function view($templ, $bundle, $param = []){
@@ -101,8 +101,7 @@
         }
 
         /**
-         * @param $url
-         * @return bool
+         * @param string $url
          */
         public function redirectToRoute($url){
             $redirect = '';
@@ -140,7 +139,7 @@
         }
 
         /**
-         * @param $url
+         * @param string $url
          * @return bool
          */
         public function redirectToUrl($url){
@@ -149,7 +148,7 @@
         }
 
         /**
-         * @param $url
+         * @param string $url
          * @return string
          */
         public function getUrl($url){
