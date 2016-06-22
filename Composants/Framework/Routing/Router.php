@@ -1,11 +1,10 @@
 <?php
     namespace Composants\Framework\Routing;
+    use Composants\Framework\CreateLog\CreateHTTPLog;
     use Composants\Framework\Exception\ActionChargementFail;
     use Composants\Framework\Exception\ControllerChargementFail;
     use Composants\Framework\Exception\RouteChargementFail;
-    use Composants\Framework\CreateLog\CreateHTTPLog;
     use Composants\Yaml\Yaml;
-    use Composants\Framework\Controller;
 
     /**
      * Traite l'URL et détermine le bundle, le controller et l'action
@@ -35,11 +34,6 @@
         private $route = '';
 
         /**
-         * @var string
-         */
-        private $path2 = '';
-
-        /**
          * Router constructor.
          * @param $url
          */
@@ -53,23 +47,13 @@
 
             $path = explode('/', $url);
 
-            if($confarr['env'] == 'prod'){
-                if($confarr['traduction']['activate'] == 'yes' && in_array($path['0'], $confarr['traduction']['available'])){
-                    unset($path['0']);
-                }
-            }
-            else{
-                unset($path['0']);
-
-                if($confarr['traduction']['activate'] == 'yes' && in_array($path['1'], $confarr['traduction']['available'])){
-                    unset($path['1']);
-                }
+            unset($path['0']);
+            if($confarr['env'] == 'local' && $confarr['traduction']['activate'] == 'yes' && in_array($path['1'], $confarr['traduction']['available'])){
+                unset($path['1']);
             }
 
             array_unshift($path, 0);
             array_shift($path);
-
-            $this->path2 = implode('/', $path);
 
             if($path['0'] == '' && !empty($confarr['racine'])){
                 $this->nb_expl = 1;
@@ -103,7 +87,7 @@
 
             if($this->nb_expl > 0 && $this->lien != '' && $this->route != ''){
                 if($this->lien != '/'){
-                    $list = explode('/', str_replace($this->lien.'/', '', $this->path2));
+                    $list = explode('/', str_replace($this->lien.'/', '', implode('/', $path)));
 
                     foreach($list as $v){
                         $this->get[] = urldecode(htmlentities($v));
@@ -113,7 +97,7 @@
                 $this->returnController();
             }
             else{
-                return new RouteChargementFail($this->path2);
+                return new RouteChargementFail(implode('/', $path));
             }
         }
 
