@@ -1,13 +1,13 @@
 <?php
     namespace Composants\Framework\Utility\Forms;
-
+    
     /**
      * Class CreateForm
      * @package Composants\Framework\Utility\Forms
      */
     class CreateForm{
         /**
-         * @param $array
+         * @param array $array
          * @return string
          */
         public function startForm($array){
@@ -52,7 +52,7 @@
         }
 
         /**
-         * @param $array
+         * @param array $array
          * @return string
          */
         public function addInput($array){
@@ -114,7 +114,7 @@
         }
 
         /**
-         * @param $array
+         * @param string $array
          * @return string
          */
         public function addTextarea($array){
@@ -150,8 +150,8 @@
         }
 
         /**
-         * @param $arr_select
-         * @param $arr_option
+         * @param array $arr_select
+         * @param array $arr_option
          * @return string
          */
         public function addSelectOption($arr_select, $arr_option){
@@ -189,7 +189,7 @@
         }
 
         /**
-         * @param $array
+         * @param array $array
          * @return string
          */
         public function addInputRange($array){
@@ -227,7 +227,7 @@
         }
 
         /**
-         * @param $array
+         * @param array $array
          * @return string
          */
         public function addInputFile($array){
@@ -253,7 +253,7 @@
         }
 
         /**
-         * @param $array
+         * @param array $array
          * @return string
          */
         public function addCheckbox($array){
