@@ -9,7 +9,7 @@
         /**
          * @var string
          */
-        private $where = ' WHERE ';
+        private $where = 'WHERE ';
 
         /**
          * @var array
@@ -17,41 +17,44 @@
         private $arrayWhere = [];
 
         /**
-         * @param $where
-         * @param $sign
+         * @param string $where
+         * @param string $sign
+         * @param string $exec
          */
-        public function initNormalWhere($where, $sign){
-            $this->where .= "\"$where\"".' '.$sign.' ?';
-            $this->arrayWhere[] = '?';
+        public function initNormalWhere($where, $sign, $exec){
+            $this->where .= "\"$where\"".' '.$sign.' '.$exec;
+            $this->arrayWhere[] = substr($exec, 1);
         }
 
         /**
-         * @param $where
-         * @param $sign
+         * @param string $where
+         * @param string $sign
+         * @param string $exec
          */
-        public function andWhere($where, $sign){
-            $this->where .= ' AND '."\"$where\"".' '.$sign.' ?';
-            $this->arrayWhere[] = '?';
+        public function andWhere($where, $sign, $exec){
+            $this->where .= ' AND '."\"$where\"".' '.$sign.' '.$exec;
+            $this->arrayWhere[] = substr($exec, 1);
         }
 
         /**
-         * @param $where
-         * @param $sign
+         * @param string $where
+         * @param string $sign
+         * @param string $exec
          */
-        public function orWhere($where, $sign){
-            $this->where .= ' OR '."\"$where\"".' '.$sign.' ?';
-            $this->arrayWhere[] = '?';
+        public function orWhere($where, $sign, $exec){
+            $this->where .= ' OR '."\"$where\"".' '.$sign.' '.$exec;
+            $this->arrayWhere[] = substr($exec, 1);
         }
 
         /**
-         * @param $where
+         * @param string $where
          */
         public function isNullWhere($where){
             $this->where .= "\"$where\"".' IS NULL';
         }
 
         /**
-         * @param $where
+         * @param string $where
          */
         public function isNotNullWhere($where){
             $this->where .= "\"$where\"".' IS NOT NULL';
