@@ -33,11 +33,11 @@
 
         /**
          * GenPass constructor.
-         * @param $size
-         * @param $number
-         * @param $min
-         * @param $maj
-         * @param $otca
+         * @param int $size
+         * @param bool $number
+         * @param bool $min
+         * @param bool $maj
+         * @param bool $otca
          */
         public function __construct($size, $number, $min, $maj, $otca){
             $this->size = $size;
