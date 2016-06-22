@@ -17,14 +17,14 @@
         private $where = '';
 
         /**
-         * @var string
+         * @var array
          */
-        private $arrayWhere = '';
+        private $arrayWhere = [];
 
         /**
-         * @var
+         * @var array
          */
-        private $execute;
+        private $execute = [];
 
         /**
          * Delete constructor.
@@ -40,21 +40,14 @@
          */
         public function setWhere($where, $arrayWhere){
             $this->where = $where;
-            $this->arrayWhere = implode(' ||| ', $arrayWhere);
+            $this->arrayWhere = $arrayWhere;
         }
 
         /**
          * @param array $exec
          */
         public function setExecute($exec = []){
-            if(!empty($this->arrayWhere)){
-                $result = explode(' ||| ', $this->arrayWhere);
-            }
-            else{
-                $result = [];
-            }
-
-            if(count($exec) == count($result)){
+            if(count($exec) == count($this->arrayWhere)){
                 $this->execute = $exec;
             }
         }
