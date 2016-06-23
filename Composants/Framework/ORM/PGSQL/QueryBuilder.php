@@ -38,19 +38,14 @@
                 $req = $this->conn->prepare($request);
                 $req->execute($exec);
 
-                if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
-                }
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
 
                 if(!empty($lastid)){
                     return $this->conn->lastInsertId($lastid);
                 }
             }
             catch(\Exception $e){
-                if($this->yaml['log']['error'] == 'yes'){
-                    new CreateErrorLog($e->getMessage());
-                }
-
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -73,17 +68,12 @@
                     $array[] = $v;
                 }
 
-                if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
-                }
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
 
                 return $array;
             }
             catch(\Exception $e){
-                if($this->yaml['log']['error'] == 'yes'){
-                    new CreateErrorLog($e->getMessage());
-                }
-
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -106,17 +96,12 @@
                     $array[] = $v;
                 }
 
-                if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
-                }
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
 
                 return $array;
             }
             catch(\Exception $e){
-                if($this->yaml['log']['error'] == 'yes'){
-                    new CreateErrorLog($e->getMessage());
-                }
-
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -130,15 +115,10 @@
                 $req = $this->conn->prepare($request);
                 $req->execute($exec);
 
-                if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
-                }
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
             }
             catch(\Exception $e){
-                if($this->yaml['log']['error'] == 'yes'){
-                    new CreateErrorLog($e->getMessage());
-                }
-
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -152,15 +132,10 @@
                 $req = $this->conn->prepare($request);
                 $req->execute($exec);
 
-                if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
-                }
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
             }
             catch(\Exception $e){
-                if($this->yaml['log']['error'] == 'yes'){
-                    new CreateErrorLog($e->getMessage());
-                }
-
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -181,17 +156,12 @@
                     $array[] = $v;
                 }
 
-                if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : SELECT * FROM '.$table);
-                }
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : SELECT * FROM '.$table);
 
                 return $array;
             }
             catch(\Exception $e){
-                if($this->yaml['log']['error'] == 'yes'){
-                    new CreateErrorLog($e->getMessage());
-                }
-
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -206,17 +176,12 @@
                 $req = $this->conn->prepare($request);
                 $req->execute($exec);
 
-                if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
-                }
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
 
                 return $req->rowCount();
             }
             catch(\Exception $e){
-                if($this->yaml['log']['error'] == 'yes'){
-                    new CreateErrorLog($e->getMessage());
-                }
-
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
