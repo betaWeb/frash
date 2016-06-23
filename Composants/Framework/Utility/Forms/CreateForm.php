@@ -1,6 +1,6 @@
 <?php
     namespace Composants\Framework\Utility\Forms;
-    
+
     /**
      * Class CreateForm
      * @package Composants\Framework\Utility\Forms
@@ -21,12 +21,12 @@
                 $stringForm .= ' action="'.$array['action'].'"';
             }
 
-            if(!empty($array['idcss'])){
-                $stringForm .= ' id="'.$array['idcss'].'"';
+            if(!empty($array['id'])){
+                $stringForm .= ' id="'.$array['id'].'"';
             }
 
-            if(!empty($array['classcss'])){
-                $stringForm .= ' class="'.$array['classcss'].'"';
+            if(!empty($array['class'])){
+                $stringForm .= ' class="'.$array['class'].'"';
             }
 
             if(!empty($array['title'])){
@@ -98,12 +98,12 @@
                 $stringForm .= ' pattern="'.$array['pattern'].'"';
             }
 
-            if(!empty($array['idcss'])){
-                $stringForm .= ' id="'.$array['idcss'].'"';
+            if(!empty($array['id'])){
+                $stringForm .= ' id="'.$array['id'].'"';
             }
 
-            if(!empty($array['classcss'])){
-                $stringForm .= ' class="'.$array['classcss'].'"';
+            if(!empty($array['class'])){
+                $stringForm .= ' class="'.$array['class'].'"';
             }
 
             if(!empty($array['autofocus'])){
@@ -132,12 +132,12 @@
                 $stringForm .= ' rows="'.$array['rows'].'"';
             }
 
-            if(!empty($array['idcss'])){
-                $stringForm .= ' id="'.$array['idcss'].'"';
+            if(!empty($array['id'])){
+                $stringForm .= ' id="'.$array['id'].'"';
             }
 
-            if(!empty($array['classcss'])){
-                $stringForm .= ' class="'.$array['classcss'].'"';
+            if(!empty($array['class'])){
+                $stringForm .= ' class="'.$array['class'].'"';
             }
 
             $stringForm .= '>';
@@ -165,12 +165,12 @@
                 $stringForm .= ' multiple';
             }
 
-            if(!empty($arr_select['idcss'])){
-                $stringForm .= ' id="'.$arr_select['idcss'].'"';
+            if(!empty($arr_select['id'])){
+                $stringForm .= ' id="'.$arr_select['id'].'"';
             }
 
-            if(!empty($arr_select['classcss'])){
-                $stringForm .= ' class="'.$arr_select['classcss'].'"';
+            if(!empty($arr_select['class'])){
+                $stringForm .= ' class="'.$arr_select['class'].'"';
             }
 
             $stringForm .= '>';
@@ -215,12 +215,12 @@
                 $stringForm .= ' step="'.$array['step'].'"';
             }
 
-            if(!empty($array['idcss'])){
-                $stringForm .= ' id="'.$array['idcss'].'"';
+            if(!empty($array['id'])){
+                $stringForm .= ' id="'.$array['id'].'"';
             }
 
-            if(!empty($array['classcss'])){
-                $stringForm .= ' class="'.$array['classcss'].'"';
+            if(!empty($array['class'])){
+                $stringForm .= ' class="'.$array['class'].'"';
             }
 
             return $stringForm.'>';
@@ -241,12 +241,12 @@
                 $stringForm .= ' multiple';
             }
 
-            if(!empty($array['idcss'])){
-                $stringForm .= ' id="'.$array['idcss'].'"';
+            if(!empty($array['id'])){
+                $stringForm .= ' id="'.$array['id'].'"';
             }
 
-            if(!empty($array['classcss'])){
-                $stringForm .= ' class="'.$array['classcss'].'"';
+            if(!empty($array['class'])){
+                $stringForm .= ' class="'.$array['class'].'"';
             }
 
             return $stringForm.'>';
@@ -267,12 +267,12 @@
                 $stringForm .= ' value="'.$array['value'].'"';
             }
 
-            if(!empty($array['idcss'])){
-                $stringForm .= ' id="'.$array['idcss'].'"';
+            if(!empty($array['id'])){
+                $stringForm .= ' id="'.$array['id'].'"';
             }
 
-            if(!empty($array['classcss'])){
-                $stringForm .= ' class="'.$array['classcss'].'"';
+            if(!empty($array['class'])){
+                $stringForm .= ' class="'.$array['class'].'"';
             }
 
             return $stringForm.'>';
