@@ -55,9 +55,9 @@
          * @param string $where
          * @param array $arrayWhere
          */
-        public function setWhere($where, $arrayWhere){
-            $this->where = $where;
-            $this->arrayWhere = $arrayWhere;
+        public function setWhere($where){
+            $this->where = $where->getWhere();
+            $this->arrayWhere = $where->getArrayWhere();
         }
 
         /**
