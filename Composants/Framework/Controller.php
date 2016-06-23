@@ -171,16 +171,17 @@
         }
 
         /**
+         * @param string $bundle
          * @return ConnexionORMFail
          */
-        public function initORM(){
+        public function initORM($bundle){
             $conn = Yaml::parse(file_get_contents('Others/config/database.yml'));
 
-            $host = $conn[ $this->bundle ]['host'];
-            $dbname = $conn[ $this->bundle ]['dbname'];
-            $username = $conn[ $this->bundle ]['username'];
-            $password = $conn[ $this->bundle ]['password'];
-            $system = $conn[ $this->bundle ]['system'];
+            $host = $conn[ $bundle ]['host'];
+            $dbname = $conn[ $bundle ]['dbname'];
+            $username = $conn[ $bundle ]['username'];
+            $password = $conn[ $bundle ]['password'];
+            $system = $conn[ $bundle ]['system'];
 
             try{
                 if($system == 'MySQL'){
