@@ -1,12 +1,13 @@
 # LFW
 Light FrameWork
 
- - <kbd>Framework</kbd> : 0.6.130
+ - <kbd>Framework</kbd> : 0.6.131
 
 Installation
 ----------
 
-> - git clone https://github.com/AlixSperoza/LFW
+> - Fork le repo ! ;)
+> - git clone
 > - php composer.phar install
 
 ----------
