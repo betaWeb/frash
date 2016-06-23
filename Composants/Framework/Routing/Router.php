@@ -38,12 +38,10 @@
          * @param $url
          */
         public function __construct($url){
+            new CreateHTTPLog($url);
+
             $confarr = Yaml::parse(file_get_contents('Others/config/config.yml'));
             $routarr = Yaml::parse(file_get_contents('Others/config/'.$confarr['routing']['file']));
-
-            if($confarr['log']['access'] == 'yes'){
-                new CreateHTTPLog($url);
-            }
 
             $path = explode('/', $url);
 
