@@ -135,6 +135,7 @@
 
             if($redirect != ''){
                 header('Location:/'.$redirect.'/'.$url);
+                return true;
             }
         }
 
