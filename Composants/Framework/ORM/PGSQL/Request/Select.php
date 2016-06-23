@@ -29,7 +29,7 @@
         /**
          * @var array
          */
-        private $execute;
+        private $execute = [];
 
         /**
          * @var string
@@ -40,21 +40,6 @@
          * @var string
          */
         private $limit = '';
-
-        /**
-         * @var string
-         */
-        private $join_type = '';
-
-        /**
-         * @var string
-         */
-        private $join_table = '';
-
-        /**
-         * @var string
-         */
-        private $join_comp = '';
 
         /**
          * Select constructor.
@@ -68,20 +53,9 @@
          * @param string $where
          * @param array $arrayWhere
          */
-        public function setWhere($where, $arrayWhere){
-            $this->where = $where;
-            $this->arrayWhere = $arrayWhere;
-        }
-
-        /**
-         * @param string $type
-         * @param string $table
-         * @param string $comp
-         */
-        public function setJoin($type, $table, $comp){
-            $this->join_type = $type;
-            $this->join_table = $table;
-            $this->join_comp = $comp;
+        public function setWhere($where){
+            $this->where = $where->getWhere();
+            $this->arrayWhere = $where->getArrayWhere();
         }
 
         /**
@@ -127,15 +101,6 @@
         public function getRequest(){
             if(!empty($this->table) && !empty($this->colSel)){
                 return 'SELECT '.$this->colSel.' FROM '.$this->table.' '.$this->where.' '.$this->order.' '.$this->limit;
-            }
-        }
-
-        /**
-         * @return string
-         */
-        public function getRequestJoin(){
-            if(!empty($this->table) && !empty($this->colSel) && $this->join_comp != '' && $this->join_table != '' && $this->join_type != ''){
-                return 'SELECT '.$this->colSel.' FROM '.$this->table.' '.$this->join_type.' '.$this->join_table.' ON '.$this->join_comp.' '.$this->where.' '.$this->order.' '.$this->limit;
             }
         }
     }
