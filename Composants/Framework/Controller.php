@@ -5,7 +5,7 @@
     use Composants\Framework\Exception\TwigChargementTemplateFail;
     use Composants\Framework\Globals\Server;
     use Composants\Yaml\Yaml;
-
+    
     /**
      * Class Controller
      * @package Composants\Framework
@@ -147,7 +147,7 @@
          * @return bool
          */
         public function redirectToUrl($url){
-            header('Location: '.$url);
+            header('Location:'.$url);
             return true;
         }
 
@@ -172,6 +172,17 @@
                     return '/'.$url;
                 }
             }
+        }
+
+        /**
+         * @param string $type_form
+         * @param mixed $spec
+         * @return string
+         */
+        public function createForm($type_form, $spec){
+            $routing = 'Composants\\Framework\\Utility\\Forms\\Type\\'.$type_form;
+            $type = new $routing($spec);
+            return $type->getInput();
         }
 
         /**
