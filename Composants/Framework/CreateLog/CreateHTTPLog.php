@@ -1,5 +1,6 @@
 <?php
     namespace Composants\Framework\CreateLog;
+    use Composants\Framework\Globals\Server;
     use Composants\Yaml\Yaml;
 
     /**
@@ -15,8 +16,10 @@
             $yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
 
             if($yaml['log']['access'] == 'yes'){
+                $server = new Server;
+
                 $file = fopen('Others/logs/access.log', 'a');
-                fwrite($file, date('d/m/Y à H:i:s').' - IP : '.$_SERVER['REMOTE_ADDR'].' - '.$url."\n");
+                fwrite($file, date('d/m/Y à H:i:s').' - IP : '.$server->getRemoteAddr().' - '.$url."\n");
                 fclose($file);
             }
         }
