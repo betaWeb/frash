@@ -1,8 +1,8 @@
 <?php
     session_start();
     require_once('vendor/autoload.php');
+    use Composants\Framework\Globals\Server;
     use Composants\Framework\Routing\Router;
-    use Composants\Framework\Http\Http;
 
-    $http = new Http;
-    new Router(ltrim($http->getRequestUri(), '/'));
+    $server = new Server;
+    new Router(ltrim($server->getRequestUri(), '/'));
