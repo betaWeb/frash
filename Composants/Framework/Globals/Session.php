@@ -31,6 +31,9 @@
          * @param mixed $value
          */
         public function setSession($name, $value){
+            $this->session_name[] = $name;
+            $this->session_value[] = $value;
+
             $_SESSION[ $name ] = $value;
         }
 
