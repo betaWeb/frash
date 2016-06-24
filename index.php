@@ -2,5 +2,7 @@
     session_start();
     require_once('vendor/autoload.php');
     use Composants\Framework\Routing\Router;
+    use Composants\Framework\Http\Http;
 
-    new Router(ltrim($_SERVER['REQUEST_URI'], '/'));
+    $http = new Http;
+    new Router(ltrim($http->getRequestUri(), '/'));
