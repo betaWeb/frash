@@ -3,6 +3,7 @@
     use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Framework\Exception\ConnexionORMFail;
     use Composants\Framework\Exception\TwigChargementTemplateFail;
+    use Composants\Framework\Http\Http;
     use Composants\Yaml\Yaml;
 
     /**
@@ -34,8 +35,10 @@
          * Controller constructor.
          */
         public function __construct(){
+            $http = new Http;
+
             $this->yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
-            $this->nurl = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
+            $this->nurl = explode('/', ltrim($http->getRequestUri(), '/'));
         }
 
         /**
@@ -59,26 +62,25 @@
 
             $url = new \Twig_SimpleFunction('url', function ($url, $trad = ''){
                 $echo = '/';
+
                 if($this->yaml['env'] == 'local'){
                     $echo .= $this->nurl['0'].'/';
 
                     if($trad == 'false' || $this->yaml['traduction']['activate'] != 'yes'){
-                        $echo .= $url;
+                        echo $echo.$url;
                     }
                     elseif($this->yaml['traduction']['activate'] == 'yes'){
-                        $echo .= $this->nurl['1'].'/'.$url;
+                        echo $echo.$this->nurl['1'].'/'.$url;
                     }
                 }
                 elseif($this->yaml['env'] == 'prod'){
                     if($trad == 'false' || $this->yaml['traduction']['activate'] != 'yes'){
-                        $echo .= $url;
+                        echo $echo.$url;
                     }
                     elseif($this->yaml['traduction']['activate'] == 'yes'){
-                        $echo .= $this->nurl['0'].'/'.$url;
+                        echo $echo.$this->nurl['0'].'/'.$url;
                     }
                 }
-
-                echo $echo;
             });
 
             $trad = new \Twig_SimpleFunction('trad', function($traduction){
@@ -102,6 +104,7 @@
 
         /**
          * @param string $url
+         * @return bool
          */
         public function redirectToRoute($url){
             $redirect = '';
