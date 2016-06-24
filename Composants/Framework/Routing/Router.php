@@ -35,7 +35,7 @@
 
         /**
          * Router constructor.
-         * @param $url
+         * @param string $url
          */
         public function __construct($url){
             new CreateHTTPLog($url);
@@ -106,7 +106,7 @@
             list($bundle, $controller, $action) = explode(':', $this->route);
             $routing = 'Bundles\\'.$bundle.'\\Controllers\\'.$controller;
 
-            if(file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php') && method_exists($routing, $action)){
+            if(method_exists($routing, $action)){
                 $rout = new $routing;
                 return $rout->$action($this->get);
             }
