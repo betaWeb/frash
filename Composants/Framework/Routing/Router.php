@@ -4,6 +4,7 @@
     use Composants\Framework\Exception\ActionChargementFail;
     use Composants\Framework\Exception\ControllerChargementFail;
     use Composants\Framework\Exception\RouteChargementFail;
+    use Composants\Framework\Globals\Get;
     use Composants\Yaml\Yaml;
 
     /**
@@ -13,11 +14,6 @@
      * @package Composants\Framework\Routing
      */
     class Router{
-        /**
-         * @var array
-         */
-        private $get = [];
-
         /**
          * @var int
          */
@@ -45,9 +41,23 @@
 
             $path = explode('/', $url);
 
-            unset($path['0']);
-            if($confarr['env'] == 'local' && $confarr['traduction']['activate'] == 'yes' && in_array($path['1'], $confarr['traduction']['available'])){
-                unset($path['1']);
+            if($confarr['env'] == 'local' && $confarr['traduction']['activate'] == 'yes'){
+                if(in_array($path['1'], $confarr['traduction']['available'])){
+                    unset($path['0'], $path['1']);
+                }
+                elseif(!in_array($path['1'], $confarr['traduction']['available'])){
+                    header('Location:/'.$path['0'].'/'.$confarr['traduction']['default'].'/');
+                    return true;
+                }
+            }
+            elseif($confarr['env'] == 'prod' && $confarr['traduction']['activate'] == 'yes'){
+                if(in_array($path['0'], $confarr['traduction']['available'])){
+                    unset($path['0']);
+                }
+                elseif(!in_array($path['0'], $confarr['traduction']['available'])){
+                    header('Location:/'.$confarr['traduction']['available'].'/');
+                    return true;
+                }
             }
 
             array_unshift($path, 0);
@@ -84,13 +94,14 @@
             }
 
             if($this->nb_expl > 0 && $this->lien != '' && $this->route != ''){
-                if($this->lien != '/'){
-                    $list = explode('/', str_replace($this->lien.'/', '', implode('/', $path)));
+                $list = explode('/', str_replace($this->lien.'/', '', implode('/', $path)));
 
-                    foreach($list as $v){
-                        $this->get[] = urldecode(htmlentities($v));
-                    }
+                $get = [];
+                foreach($list as $v){
+                    $get[] = urldecode(htmlentities($v));
                 }
+
+                Get::set($get);
 
                 $this->returnController();
             }
@@ -108,7 +119,7 @@
 
             if(method_exists($routing, $action)){
                 $rout = new $routing;
-                return $rout->$action($this->get);
+                return $rout->$action();
             }
             elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')){
                 return new ControllerChargementFail($controller);
