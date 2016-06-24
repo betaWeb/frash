@@ -3,21 +3,10 @@
     require('vendor/autoload.php');
     use Composants\Console\ORM\Createdb;
     use Composants\Console\ORM\Addentity;
-    use Composants\Console\ORM\Addjoin;
-    use Composants\Console\ORM\Updentity;
     use Composants\Console\Bundle\GenerateBundle;
     use Composants\Console\Bundle\GenerateController;
 
-    function read_stdin(){
-        $st = fopen('php://stdin', 'r');
-        $input = fgets($st, 200);
-        $input = rtrim($input);
-        fclose($st);
-
-        return $input;
-    }
-
-    if(count($argv) == 1){
+    if(count($argv) == 1 || $argv[1] == 'console:listcommand'){
         require_once('Composants/Console/listcommand.php');
 
         foreach($array as $k => $v){
@@ -27,7 +16,7 @@
     else{
         $expl = explode(':', $argv[1]);
 
-        if($expl[0] == 'ORM' && $expl[1] == 'createdb'){
+        if($argv[1] == 'ORM:createdb'){
             new Createdb();
         }
 
@@ -39,7 +28,7 @@
             new GenerateBundle($expl[2]);
         }
 
-        if($expl[0] == 'Controller' && $expl[1] == 'generate'){
+        if($argv[1] == 'Controller:generate'){
             fwrite(STDOUT, 'Nom du controller : ');
             $name = trim(fgets(STDIN));
 
@@ -50,13 +39,5 @@
             $action = trim(fgets(STDIN));
 
             new GenerateController($name, $bundle, $action);
-        }
-
-        if($expl[0] == 'console' && $expl[1] == 'listcommand'){
-            require_once('Composants/Console/listcommand.php');
-
-            foreach($array as $k => $v){
-                echo $k.' => '.$v.PHP_EOL;
-            }
         }
     }
