@@ -243,4 +243,11 @@
         public function getOrigPathInfo(){
             return $_SERVER['ORIG_PATH_INFO'];
         }
+
+        /**
+         * @return array
+         */
+        public function getAllRequest(){
+            return $_SERVER;
+        }
     }
