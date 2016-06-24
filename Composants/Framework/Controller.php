@@ -3,7 +3,7 @@
     use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Framework\Exception\ConnexionORMFail;
     use Composants\Framework\Exception\TwigChargementTemplateFail;
-    use Composants\Framework\Http\Http;
+    use Composants\Framework\Globals\Server;
     use Composants\Yaml\Yaml;
 
     /**
@@ -35,10 +35,10 @@
          * Controller constructor.
          */
         public function __construct(){
-            $http = new Http;
+            $server = new Server;
 
             $this->yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
-            $this->nurl = explode('/', ltrim($http->getRequestUri(), '/'));
+            $this->nurl = explode('/', ltrim($server->getRequestUri(), '/'));
         }
 
         /**
