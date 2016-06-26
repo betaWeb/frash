@@ -75,20 +75,22 @@
             }
             else{
                 foreach($routarr as $key => $rout){
-                    $expl_key = explode('/', $key);
-                    $lien_array = [];
-                    $count_for = count($expl_key) - 1;
+                    if(strstr($url, $key)){
+                        $expl_key = explode('/', $key);
+                        $lien_array = [];
+                        $count_for = count($expl_key) - 1;
 
-                    for($i = 0; $i <= $count_for; $i++){
-                        if(!empty($path[ $i ]) && $path[ $i ] == $expl_key[ $i ]){
-                            $lien_array[] = $expl_key[ $i ];
+                        for($i = 0; $i <= $count_for; $i++){
+                            if(!empty($path[ $i ]) && $path[ $i ] == $expl_key[ $i ]){
+                                $lien_array[] = $expl_key[ $i ];
+                            }
                         }
-                    }
 
-                    if(count($lien_array) > $this->nb_expl){
-                        $this->nb_expl = count($lien_array);
-                        $this->lien = implode('/', $lien_array);
-                        $this->route = $routarr[ $this->lien ]['path'];
+                        if(count($lien_array) > $this->nb_expl){
+                            $this->nb_expl = count($lien_array);
+                            $this->lien = implode('/', $lien_array);
+                            $this->route = $routarr[ $this->lien ]['path'];
+                        }
                     }
                 }
             }
