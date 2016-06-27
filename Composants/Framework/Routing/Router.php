@@ -68,7 +68,7 @@
                 $this->lien = '/';
                 $this->route = $confarr['racine'];
             }
-            elseif(count($path) == 2){
+            elseif(count($path) == 2 && in_array($path['0'], $routarr)){
                 $this->lien = $path['0'];
                 $this->route = $routarr[ $this->lien ]['path'];
                 $this->nb_expl = 1;
