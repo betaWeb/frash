@@ -2,15 +2,20 @@
     namespace Composants\Framework\ORM\PGSQL;
     use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Framework\CreateLog\CreateRequestLog;
+    use Composants\Framework\ORM\PGSQL\Hydrator;
+    use Composants\Framework\ORM\PGSQL\Request\Delete;
+    use Composants\Framework\ORM\PGSQL\Request\Insert;
+    use Composants\Framework\ORM\PGSQL\Request\Select;
+    use Composants\Framework\ORM\PGSQL\Request\Update;
     use Composants\Yaml\Yaml;
 
     /**
      * Class QueryBuilder
      * @package Composants\Framework\ORM\PGSQL
      */
-    class QueryBuilder{
+    class QueryBuilder extends Hydrator{
         /**
-         * @var mixed
+         * @var \PDO
          */
         private $conn;
 
@@ -21,24 +26,24 @@
 
         /**
          * QueryBuilder constructor.
+         * @param \PDO $conn
          */
-        public function __construct($conn){
+        public function __construct(\PDO $conn){
             $this->yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
             $this->conn = $conn;
         }
 
         /**
-         * @param string $request
-         * @param array $exec
-         * @param bool $lastid
+         * @param Insert $request
+         * @param string $lastid
          * @return int
          */
-        public function insert($request, $exec = [], $lastid = false){
+        public function insert(Insert $request, $lastid = ''){
             try{
-                $req = $this->conn->prepare($request);
-                $req->execute($exec);
+                $req = $this->conn->prepare($request->getRequest());
+                $req->execute($request->getExecute());
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
 
                 if(!empty($lastid)){
                     return $this->conn->lastInsertId($lastid);
@@ -51,26 +56,49 @@
         }
 
         /**
-         * @param string $request
-         * @param array $exec
-         * @param string $class
+         * @param Select $select
+         * @param string $entity
          * @param string $bundle
          * @return array
          */
-        public function select($request, $exec = [], $class, $bundle){
+        public function selectOne(Select $select, $entity, $bundle){
             try{
-                $req = $this->conn->prepare($request);
-                $req->execute($exec);
-                $data = $req->fetchAll(\PDO::FETCH_CLASS, 'Bundles\\'.$bundle.'\Entity\\'.$class);
+                $req = $this->conn->prepare($select->getRequest());
+                $req->execute($select->getExecute());
+                $res = $req->fetch(\PDO::FETCH_OBJ);
 
-                $array = [];
-                foreach($data as $v){
-                    $array[] = $v;
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
+
+                return $this->hydration($res, $bundle, $entity);
+            }
+            catch(\Exception $e){
+                new CreateErrorLog($e->getMessage());
+                die('Il y a eu une erreur.');
+            }
+        }
+
+        /**
+         * @param Select $select
+         * @param string $entity
+         * @param string $bundle
+         * @return array
+         */
+        public function selectMany(Select $select, $entity, $bundle){
+            try{
+                $req = $this->conn->prepare($select->getRequest());
+                $req->execute($select->getExecute());
+                $res = $req->fetchAll(\PDO::FETCH_OBJ);
+
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
+
+                $count = count($res) - 1;
+                $array_obj = [];
+
+                for($i = 0; $i <= $count; $i++){
+                    $array_obj[ $i ] = $this->hydration($res[ $i ], $bundle, $entity);
                 }
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
-
-                return $array;
+                return $array_obj;
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());
@@ -79,15 +107,14 @@
         }
 
         /**
-         * @param string $request
-         * @param array $exec
+         * @param Delete $request
          */
-        public function delete($request, $exec = []){
+        public function delete(Delete $request){
             try{
-                $req = $this->conn->prepare($request);
-                $req->execute($exec);
+                $req = $this->conn->prepare($request->getRequest());
+                $req->execute($request->getExecute());
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());
@@ -96,15 +123,14 @@
         }
 
         /**
-         * @param string $request
-         * @param array $exec
+         * @param Update $request
          */
-        public function update($request, $exec = []){
+        public function update($request){
             try{
-                $req = $this->conn->prepare($request);
-                $req->execute($exec);
+                $req = $this->conn->prepare($request->getRequest());
+                $req->execute($request->getExecute());
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());
@@ -139,45 +165,17 @@
         }
 
         /**
-         * @param string $request
-         * @param array $exec
-         * @return int
+         * @param Select $request
+         * @return mixed
          */
-        public function countResult($request, $exec = []){
+        public function count(Select $request){
             try{
-                $req = $this->conn->prepare($request);
-                $req->execute($exec);
+                $req = $this->conn->prepare($request->getRequest());
+                $req->execute($request->getExecute());
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
 
                 return $req->rowCount();
-            }
-            catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
-                die('Il y a eu une erreur.');
-            }
-        }
-
-        /**
-         * @param string $request
-         * @param array $exec
-         * @param string $bundle
-         * @param string $entity
-         * @return array
-         */
-        public function request($request, $exec = [], $bundle, $entity){
-            try{
-                $req = $this->conn->prepare($request);
-                $req->execute($exec);
-                $data = $req->fetchAll(\PDO::FETCH_CLASS, 'Bundles\\'.$bundle.'\Entity\\'.$entity);
-
-                $array = [];
-                foreach($data as $v){
-                    $array[] = $v;
-                }
-
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
-                return $array;
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());
