@@ -35,10 +35,8 @@
          * Controller constructor.
          */
         public function __construct(){
-            $server = new Server;
-
             $this->yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
-            $this->nurl = explode('/', ltrim($server->getRequestUri(), '/'));
+            $this->nurl = explode('/', ltrim(Server::getRequestUri(), '/'));
         }
 
         /**
