@@ -1,11 +1,11 @@
 <?php
-    namespace Composants\Framework;
+namespace Composants\Framework;
     use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Framework\Exception\ConnexionORMFail;
     use Composants\Framework\Exception\TwigChargementTemplateFail;
     use Composants\Framework\Globals\Server;
     use Composants\Yaml\Yaml;
-    
+
     /**
      * Class Controller
      * @package Composants\Framework
@@ -59,10 +59,8 @@
             $twig = new \Twig_Environment($tlf, [ 'cache' => false ]);
 
             $url = new \Twig_SimpleFunction('url', function ($url, $trad = ''){
-                $echo = '/';
-
                 if($this->yaml['env'] == 'local'){
-                    $echo .= $this->nurl['0'].'/';
+                    $echo = '/'.$this->nurl['0'].'/';
 
                     if($trad == 'false' || $this->yaml['traduction']['activate'] != 'yes'){
                         echo $echo.$url;
@@ -73,10 +71,10 @@
                 }
                 elseif($this->yaml['env'] == 'prod'){
                     if($trad == 'false' || $this->yaml['traduction']['activate'] != 'yes'){
-                        echo $echo.$url;
+                        echo '/'.$url;
                     }
                     elseif($this->yaml['traduction']['activate'] == 'yes'){
-                        echo $echo.$this->nurl['0'].'/'.$url;
+                        echo '/'.$this->nurl['0'].'/'.$url;
                     }
                 }
             });
