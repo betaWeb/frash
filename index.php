@@ -4,5 +4,4 @@
     use Composants\Framework\Globals\Server;
     use Composants\Framework\Routing\Router;
 
-    $server = new Server;
-    new Router(ltrim($server->getRequestUri(), '/'));
+    new Router(ltrim(Server::getRequestUri(), '/'));
