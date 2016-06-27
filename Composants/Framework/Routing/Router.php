@@ -41,22 +41,28 @@
 
             $path = explode('/', $url);
 
-            if($confarr['env'] == 'local' && $confarr['traduction']['activate'] == 'yes'){
-                if(in_array($path['1'], $confarr['traduction']['available'])){
-                    unset($path['0'], $path['1']);
-                }
-                elseif(!in_array($path['1'], $confarr['traduction']['available'])){
-                    header('Location:/'.$path['0'].'/'.$confarr['traduction']['default'].'/');
-                    return true;
-                }
-            }
-            elseif($confarr['env'] == 'prod' && $confarr['traduction']['activate'] == 'yes'){
-                if(in_array($path['0'], $confarr['traduction']['available'])){
-                    unset($path['0']);
-                }
-                elseif(!in_array($path['0'], $confarr['traduction']['available'])){
-                    header('Location:/'.$confarr['traduction']['available'].'/');
-                    return true;
+            if($confarr['traduction']['activate'] == 'yes'){
+                switch($confarr['env']){
+                    case 'local':
+                        if(in_array($path['1'], $confarr['traduction']['available'])){
+                            unset($path['0'], $path['1']);
+                        }
+                        elseif(!in_array($path['1'], $confarr['traduction']['available'])){
+                            header('Location:/'.$path['0'].'/'.$confarr['traduction']['default'].'/');
+                            return true;
+                        }
+
+                        break;
+                    case 'prod':
+                        if(in_array($path['0'], $confarr['traduction']['available'])){
+                            unset($path['0']);
+                        }
+                        elseif(!in_array($path['0'], $confarr['traduction']['available'])){
+                            header('Location:/'.$confarr['traduction']['available'].'/');
+                            return true;
+                        }
+
+                        break;
                 }
             }
 
@@ -97,8 +103,8 @@
 
             if($this->nb_expl > 0 && $this->lien != '' && $this->route != ''){
                 $list = explode('/', str_replace($this->lien.'/', '', implode('/', $path)));
-
                 $get = [];
+
                 foreach($list as $v){
                     $get[] = urldecode(htmlentities($v));
                 }
