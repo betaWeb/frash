@@ -9,245 +9,245 @@
         /**
          * @return string
          */
-        public function getPhpSelf(){
+        public static function getPhpSelf(){
             return $_SERVER['PHP_SELF'];
         }
 
         /**
          * @return string
          */
-        public function getGatewayInterface(){
+        public static function getGatewayInterface(){
             return $_SERVER['GATEWAY_INTERFACE'];
         }
 
         /**
          * @return string
          */
-        public function getServerAddr(){
+        public static function getServerAddr(){
             return $_SERVER['SERVER_ADDR'];
         }
 
         /**
          * @return string
          */
-        public function getServerName(){
+        public static function getServerName(){
             return $_SERVER['SERVER_NAME'];
         }
 
         /**
          * @return string
          */
-        public function getServerSoftware(){
+        public static function getServerSoftware(){
             return $_SERVER['SERVER_SOFTWARE'];
         }
 
         /**
          * @return string
          */
-        public function getServerProtocol(){
+        public static function getServerProtocol(){
             return $_SERVER['SERVER_PROTOCOL'];
         }
 
         /**
          * @return string
          */
-        public function getRequestMethod(){
+        public static function getRequestMethod(){
             return $_SERVER['REQUEST_METHOD'];
         }
 
         /**
          * @return int
          */
-        public function getRequestTime(){
+        public static function getRequestTime(){
             return $_SERVER['REQUEST_TIME'];
         }
 
         /**
          * @return string
          */
-        public function getQueryString(){
+        public static function getQueryString(){
             return $_SERVER['QUERY_STRING'];
         }
 
         /**
          * @return string
          */
-        public function getDocumentRoot(){
+        public static function getDocumentRoot(){
             return $_SERVER['DOCUMENT_ROOT'];
         }
 
         /**
          * @return string
          */
-        public function getHttpAccept(){
+        public static function getHttpAccept(){
             return $_SERVER['HTTP_ACCEPT'];
         }
 
         /**
          * @return string
          */
-        public function getHttpAcceptCharset(){
+        public static function getHttpAcceptCharset(){
             return $_SERVER['HTTP_ACCEPT_CHARSET'];
         }
 
         /**
          * @return string
          */
-        public function getHttpAcceptEncoding(){
+        public static function getHttpAcceptEncoding(){
             return $_SERVER['HTTP_ACCEPT_ENCODING'];
         }
 
         /**
          * @return string
          */
-        public function getHttpAcceptLanguage(){
+        public static function getHttpAcceptLanguage(){
             return $_SERVER['HTTP_ACCEPT_LANGUAGE'];
         }
 
         /**
          * @return string
          */
-        public function getHttpHost(){
+        public static function getHttpHost(){
             return $_SERVER['HTTP_HOST'];
         }
 
         /**
          * @return string
          */
-        public function getHttpReferer(){
+        public static function getHttpReferer(){
             return $_SERVER['HTTP_REFERER'];
         }
 
         /**
          * @return string
          */
-        public function getHttpUserAgent(){
+        public static function getHttpUserAgent(){
             return $_SERVER['HTTP_USER_AGENT'];
         }
 
         /**
          * @return string
          */
-        public function getHttps(){
+        public static function getHttps(){
             return $_SERVER['HTTPS'];
         }
 
         /**
          * @return string
          */
-        public function getRemoteAddr(){
+        public static function getRemoteAddr(){
             return $_SERVER['REMOTE_ADDR'];
         }
 
         /**
          * @return string
          */
-        public function getRemoteHost(){
+        public static function getRemoteHost(){
             return $_SERVER['REMOTE_HOST'];
         }
 
         /**
          * @return int
          */
-        public function getRemotePort(){
+        public static function getRemotePort(){
             return $_SERVER['REMOTE_PORT'];
         }
 
         /**
          * @return string
          */
-        public function getScriptFilename(){
+        public static function getScriptFilename(){
             return $_SERVER['SCRIPT_FILENAME'];
         }
 
         /**
          * @return string
          */
-        public function getServerAdmin(){
+        public static function getServerAdmin(){
             return $_SERVER['SERVER_ADMIN'];
         }
 
         /**
          * @return int
          */
-        public function getServerPort(){
+        public static function getServerPort(){
             return $_SERVER['SERVER_PORT'];
         }
 
         /**
          * @return string
          */
-        public function getServerSignature(){
+        public static function getServerSignature(){
             return $_SERVER['SERVER_SIGNATURE'];
         }
 
         /**
          * @return string
          */
-        public function getPathTranslated(){
+        public static function getPathTranslated(){
             return $_SERVER['PATH_TRANSLATED'];
         }
 
         /**
          * @return string
          */
-        public function getScriptName(){
+        public static function getScriptName(){
             return $_SERVER['SCRIPT_NAME'];
         }
 
         /**
          * @return string
          */
-        public function getRequestUri(){
+        public static function getRequestUri(){
             return $_SERVER['REQUEST_URI'];
         }
 
         /**
          * @return string
          */
-        public function getPhpAuthDigest(){
+        public static function getPhpAuthDigest(){
             return $_SERVER['PHP_AUTH_DIGEST'];
         }
 
         /**
          * @return string
          */
-        public function getPhpAuthUser(){
+        public static function getPhpAuthUser(){
             return $_SERVER['PHP_AUTH_USER'];
         }
 
         /**
          * @return string
          */
-        public function getPhpAuthPw(){
+        public static function getPhpAuthPw(){
             return $_SERVER['PHP_AUTH_PW'];
         }
 
         /**
          * @return string
          */
-        public function getAuthType(){
+        public static function getAuthType(){
             return $_SERVER['AUTH_TYPE'];
         }
 
         /**
          * @return string
          */
-        public function getPathInfo(){
+        public static function getPathInfo(){
             return $_SERVER['PATH_INFO'];
         }
 
         /**
          * @return string
          */
-        public function getOrigPathInfo(){
+        public static function getOrigPathInfo(){
             return $_SERVER['ORIG_PATH_INFO'];
         }
 
         /**
          * @return array
          */
-        public function getAllRequest(){
+        public static function getAllRequest(){
             return $_SERVER;
         }
     }
