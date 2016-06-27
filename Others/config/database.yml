@@ -1,5 +1,6 @@
-host: localhost
-username:
-password:
-dbname:
-system: MySQL
+AppBundle:
+    host: localhost
+    username:
+    password:
+    dbname:
+    system:
