@@ -81,34 +81,6 @@
         /**
          * @param string $request
          * @param array $exec
-         * @param string $class
-         * @param string $bundle
-         * @return array
-         */
-        public function jointure($request, $exec = [], $class, $bundle){
-            try{
-                $req = $this->conn->prepare($request);
-                $req->execute($exec);
-                $data = $req->fetchAll(\PDO::FETCH_CLASS, 'Bundles\\'.$bundle.'\Entity\Jointure\\'.$class);
-
-                $array = [];
-                foreach($data as $v){
-                    $array[] = $v;
-                }
-
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
-
-                return $array;
-            }
-            catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
-                die('Il y a eu une erreur.');
-            }
-        }
-
-        /**
-         * @param string $request
-         * @param array $exec
          */
         public function delete($request, $exec = []){
             try{
