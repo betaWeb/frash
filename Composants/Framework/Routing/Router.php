@@ -3,6 +3,7 @@
     use Composants\Framework\CreateLog\CreateHTTPLog;
     use Composants\Framework\Exception\ActionChargementFail;
     use Composants\Framework\Exception\ControllerChargementFail;
+    use Composants\Framework\Exception\GetChargementFail;
     use Composants\Framework\Exception\RouteChargementFail;
     use Composants\Framework\Globals\Get;
     use Composants\Yaml\Yaml;
@@ -103,13 +104,24 @@
 
             if($this->nb_expl > 0 && $this->lien != '' && $this->route != ''){
                 $list = explode('/', str_replace($this->lien.'/', '', implode('/', $path)));
-                $get = [];
 
-                foreach($list as $v){
-                    $get[] = urldecode(htmlentities($v));
+                if(isset($routarr[ $this->lien ]['get'])){
+                    $count_expl = count($list) - 1;
+                    $get = [];
+                    for($i = 0; $i <= $count_expl; $i++){
+                        if(isset($routarr[ $this->lien ]['get'][ $i ])){
+                            if($routarr[ $this->lien ]['get'][ $i ]['fix'] == 'yes' && empty($list[ $i ])){ return new GetChargementFail(); }
+
+                            if($routarr[ $this->lien ]['get'][ $i ]['type'] != 'mixed'){
+                                settype($list[ $i ], $routarr[ $this->lien ]['get'][ $i ]['type']);
+                            }
+
+                            $get[] = urldecode(htmlentities($list[ $i ]));
+                        }
+                    }
+
+                    Get::set($get);
                 }
-
-                Get::set($get);
 
                 $this->returnController();
             }
