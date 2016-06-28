@@ -92,11 +92,10 @@
          * @return array|object
          */
         public function __call($method, $arg){
+            list($bundle, $entity) = explode(':', $arg['0']);
+            array_shift($arg);
+
             if(substr($method, 0, 6) == 'findBy'){
-                list($bundle, $entity) = explode(':', $arg['0']);
-
-                array_shift($arg);
-
                 $method = str_replace('findBy', '', $method);
                 $expl_method = explode('And', $method);
 
@@ -109,10 +108,6 @@
                 return $this->findBy($bundle, $entity, 'WHERE '.implode(' AND ', $array_method), $arg);
             }
             elseif(substr($method, 0, 9) == 'findOneBy'){
-                list($bundle, $entity) = explode(':', $arg['0']);
-
-                array_shift($arg);
-
                 $method = str_replace('findOneBy', '', $method);
                 $expl_method = explode('And', $method);
 
