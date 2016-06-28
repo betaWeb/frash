@@ -11,20 +11,20 @@
         /**
          * @var \PDO
          */
-        private $pdo;
+        private static $pdo;
 
         /**
-         * @var Hydrator
+         * @var object
          */
-        private $hydrator;
+        private static $hydrator;
 
         /**
          * Finder constructor.
          * @param \PDO $pdo
          */
         public function __construct(\PDO $pdo){
-            $this->pdo = $pdo;
-            $this->hydrator = new Hydrator;
+            self::$pdo = $pdo;
+            self::$hydrator = new Hydrator;
         }
 
         /**
@@ -39,7 +39,7 @@
                 $table = lcfirst($entity);
                 $request = 'SELECT * FROM '."\"$table\"".' '.$where;
 
-                $req = $this->pdo->prepare($request);
+                $req = self::$pdo->prepare($request);
                 $req->execute($arguments);
                 $res = $req->fetchAll(\PDO::FETCH_OBJ);
 
@@ -49,7 +49,7 @@
                 $array_obj = [];
 
                 for($i = 0; $i <= $count; $i++){
-                    $array_obj[ $i ] = $this->hydrator->hydration($res[ $i ], $bundle.'Bundle', $entity);
+                    $array_obj[ $i ] = self::$hydrator->hydration($res[ $i ], $bundle.'Bundle', $entity);
                 }
 
                 return $array_obj;
@@ -72,13 +72,13 @@
                 $table = lcfirst($entity);
                 $request = 'SELECT * FROM '."\"$table\"".' '.$where;
 
-                $req = $this->pdo->prepare($request);
+                $req = self::$pdo->prepare($request);
                 $req->execute($arguments);
                 $res = $req->fetch(\PDO::FETCH_OBJ);
 
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
 
-                return $this->hydrator->hydration($res, $bundle.'Bundle', $entity);
+                return self::$hydrator->hydration($res, $bundle.'Bundle', $entity);
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());
@@ -91,7 +91,7 @@
          * @param array $arg
          * @return array|object
          */
-        public function __call($method, $arg){
+        public static function __callStatic($method, $arg){
             list($bundle, $entity) = explode(':', $arg['0']);
             array_shift($arg);
 
@@ -105,7 +105,7 @@
                     $array_method[] = "\"$lc_method\"".' = ?';
                 }
 
-                return $this->findBy($bundle, $entity, 'WHERE '.implode(' AND ', $array_method), $arg);
+                return self::findBy($bundle, $entity, 'WHERE '.implode(' AND ', $array_method), $arg);
             }
             elseif(substr($method, 0, 9) == 'findOneBy'){
                 $method = str_replace('findOneBy', '', $method);
@@ -117,7 +117,7 @@
                     $array_method[] = "\"$lc_method\"".' = ?';
                 }
 
-                return $this->findOneBy($bundle, $entity, 'WHERE '.implode(' AND ', $array_method), $arg);
+                return self::findOneBy($bundle, $entity, 'WHERE '.implode(' AND ', $array_method), $arg);
             }
         }
     }
