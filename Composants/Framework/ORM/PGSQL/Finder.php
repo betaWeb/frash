@@ -14,7 +14,7 @@
         private $pdo;
 
         /**
-         * @var object
+         * @var Hydrator
          */
         private $hydrator;
 
