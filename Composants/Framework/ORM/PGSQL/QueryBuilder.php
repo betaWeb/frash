@@ -20,16 +20,10 @@
         private $conn;
 
         /**
-         * @var array
-         */
-        private $yaml = [];
-
-        /**
          * QueryBuilder constructor.
          * @param \PDO $conn
          */
         public function __construct(\PDO $conn){
-            $this->yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
             $this->conn = $conn;
         }
 
