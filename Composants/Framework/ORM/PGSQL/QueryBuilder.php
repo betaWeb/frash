@@ -7,7 +7,6 @@
     use Composants\Framework\ORM\PGSQL\Request\Insert;
     use Composants\Framework\ORM\PGSQL\Request\Select;
     use Composants\Framework\ORM\PGSQL\Request\Update;
-    use Composants\Yaml\Yaml;
 
     /**
      * Class QueryBuilder
