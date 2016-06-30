@@ -34,7 +34,7 @@
          * @param array $arguments
          * @return array
          */
-        private function findBy($bundle, $entity, $where, $arguments){
+        private static function findBy($bundle, $entity, $where, $arguments){
             try{
                 $table = lcfirst($entity);
                 $request = 'SELECT * FROM '."\"$table\"".' '.$where;
@@ -67,7 +67,7 @@
          * @param array $arguments
          * @return object
          */
-        private function findOneBy($bundle, $entity, $where, $arguments){
+        private static function findOneBy($bundle, $entity, $where, $arguments){
             try{
                 $table = lcfirst($entity);
                 $request = 'SELECT * FROM '."\"$table\"".' '.$where;
@@ -92,7 +92,7 @@
          * @return array|object
          */
         public static function __callStatic($method, $arg){
-            list($bundle, $entity) = explode(':', $arg['0']);
+            list($bundle, $entity) = explode(':', $arg[0]);
             array_shift($arg);
 
             if(substr($method, 0, 6) == 'findBy'){
@@ -118,6 +118,12 @@
                 }
 
                 return self::findOneBy($bundle, $entity, 'WHERE '.implode(' AND ', $array_method), $arg);
+            }
+            elseif($method == 'find'){
+                return self::findBy($bundle, $entity, "WHERE \"id\" = ?", $arg);
+            }
+            elseif($method == 'findOne'){
+                return self::findOneBy($bundle, $entity, "WHERE \"id\" = ?", $arg);
             }
         }
     }
