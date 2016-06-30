@@ -18,17 +18,37 @@
         /**
          * @var int
          */
-        private $nb_expl = 0;
+        private static $nb_expl = 0;
 
         /**
          * @var string
          */
-        private $lien = '';
+        private static $lien = '';
 
         /**
          * @var string
          */
-        private $route = '';
+        private static $route = '';
+
+        /**
+         * @var array
+         */
+        private static $path = [];
+
+        /**
+         * @var array
+         */
+        private static $confarr = [];
+
+        /**
+         * @var array
+         */
+        private static $routarr = [];
+
+        /**
+         * @var string
+         */
+        private static $url = '';
 
         /**
          * Router constructor.
@@ -37,83 +57,71 @@
         public function __construct($url){
             new CreateHTTPLog($url);
 
-            $confarr = Yaml::parse(file_get_contents('Others/config/config.yml'));
-            $routarr = Yaml::parse(file_get_contents('Others/config/'.$confarr['routing']['file']));
+            self::$confarr = Yaml::parse(file_get_contents('Others/config/config.yml'));
+            self::$routarr = Yaml::parse(file_get_contents('Others/config/'.self::$confarr['routing']['file']));
 
-            $path = explode('/', $url);
+            self::$url = $url;
+            self::$path = explode('/', $url);
+        }
 
-            if($confarr['traduction']['activate'] == 'yes'){
-                switch($confarr['env']){
-                    case 'local':
-                        if(in_array($path['1'], $confarr['traduction']['available'])){
-                            unset($path['0'], $path['1']);
-                        }
-                        elseif(!in_array($path['1'], $confarr['traduction']['available'])){
-                            header('Location:/'.$path['0'].'/'.$confarr['traduction']['default'].'/');
-                            return true;
-                        }
-
-                        break;
-                    case 'prod':
-                        if(in_array($path['0'], $confarr['traduction']['available'])){
-                            unset($path['0']);
-                        }
-                        elseif(!in_array($path['0'], $confarr['traduction']['available'])){
-                            header('Location:/'.$confarr['traduction']['available'].'/');
-                            return true;
-                        }
-
-                        break;
+        public static function routing(){
+            if('/'.self::$path[0] == self::$confarr['prefix']){
+                if(in_array(self::$path[1], self::$confarr['traduction']['available'])){
+                    unset(self::$path[0], self::$path[1]);
+                }
+                elseif(!in_array(self::$path[1], self::$confarr['traduction']['available'])){
+                    $slice = array_slice(self::$path, 1);
+                    self::$path = $slice;
                 }
             }
 
-            array_unshift($path, 0);
-            array_shift($path);
+            array_unshift(self::$path, 0);
+            array_shift(self::$path);
 
-            if($path['0'] == '' && !empty($confarr['racine'])){
-                $this->nb_expl = 1;
-                $this->lien = '/';
-                $this->route = $confarr['racine'];
+            if(self::$path[0] == '' && !empty(self::$confarr['racine'])){
+                self::$nb_expl = 1;
+                self::$lien = '/';
+                self::$route = self::$confarr['racine'];
             }
-            elseif(count($path) == 2 && in_array($path['0'], $routarr)){
-                $this->lien = $path['0'];
-                $this->route = $routarr[ $this->lien ]['path'];
-                $this->nb_expl = 1;
+            elseif(count(self::$path) == 2 && in_array(self::$path[0], self::$routarr)){
+                self::$nb_expl = 1;
+                self::$lien = self::$path[0];
+                self::$route = self::$routarr[ self::$lien ]['path'];
             }
             else{
-                foreach($routarr as $key => $rout){
-                    if(strstr($url, $key)){
+                foreach(self::$routarr as $key => $rout){
+                    if(strstr(self::$url, $key)){
                         $expl_key = explode('/', $key);
                         $lien_array = [];
                         $count_for = count($expl_key) - 1;
 
                         for($i = 0; $i <= $count_for; $i++){
-                            if(!empty($path[ $i ]) && $path[ $i ] == $expl_key[ $i ]){
+                            if(!empty(self::$path[ $i ]) && self::$path[ $i ] == $expl_key[ $i ]){
                                 $lien_array[] = $expl_key[ $i ];
                             }
                         }
 
-                        if(count($lien_array) > $this->nb_expl){
-                            $this->nb_expl = count($lien_array);
-                            $this->lien = implode('/', $lien_array);
-                            $this->route = $routarr[ $this->lien ]['path'];
+                        if(count($lien_array) > self::$nb_expl){
+                            self::$nb_expl = count($lien_array);
+                            self::$lien = implode('/', $lien_array);
+                            self::$route = self::$routarr[ self::$lien ]['path'];
                         }
                     }
                 }
             }
 
-            if($this->nb_expl > 0 && $this->lien != '' && $this->route != ''){
-                $list = explode('/', str_replace($this->lien.'/', '', implode('/', $path)));
+            if(self::$nb_expl > 0 && self::$lien != '' && self::$route != ''){
+                $list = explode('/', str_replace(self::$lien.'/', '', implode('/', self::$path)));
 
-                if(isset($routarr[ $this->lien ]['get'])){
+                if(isset(self::$routarr[ self::$lien ]['get'])){
                     $count_expl = count($list) - 1;
                     $get = [];
                     for($i = 0; $i <= $count_expl; $i++){
-                        if(isset($routarr[ $this->lien ]['get'][ $i ])){
-                            if($routarr[ $this->lien ]['get'][ $i ]['fix'] == 'yes' && empty($list[ $i ])){ return new GetChargementFail(); }
+                        if(isset(self::$routarr[ self::$lien ]['get'][ $i ])){
+                            if(self::$routarr[ self::$lien ]['get'][ $i ]['fix'] == 'yes' && empty($list[ $i ])){ return new GetChargementFail(); }
 
-                            if($routarr[ $this->lien ]['get'][ $i ]['type'] != 'mixed'){
-                                settype($list[ $i ], $routarr[ $this->lien ]['get'][ $i ]['type']);
+                            if(self::$routarr[ self::$lien ]['get'][ $i ]['type'] != 'mixed'){
+                                settype($list[ $i ], self::$routarr[ self::$lien ]['get'][ $i ]['type']);
                             }
 
                             $get[] = urldecode(htmlentities($list[ $i ]));
@@ -123,18 +131,18 @@
                     Get::set($get);
                 }
 
-                $this->returnController();
+                self::returnController();
             }
             else{
-                return new RouteChargementFail(implode('/', $path));
+                return new RouteChargementFail(implode('/', self::$path));
             }
         }
 
         /**
          * @return ActionChargementFail|ControllerChargementFail
          */
-        private function returnController(){
-            list($bundle, $controller, $action) = explode(':', $this->route);
+        private static function returnController(){
+            list($bundle, $controller, $action) = explode(':', self::$route);
             $routing = 'Bundles\\'.$bundle.'\\Controllers\\'.$controller;
 
             if(method_exists($routing, $action)){
