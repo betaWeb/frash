@@ -35,6 +35,8 @@
             self::$session_value[] = $value;
 
             $_SESSION[ $name ] = $value;
+
+            return $value;
         }
 
         /**

@@ -1,9 +1,9 @@
 <?php
-    namespace Composants\Framework\Utility\GenPass;
+    namespace Composants\Framework\Utility;
 
     /**
      * Class GenPass
-     * @package Composants\Framework\Utility\GenPass
+     * @package Composants\Framework\Utility
      */
     class GenPass{
         /**
