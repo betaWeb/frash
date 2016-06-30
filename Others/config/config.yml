@@ -1,8 +1,8 @@
 env: local
 racine: AppBundle:IndexController:indexAction
+prefix: /DIRECTORY
 
 traduction:
-    activate: no
     default: fr
     available:
         - fr
