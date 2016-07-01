@@ -5,3 +5,4 @@
     use Composants\Framework\Routing\Router;
 
     new Router(ltrim(Server::getRequestUri(), '/'));
+    Router::routing();
