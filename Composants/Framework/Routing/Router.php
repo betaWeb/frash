@@ -65,7 +65,7 @@
         }
 
         public static function routing(){
-            if('/'.self::$path[0] == self::$confarr['prefix']){
+            if('/'.self::$path[0] == self::$confarr['prefix'] && !empty(self::$path['0'])){
                 if(in_array(self::$path[1], self::$confarr['traduction']['available'])){
                     unset(self::$path[0], self::$path[1]);
                 }
@@ -73,6 +73,9 @@
                     $slice = array_slice(self::$path, 1);
                     self::$path = $slice;
                 }
+            }
+            elseif(in_array(self::$path[0], self::$confarr['traduction']['available'])){
+                unset(self::$path[0]);
             }
 
             array_unshift(self::$path, 0);
