@@ -1,13 +1,12 @@
 <?php
     namespace Composants\Framework\Exception;
-    use Composants\Framework\Controller;
     use Composants\Framework\CreateLog\CreateErrorLog;
 
     /**
      * Class TwigChargementTemplateFail
      * @package Composants\Framework\Exception
      */
-    class TwigChargementTemplateFail extends Controller{
+    class TwigChargementTemplateFail{
         /**
          * TwigChargementTemplateFail constructor.
          * @param string $templ
@@ -15,6 +14,7 @@
         public function __construct($templ){
             new CreateErrorLog('Template TWIG Not Found');
 
-            return $this->view('TplNotFound.html.twig', 'Exception', [ 'tpl' => $templ ]);
+            header('HTTP/1.0 404 Not Found', true, 404);
+            die();
         }
     }

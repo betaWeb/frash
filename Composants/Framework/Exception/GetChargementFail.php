@@ -1,12 +1,12 @@
 <?php
     namespace Composants\Framework\Exception;
-    use Composants\Framework\Controller;
     use Composants\Framework\CreateLog\CreateErrorLog;
 
-    class GetChargementFail extends Controller{
+    class GetChargementFail{
         public function __construct(){
             new CreateErrorLog('URL incorrecte');
 
-            return $this->view('GetIncorrect.html.twig', 'Exception');
+            header('HTTP/1.0 404 Not Found', true, 404);
+            die();
         }
     }
