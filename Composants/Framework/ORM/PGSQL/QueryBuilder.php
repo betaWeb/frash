@@ -2,7 +2,6 @@
     namespace Composants\Framework\ORM\PGSQL;
     use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Framework\CreateLog\CreateRequestLog;
-    use Composants\Framework\ORM\PGSQL\Hydrator;
     use Composants\Framework\ORM\PGSQL\Request\Delete;
     use Composants\Framework\ORM\PGSQL\Request\Insert;
     use Composants\Framework\ORM\PGSQL\Request\Select;
@@ -16,14 +15,14 @@
         /**
          * @var object
          */
-        private $conn;
+        private static $conn;
 
         /**
          * QueryBuilder constructor.
          * @param object $conn
          */
         public function __construct($conn){
-            $this->conn = $conn;
+            self::$conn = $conn;
         }
 
         /**
@@ -33,13 +32,13 @@
          */
         public function insert(Insert $request, $lastid = ''){
             try{
-                $req = $this->conn->prepare($request->getRequest());
+                $req = self::$conn->prepare($request->getRequest());
                 $req->execute($request->getExecute());
 
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
 
                 if(!empty($lastid)){
-                    return $this->conn->lastInsertId($lastid);
+                    return self::$conn->lastInsertId($lastid);
                 }
             }
             catch(\Exception $e){
@@ -56,7 +55,7 @@
          */
         public function selectOne(Select $select, $entity, $bundle){
             try{
-                $req = $this->conn->prepare($select->getRequest());
+                $req = self::$conn->prepare($select->getRequest());
                 $req->execute($select->getExecute());
                 $res = $req->fetch(\PDO::FETCH_OBJ);
 
@@ -76,9 +75,9 @@
          * @param string $bundle
          * @return array
          */
-        public function selectMany(Select $select, $entity, $bundle){
+        public static function selectMany(Select $select, $entity, $bundle){
             try{
-                $req = $this->conn->prepare($select->getRequest());
+                $req = self::$conn->prepare($select->getRequest());
                 $req->execute($select->getExecute());
                 $res = $req->fetchAll(\PDO::FETCH_OBJ);
 
@@ -104,7 +103,7 @@
          */
         public function delete(Delete $request){
             try{
-                $req = $this->conn->prepare($request->getRequest());
+                $req = self::$conn->prepare($request->getRequest());
                 $req->execute($request->getExecute());
 
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
@@ -120,7 +119,7 @@
          */
         public function update(Update $request){
             try{
-                $req = $this->conn->prepare($request->getRequest());
+                $req = self::$conn->prepare($request->getRequest());
                 $req->execute($request->getExecute());
 
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
@@ -137,7 +136,7 @@
          */
         public function count(Select $request){
             try{
-                $req = $this->conn->prepare($request->getRequest());
+                $req = self::$conn->prepare($request->getRequest());
                 $req->execute($request->getExecute());
 
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
