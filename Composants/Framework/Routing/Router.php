@@ -81,10 +81,14 @@
             array_unshift(self::$path, 0);
             array_shift(self::$path);
 
+            $racine = 0;
+
             if(self::$path[0] == '' && !empty(self::$confarr['racine'])){
                 self::$nb_expl = 1;
                 self::$lien = '/';
-                self::$route = self::$confarr['racine'];
+                self::$route = self::$confarr['racine']['path'];
+
+                $racine = 1;
             }
             elseif(count(self::$path) == 2 && in_array(self::$path[0], self::$routarr)){
                 self::$nb_expl = 1;
@@ -115,10 +119,10 @@
 
             if(self::$nb_expl > 0 && self::$lien != '' && self::$route != ''){
                 $list = explode('/', str_replace(self::$lien.'/', '', implode('/', self::$path)));
+                $get = [];
 
-                if(isset(self::$routarr[ self::$lien ]['get'])){
+                if(isset(self::$routarr[ self::$lien ]['get']) && $racine == 0){
                     $count_expl = count($list) - 1;
-                    $get = [];
                     for($i = 0; $i <= $count_expl; $i++){
                         if(isset(self::$routarr[ self::$lien ]['get'][ $i ])){
                             if(self::$routarr[ self::$lien ]['get'][ $i ]['fix'] == 'yes' && empty($list[ $i ])){ return new GetChargementFail(); }
@@ -130,10 +134,23 @@
                             $get[] = urldecode(htmlentities($list[ $i ]));
                         }
                     }
+                }
+                elseif(isset(self::$confarr['racine']['get']) && $racine == 1){
+                    $count_expl = count($list) - 1;
+                    for($i = 0; $i <= $count_expl; $i++){
+                        if(isset(self::$confarr['racine']['get'][ $i ])){
+                            if(self::$confarr['racine']['get'][ $i ]['fix'] == 'yes' && empty($list[ $i ])){ return new GetChargementFail(); }
 
-                    Get::set($get);
+                            if(self::$confarr['racine']['get'][ $i ]['type'] != 'mixed'){
+                                settype($list[ $i ], self::$confarr['racine']['get'][ $i ]['type']);
+                            }
+
+                            $get[] = urldecode(htmlentities($list[ $i ]));
+                        }
+                    }
                 }
 
+                Get::set($get);
                 self::returnController();
             }
             else{
