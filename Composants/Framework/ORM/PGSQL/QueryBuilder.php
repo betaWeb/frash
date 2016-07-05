@@ -14,15 +14,15 @@
      */
     class QueryBuilder extends Hydrator{
         /**
-         * @var \PDO
+         * @var object
          */
         private $conn;
 
         /**
          * QueryBuilder constructor.
-         * @param \PDO $conn
+         * @param object $conn
          */
-        public function __construct(\PDO $conn){
+        public function __construct($conn){
             $this->conn = $conn;
         }
 
@@ -62,7 +62,7 @@
 
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
 
-                return $this->hydration($res, $bundle, $entity);
+                return self::hydration($res, $bundle, $entity);
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());
@@ -88,7 +88,7 @@
                 $array_obj = [];
 
                 for($i = 0; $i <= $count; $i++){
-                    $array_obj[ $i ] = $this->hydration($res[ $i ], $bundle, $entity);
+                    $array_obj[ $i ] = self::hydration($res[ $i ], $bundle, $entity);
                 }
 
                 return $array_obj;
@@ -118,7 +118,7 @@
         /**
          * @param Update $request
          */
-        public function update($request){
+        public function update(Update $request){
             try{
                 $req = $this->conn->prepare($request->getRequest());
                 $req->execute($request->getExecute());
@@ -132,34 +132,8 @@
         }
 
         /**
-         * @param string $table
-         * @param string $bundle
-         * @return array
-         */
-        public function findAll($table, $bundle){
-            try{
-                $req = $this->conn->prepare('SELECT * FROM '.$table);
-                $req->execute();
-                $data = $req->fetchAll(\PDO::FETCH_CLASS, 'Bundles\\'.$bundle.'\\Entity\\'.ucfirst($table));
-
-                $array = [];
-                foreach($data as $v){
-                    $array[] = $v;
-                }
-
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : SELECT * FROM '.$table);
-
-                return $array;
-            }
-            catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
-                die('Il y a eu une erreur.');
-            }
-        }
-
-        /**
          * @param Select $request
-         * @return mixed
+         * @return int
          */
         public function count(Select $request){
             try{
