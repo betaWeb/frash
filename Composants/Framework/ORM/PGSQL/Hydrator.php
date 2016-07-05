@@ -12,7 +12,7 @@
          * @param string $entity
          * @return object
          */
-        public function hydration($object, $bundle, $entity){
+        public static function hydration($object, $bundle, $entity){
             $path = 'Bundles\\'.$bundle.'\Entity\\'.$entity;
             $ent = new $path;
 
