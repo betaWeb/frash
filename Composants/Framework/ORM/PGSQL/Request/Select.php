@@ -43,33 +43,27 @@
 
         /**
          * Select constructor.
-         * @param string $table
+         * @param array $array
          */
-        public function __construct($table){
+        public function __construct($array){
+            $table = $array['table'];
             $this->table = "\"$table\"";
+
+            if(!empty($array['order'])){
+                $this->order = 'ORDER BY '.$array['order'];
+            }
+
+            if(!empty($array['limit'])){
+                $this->limit = 'LIMIT '.$array['limit'];
+            }
         }
 
         /**
-         * @param string $where
-         * @param array $arrayWhere
+         * @param Where $where
          */
-        public function setWhere($where){
+        public function setWhere(Where $where){
             $this->where = $where->getWhere();
             $this->arrayWhere = $where->getArrayWhere();
-        }
-
-        /**
-         * @param string $order
-         */
-        public function setOrder($order){
-            $this->order = 'ORDER BY '.$order;
-        }
-
-        /**
-         * @param string $limit
-         */
-        public function setLimit($limit){
-            $this->limit = 'LIMIT '.$limit;
         }
 
         /**
