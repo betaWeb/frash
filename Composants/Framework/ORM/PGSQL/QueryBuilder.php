@@ -30,7 +30,7 @@
          * @param string $lastid
          * @return int
          */
-        public function insert(Insert $request, $lastid = ''){
+        public static function insert(Insert $request, $lastid = ''){
             try{
                 $req = self::$conn->prepare($request->getRequest());
                 $req->execute($request->getExecute());
@@ -53,7 +53,7 @@
          * @param string $bundle
          * @return array
          */
-        public function selectOne(Select $select, $entity, $bundle){
+        public static function selectOne(Select $select, $entity, $bundle){
             try{
                 $req = self::$conn->prepare($select->getRequest());
                 $req->execute($select->getExecute());
@@ -101,7 +101,7 @@
         /**
          * @param Delete $request
          */
-        public function delete(Delete $request){
+        public static function delete(Delete $request){
             try{
                 $req = self::$conn->prepare($request->getRequest());
                 $req->execute($request->getExecute());
@@ -117,7 +117,7 @@
         /**
          * @param Update $request
          */
-        public function update(Update $request){
+        public static function update(Update $request){
             try{
                 $req = self::$conn->prepare($request->getRequest());
                 $req->execute($request->getExecute());
@@ -134,7 +134,7 @@
          * @param Select $request
          * @return int
          */
-        public function count(Select $request){
+        public static function count(Select $request){
             try{
                 $req = self::$conn->prepare($request->getRequest());
                 $req->execute($request->getExecute());
