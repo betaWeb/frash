@@ -10,8 +10,8 @@
         /**
          * ConnexionORMFail constructor.
          */
-        public function __construct(){
-            new CreateErrorLog('La connexion à la base de données par l\'ORM n\'a pu être effectuée');
+        public function __construct($message){
+            new CreateErrorLog('La connexion à la base de données par l\'ORM n\'a pu être effectuée : '.$message);
 
             header('HTTP/1.0 404 Not Found', true, 404);
             die();
