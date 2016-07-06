@@ -40,18 +40,11 @@
          * @param array $param
          */
         public function view($templ, $bundle, $param = []){
-            if($bundle == 'Exception' && file_exists('Composants/Framework/Exception/Views/'.$templ)){
-                $path = 'Composants/Framework/Exception/Views/';
-            }
-            elseif(file_exists('Bundles/'.$bundle.'/Views/'.$templ)){
-                $path = 'Bundles/'.$bundle.'/Views';
-            }
-            else{
+            if(!file_exists('Bundles/'.$bundle.'/Views/'.$templ)){
                 return new TwigChargementTemplateFail($templ);
             }
 
-            $tlf = new \Twig_Loader_Filesystem($path);
-            $twig = new \Twig_Environment($tlf, [ 'cache' => false ]);
+            $twig = new \Twig_Environment(new \Twig_Loader_Filesystem('Bundles/'.$bundle.'/Views'));
 
             $url = new \Twig_SimpleFunction('url', function ($url, $trad = ''){
                 if('/'.self::$nurl[0] == self::$yaml['prefix']){
