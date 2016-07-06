@@ -58,12 +58,7 @@
 
             $trad = new \Twig_SimpleFunction('trad', function($traduction){
                 if('/'.self::$nurl[0] == self::$yaml['prefix']){
-                    if(in_array(self::$nurl[1], self::$yaml['traduction']['available'])){
-                        $lang = self::$nurl[1];
-                    }
-                    else{
-                        $lang = self::$yaml['traduction']['default'];
-                    }
+                    $lang = (in_array(self::$nurl[1], self::$yaml['traduction']['available'])) ? $lang = self::$nurl[1] : $lang = self::$yaml['traduction']['default'];
                 }
 
                 $class = 'Traductions\\Trad'.ucfirst($lang);
