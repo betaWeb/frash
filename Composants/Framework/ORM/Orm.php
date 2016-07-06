@@ -1,16 +1,15 @@
 <?php
     namespace Composants\Framework\ORM;
-    use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Framework\Exception\ConnexionORMFail;
     use Composants\Yaml\Yaml;
-    
+
     /**
      * Class Orm
      * @package Composants\Framework\ORM
      */
     class Orm{
         /**
-         * @var mixed
+         * @var object
          */
         private $connexion;
 
@@ -36,13 +35,12 @@
                 }
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
-                return new ConnexionORMFail();
+                return new ConnexionORMFail($e->getMessage());
             }
         }
 
         /**
-         * @return mixed
+         * @return object
          */
         public function getConnexion(){
             return $this->connexion;
