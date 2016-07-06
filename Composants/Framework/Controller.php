@@ -109,12 +109,7 @@
          */
         public static function getUrl($url){
             if('/'.self::$nurl[0] == self::$yaml['prefix']){
-                if(in_array(self::$nurl[1], self::$yaml['traduction']['available'])){
-                    return '/'.self::$nurl[0].'/'.self::$nurl[1].'/'.$url;
-                }
-                else{
-                    return '/'.self::$nurl[0].'/'.$url;
-                }
+                return (in_array(self::$nurl[1], self::$yaml['traduction']['available'])) ? '/'.self::$nurl[0].'/'.self::$nurl[1].'/'.$url : '/'.self::$nurl[0].'/'.$url;
             }
         }
 
