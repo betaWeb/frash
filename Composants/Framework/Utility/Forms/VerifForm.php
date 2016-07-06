@@ -32,17 +32,14 @@
             $this->name_submit = $name_submit;
             $this->activ_csrf = $activ_csrf;
             $this->csrf = $csrf;
+
+            new Session();
         }
 
         public function valid(){
             if(isset($_POST[ $this->name_submit ])){
-                $session = new Session();
-
-                if($this->activ_csrf && $session->getSession('token') == $this->csrf){
-                    return true;
-                }
-                elseif($this->activ_csrf && $session->getSession('token') != $this->csrf){
-                    return false;
+                if($this->activ_csrf){
+                    return (Session::getSession('token') == $this->csrf) ? true : false;
                 }
             }
             else{
