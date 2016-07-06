@@ -1,6 +1,5 @@
 <?php
     namespace Composants\Framework;
-    use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Framework\Exception\ConnexionORMFail;
     use Composants\Framework\Exception\TwigChargementTemplateFail;
     use Composants\Framework\Globals\Server;
@@ -160,8 +159,7 @@
                 }
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
-                return new ConnexionORMFail();
+                return new ConnexionORMFail($e->getMessage());
             }
         }
 
