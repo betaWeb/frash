@@ -56,12 +56,7 @@
             $url = new \Twig_SimpleFunction('url', function ($url, $trad = ''){
                 if('/'.self::$nurl[0] == self::$yaml['prefix']){
                     if(in_array(self::$nurl[1], self::$yaml['traduction']['available'])){
-                        if($trad === true){
-                            echo '/'.self::$nurl[0].'/'.$url;
-                        }
-                        else{
-                            echo '/'.self::$nurl[0].'/'.self::$nurl[1].'/'.$url;
-                        }
+                        echo ($trad === true) ? '/'.self::$nurl[0].'/'.$url : '/'.self::$nurl[0].'/'.self::$nurl[1].'/'.$url;
                     }
                     else{
                         echo '/'.self::$nurl[0].'/'.$url;
@@ -161,12 +156,14 @@
             $system = $conn[ $bundle ]['system'];
 
             try{
-                if($system == 'MySQL'){
-                    self::$connexion = new \PDO('mysql:host='.$host.';dbname='.$dbname.';charset=UTF8;', $username, $password, [ \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC ]);
-                }
-                elseif($system == 'PGSQL'){
-                    self::$connexion = new \PDO('pgsql:dbname='.$dbname.';host='.$host, $username, $password);
-                    self::$connexion->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+                switch($system){
+                    case 'MySQL':
+                        self::$connexion = new \PDO('mysql:host='.$host.';dbname='.$dbname.';charset=UTF8;', $username, $password, [ \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC ]);
+                        break;
+                    case 'PGSQL':
+                        self::$connexion = new \PDO('pgsql:dbname='.$dbname.';host='.$host, $username, $password);
+                        self::$connexion->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+                        break;
                 }
             }
             catch(\Exception $e){
