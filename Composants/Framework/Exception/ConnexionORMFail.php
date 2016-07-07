@@ -9,6 +9,7 @@
     class ConnexionORMFail{
         /**
          * ConnexionORMFail constructor.
+         * @param string $message
          */
         public function __construct($message){
             new CreateErrorLog('La connexion à la base de données par l\'ORM n\'a pu être effectuée : '.$message);
