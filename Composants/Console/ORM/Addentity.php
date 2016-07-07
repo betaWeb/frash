@@ -1,7 +1,5 @@
 <?php
     namespace Composants\Console\ORM;
-    use Composants\Framework\ORM\Orm;
-    use Composants\Yaml\Yaml;
 
     /**
      * Class Addentity
@@ -10,14 +8,11 @@
     class Addentity{
         /**
          * Addentity constructor.
-         * @param $bundle
-         * @param $table
-         * @param $champ
+         * @param string $bundle
+         * @param string $table
+         * @param string $champ
          */
         public function __construct($bundle, $table, $champ){
-            $array = Yaml::parse(file_get_contents('Others/config/database.yml'));
-            Orm::init($array['host'], $array['dbname'], $array['username'], $array['password']);
-
             $champs = explode('/', $champ);
 
             $code = "<?php\n";
