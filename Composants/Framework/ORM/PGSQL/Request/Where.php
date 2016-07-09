@@ -21,8 +21,8 @@
          * @param string $sign
          * @param string $exec
          */
-        public function initNormalWhere($where, $sign, $exec){
-            $this->where .= "\"$where\"".' '.$sign.' '.$exec;
+        public function where($where, $sign, $exec, $prefix = '', $suffix = ''){
+            $this->where .= ' '.$prefix."\"$where\"".' '.$sign.' '.$exec.' '.$suffix;
             $this->arrayWhere[] = substr($exec, 1);
         }
 
