@@ -20,6 +20,8 @@
          * @param string $where
          * @param string $sign
          * @param string $exec
+         * @param string $prefix
+         * @param string $suffix
          */
         public function where($where, $sign, $exec, $prefix = '', $suffix = ''){
             $this->where .= ' '.$prefix."\"$where\"".' '.$sign.' '.$exec.' '.$suffix;
