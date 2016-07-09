@@ -61,6 +61,15 @@
         }
 
         /**
+         * @param string $where
+         * @param string $exec
+         */
+        public function inWhere($where, $exec){
+            $this->where .= "\"$where\"".' IN ('.$exec.')';
+            $this->arrayWhere[] = substr($exec, 1);
+        }
+
+        /**
          * @return array
          */
         public function getArrayWhere(){
