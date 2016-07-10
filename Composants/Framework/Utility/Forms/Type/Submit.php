@@ -16,46 +16,18 @@
          * @param array $spec
          */
         public function __construct($spec){
-            $this->input = '<input';
+            $this->input = '<input type="submit"';
 
             if(!empty($spec['name'])){
                 $this->input .= ' name="'.$spec['name'].'"';
-            }
-
-            if(!empty($spec['type'])){
-                $this->input .= ' type="'.$spec['type'].'"';
             }
 
             if(!empty($spec['value'])){
                 $this->input .= ' value="'.$spec['value'].'"';
             }
 
-            if(!empty($spec['placeholder'])){
-                $this->input .= ' placeholder="'.$spec['placeholder'].'"';
-            }
-
-            if(!empty($spec['maxlen'])){
-                $this->input .= ' maxlength="'.$spec['maxlen'].'"';
-            }
-
-            if(!empty($spec['size'])){
-                $this->input .= ' size="'.$spec['size'].'"';
-            }
-
-            if(!empty($spec['require']) && $spec['require'] === true){
-                $this->input .= ' required';
-            }
-
-            if(!empty($spec['autocomp']) && $spec['autocomp'] === false){
-                $this->input .= ' autocomplete="off"';
-            }
-
             if(!empty($spec['disabled']) && $spec['disabled'] === true){
                 $this->input .= ' disabled';
-            }
-
-            if(!empty($spec['pattern'])){
-                $this->input .= ' pattern="'.$spec['pattern'].'"';
             }
 
             if(!empty($spec['id'])){
