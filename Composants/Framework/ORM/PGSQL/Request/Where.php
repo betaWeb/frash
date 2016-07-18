@@ -72,6 +72,15 @@
         }
 
         /**
+         * @param string $where
+         * @param string $exec
+         */
+        public function notInWhere($where, $exec){
+            $this->where .= "\"$where\"".' NOT IN ('.$exec.')';
+            $this->arrayWhere[] = substr($exec, 1);
+        }
+
+        /**
          * @return array
          */
         public function getArrayWhere(){
