@@ -42,6 +42,11 @@
         private $limit = '';
 
         /**
+         * @var string
+         */
+        private $offset = '';
+
+        /**
          * Select constructor.
          * @param array $array
          */
@@ -55,6 +60,10 @@
 
             if(!empty($array['limit'])){
                 $this->limit = 'LIMIT '.$array['limit'];
+            }
+
+            if(!empty($array['offset'])){
+                $this->offset = 'OFFSET '.$array['offset'];
             }
         }
 
@@ -94,7 +103,7 @@
          */
         public function getRequest(){
             if(!empty($this->table) && !empty($this->colSel)){
-                return 'SELECT '.$this->colSel.' FROM '.$this->table.' '.$this->where.' '.$this->order.' '.$this->limit;
+                return 'SELECT '.$this->colSel.' FROM '.$this->table.' '.$this->where.' '.$this->order.' '.$this->limit.' '.$this->offset;
             }
         }
     }
