@@ -18,7 +18,7 @@
             try{
                 $request = 'ALTER SEQUENCE '.$table.'_id_seq RESTART WITH '.$number.';';
 
-                $req = self::$conn->prepare($request);
+                $req = $conn->prepare($request);
                 $req->execute();
 
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
