@@ -86,7 +86,7 @@
             if(self::$path[0] == '' && !empty(self::$confarr['racine'])){
                 self::$nb_expl = 1;
                 self::$lien = '/';
-                self::$route = self::$confarr['racine']['path'];
+                self::$route = self::$confarr['racine'];
 
                 $racine = 1;
             }
