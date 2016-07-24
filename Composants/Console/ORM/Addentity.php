@@ -3,7 +3,7 @@
 
     /**
      * Class Addentity
-     * @package Console\ORM
+     * @package Composants\Console\ORM
      */
     class Addentity{
         /**
@@ -26,6 +26,9 @@
                 $code .= "		\n";
                 $code .= '		public function get'.ucfirst($l2).'(){'."\n";
                 $code .= '			return $this->'.$l2.';'."\n";
+                $code .= '		}'."\n\n";
+                $code .= '		public function set'.ucfirst($l2).'($'.$l2.'){'."\n";
+                $code .= '			$this->'.$l2.' = $'.$l2.';'."\n";
                 $code .= '		}'."\n";
             }
             $code .= '	}';
