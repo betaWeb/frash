@@ -99,7 +99,7 @@
                     return $array_obj;
                 }
                 else{
-                    $res = $req->fetchAll(\PDO::FETCH_CLASS, 'Bundles\\'.$bundle.'\Entity\\'.$class);
+                    $res = $req->fetchAll(\PDO::FETCH_CLASS, 'Bundles\\'.$bundle.'\Entity\\'.$entity);
 
                     $array = [];
                     foreach($res as $v){
