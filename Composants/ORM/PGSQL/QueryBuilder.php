@@ -36,7 +36,7 @@
 
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
 
-                return self::$conn->lastInsertId($request->getTable().'_id_seq');
+                return self::$conn->lastInsertId(str_replace('"', '', $request->getTable()).'_id_seq');
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());
