@@ -51,6 +51,11 @@
         private static $url = '';
 
         /**
+         * @var string
+         */
+        private static $static = '';
+
+        /**
          * Router constructor.
          * @param string $url
          */
@@ -121,6 +126,13 @@
                 $list = explode('/', str_replace(self::$lien.'/', '', implode('/', self::$path)));
                 $get = [];
 
+                if(!isset(self::$routarr[ self::$lien ]['static']) || self::$routarr[ self::$lien ]['static'] == 'no'){
+                    self::$static = 'no';
+                }
+                elseif(isset(self::$routarr[ self::$lien ]['static']) && self::$routarr[ self::$lien ]['static'] == 'yes'){
+                    self::$static = 'yes';
+                }
+
                 if(isset(self::$routarr[ self::$lien ]['get']) && $racine == 0){
                     $count_expl = count($list) - 1;
                     for($i = 0; $i <= $count_expl; $i++){
@@ -166,8 +178,14 @@
             $routing = 'Bundles\\'.$bundle.'\\Controllers\\'.$controller;
 
             if(method_exists($routing, $action)){
-                $rout = new $routing;
-                return $rout->$action();
+                if(self::$static == 'no'){
+                    $rout = new $routing;
+                    return $rout->$action();
+                }
+                elseif(self::$static == 'yes'){
+                    new $routing;
+                    $routing::$action();
+                }
             }
             elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')){
                 return new ControllerChargementFail($controller);
