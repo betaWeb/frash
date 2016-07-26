@@ -25,4 +25,12 @@
                 return false;
             }
         }
+
+        /**
+         * @param string $mail
+         * @return bool
+         */
+        public static function isMail($mail){
+            return (filter_var($mail, FILTER_VALIDATE_EMAIL)) ? true : false;
+        }
     }
