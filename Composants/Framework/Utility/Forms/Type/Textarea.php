@@ -38,6 +38,10 @@
                 $this->input .= ' class="'.$spec['class'].'"';
             }
 
+            if(!empty($spec['placeholder'])){
+                $this->input .= ' placeholder="'.$spec['placeholder'].'"';
+            }
+
             $this->input .= '>';
 
             if(!empty($spec['value'])){
