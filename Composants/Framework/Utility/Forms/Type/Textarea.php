@@ -42,6 +42,10 @@
                 $this->input .= ' placeholder="'.$spec['placeholder'].'"';
             }
 
+            if(!empty($spec['require']) && $spec['require'] === true){
+                $this->input .= ' required';
+            }
+
             $this->input .= '>';
 
             if(!empty($spec['value'])){
