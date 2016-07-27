@@ -8,13 +8,11 @@
     class Hydrator{
         /**
          * @param array $object
-         * @param string $bundle
          * @param string $entity
          * @return object
          */
-        public static function hydration($object, $bundle, $entity){
-            $path = 'Bundles\\'.$bundle.'\Entity\\'.$entity;
-            $ent = new $path;
+        public static function hydration($object, $entity){
+            $ent = new $entity;
 
             foreach($object as $col => $val){
                 $method = 'set'.ucfirst($col);

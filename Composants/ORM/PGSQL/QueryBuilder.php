@@ -53,17 +53,17 @@
         public static function selectOne(Select $select, $entity, $bundle){
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
+                $ent = 'Bundles\\'.$bundle.'\Entity\\'.$entity;
 
                 $req = self::$conn->prepare($select->getRequest());
                 $req->execute($select->getExecute());
 
                 if($select->getColSel() == '*'){
                     $res = $req->fetch(\PDO::FETCH_OBJ);
-
-                    return self::hydration($res, $bundle, $entity);
+                    return self::hydration($res, $ent);
                 }
                 else{
-                    $req->setFetchMode(\PDO::FETCH_CLASS, 'Bundles\\'.$bundle.'\Entity\\'.$entity);
+                    $req->setFetchMode(\PDO::FETCH_CLASS, $ent);
                     return $req->fetch();
                 }
             }
@@ -82,6 +82,7 @@
         public static function selectMany(Select $select, $entity, $bundle){
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
+                $ent = 'Bundles\\'.$bundle.'\Entity\\'.$entity;
 
                 $req = self::$conn->prepare($select->getRequest());
                 $req->execute($select->getExecute());
@@ -93,13 +94,13 @@
                     $array_obj = [];
 
                     for($i = 0; $i <= $count; $i++){
-                        $array_obj[ $i ] = self::hydration($res[ $i ], $bundle, $entity);
+                        $array_obj[ $i ] = self::hydration($res[ $i ], $ent);
                     }
 
                     return $array_obj;
                 }
                 else{
-                    $res = $req->fetchAll(\PDO::FETCH_CLASS, 'Bundles\\'.$bundle.'\Entity\\'.$entity);
+                    $res = $req->fetchAll(\PDO::FETCH_CLASS, $ent);
 
                     $array = [];
                     foreach($res as $v){
