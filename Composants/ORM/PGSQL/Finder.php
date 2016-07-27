@@ -43,7 +43,7 @@
                 $array_obj = [];
 
                 for($i = 0; $i <= $count; $i++){
-                    $array_obj[ $i ] = Hydrator::hydration($res[ $i ], $bundle.'Bundle', $entity);
+                    $array_obj[ $i ] = Hydrator::hydration($res[ $i ], 'Bundles\\'.$bundle.'Bundle\Entity\\'.$entity);
                 }
 
                 return $array_obj;
@@ -72,7 +72,7 @@
 
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
 
-                return Hydrator::hydration($res, $bundle.'Bundle', $entity);
+                return Hydrator::hydration($res, 'Bundles\\'.$bundle.'Bundle\Entity\\'.$entity);
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());

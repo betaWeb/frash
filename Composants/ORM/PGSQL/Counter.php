@@ -9,15 +9,15 @@
      */
     class Counter{
         /**
-         * @var \PDO
+         * @var object
          */
         private static $pdo;
 
         /**
          * Finder constructor.
-         * @param \PDO $pdo
+         * @param object $pdo
          */
-        public function __construct(\PDO $pdo){
+        public function __construct($pdo){
             self::$pdo = $pdo;
         }
 
