@@ -88,10 +88,10 @@
 
             $racine = 0;
 
-            if(self::$path[0] == '' && !empty(self::$confarr['racine'])){
+            if(empty(self::$path[0]) && !empty(self::$confarr['racine']['path'])){
                 self::$nb_expl = 1;
                 self::$lien = '/';
-                self::$route = self::$confarr['racine'];
+                self::$route = self::$confarr['racine']['path'];
 
                 $racine = 1;
             }
@@ -101,7 +101,7 @@
                 self::$route = self::$routarr[ self::$lien ]['path'];
             }
             else{
-                foreach(self::$routarr as $key => $rout){
+                foreach(self::$routarr as $key => $precision){
                     if(strstr(self::$url, $key)){
                         $expl_key = explode('/', $key);
                         $lien_array = [];
@@ -116,7 +116,7 @@
                         if(count($lien_array) > self::$nb_expl){
                             self::$nb_expl = count($lien_array);
                             self::$lien = implode('/', $lien_array);
-                            self::$route = self::$routarr[ self::$lien ]['path'];
+                            self::$route = $precision['path'];
                         }
                     }
                 }
