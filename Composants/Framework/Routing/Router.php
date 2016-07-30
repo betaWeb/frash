@@ -194,13 +194,13 @@
             $routing = 'Bundles\\'.$bundle.'\\Controllers\\'.$controller;
 
             if(method_exists($routing, $action)){
-                if(self::$static == 'no'){
-                    $rout = new $routing;
-                    return $rout->$action();
-                }
-                elseif(self::$static == 'yes'){
-                    new $routing;
-                    $routing::$action();
+                switch(self::$static){
+                    case 'no':
+                        $rout = new $routing;
+                        return $rout->$action();
+                    case 'yes':
+                        new $routing;
+                        return $routing::$action();
                 }
             }
             elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')){
