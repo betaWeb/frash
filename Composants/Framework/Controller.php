@@ -80,12 +80,7 @@
             $redirect = '';
 
             if('/'.self::$nurl[0] == self::$yaml['prefix']){
-                if(in_array(self::$nurl[1], self::$yaml['traduction']['available'])){
-                    $redirect = self::$nurl[0].'/'.self::$nurl[1];
-                }
-                else{
-                    $redirect = self::$nurl[0];
-                }
+                $redirect = (in_array(self::$nurl[1], self::$yaml['traduction']['available'])) ? self::$nurl[0].'/'.self::$nurl[1] : self::$nurl[0];
             }
 
             if($redirect != ''){
