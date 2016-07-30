@@ -10,11 +10,11 @@
     class ResetAutoInc{
         /**
          * ResetAutoInc constructor.
-         * @param object $conn
+         * @param \PDO $conn
          * @param string $table
          * @param int $number
          */
-        public function __construct($conn, $table, $number){
+        public function __construct(\PDO $conn, $table, $number){
             try{
                 $request = 'ALTER SEQUENCE '.$table.'_id_seq RESTART WITH '.$number.';';
 

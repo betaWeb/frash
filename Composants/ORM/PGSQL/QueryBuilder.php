@@ -13,15 +13,15 @@
      */
     class QueryBuilder extends Hydrator{
         /**
-         * @var object
+         * @var \PDO
          */
         private static $conn;
 
         /**
          * QueryBuilder constructor.
-         * @param object $conn
+         * @param \PDO $conn
          */
-        public function __construct($conn){
+        public function __construct(\PDO $conn){
             self::$conn = $conn;
         }
 

@@ -7,11 +7,11 @@
      */
     class Functions{
         /**
-         * @param object $pdo
+         * @param \PDO $pdo
          * @param array $array
          * @return string
          */
-        public static function concat($pdo, $array){
+        public static function concat(\PDO $pdo, $array){
             $arr = [];
 
             foreach($array as $v){

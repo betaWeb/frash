@@ -9,15 +9,15 @@
      */
     class Finder{
         /**
-         * @var object
+         * @var \PDO
          */
         private static $pdo;
 
         /**
          * Finder constructor.
-         * @param object $pdo
+         * @param \PDO $pdo
          */
-        public function __construct($pdo){
+        public function __construct(\PDO $pdo){
             self::$pdo = $pdo;
         }
 
