@@ -122,21 +122,22 @@
          * @return ConnexionORMFail
          */
         public static function initORM($bundle){
-            $conn = Yaml::parse(file_get_contents('Others/config/database.yml'));
+            if(!file_exists('Others/config/database.yml')){ return new ConnexionORMFail('Le fichier database.yml n\'existe pas.'); }
 
-            $host = $conn[ $bundle ]['host'];
-            $dbname = $conn[ $bundle ]['dbname'];
-            $username = $conn[ $bundle ]['username'];
-            $password = $conn[ $bundle ]['password'];
-            $system = $conn[ $bundle ]['system'];
+            $yaml = Yaml::parse(file_get_contents('Others/config/database.yml'));
+
+            if(empty($yaml[ $bundle ])){ return new ConnexionORMFail('Le bundle '.$bundle.' n\'existe pas.'); }
+
+            $conn = $yaml[ $bundle ];
+            self::verifParamDbYaml($conn, [ 'host', 'dbname', 'username', 'password', 'system' ]);
 
             try{
-                switch($system){
+                switch($conn['system']){
                     case 'MySQL':
-                        self::$connexion = new \PDO('mysql:host='.$host.';dbname='.$dbname.';charset=UTF8;', $username, $password, [ \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC ]);
+                        self::$connexion = new \PDO('mysql:host='.$conn['host'].';dbname='. $conn['dbname'].';charset=UTF8;', $conn['username'], $conn['password']);
                         break;
                     case 'PGSQL':
-                        self::$connexion = new \PDO('pgsql:dbname='.$dbname.';host='.$host, $username, $password);
+                        self::$connexion = new \PDO('pgsql:dbname='. $conn['dbname'].';host='.$conn['host'], $conn['username'], $conn['password']);
                         self::$connexion->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
                         break;
                 }
@@ -151,5 +152,16 @@
          */
         public static function getConnexion(){
             return self::$connexion;
+        }
+
+        /**
+         * @param array $conn
+         * @param array $param
+         * @return ConnexionORMFail
+         */
+        private static function verifParamDbYaml($conn, $param){
+            foreach($param as $key){
+                if(empty($conn[ $key ])){ return new ConnexionORMFail('Le paramètre '.$key.' n\'est pas renseigné.'); }
+            }
         }
     }
