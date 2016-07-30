@@ -77,16 +77,14 @@
          * @return bool
          */
         public function redirectToRoute($url){
-            $redirect = '';
-
             if('/'.self::$nurl[0] == self::$yaml['prefix']){
                 $redirect = (in_array(self::$nurl[1], self::$yaml['traduction']['available'])) ? self::$nurl[0].'/'.self::$nurl[1] : self::$nurl[0];
-            }
 
-            if($redirect != ''){
                 header('Location:/'.$redirect.'/'.$url);
                 return true;
             }
+
+            return false;
         }
 
         /**
