@@ -15,12 +15,15 @@
         private static $connexion;
 
         /**
+         * Orm constructor.
+         * @param string $bundle
+         * @param string $pathyml
          * @return ConnexionORMFail
          */
         public function __construct($bundle, $pathyml){
-            if(!file_exists('Others/config/database.yml')){ return new ConnexionORMFail('Le fichier database.yml n\'existe pas.'); }
+            if(!file_exists($pathyml)){ return new ConnexionORMFail('Le fichier database.yml n\'existe pas.'); }
 
-            $yaml = Yaml::parse(file_get_contents('Others/config/database.yml'));
+            $yaml = Yaml::parse(file_get_contents($pathyml));
 
             if(empty($yaml[ $bundle ])){ return new ConnexionORMFail('Le bundle '.$bundle.' n\'existe pas.'); }
 
