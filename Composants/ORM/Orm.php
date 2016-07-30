@@ -1,6 +1,7 @@
 <?php
     namespace Composants\ORM;
     use Composants\Framework\Exception\ConnexionORMFail;
+    use Composants\ORM\VerifParamDbYaml;
     use Composants\Yaml\Yaml;
 
     /**
@@ -9,29 +10,32 @@
      */
     class Orm{
         /**
-         * @var object
+         * @var \PDO
          */
-        private $connexion;
+        private static $connexion;
 
         /**
          * @return ConnexionORMFail
          */
         public function __construct($bundle, $pathyml){
-            $conn = Yaml::parse(file_get_contents($pathyml));
+            if(!file_exists('Others/config/database.yml')){ return new ConnexionORMFail('Le fichier database.yml n\'existe pas.'); }
 
-            $host = $conn[ $bundle ]['host'];
-            $dbname = $conn[ $bundle ]['dbname'];
-            $username = $conn[ $bundle ]['username'];
-            $password = $conn[ $bundle ]['password'];
-            $system = $conn[ $bundle ]['system'];
+            $yaml = Yaml::parse(file_get_contents('Others/config/database.yml'));
+
+            if(empty($yaml[ $bundle ])){ return new ConnexionORMFail('Le bundle '.$bundle.' n\'existe pas.'); }
+
+            $conn = $yaml[ $bundle ];
+            new VerifParamDbYaml($conn, [ 'host', 'dbname', 'username', 'password', 'system' ]);
 
             try{
-                if($system == 'MySQL'){
-                    $this->connexion = new \PDO('mysql:host='.$host.';dbname='.$dbname.';charset=UTF8;', $username, $password, [ \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC ]);
-                }
-                elseif($system == 'PGSQL'){
-                    $this->connexion = new \PDO('pgsql:dbname='.$dbname.';host='.$host, $username, $password);
-                    $this->connexion->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+                switch($conn['system']){
+                    case 'MySQL':
+                        self::$connexion = new \PDO('mysql:host='.$conn['host'].';dbname='. $conn['dbname'].';charset=UTF8;', $conn['username'], $conn['password']);
+                        break;
+                    case 'PGSQL':
+                        self::$connexion = new \PDO('pgsql:dbname='. $conn['dbname'].';host='.$conn['host'], $conn['username'], $conn['password']);
+                        self::$connexion->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+                        break;
                 }
             }
             catch(\Exception $e){
@@ -40,9 +44,9 @@
         }
 
         /**
-         * @return object
+         * @return \PDO
          */
-        public function getConnexion(){
-            return $this->connexion;
+        public static function getConnexion(){
+            return self::$connexion;
         }
     }

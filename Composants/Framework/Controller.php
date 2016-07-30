@@ -3,6 +3,7 @@
     use Composants\Framework\Exception\ConnexionORMFail;
     use Composants\Framework\Exception\TwigChargementTemplateFail;
     use Composants\Framework\Globals\Server;
+    use Composants\ORM\VerifParamDbYaml;
     use Composants\Yaml\Yaml;
 
     /**
@@ -129,7 +130,7 @@
             if(empty($yaml[ $bundle ])){ return new ConnexionORMFail('Le bundle '.$bundle.' n\'existe pas.'); }
 
             $conn = $yaml[ $bundle ];
-            self::verifParamDbYaml($conn, [ 'host', 'dbname', 'username', 'password', 'system' ]);
+            new VerifParamDbYaml($conn, [ 'host', 'dbname', 'username', 'password', 'system' ]);
 
             try{
                 switch($conn['system']){
@@ -152,16 +153,5 @@
          */
         public static function getConnexion(){
             return self::$connexion;
-        }
-
-        /**
-         * @param array $conn
-         * @param array $param
-         * @return ConnexionORMFail
-         */
-        private static function verifParamDbYaml($conn, $param){
-            foreach($param as $key){
-                if(empty($conn[ $key ])){ return new ConnexionORMFail('Le paramètre '.$key.' n\'est pas renseigné.'); }
-            }
         }
     }
