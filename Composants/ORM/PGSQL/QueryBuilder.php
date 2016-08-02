@@ -16,7 +16,7 @@
         /**
          * @var \PDO
          */
-        private static $conn;
+        protected static $conn;
 
         /**
          * QueryBuilder constructor.
