@@ -2,6 +2,7 @@
     namespace Composants\ORM\PGSQL;
     use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Framework\CreateLog\CreateRequestLog;
+    use Composants\ORM\Hydrator;
     use Composants\ORM\PGSQL\Request\Delete;
     use Composants\ORM\PGSQL\Request\Insert;
     use Composants\ORM\PGSQL\Request\Select;
