@@ -126,7 +126,7 @@
         }
 
         foreach($files_trad as $v){
-            file_put_contents('Composants/'.$v, file_get_contents($prefix.'Traductions/'.$v));
+            file_put_contents('Traductions/'.$v, file_get_contents($prefix.'Traductions/'.$v));
             echo $prefix.'Traductions/'.$v.PHP_EOL;
         }
 
