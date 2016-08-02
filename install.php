@@ -29,6 +29,7 @@
             'Framework/Utility/Forms/Type/Email.php',
             'Framework/Utility/Forms/Type/File.php',
             'Framework/Utility/Forms/Type/Input.php',
+            'Framework/Utility/Forms/Type/Number.php',
             'Framework/Utility/Forms/Type/Password.php',
             'Framework/Utility/Forms/Type/Range.php',
             'Framework/Utility/Forms/Type/Select.php',
