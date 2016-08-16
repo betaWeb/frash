@@ -8,8 +8,8 @@
     class GenerateController{
         /**
          * GenerateController constructor.
-         * @param $name
-         * @param $bundle
+         * @param string $name
+         * @param string $bundle
          * @param bool $action
          */
         public function __construct($name, $bundle, $action = false){
@@ -17,15 +17,15 @@
 
             $code = "<?php\n";
             $code .= '	namespace Bundles\\'.$bundle.'\\Controllers;'."\n";
-            $code .= '  use Composants\Framework\Controller;'."\n\n";
+            $code .= '	use Composants\Framework\Controller;'."\n\n";
             $code .= '	class '.ucfirst($name).' extends Controller {'."\n";
 
             foreach($list as $l){
-                $code .= "		\n";
                 $code .= '		public function '.$l.'(){'."\n";
                 $code .= '			'."\n";
-                $code .= '		}'."\n";
+                $code .= '		}'."\n\n";
             }
+
             $code .= '	}';
 
             file_put_contents('Bundles/'.$bundle.'/Controllers/'.ucfirst($name).'.php', $code);
