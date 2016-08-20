@@ -12,14 +12,14 @@
         private $table = '';
 
         /**
-         * @var
+         * @var string
          */
-        private $update;
+        private $update = '';
 
         /**
-         * @var
+         * @var array
          */
-        private $updateExecute;
+        private $updateExecute = [];
 
         /**
          * @var string
@@ -27,30 +27,37 @@
         private $where = '';
 
         /**
-         * @var string
+         * @var array
          */
-        private $arrayWhere = '';
+        private $arrayWhere = [];
 
         /**
-         * @var
+         * @var array
          */
-        private $execute;
+        private $execute = [];
 
         /**
          * Update constructor.
-         * @param $table
+         * @param string $table
          */
         public function __construct($table){
             $this->table = $table;
         }
 
         /**
-         * @param $where
-         * @param $arrayWhere
+         * @param string $exec
          */
-        public function setWhere($where, $arrayWhere){
-            $this->where = $where;
-            $this->arrayWhere = implode(' ||| ', $arrayWhere);
+        public function setAddExec($exec){
+            $this->updateExecute[] = $exec;
+        }
+
+        /**
+         * @param string $where
+         * @param array $arrayWhere
+         */
+        public function setWhere(Where $where){
+            $this->where = $where->getWhere();
+            $this->arrayWhere = $where->getArrayWhere();
         }
 
         /**
@@ -58,58 +65,62 @@
          */
         public function setUpdate($update = []){
             $upd = [];
-            foreach($update as $v){
-                $upd[] = $v.' = ?';
-            }
 
-            $this->update = implode(', ', $upd);
-            $nb = count($upd) - 1;
+            foreach($update as $k => $v){
+                $comp = substr($k, -2);
+                $col = substr($k, 0, -2);
 
-            for($i = 0; $i <= $nb; $i++){
-                $this->updateExecute[] = '?';
-            }
-        }
-
-        /**
-         * @param $exec
-         */
-        public function setExecute($exec){
-            $arrayNotExec = [];
-
-            if(count($this->updateExecute) == 1){
-                $arrayNotExec = $this->updateExecute;
-            }
-            else{
-                foreach($this->updateExecute as $v){
-                    $arrayNotExec[] = $v;
+                switch($comp){
+                    case ' +':
+                        $upd[] = $col.' = '.$col.' + '.$v;
+                        $this->updateExecute[] = substr($v, 1);
+                        break;
+                    case ' -':
+                        $upd[] = $col.' = '.$col.' - '.$v;
+                        $this->updateExecute[] = substr($v, 1);
+                        break;
+                    case ' /':
+                        $upd[] = $col.' = '.$v;
+                        break;
+                    default:
+                        $upd[] = $k.' = '.$v;
+                        $this->updateExecute[] = substr($v, 1);
                 }
             }
 
-            if(!empty($this->arrayWhere)){
-                $result = array_merge($arrayNotExec, explode(' ||| ', $this->arrayWhere));
-            }
-            else{
-                $result = $arrayNotExec;
+            $this->update = implode(', ', $upd);
+        }
+
+        /**
+         * @param array $exec
+         */
+        public function setExecute($exec){
+            $arrayUpd = [];
+
+            foreach($this->updateExecute as $v){
+                $arrayUpd[] = $v;
             }
 
+            $result = array_merge($arrayUpd, $this->arrayWhere);
+
             if(count($exec) == count($result)){
-                $this->execute = $exec;
+                $this->execute = array_combine($result, $exec);
             }
         }
 
         /**
-         * @return mixed
+         * @return array
          */
         public function getExecute(){
             return $this->execute;
         }
 
         /**
-         * @return mixed
+         * @return string
          */
         public function getRequest(){
             if(!empty($this->table) && !empty($this->update)){
-                $request = 'UPDATE '.$this->table.' SET '.$this->update;
+                $request = 'UPDATE '.$this->table.' SET '.$this->update.' ';
                 if($this->where != ''){ $request .= $this->where; }
                 return $request;
             }

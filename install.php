@@ -39,6 +39,7 @@
             'Framework/Utility/Forms/VerifForm.php',
             'Framework/Utility/GenPass.php',
             'Framework/Controller.php',
+            'ORM/MySQL/Request/ComplexWhere.php',
             'ORM/MySQL/Request/Delete.php',
             'ORM/MySQL/Request/Insert.php',
             'ORM/MySQL/Request/Select.php',

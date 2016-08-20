@@ -9,7 +9,7 @@
         /**
          * @var string
          */
-        private $where = ' WHERE ';
+        private $where = 'WHERE ';
 
         /**
          * @var array
@@ -17,30 +17,35 @@
         private $arrayWhere = [];
 
         /**
-         * @param $where
-         * @param $sign
+         * @param string $where
+         * @param string $sign
+         * @param string $exec
+         * @param string $prefix
+         * @param string $suffix
          */
-        public function initNormalWhere($where, $sign){
-            $this->where .= $where.' '.$sign.' ?';
-            $this->arrayWhere[] = '?';
+        public function where($where, $sign, $exec, $prefix = '', $suffix = ''){
+            $this->where .= ' '.$prefix.$where.' '.$sign.' '.$exec.' '.$suffix;
+            $this->arrayWhere[] = $exec[0];
         }
 
         /**
-         * @param $where
-         * @param $sign
+         * @param string $where
+         * @param string $sign
+         * @param string $exec
          */
-        public function andWhere($where, $sign){
-            $this->where .= ' AND '.$where.' '.$sign.' ?';
-            $this->arrayWhere[] = '?';
+        public function andWhere($where, $sign, $exec){
+            $this->where .= ' AND '.$where.' '.$sign.' '.$exec;
+            $this->arrayWhere[] = $exec[0];
         }
 
         /**
-         * @param $where
-         * @param $sign
+         * @param string $where
+         * @param string $sign
+         * @param string $exec
          */
-        public function orWhere($where, $sign){
-            $this->where .= ' OR '.$where.' '.$sign.' ?';
-            $this->arrayWhere[] = '?';
+        public function orWhere($where, $sign, $exec){
+            $this->where .= ' OR '.$where.' '.$sign.' '.$exec;
+            $this->arrayWhere[] = $exec[0];
         }
 
         /**
@@ -55,6 +60,15 @@
          */
         public function isNotNullWhere($where){
             $this->where .= $where.' IS NOT NULL';
+        }
+
+        /**
+         * @param string $where
+         * @param string $exec
+         */
+        public function inWhere($where, $exec){
+            $this->where .= $where.' IN ('.$exec.')';
+            $this->arrayWhere[] = $exec[0];
         }
 
         /**

@@ -2,8 +2,11 @@
     namespace Composants\ORM\MySQL;
     use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Framework\CreateLog\CreateRequestLog;
-    use Composants\Framework\Orm;
-    use Composants\Yaml\Yaml;
+    use Composants\ORM\Hydrator;
+    use Composants\ORM\MySQL\Request\Delete;
+    use Composants\ORM\MySQL\Request\Insert;
+    use Composants\ORM\MySQL\Request\Select;
+    use Composants\ORM\MySQL\Request\Update;
 
     /**
      * Class QueryBuilder
@@ -11,216 +14,156 @@
      */
     class QueryBuilder{
         /**
-         * @var
+         * @var \PDO
          */
-        private $conn;
-
-        /**
-         * @var
-         */
-        private $yaml;
+        protected static $conn;
 
         /**
          * QueryBuilder constructor.
+         * @param \PDO $conn
          */
-        public function __construct(){
-            $conn = Yaml::parse(file_get_contents('Others/config/database.yml'));
-            $logs = Yaml::parse(file_get_contents('Others/config/config.yml'));
-
-            Orm::init($conn['host'], $conn['dbname'], $conn['username'], $conn['password']);
-            $this->yaml = $logs;
-            $this->conn = Orm::getConnexion();
+        public function __construct(\PDO $conn){
+            self::$conn = $conn;
         }
 
         /**
-         * @param $request
-         * @param array $exec
-         * @param bool $lastid
-         * @return mixed
+         * @param Insert $request
+         * @return int
          */
-        public function insert($request, $exec = [], $lastid = false){
+        public static function insert(Insert $request){
             try{
-                $req = $this->conn->prepare($request);
-                $req->execute($exec);
+                $req = self::$conn->prepare($request->getRequest());
+                $req->execute($request->getExecute());
 
-                if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
-                }
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
 
-                if($lastid === true){
-                    return $this->conn->lastInsertId();
-                }
+                return self::$conn->lastInsertId();
             }
             catch(\Exception $e){
-                if($this->yaml['log']['error'] == 'yes'){
-                    new CreateErrorLog($e->getMessage());
-                }
-
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
 
         /**
-         * @param $request
-         * @param array $exec
-         * @param $class
+         * @param Select $select
+         * @param string $entity
+         * @param string $bundle
          * @return array
          */
-        public function select($request, $exec = [], $class, $bundle){
+        public static function selectOne(Select $select, $entity, $bundle){
             try{
-                $req = $this->conn->prepare($request);
-                $req->execute($exec);
-                $data = $req->fetchAll(\PDO::FETCH_CLASS, 'Bundles\\'.$bundle.'\Entity\\'.$class);
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
+                $ent = 'Bundles\\'.$bundle.'\Entity\\'.$entity;
 
-                $array = [];
-                foreach($data as $v){
-                    $array[] = $v;
+                $req = self::$conn->prepare($select->getRequest());
+                $req->execute($select->getExecute());
+
+                if($select->getColSel() == '*'){
+                    $res = $req->fetch(\PDO::FETCH_OBJ);
+                    return self::hydration($res, $ent);
                 }
-
-                if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
+                else{
+                    $req->setFetchMode(\PDO::FETCH_CLASS, $ent);
+                    return $req->fetch();
                 }
-
-                return $array;
             }
             catch(\Exception $e){
-                if($this->yaml['log']['error'] == 'yes'){
-                    new CreateErrorLog($e->getMessage());
-                }
-
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
 
         /**
-         * @param $request
-         * @param array $exec
-         * @param $class
-         * @param $bundle
+         * @param Select $select
+         * @param string $entity
+         * @param string $bundle
          * @return array
          */
-        public function jointure($request, $exec = [], $class, $bundle){
+        public static function selectMany(Select $select, $entity, $bundle){
             try{
-                $req = $this->conn->prepare($request);
-                $req->execute($exec);
-                $data = $req->fetchAll(\PDO::FETCH_CLASS, 'Bundles\\'.$bundle.'\Entity\Jointure\\'.$class);
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
+                $ent = 'Bundles\\'.$bundle.'\Entity\\'.$entity;
 
-                $array = [];
-                foreach($data as $v){
-                    $array[] = $v;
+                $req = self::$conn->prepare($select->getRequest());
+                $req->execute($select->getExecute());
+
+                if($select->getColSel() == '*'){
+                    $res = $req->fetchAll(\PDO::FETCH_OBJ);
+
+                    $count = count($res) - 1;
+                    $array_obj = [];
+
+                    for($i = 0; $i <= $count; $i++){
+                        $array_obj[ $i ] = self::hydration($res[ $i ], $ent);
+                    }
+
+                    return $array_obj;
                 }
+                else{
+                    $res = $req->fetchAll(\PDO::FETCH_CLASS, $ent);
 
-                if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
+                    $array = [];
+                    foreach($res as $v){
+                        $array[] = $v;
+                    }
+
+                    return $array;
                 }
-
-                return $array;
             }
             catch(\Exception $e){
-                if($this->yaml['log']['error'] == 'yes'){
-                    new CreateErrorLog($e->getMessage());
-                }
-
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
 
         /**
-         * @param $request
-         * @param array $exec
+         * @param Delete $request
          */
-        public function delete($request, $exec = []){
+        public static function delete(Delete $request){
             try{
-                $req = $this->conn->prepare($request);
-                $req->execute($exec);
+                $req = self::$conn->prepare($request->getRequest());
+                $req->execute($request->getExecute());
 
-                if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
-                }
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
             }
             catch(\Exception $e){
-                if($this->yaml['log']['error'] == 'yes'){
-                    new CreateErrorLog($e->getMessage());
-                }
-
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
 
         /**
-         * @param $request
-         * @param array $exec
+         * @param Update $request
          */
-        public function update($request, $exec = []){
+        public static function update(Update $request){
             try{
-                $req = $this->conn->prepare($request);
-                $req->execute($exec);
+                $req = self::$conn->prepare($request->getRequest());
+                $req->execute($request->getExecute());
 
-                if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
-                }
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
             }
             catch(\Exception $e){
-                if($this->yaml['log']['error'] == 'yes'){
-                    new CreateErrorLog($e->getMessage());
-                }
-
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
 
         /**
-         * @param $table
-         * @param $bundle
-         * @return array
+         * @param Select $request
+         * @return int
          */
-        public function findAll($table, $bundle){
+        public static function count(Select $request){
             try{
-                $req = $this->conn->prepare('SELECT * FROM '.$table);
-                $req->execute();
-                $data = $req->fetchAll(\PDO::FETCH_CLASS, 'Bundles\\'.$bundle.'\\Entity\\'.ucfirst($table));
+                $req = self::$conn->prepare($request->getRequest());
+                $req->execute($request->getExecute());
 
-                $array = [];
-                foreach($data as $v){
-                    $array[] = $v;
-                }
-
-                if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : SELECT * FROM '.$table);
-                }
-
-                return $array;
-            }
-            catch(\Exception $e){
-                if($this->yaml['log']['error'] == 'yes'){
-                    new CreateErrorLog($e->getMessage());
-                }
-
-                die('Il y a eu une erreur.');
-            }
-        }
-
-        /**
-         * @param $request
-         * @param array $exec
-         * @return mixed
-         */
-        public function countResult($request, $exec = []){
-            try{
-                $req = $this->conn->prepare($request);
-                $req->execute($exec);
-
-                if($this->yaml['log']['request'] == 'yes'){
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
-                }
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
 
                 return $req->rowCount();
             }
             catch(\Exception $e){
-                if($this->yaml['log']['error'] == 'yes'){
-                    new CreateErrorLog($e->getMessage());
-                }
-
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
