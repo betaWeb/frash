@@ -3,6 +3,11 @@
         $prefix = 'https://raw.githubusercontent.com/AlixSperoza/LFW/master/';
 
         $files_c = [
+            'Configuration/.htaccess',
+            'Configuration/config.yml',
+            'Configuration/database.yml',
+            'Configuration/routing.yml',
+            'Configuration/routing_dev.yml',
             'Console/Bundle/GenerateBundle.php',
             'Console/Bundle/GenerateController.php',
             'Console/ORM/Addentity.php',
@@ -40,6 +45,10 @@
             'Framework/Utility/Forms/VerifForm.php',
             'Framework/Utility/GenPass.php',
             'Framework/Controller.php',
+            'Logs/.htaccess',
+            'Logs/access.log',
+            'Logs/error.log',
+            'Logs/request.log',
             'ORM/MySQL/Request/ComplexWhere.php',
             'ORM/MySQL/Request/Delete.php',
             'ORM/MySQL/Request/Functions.php',
@@ -80,18 +89,6 @@
             'TradFr.php'
         ];
 
-        $files_others = [
-            'config/.htaccess',
-            'config/config.yml',
-            'config/database.yml',
-            'config/routing.yml',
-            'config/routing_dev.yml',
-            'logs/.htaccess',
-            'logs/access.log',
-            'logs/error.log',
-            'logs/request.log'
-        ];
-
         $files_master = [
             '.htaccess',
             'composer.json',
@@ -101,6 +98,7 @@
 
         mkdir('Bundles');
         mkdir('Composants');
+            mkdir('Composants/Configuration');
             mkdir('Composants/Console');
                 mkdir('Composants/Console/Bundle');
                 mkdir('Composants/Console/ORM');
@@ -112,6 +110,7 @@
                 mkdir('Composants/Framework/Utility');
                     mkdir('Composants/Framework/Utility/Forms');
                         mkdir('Composants/Framework/Utility/Forms/Type');
+            mkdir('Composants/Logs');
             mkdir('Composants/ORM');
                 mkdir('Composants/ORM/MySQL');
                     mkdir('Composants/ORM/MySQL/Request');
@@ -119,9 +118,6 @@
                     mkdir('Composants/ORM/PGSQL/Request');
             mkdir('Composants/Yaml');
                 mkdir('Composants/Yaml/Exception');
-        mkdir('Others');
-            mkdir('Others/config');
-            mkdir('Others/logs');
         mkdir('Traductions');
 
         foreach($files_c as $v){
@@ -132,11 +128,6 @@
         foreach($files_trad as $v){
             file_put_contents('Traductions/'.$v, file_get_contents($prefix.'Traductions/'.$v));
             echo $prefix.'Traductions/'.$v.PHP_EOL;
-        }
-
-        foreach($files_others as $v){
-            file_put_contents('Others/'.$v, file_get_contents($prefix.'Others/'.$v));
-            echo $prefix.'Others/'.$v.PHP_EOL;
         }
 
         foreach($files_master as $v){
