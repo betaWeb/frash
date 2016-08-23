@@ -97,6 +97,11 @@
         ];
 
         mkdir('Bundles');
+            mkdir('Bundles/AppBundle');
+                mkdir('Bundles/AppBundle/Controllers');
+                mkdir('Bundles/AppBundle/Entity');
+                mkdir('Bundles/AppBundle/Requests');
+                mkdir('Bundles/AppBundle/Views');
         mkdir('Composants');
             mkdir('Composants/Configuration');
             mkdir('Composants/Console');
