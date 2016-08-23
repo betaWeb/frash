@@ -93,15 +93,8 @@
 
             $racine = 0;
 
-            if(empty(self::$path[0]) && !empty(self::$confarr['racine']['path'])){
-                self::$nb_expl = 1;
-                self::$lien = '/';
-                self::$route = self::$confarr['racine']['path'];
-
-                $racine = 1;
-            }
-            elseif(!empty(self::$path[0]) && self::$path[0][0].self::$path[0][1] == '__'){
-                $rout_dev = Yaml::parse(file_get_contents('Others/config/routing_dev.yml'));
+            if(!empty(self::$path[0]) && self::$path[0][0].self::$path[0][1] == '__'){
+                $rout_dev = Yaml::parse(file_get_contents('Others/config/config.yml'));
 
                 if(isset($rout_dev[ self::$path[0] ]) && self::$confarr['env'] == 'local'){
                     self::$route = $rout_dev[ self::$path[0] ]['path'];
@@ -109,6 +102,13 @@
 
                     return self::devController();
                 }
+            }
+            elseif(empty(self::$path[0]) && !empty(self::$confarr['racine']['path'])){
+                self::$nb_expl = 1;
+                self::$lien = '/';
+                self::$route = self::$confarr['racine']['path'];
+
+                $racine = 1;
             }
             elseif(count(self::$path) == 2 && in_array(self::$path[0], self::$routarr)){
                 self::$nb_expl = 1;
