@@ -13,12 +13,12 @@
          * @param string $url
          */
         public function __construct($url){
-            $yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
+            $yaml = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
 
             if($yaml['log']['access'] == 'yes'){
                 $server = new Server;
 
-                $file = fopen('Others/logs/access.log', 'a');
+                $file = fopen('Composants/Logs/access.log', 'a');
                 fwrite($file, date('d/m/Y à H:i:s').' - IP : '.$server->getRemoteAddr().' - '.$url."\n");
                 fclose($file);
             }

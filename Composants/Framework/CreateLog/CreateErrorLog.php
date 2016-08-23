@@ -12,10 +12,10 @@
          * @param string $error
          */
         public function __construct($error){
-            $yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
+            $yaml = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
 
             if($yaml['log']['error'] == 'yes'){
-                $file = fopen('Others/logs/error.log', 'a');
+                $file = fopen('Composants/Logs/error.log', 'a');
                 fwrite($file, date('d/m/Y à H:i:s').' - Error : '.$error."\n");
                 fclose($file);
             }

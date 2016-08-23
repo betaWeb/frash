@@ -30,7 +30,7 @@
          * Controller constructor.
          */
         public function __construct(){
-            self::$yaml = Yaml::parse(file_get_contents('Others/config/config.yml'));
+            self::$yaml = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
             self::$nurl = explode('/', ltrim(Server::getRequestUri(), '/'));
         }
 
@@ -125,7 +125,7 @@
         public static function initORM($bundle){
             if(!file_exists('Others/config/database.yml')){ return new ConnexionORMFail('Le fichier database.yml n\'existe pas.'); }
 
-            $yaml = Yaml::parse(file_get_contents('Others/config/database.yml'));
+            $yaml = Yaml::parse(file_get_contents('Composants/Configuration/database.yml'));
 
             if(empty($yaml[ $bundle ])){ return new ConnexionORMFail('Le bundle '.$bundle.' n\'existe pas.'); }
 

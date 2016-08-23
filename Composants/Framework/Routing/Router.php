@@ -67,8 +67,8 @@
         public function __construct($url){
             new CreateHTTPLog($url);
 
-            self::$confarr = Yaml::parse(file_get_contents('Others/config/config.yml'));
-            self::$routarr = Yaml::parse(file_get_contents('Others/config/'.self::$confarr['routing']['file']));
+            self::$confarr = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
+            self::$routarr = Yaml::parse(file_get_contents('Composants/Configuration/'.self::$confarr['routing']['file']));
 
             self::$url = $url;
             self::$path = explode('/', $url);
@@ -94,7 +94,7 @@
             $racine = 0;
 
             if(!empty(self::$path[0]) && self::$path[0][0].self::$path[0][1] == '__'){
-                $rout_dev = Yaml::parse(file_get_contents('Others/config/config.yml'));
+                $rout_dev = Yaml::parse(file_get_contents('Composants/Configuration/routing_dev.yml'));
 
                 if(isset($rout_dev[ self::$path[0] ]) && self::$confarr['env'] == 'local'){
                     self::$route = $rout_dev[ self::$path[0] ]['path'];
