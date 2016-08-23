@@ -35,6 +35,7 @@
             'Framework/Utility/Forms/Type/Select.php',
             'Framework/Utility/Forms/Type/StartForm.php',
             'Framework/Utility/Forms/Type/Submit.php',
+            'Framework/Utility/Forms/Type/Text.php',
             'Framework/Utility/Forms/Type/Textarea.php',
             'Framework/Utility/Forms/VerifForm.php',
             'Framework/Utility/GenPass.php',
