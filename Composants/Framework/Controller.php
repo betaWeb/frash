@@ -123,7 +123,7 @@
          * @return ConnexionORMFail
          */
         public static function initORM($bundle){
-            if(!file_exists('Others/config/database.yml')){ return new ConnexionORMFail('Le fichier database.yml n\'existe pas.'); }
+            if(!file_exists('Composants/Configuration/database.yml')){ return new ConnexionORMFail('Le fichier database.yml n\'existe pas.'); }
 
             $yaml = Yaml::parse(file_get_contents('Composants/Configuration/database.yml'));
 
