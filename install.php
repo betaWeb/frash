@@ -13,6 +13,8 @@
             'Console/ORM/Addentity.php',
             'Console/ORM/Createdb.php',
             'Console/listcommand.php',
+            'Framework/Ajax/ajax.js',
+            'Framework/Ajax/ajax.php',
             'Framework/CreateLog/CreateErrorLog.php',
             'Framework/CreateLog/CreateHTTPLog.php',
             'Framework/CreateLog/CreateRequestLog.php',
@@ -108,6 +110,8 @@
                 mkdir('Composants/Console/Bundle');
                 mkdir('Composants/Console/ORM');
             mkdir('Composants/Framework');
+                mkdir('Composants/Framework/Ajax');
+                    mkdir('Composants/Framework/Ajax/AjaxClass');
                 mkdir('Composants/Framework/CreateLog');
                 mkdir('Composants/Framework/Exception');
                 mkdir('Composants/Framework/Globals');
