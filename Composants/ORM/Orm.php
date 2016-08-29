@@ -17,13 +17,13 @@
         /**
          * Orm constructor.
          * @param string $bundle
-         * @param string $pathyml
+         * @param string $path
          * @return ConnexionORMFail
          */
-        public function __construct($bundle, $pathyml){
-            if(!file_exists($pathyml)){ return new ConnexionORMFail('Le fichier database.yml n\'existe pas.'); }
+        public function __construct($bundle, $path){
+            if(!file_exists($path)){ return new ConnexionORMFail('Le fichier database.yml n\'existe pas.'); }
 
-            $yaml = Yaml::parse(file_get_contents($pathyml));
+            $yaml = Yaml::parse(file_get_contents($path));
 
             if(empty($yaml[ $bundle ])){ return new ConnexionORMFail('Le bundle '.$bundle.' n\'existe pas.'); }
 

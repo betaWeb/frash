@@ -13,12 +13,11 @@
          * @param string $csrf
          * @return bool
          */
-        public static function valid($name_submit, $activ_csrf, $csrf = ''){
-            new Session();
-
+        public function valid($name_submit, $activ_csrf, $csrf = ''){
             if(isset($_POST[ $name_submit ])){
-                if($activ_csrf){
-                    return (Session::getSession('token') == $csrf) ? true : false;
+                if($activ_csrf === true && $csrf != ''){
+                    $session = new Session;
+                    return ($session->getSession('token') == $csrf) ? true : false;
                 }
             }
             else{
@@ -30,7 +29,7 @@
          * @param string $mail
          * @return bool
          */
-        public static function isMail($mail){
+        public function isMail($mail){
             return (filter_var($mail, FILTER_VALIDATE_EMAIL)) ? true : false;
         }
     }
