@@ -12,6 +12,7 @@
          */
         private $dependencies = [
             'getOrm' => 'Composants.ORM.OrmFactory',
+            'ormRequest' => 'Composants.ORM.RequestFactory',
             'router' => 'Composants.Framework.Routing.Router',
             'session' => 'Composants.Framework.Globals.Session'
         ];
@@ -25,7 +26,7 @@
          * Dic constructor.
          */
         public function __construct(){
-            array_push($this->dependencies, Yaml::parse(file_get_contents('Composants/Configuration/config.yml')));
+            array_push($this->dependencies, Yaml::parse(file_get_contents('Composants/Configuration/dependencies.yml')));
         }
 
         /**
