@@ -17,21 +17,6 @@
      */
     class Router{
         /**
-         * @var int
-         */
-        private $nb_expl = 0;
-
-        /**
-         * @var string
-         */
-        private $lien = '';
-
-        /**
-         * @var string
-         */
-        private $route = '';
-
-        /**
          * @var array
          */
         private $confarr = [];
@@ -40,11 +25,6 @@
          * @var array
          */
         private $routarr = [];
-
-        /**
-         * @var string
-         */
-        private $action = '';
 
         /**
          * Router constructor.
@@ -63,6 +43,9 @@
             new CreateHTTPLog($url);
 
             $path = explode('/', $url);
+            $route = '';
+            $nb_expl = 0;
+            $lien = '';
 
             if('/'.$path[0] == $this->confarr['prefix'] && !empty($path[0])){
                 if(in_array($path[1], $this->confarr['traduction']['available'])){
@@ -86,23 +69,26 @@
                 $rout_dev = Yaml::parse(file_get_contents('Composants/Configuration/routing_dev.yml'));
 
                 if(isset($rout_dev[ $path[0] ]) && $this->confarr['env'] == 'local'){
-                    $this->route = $rout_dev[ $path[0] ]['path'];
-                    $this->action = $rout_dev[ $path[0] ]['action'];
+                    $route = $rout_dev[ $path[0] ]['path'];
+                    $action = $rout_dev[ $path[0] ]['action'];
 
-                    return $this->devController();
+                    if(file_exists($route.'.php')){
+                        $rout = new $route;
+                        return $rout->$action();
+                    }
                 }
             }
             elseif(empty($path[0]) && !empty($this->confarr['racine']['path'])){
-                $this->nb_expl = 1;
-                $this->lien = '/';
-                $this->route = $this->confarr['racine']['path'];
+                $nb_expl = 1;
+                $lien = '/';
+                $route = $this->confarr['racine']['path'];
 
                 $racine = 1;
             }
             elseif(count($path) == 2 && in_array($path[0], $this->routarr)){
-                $this->nb_expl = 1;
-                $this->lien = $path[0];
-                $this->route = $this->routarr[ $this->lien ]['path'];
+                $nb_expl = 1;
+                $lien = $path[0];
+                $route = $this->routarr[ $lien ]['path'];
             }
             else{
                 foreach($this->routarr as $key => $precision){
@@ -117,27 +103,27 @@
                             }
                         }
 
-                        if(count($lien_array) > $this->nb_expl){
-                            $this->nb_expl = count($lien_array);
-                            $this->lien = implode('/', $lien_array);
-                            $this->route = $precision['path'];
+                        if(count($lien_array) > $nb_expl){
+                            $nb_expl = count($lien_array);
+                            $lien = implode('/', $lien_array);
+                            $route = $precision['path'];
                         }
                     }
                 }
             }
 
-            if($this->nb_expl > 0 && $this->lien != '' && $this->route != ''){
-                $list = explode('/', str_replace($this->lien.'/', '', implode('/', $path)));
+            if($nb_expl > 0 && $lien != '' && $route != ''){
+                $list = explode('/', str_replace($lien.'/', '', implode('/', $path)));
                 $get = [];
 
-                if(isset($this->routarr[ $this->lien ]['get']) && $racine == 0){
+                if(isset($this->routarr[ $lien ]['get']) && $racine == 0){
                     $count_expl = count($list) - 1;
                     for($i = 0; $i <= $count_expl; $i++){
-                        if(isset($this->routarr[ $this->lien ]['get'][ $i ])){
-                            if($this->routarr[ $this->lien ]['get'][ $i ]['fix'] == 'yes' && empty($list[ $i ])){ return new GetChargementFail(); }
+                        if(isset($this->routarr[ $lien ]['get'][ $i ])){
+                            if($this->routarr[ $lien ]['get'][ $i ]['fix'] == 'yes' && empty($list[ $i ])){ return new GetChargementFail(); }
 
-                            if($this->routarr[ $this->lien ]['get'][ $i ]['type'] != 'mixed'){
-                                settype($list[ $i ], $this->routarr[ $this->lien ]['get'][ $i ]['type']);
+                            if($this->routarr[ $lien ]['get'][ $i ]['type'] != 'mixed'){
+                                settype($list[ $i ], $this->routarr[ $lien ]['get'][ $i ]['type']);
                             }
 
                             $get[] = urldecode(htmlentities($list[ $i ]));
@@ -160,43 +146,23 @@
                 }
 
                 Get::set($get);
-                return $this->returnController($dic);
+
+                list($bundle, $controller, $action) = explode(':', $route);
+                $routing = 'Bundles\\'.$bundle.'\\Controllers\\'.$controller;
+
+                if(method_exists($routing, $action)){
+                    $rout = new $routing($dic);
+                    return $rout->$action($dic);
+                }
+                elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')){
+                    return new ControllerChargementFail($controller);
+                }
+                elseif(!method_exists($routing, $action)){
+                    return new ActionChargementFail($action);
+                }
             }
             else{
                 return new RouteChargementFail(implode('/', $path));
-            }
-        }
-
-        /**
-         * @param Dic $dic
-         * @return object|ActionChargementFail|ControllerChargementFail
-         */
-        private function returnController(Dic $dic){
-            list($bundle, $controller, $action) = explode(':', $this->route);
-            $routing = 'Bundles\\'.$bundle.'\\Controllers\\'.$controller;
-
-            if(method_exists($routing, $action)){
-                $rout = new $routing($dic);
-                return $rout->$action($dic);
-            }
-            elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')){
-                return new ControllerChargementFail($controller);
-            }
-            elseif(!method_exists($routing, $action)){
-                return new ActionChargementFail($action);
-            }
-        }
-
-        /**
-         * @return object
-         */
-        private function devController(){
-            $routing = $this->route;
-            $action = $this->action;
-
-            if(file_exists($routing.'.php')){
-                $rout = new $routing;
-                return $rout->$action();
             }
         }
     }
