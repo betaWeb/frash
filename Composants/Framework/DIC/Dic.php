@@ -10,14 +10,7 @@
         /**
          * @var array
          */
-        private $dependencies = [
-            'controller' => 'Composants.Framework.ControllerFactory',
-            'get' => 'Composants.Framework.Globals.Get',
-            'getOrm' => 'Composants.ORM.OrmFactory',
-            'ormRequest' => 'Composants.ORM.RequestFactory',
-            'router' => 'Composants.Framework.Routing.Router',
-            'session' => 'Composants.Framework.Globals.Session'
-        ];
+        private $dependencies = [];
 
         /**
          * @var array
@@ -28,7 +21,7 @@
          * Dic constructor.
          */
         public function __construct(){
-            array_push($this->dependencies, Yaml::parse(file_get_contents('Composants/Configuration/dependencies.yml')));
+            $this->dependencies = Yaml::parse(file_get_contents('Composants/Configuration/dependencies.yml'));
         }
 
         /**
