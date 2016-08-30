@@ -12,6 +12,7 @@
          */
         private $dependencies = [
             'controller' => 'Composants.Framework.ControllerFactory',
+            'get' => 'Composants.Framework.Globals.Get',
             'getOrm' => 'Composants.ORM.OrmFactory',
             'ormRequest' => 'Composants.ORM.RequestFactory',
             'router' => 'Composants.Framework.Routing.Router',
