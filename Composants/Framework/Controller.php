@@ -99,15 +99,4 @@
                 return (in_array($this->nurl[1], $this->yaml['traduction']['available'])) ? '/'.$this->nurl[0].'/'.$this->nurl[1].'/'.$url : '/'.$this->nurl[0].'/'.$url;
             }
         }
-
-        /**
-         * @param string $type_form
-         * @param array $spec
-         * @return string
-         */
-        public function createForm($type_form, $spec){
-            $routing = 'Composants\\Framework\\Utility\\Forms\\Type\\'.$type_form;
-            $type = new $routing($spec);
-            return $type->getInput();
-        }
     }

@@ -46,6 +46,8 @@
             'Framework/Utility/Forms/Type/Submit.php',
             'Framework/Utility/Forms/Type/Text.php',
             'Framework/Utility/Forms/Type/Textarea.php',
+            'Framework/Utility/Forms/CreateForm.php',
+            'Framework/Utility/Forms/FormFactory.php',
             'Framework/Utility/Forms/VerifForm.php',
             'Framework/Utility/GenPass.php',
             'Framework/Controller.php',

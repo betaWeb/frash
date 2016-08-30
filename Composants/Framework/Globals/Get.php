@@ -9,27 +9,27 @@
         /**
          * @var array
          */
-        private $gets = [];
+        private static $gets = [];
 
         /**
          * @param array $gets
          */
-        public function set($gets){
-            $this->gets = $gets;
+        public static function set($gets){
+            array_push(self::$gets, $gets);
         }
 
         /**
          * @param mixed $spec
          * @return mixed
          */
-        public function get($spec){
-            return $this->gets[ $spec ];
+        public static function get($spec){
+            return (self::$gets[ $spec ]) ? self::$gets[ $spec ] : false;
         }
 
         /**
          * @return array
          */
-        public function getAll(){
-            return $this->gets;
+        public static function getAll(){
+            return self::$gets;
         }
     }
