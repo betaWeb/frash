@@ -11,6 +11,7 @@
          * @var array
          */
         private $dependencies = [
+            'controller' => 'Composants.Framework.ControllerFactory',
             'getOrm' => 'Composants.ORM.OrmFactory',
             'ormRequest' => 'Composants.ORM.RequestFactory',
             'router' => 'Composants.Framework.Routing.Router',

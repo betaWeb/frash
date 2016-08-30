@@ -11,14 +11,14 @@
         /**
          * @var \PDO
          */
-        private static $pdo;
+        private $pdo;
 
         /**
          * Finder constructor.
          * @param \PDO $pdo
          */
         public function __construct(\PDO $pdo){
-            self::$pdo = $pdo;
+            $this->pdo = $pdo;
         }
 
         /**
@@ -27,12 +27,12 @@
          * @param array $arguments
          * @return int
          */
-        private static function count($entity, $where, $arguments){
+        private function count($entity, $where, $arguments){
             try{
                 $table = lcfirst($entity);
                 $request = 'SELECT * FROM '."\"$table\"".' '.$where;
 
-                $req = self::$pdo->prepare($request);
+                $req = $this->pdo->prepare($request);
                 $req->execute($arguments);
 
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
@@ -50,7 +50,7 @@
          * @param array $arg
          * @return int
          */
-        public static function __callStatic($method, $arg){
+        public function __call($method, $arg){
             $entity = $arg[0];
             array_shift($arg);
 
@@ -64,10 +64,10 @@
                     $array_method[] = "\"$lc_method\"".' = ?';
                 }
 
-                return self::count($entity, 'WHERE '.implode(' AND ', $array_method), $arg);
+                return $this->count($entity, 'WHERE '.implode(' AND ', $array_method), $arg);
             }
             elseif($method == 'count'){
-                return self::count($entity, "WHERE \"id\" = ?", $arg);
+                return $this->count($entity, "WHERE \"id\" = ?", $arg);
             }
         }
     }

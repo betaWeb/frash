@@ -12,14 +12,14 @@
         /**
          * @var \PDO
          */
-        private static $pdo;
+        private $pdo;
 
         /**
          * Finder constructor.
          * @param \PDO $pdo
          */
         public function __construct(\PDO $pdo){
-            self::$pdo = $pdo;
+            $this->pdo = $pdo;
         }
 
         /**
@@ -29,12 +29,12 @@
          * @param array $arguments
          * @return array
          */
-        private static function findBy($bundle, $entity, $where, $arguments){
+        private function findBy($bundle, $entity, $where, $arguments){
             try{
                 $table = lcfirst($entity);
                 $request = 'SELECT * FROM '."\"$table\"".' '.$where;
 
-                $req = self::$pdo->prepare($request);
+                $req = $this->pdo->prepare($request);
                 $req->execute($arguments);
                 $res = $req->fetchAll(\PDO::FETCH_OBJ);
 
@@ -62,12 +62,12 @@
          * @param array $arguments
          * @return object
          */
-        private static function findOneBy($bundle, $entity, $where, $arguments){
+        private function findOneBy($bundle, $entity, $where, $arguments){
             try{
                 $table = lcfirst($entity);
                 $request = 'SELECT * FROM '."\"$table\"".' '.$where;
 
-                $req = self::$pdo->prepare($request);
+                $req = $this->pdo->prepare($request);
                 $req->execute($arguments);
                 $res = $req->fetch(\PDO::FETCH_OBJ);
 
@@ -86,7 +86,7 @@
          * @param array $arg
          * @return array|object
          */
-        public static function __callStatic($method, $arg){
+        public function __call($method, $arg){
             list($bundle, $entity) = explode(':', $arg[0]);
             array_shift($arg);
 
@@ -100,7 +100,7 @@
                     $array_method[] = "\"$lc_method\"".' = ?';
                 }
 
-                return self::findBy($bundle, $entity, 'WHERE '.implode(' AND ', $array_method), $arg);
+                return $this->findBy($bundle, $entity, 'WHERE '.implode(' AND ', $array_method), $arg);
             }
             elseif(substr($method, 0, 9) == 'findOneBy'){
                 $method = str_replace('findOneBy', '', $method);
@@ -112,13 +112,13 @@
                     $array_method[] = "\"$lc_method\"".' = ?';
                 }
 
-                return self::findOneBy($bundle, $entity, 'WHERE '.implode(' AND ', $array_method), $arg);
+                return $this->findOneBy($bundle, $entity, 'WHERE '.implode(' AND ', $array_method), $arg);
             }
             elseif($method == 'find'){
-                return self::findBy($bundle, $entity, "WHERE \"id\" = ?", $arg);
+                return $this->findBy($bundle, $entity, "WHERE \"id\" = ?", $arg);
             }
             elseif($method == 'findOne'){
-                return self::findOneBy($bundle, $entity, "WHERE \"id\" = ?", $arg);
+                return $this->findOneBy($bundle, $entity, "WHERE \"id\" = ?", $arg);
             }
         }
     }

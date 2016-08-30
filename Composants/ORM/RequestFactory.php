@@ -1,5 +1,7 @@
 <?php
     namespace Composants\ORM;
+    use Composants\ORM\PGSQL\Counter;
+    use Composants\ORM\PGSQL\Finder;
 
     /**
      * Class RequestFactory
@@ -19,5 +21,21 @@
 
             $class = 'Bundles\\'.$bundle.'\\Requests\\'.$req;
             return new $class($orm);
+        }
+
+        /**
+         * @param \PDO $orm
+         * @return Counter
+         */
+        public function getCounter(\PDO $orm){
+            return new Counter($orm);
+        }
+
+        /**
+         * @param \PDO $orm
+         * @return Finder
+         */
+        public function getFinder(\PDO $orm){
+            return new Finder($orm);
         }
     }
