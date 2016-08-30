@@ -118,6 +118,7 @@
                 mkdir('Composants/Framework/Ajax');
                     mkdir('Composants/Framework/Ajax/AjaxClass');
                 mkdir('Composants/Framework/CreateLog');
+                mkdir('Composants/Framework/DIC');
                 mkdir('Composants/Framework/Exception');
                 mkdir('Composants/Framework/Globals');
                 mkdir('Composants/Framework/Routing');
