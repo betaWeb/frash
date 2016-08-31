@@ -15,7 +15,7 @@
          * @param array $gets
          */
         public static function set($gets){
-            array_push(self::$gets, $gets);
+            self::$gets = $gets;
         }
 
         /**
