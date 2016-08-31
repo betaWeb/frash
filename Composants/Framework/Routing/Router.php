@@ -2,10 +2,6 @@
     namespace Composants\Framework\Routing;
     use Composants\Framework\CreateLog\CreateHTTPLog;
     use Composants\Framework\DIC\Dic;
-    use Composants\Framework\Exception\ActionChargementFail;
-    use Composants\Framework\Exception\ControllerChargementFail;
-    use Composants\Framework\Exception\GetChargementFail;
-    use Composants\Framework\Exception\RouteChargementFail;
     use Composants\Framework\Globals\Get;
     use Composants\Yaml\Yaml;
 
@@ -96,18 +92,22 @@
                 }
             }
 
+            $fail = $dic->load('fail');
+
             if($nb_expl > 0 && $lien != '' && $route != ''){
                 $list = explode('/', str_replace($lien.'/', '', implode('/', $path)));
                 $get = [];
+                $types = [ 'integer', 'double', 'string' ];
 
                 if(isset($routarr[ $lien ]['get']) && $racine == 0){
                     $count_expl = count($list) - 1;
                     for($i = 0; $i <= $count_expl; $i++){
                         if(isset($routarr[ $lien ]['get'][ $i ])){
-                            if($routarr[ $lien ]['get'][ $i ]['fix'] == 'yes' && empty($list[ $i ])){ return new GetChargementFail(); }
+                            if($routarr[ $lien ]['get'][ $i ]['fix'] == 'yes' && empty($list[ $i ])){ return $fail->get(); }
+                            if(!in_array($routarr[ $lien ]['get'][ $i ]['type'], $types)){ return $fail->get(); }
 
-                            if($routarr[ $lien ]['get'][ $i ]['type'] != 'mixed'){
-                                settype($list[ $i ], $routarr[ $lien ]['get'][ $i ]['type']);
+                            if($routarr[ $lien ]['get'][ $i ]['type'] == 'integer'){
+                                if(!ctype_digit($list[ $i ])){ return $fail->get(); }
                             }
 
                             $get[] = urldecode(htmlentities($list[ $i ]));
@@ -118,10 +118,12 @@
                     $count_expl = count($list) - 1;
                     for($i = 0; $i <= $count_expl; $i++){
                         if(isset($conf['racine']['get'][ $i ])){
-                            if($conf['racine']['get'][ $i ]['fix'] == 'yes' && empty($list[ $i ])){ return new GetChargementFail(); }
+                            if($conf['racine']['get'][ $i ]['fix'] == 'yes' && empty($list[ $i ])){ return $fail->get(); }
+                            if(!in_array($conf['racine']['get'][ $i ]['type'], $types)){ return $fail->get(); }
 
-                            if($conf['racine']['get'][ $i ]['type'] != 'mixed'){
-                                settype($list[ $i ], $conf['racine']['get'][ $i ]['type']);
+                            if($conf['racine']['get'][ $i ]['fix'] == 'yes' || ($conf['racine']['get'][ $i ]['fix'] == 'no' && !empty($list[ $i ]))){
+                                if($conf['racine']['get'][ $i ]['type'] == 'integer' && !ctype_digit($list[ $i ])){ return $fail->get(); }
+                                if($conf['racine']['get'][ $i ]['type'] == 'double' && !preg_match('/[^0-9(.{1})]/', $list[ $i ])){ return $fail->get(); }
                             }
 
                             $get[] = urldecode(htmlentities($list[ $i ]));
@@ -138,14 +140,14 @@
                     return $dic->load('controller')->getController($dic, $routing)->$action($dic);
                 }
                 elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')){
-                    return new ControllerChargementFail($controller);
+                    return $fail->controller($controller);
                 }
                 elseif(!method_exists($routing, $action)){
-                    return new ActionChargementFail($action);
+                    return $fail->action($action);
                 }
             }
             else{
-                return new RouteChargementFail(implode('/', $path));
+                return $fail->route(implode('/', $path));
             }
         }
     }
