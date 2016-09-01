@@ -15,7 +15,7 @@
         /**
          * @param string $url
          * @param Dic $dic
-         * @return ActionChargementFail|ControllerChargementFail|RouteChargementFail|GetChargementFail
+         * @return object
          */
         public function routing($url, Dic $dic){
             $conf = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
