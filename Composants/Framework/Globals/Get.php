@@ -12,17 +12,23 @@
         private static $gets = [];
 
         /**
-         * @param array $gets
+         * @param mixed $name
+         * @param mixed $value
          */
-        public static function set($gets){
-            self::$gets = $gets;
+        public static function set($name, $value){
+            self::$gets[ $name ] = $value;
         }
 
         /**
          * @param mixed $spec
+         * @param mixed $key
          * @return mixed
          */
-        public static function get($spec){
+        public static function get($spec, $key = ''){
+            if(is_array(self::$gets[ $spec ])){
+                return self::$gets[ $spec ][ $key ];
+            }
+
             return (self::$gets[ $spec ]) ? self::$gets[ $spec ] : false;
         }
 

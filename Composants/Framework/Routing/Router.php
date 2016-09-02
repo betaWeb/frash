@@ -28,14 +28,20 @@
 
             if('/'.$path[0] == $conf['prefix'] && !empty($path[0])){
                 if(in_array($path[1], $conf['traduction']['available'])){
+                    Get::set('lang', $path[1]);
+
                     unset($path[0], $path[1]);
                 }
                 elseif(!in_array($path[1], $conf['traduction']['available'])){
+                    Get::set('lang', $conf['traduction']['default']);
+
                     $slice = array_slice($path, 1);
                     $path = $slice;
                 }
             }
             elseif(in_array($path[0], $conf['traduction']['available'])){
+                Get::set('lang', $path[0]);
+
                 unset($path[0]);
             }
 
@@ -131,7 +137,7 @@
                     }
                 }
 
-                Get::set($get);
+                Get::set('get', $get);
 
                 list($bundle, $controller, $action) = explode(':', $route);
                 $routing = 'Bundles\\'.$bundle.'\\Controllers\\'.$controller;
