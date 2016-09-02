@@ -17,7 +17,7 @@
          * @param Dic $dic
          * @return object
          */
-        public function routing($url, Dic $dic){
+        public function routing($url = '', Dic $dic){
             $conf = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
             new CreateHTTPLog($url);
 
@@ -147,7 +147,8 @@
                 }
             }
             else{
-                return $fail->route(implode('/', $path));
+                $route = (empty($path)) ? '' : implode('/', $path);
+                return $fail->route($route);
             }
         }
     }

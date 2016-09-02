@@ -50,6 +50,12 @@
                 }
             });
 
+            $bun = new \Twig_SimpleFunction('bundle', function($bundle, $file){
+                if('/'.$this->nurl[0] == $this->yaml['prefix']){
+                    echo '/'.$this->nurl[0].'/Bundles/'.$bundle.'Bundle/Ressources/'.$file;
+                }
+            });
+
             $trad = new \Twig_SimpleFunction('trad', function($traduction){
                 if('/'.$this->nurl[0] == $this->yaml['prefix']){
                     $lang = (in_array($this->nurl[1], $this->yaml['traduction']['available'])) ? $lang = $this->nurl[1] : $lang = $this->yaml['traduction']['default'];
@@ -61,6 +67,7 @@
             });
 
             $twig->addFunction($url);
+            $twig->addFunction($bun);
             $twig->addFunction($trad);
             echo $twig->render($templ, $param);
             return true;

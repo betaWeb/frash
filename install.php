@@ -23,6 +23,7 @@
             'Framework/Exception/ActionChargementFail.php',
             'Framework/Exception/ConnexionORMFail.php',
             'Framework/Exception/ControllerChargementFail.php',
+            'Framework/Exception/FailFactory.php',
             'Framework/Exception/GetChargementFail.php',
             'Framework/Exception/RouteChargementFail.php',
             'Framework/Exception/TwigChargementTemplateFail.php',
