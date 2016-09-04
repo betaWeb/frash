@@ -7,15 +7,18 @@
      * @package Composants\Framework\CreateLog
      */
     class CreateErrorLog{
+        const CONFIG = 'Composants/Configuration/config.yml';
+        const LOG = 'Composants/Logs/error.log';
+
         /**
          * CreateErrorLog constructor.
          * @param string $error
          */
-        public function __construct($error){
-            $yaml = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
+        public function __construct($error, $ajax){
+            $yaml = ($ajax === false) ? Yaml::parse(file_get_contents(self::CONFIG)) : Yaml::parse(file_get_contents('../../../'.self::CONFIG));
 
             if($yaml['log']['error'] == 'yes'){
-                $file = fopen('Composants/Logs/error.log', 'a');
+                $file = ($ajax === false) ? fopen(self::LOG, 'a') : fopen('../../../'.self::LOG, 'a');
                 fwrite($file, date('d/m/Y à H:i:s').' - Error : '.$error."\n");
                 fclose($file);
             }

@@ -7,15 +7,18 @@
      * @package Composants\Framework\CreateLog
      */
     class CreateRequestLog{
+        const CONFIG = 'Composants/Configuration/config.yml';
+        const LOG = 'Composants/Logs/request.log';
+
         /**
          * CreateRequestLog constructor.
          * @param string $request
          */
-        public function __construct($request){
-            $yaml = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
+        public function __construct($request, $ajax){
+            $yaml = ($ajax === false) ? Yaml::parse(file_get_contents(self::CONFIG)) : Yaml::parse(file_get_contents('../../../'.self::CONFIG));
 
             if($yaml['log']['request'] == 'yes'){
-                $file = fopen('Composants/Logs/request.log', 'a');
+                $file = ($ajax === false) ? fopen(self::LOG, 'a') : fopen('../../../'.self::LOG, 'a');
                 fwrite($file, date('d/m/Y à H:i:s').' - Request : '.$request."\n");
                 fclose($file);
             }

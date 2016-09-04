@@ -24,9 +24,14 @@
          * @param mixed $key
          * @return mixed
          */
-        public static function get($spec, $key = ''){
+        public static function get($spec, $key = false){
             if(is_array(self::$gets[ $spec ])){
-                return self::$gets[ $spec ][ $key ];
+                if($key === false){
+                    return self::$gets[ $spec ];
+                }
+                else{
+                    return self::$gets[ $spec ][ $key ];
+                }
             }
 
             return (self::$gets[ $spec ]) ? self::$gets[ $spec ] : false;
