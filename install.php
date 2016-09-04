@@ -8,6 +8,7 @@
             'Configuration/database.yml',
             'Configuration/dependencies.yml',
             'Configuration/routing.yml',
+            'Configuration/routing_ajax.yml',
             'Configuration/routing_dev.yml',
             'Console/Bundle/GenerateBundle.php',
             'Console/Bundle/GenerateController.php',
@@ -16,6 +17,8 @@
             'Console/listcommand.php',
             'Framework/Ajax/ajax.js',
             'Framework/Ajax/ajax.php',
+            'Framework/Controller/TraductionFactory.php',
+            'Framework/Controller/View.php',
             'Framework/CreateLog/CreateErrorLog.php',
             'Framework/CreateLog/CreateHTTPLog.php',
             'Framework/CreateLog/CreateRequestLog.php',
@@ -120,6 +123,7 @@
             mkdir('Composants/Framework');
                 mkdir('Composants/Framework/Ajax');
                     mkdir('Composants/Framework/Ajax/AjaxClass');
+                mkdir('Composants/Framework/Controller');
                 mkdir('Composants/Framework/CreateLog');
                 mkdir('Composants/Framework/DIC');
                 mkdir('Composants/Framework/Exception');
