@@ -3,6 +3,7 @@ fail: Composants.Framework.Exception.FailFactory
 form: Composants.Framework.Utility.Forms.FormFactory
 get: Composants.Framework.Globals.Get
 getOrm: Composants.ORM.OrmFactory
+getUrl: Composants.Framework.Controller.GetUrl
 ormRequest: Composants.ORM.RequestFactory
 router: Composants.Framework.Routing.Router
 session: Composants.Framework.Globals.Session

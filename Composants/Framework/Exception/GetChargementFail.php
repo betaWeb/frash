@@ -11,7 +11,7 @@
          * GetChargementFail constructor.
          */
         public function __construct(){
-            new CreateErrorLog('URL incorrecte');
+            new CreateErrorLog('URL incorrecte', false);
 
             header('HTTP/1.0 404 Not Found', true, 404);
             die();

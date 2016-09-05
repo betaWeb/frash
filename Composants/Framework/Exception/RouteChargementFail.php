@@ -12,7 +12,7 @@
          * @param string $route
          */
         public function __construct($route){
-            new CreateErrorLog('Route '.$route.' Not Found');
+            new CreateErrorLog('Route '.$route.' Not Found', false);
 
             header('HTTP/1.0 404 Not Found', true, 404);
             die();

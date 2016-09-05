@@ -12,7 +12,7 @@
          * @param string $templ
          */
         public function __construct($templ){
-            new CreateErrorLog('Template TWIG Not Found');
+            new CreateErrorLog('Template TWIG Not Found', false);
 
             header('HTTP/1.0 404 Not Found', true, 404);
             die();

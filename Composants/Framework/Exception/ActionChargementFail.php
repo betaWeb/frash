@@ -12,7 +12,7 @@
          * @param string $action
          */
         public function __construct($action){
-            new CreateErrorLog('Action '.$action.' Not Found');
+            new CreateErrorLog('Action '.$action.' Not Found', false);
 
             header('HTTP/1.0 404 Not Found', true, 404);
             die();

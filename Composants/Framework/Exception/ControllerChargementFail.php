@@ -12,7 +12,7 @@
          * @param $controller
          */
         public function __construct($controller){
-            new CreateErrorLog('Controller '.$controller.' Not Found');
+            new CreateErrorLog('Controller '.$controller.' Not Found', false);
 
             header('HTTP/1.0 404 Not Found', true, 404);
             die();
