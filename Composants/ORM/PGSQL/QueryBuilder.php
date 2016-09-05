@@ -48,15 +48,14 @@
 
         /**
          * @param Select $select
-         * @param string $entity
          * @param string $bundle
          * @param bool $ajax
          * @return array
          */
-        public static function selectOne(Select $select, $entity, $bundle, $ajax = false){
+        public static function selectOne(Select $select, $bundle, $ajax = false){
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest(), $ajax);
-                $ent = 'Bundles\\'.$bundle.'\Entity\\'.$entity;
+                $ent = 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity();
 
                 $req = self::$conn->prepare($select->getRequest());
                 $req->execute($select->getExecute());
@@ -71,22 +70,21 @@
                 }
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                new CreateErrorLog($e->getMessage(), $ajax);
                 die('Il y a eu une erreur.');
             }
         }
 
         /**
          * @param Select $select
-         * @param string $entity
          * @param string $bundle
          * @param bool $ajax
          * @return array
          */
-        public static function selectMany(Select $select, $entity, $bundle, $ajax = false){
+        public static function selectMany(Select $select, $bundle, $ajax = false){
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest(), $ajax);
-                $ent = 'Bundles\\'.$bundle.'\Entity\\'.$entity;
+                $ent = 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity();
 
                 $req = self::$conn->prepare($select->getRequest());
                 $req->execute($select->getExecute());

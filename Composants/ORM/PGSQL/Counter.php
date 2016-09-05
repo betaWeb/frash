@@ -35,12 +35,12 @@
                 $req = $this->pdo->prepare($request);
                 $req->execute($arguments);
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request, false);
 
                 return $req->rowCount();
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                new CreateErrorLog($e->getMessage(), false);
                 die('Il y a eu une erreur.');
             }
         }

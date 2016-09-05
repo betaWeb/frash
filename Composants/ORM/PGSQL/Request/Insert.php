@@ -1,11 +1,12 @@
 <?php
     namespace Composants\ORM\PGSQL\Request;
+    use Composants\ORM\RequestInterface;
 
     /**
      * Class Insert
      * @package Composants\ORM\PGSQL\Request
      */
-    class Insert{
+    class Insert implements RequestInterface{
         /**
          * @var string
          */

@@ -1,15 +1,21 @@
 <?php
     namespace Composants\ORM\PGSQL\Request;
+    use Composants\ORM\RequestInterface;
 
     /**
      * Class Select
      * @package Composants\ORM\PGSQL\Request
      */
-    class Select{
+    class Select implements RequestInterface{
         /**
          * @var string
          */
         private $table = '';
+
+        /**
+         * @var string
+         */
+        private $entity = '';
 
         /**
          * @var string
@@ -112,5 +118,19 @@
          */
         public function getColSel(){
             return $this->colSel;
+        }
+
+        /**
+         * @return string
+         */
+        public function getTable(){
+            return $this->table;
+        }
+
+        /**
+         * @return string
+         */
+        public function getEntity(){
+            return $this->entity;
         }
     }

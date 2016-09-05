@@ -1,11 +1,12 @@
 <?php
     namespace Composants\ORM\PGSQL\Request;
+    use Composants\ORM\RequestInterface;
 
     /**
      * Class Delete
      * @package Composants\ORM\PGSQL\Request
      */
-    class Delete{
+    class Delete implements RequestInterface{
         /**
          * @var string
          */

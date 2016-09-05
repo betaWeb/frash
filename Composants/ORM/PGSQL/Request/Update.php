@@ -1,11 +1,12 @@
 <?php
     namespace Composants\ORM\PGSQL\Request;
+    use Composants\ORM\RequestInterface;
 
     /**
      * Class Update
      * @package Composants\ORM\PGSQL\Request
      */
-    class Update{
+    class Update implements RequestInterface{
         /**
          * @var string
          */

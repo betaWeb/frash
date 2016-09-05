@@ -38,7 +38,7 @@
                 $req->execute($arguments);
                 $res = $req->fetchAll(\PDO::FETCH_OBJ);
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request, false);
 
                 $count = count($res) - 1;
                 $array_obj = [];
@@ -50,7 +50,7 @@
                 return $array_obj;
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                new CreateErrorLog($e->getMessage(), false);
                 die('Il y a eu une erreur.');
             }
         }
@@ -71,12 +71,12 @@
                 $req->execute($arguments);
                 $res = $req->fetch(\PDO::FETCH_OBJ);
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request, false);
 
                 return Hydrator::hydration($res, 'Bundles\\'.$bundle.'Bundle\Entity\\'.$entity);
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                new CreateErrorLog($e->getMessage(), false);
                 die('Il y a eu une erreur.');
             }
         }

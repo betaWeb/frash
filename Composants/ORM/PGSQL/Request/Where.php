@@ -25,7 +25,7 @@
          */
         public function where($where, $sign, $exec, $prefix = '', $suffix = ''){
             $this->where .= ' '.$prefix."\"$where\"".' '.$sign.' '.$exec.' '.$suffix;
-            $this->arrayWhere[] = substr($exec, 1);
+            $this->arrayWhere[] = $exec[0];
         }
 
         /**
@@ -35,7 +35,7 @@
          */
         public function andWhere($where, $sign, $exec){
             $this->where .= ' AND '."\"$where\"".' '.$sign.' '.$exec;
-            $this->arrayWhere[] = substr($exec, 1);
+            $this->arrayWhere[] = $exec[0];
         }
 
         /**
@@ -45,7 +45,7 @@
          */
         public function orWhere($where, $sign, $exec){
             $this->where .= ' OR '."\"$where\"".' '.$sign.' '.$exec;
-            $this->arrayWhere[] = substr($exec, 1);
+            $this->arrayWhere[] = $exec[0];
         }
 
         /**
@@ -68,7 +68,7 @@
          */
         public function inWhere($where, $exec){
             $this->where .= "\"$where\"".' IN ('.$exec.')';
-            $this->arrayWhere[] = substr($exec, 1);
+            $this->arrayWhere[] = $exec[0];
         }
 
         /**

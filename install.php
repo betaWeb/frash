@@ -83,6 +83,7 @@
             'ORM/Orm.php',
             'ORM/OrmFactory.php',
             'ORM/RequestFactory.php',
+            'ORM/RequestInterface.php',
             'ORM/VerifParamDbYaml.php',
             'Yaml/Exception/DumpException.php',
             'Yaml/Exception/ExceptionInterface.php',
