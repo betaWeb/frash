@@ -28,12 +28,14 @@
             'Framework/Exception/ControllerChargementFail.php',
             'Framework/Exception/FailFactory.php',
             'Framework/Exception/GetChargementFail.php',
+            'Framework/Exception/InitMailFail.php',
             'Framework/Exception/RouteChargementFail.php',
             'Framework/Exception/TwigChargementTemplateFail.php',
             'Framework/Globals/Files.php',
             'Framework/Globals/Get.php',
             'Framework/Globals/Server.php',
             'Framework/Globals/Session.php',
+            'Framework/Mail/Mailer.php',
             'Framework/Routing/Router.php',
             'Framework/Utility/Forms/Type/Checkbox.php',
             'Framework/Utility/Forms/Type/Color.php',
@@ -129,6 +131,7 @@
                 mkdir('Composants/Framework/DIC');
                 mkdir('Composants/Framework/Exception');
                 mkdir('Composants/Framework/Globals');
+                mkdir('Composants/Framework/Mail');
                 mkdir('Composants/Framework/Routing');
                 mkdir('Composants/Framework/Utility');
                     mkdir('Composants/Framework/Utility/Forms');
