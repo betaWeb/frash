@@ -15,7 +15,7 @@
         public function bundle($path, $param){
             $bundle = explode('/', dirname($path));
 
-            if($param != 'not' && $param == 'with'){ return new DeterminateFail('Paramètre non valide'); }
+            if($param != 'not' && $param != 'with'){ return new DeterminateFail('Paramètre non valide'); }
 
             return ($param == 'not') ? str_replace('Bundle', '', end($bundle)) : end($bundle);
         }
