@@ -44,17 +44,33 @@
                         echo '/'.$this->nurl[0].'/'.$url;
                     }
                 }
+                else{
+                    if(in_array($this->nurl[0], $this->yaml['traduction']['available'])){
+                        echo ($trad === true) ? '/'.$url : '/'.$this->nurl[0].'/'.$url;
+                    }
+                    else{
+                        echo $url;
+                    }
+                }
             });
 
             $bun = new \Twig_SimpleFunction('bundle', function($bundle, $file){
+                $base = '/Bundles/'.$bundle.'Bundle/Ressources/'.$file;
+
                 if('/'.$this->nurl[0] == $this->yaml['prefix']){
-                    echo '/'.$this->nurl[0].'/Bundles/'.$bundle.'Bundle/Ressources/'.$file;
+                    echo '/'.$this->nurl[0].$base;
+                }
+                else{
+                    echo $base;
                 }
             });
 
             $trad = new \Twig_SimpleFunction('trad', function($traduction){
                 if('/'.$this->nurl[0] == $this->yaml['prefix']){
-                    $lang = (in_array($this->nurl[1], $this->yaml['traduction']['available'])) ? $lang = $this->nurl[1] : $lang = $this->yaml['traduction']['default'];
+                    $lang = (in_array($this->nurl[1], $this->yaml['traduction']['available'])) ? $this->nurl[1] : $this->yaml['traduction']['default'];
+                }
+                else{
+                    $lang = (in_array($this->nurl[0], $this->yaml['traduction']['available'])) ? $this->nurl[0] : $this->yaml['traduction']['default'];
                 }
 
                 $class = 'Traductions\\Trad'.ucfirst($lang);

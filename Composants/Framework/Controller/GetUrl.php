@@ -32,5 +32,8 @@
             if('/'.$this->nurl[0] == $this->yaml['prefix']){
                 return (in_array($this->nurl[1], $this->yaml['traduction']['available'])) ? '/'.$this->nurl[0].'/'.$this->nurl[1].'/'.$url : '/'.$this->nurl[0].'/'.$url;
             }
+            else{
+                return (in_array($this->nurl[0], $this->yaml['traduction']['available'])) ? '/'.$this->nurl[0].'/'.$url : $url;
+            }
         }
     }
