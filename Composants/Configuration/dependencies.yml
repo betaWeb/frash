@@ -1,4 +1,5 @@
 controller: Composants.Framework.ControllerFactory
+determinate: Composants.Framework.Controller.Determinate
 fail: Composants.Framework.Exception.FailFactory
 form: Composants.Framework.Utility.Forms.FormFactory
 get: Composants.Framework.Globals.Get
@@ -10,3 +11,4 @@ router: Composants.Framework.Routing.Router
 session: Composants.Framework.Globals.Session
 trad: Composants.Framework.Controller.TraductionFactory
 view: Composants.Framework.Controller.View
+view2: Composants.Framework.Templating.TemplateFactory

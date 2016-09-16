@@ -33,7 +33,10 @@
          * @param mixed $value
          */
         public function setSession($name, $value){
-            $this->session_name[] = $name;
+            if(!array_key_exists($name, $this->session_value)){
+                $this->session_name[] = $name;
+            }
+
             $this->session_value[ $name ] = $value;
 
             $_SESSION[ $name ] = $value;

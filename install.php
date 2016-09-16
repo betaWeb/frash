@@ -40,6 +40,8 @@
             'Framework/Globals/Session.php',
             'Framework/Mail/Mailer.php',
             'Framework/Routing/Router.php',
+            'Framework/Templating/TemplateFactory.php',
+            'Framework/Templating/View.php',
             'Framework/Utility/Forms/Type/Checkbox.php',
             'Framework/Utility/Forms/Type/Color.php',
             'Framework/Utility/Forms/Type/Csrf.php',
@@ -136,6 +138,8 @@
                 mkdir('Composants/Framework/Globals');
                 mkdir('Composants/Framework/Mail');
                 mkdir('Composants/Framework/Routing');
+                mkdir('Composants/Framework/Templating');
+                    mkdir('Composants/Framework/Templating/Fonctions');
                 mkdir('Composants/Framework/Utility');
                     mkdir('Composants/Framework/Utility/Forms');
                         mkdir('Composants/Framework/Utility/Forms/Type');
