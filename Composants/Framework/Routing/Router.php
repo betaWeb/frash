@@ -3,7 +3,6 @@
     use Composants\Framework\CreateLog\CreateHTTPLog;
     use Composants\Framework\Exception\Exception;
     use Composants\Framework\DIC\Dic;
-    use Composants\Framework\Globals\Get;
     use Composants\Yaml\Yaml;
 
     /**
@@ -18,6 +17,7 @@
          */
         public function routing($url = '', Dic $dic){
             $conf = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
+            $gets = $dic->load('get');
             new CreateHTTPLog($url);
 
             $path = explode('/', $url);
@@ -25,21 +25,22 @@
             $nb_expl = 0;
             $lien = '';
 
+            $gets->set('uri', $url);
+
             if('/'.$path[0] == $conf['prefix'] && !empty($path[0])){
                 if(in_array($path[1], $conf['traduction']['available'])){
-                    Get::set('lang', $path[1]);
+                    $gets->set('lang', $path[1]);
                     unset($path[0], $path[1]);
                 }
                 elseif(!in_array($path[1], $conf['traduction']['available'])){
-                    Get::set('lang', $conf['traduction']['default']);
+                    $gets->set('lang', $conf['traduction']['default']);
 
                     $slice = array_slice($path, 1);
                     $path = $slice;
                 }
             }
             elseif(in_array($path[0], $conf['traduction']['available'])){
-                Get::set('lang', $path[0]);
-
+                $gets->set('lang', $path[0]);
                 unset($path[0]);
             }
 
@@ -130,8 +131,8 @@
                     }
                 }
 
-                Get::set('uri', $url);
-                Get::set('get', $get);
+                $gets->set('uri', $url);
+                $gets->set('get', $get);
 
                 list($bundle, $controller, $action) = explode(':', $route);
                 $routing = 'Bundles\\'.$bundle.'\\Controllers\\'.$controller;
