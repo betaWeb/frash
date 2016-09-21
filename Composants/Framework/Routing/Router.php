@@ -131,7 +131,6 @@
                     }
                 }
 
-                $gets->set('uri', $url);
                 $gets->set('get', $get);
 
                 list($bundle, $controller, $action) = explode(':', $route);
