@@ -14,11 +14,11 @@
          * CreateRequestLog constructor.
          * @param string $request
          */
-        public function __construct($request, $ajax){
-            $yaml = ($ajax === false) ? Yaml::parse(file_get_contents(self::CONFIG)) : Yaml::parse(file_get_contents('../../../'.self::CONFIG));
+        public function __construct($request){
+            $yaml = Yaml::parse(file_get_contents(self::CONFIG));
 
             if($yaml['log']['request'] == 'yes'){
-                $file = ($ajax === false) ? fopen(self::LOG, 'a') : fopen('../../../'.self::LOG, 'a');
+                $file = fopen(self::LOG, 'a');
                 fwrite($file, date('d/m/Y à H:i:s').' - Request : '.$request."\n");
                 fclose($file);
             }

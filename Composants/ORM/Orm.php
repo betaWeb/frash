@@ -1,6 +1,6 @@
 <?php
     namespace Composants\ORM;
-    use Composants\Framework\Exception\ConnexionORMFail;
+    use Composants\Framework\Exception\Exception;
     use Composants\ORM\VerifParamDbYaml;
     use Composants\Yaml\Yaml;
 
@@ -18,15 +18,15 @@
          * Orm constructor.
          * @param string $bundle
          * @param string $path
-         * @return ConnexionORMFail
+         * @return Exception
          */
         public function __construct($bundle, $path){
-            if(!file_exists($path)){ return new ConnexionORMFail('Le fichier database.yml n\'existe pas.'); }
+            if(!file_exists($path)){ return new Exception('Le fichier database.yml n\'existe pas.'); }
 
             $yaml = Yaml::parse(file_get_contents($path));
 
             $bund = $yaml[ $bundle.'Bundle' ];
-            if(empty($bund)){ return new ConnexionORMFail('Le bundle '.$bundle.' n\'existe pas.'); }
+            if(empty($bund)){ return new Exception('Le bundle '.$bundle.' n\'existe pas.'); }
             new VerifParamDbYaml($bund, [ 'host', 'dbname', 'username', 'password', 'system' ]);
 
             try{
@@ -41,7 +41,7 @@
                 }
             }
             catch(\Exception $e){
-                return new ConnexionORMFail($e->getMessage());
+                return new Exception($e->getMessage());
             }
         }
 

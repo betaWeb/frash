@@ -14,11 +14,11 @@
          * CreateErrorLog constructor.
          * @param string $error
          */
-        public function __construct($error, $ajax){
-            $yaml = ($ajax === false) ? Yaml::parse(file_get_contents(self::CONFIG)) : Yaml::parse(file_get_contents('../../../'.self::CONFIG));
+        public function __construct($error){
+            $yaml = Yaml::parse(file_get_contents(self::CONFIG));
 
             if($yaml['log']['error'] == 'yes'){
-                $file = ($ajax === false) ? fopen(self::LOG, 'a') : fopen('../../../'.self::LOG, 'a');
+                $file = fopen(self::LOG, 'a');
                 fwrite($file, date('d/m/Y à H:i:s').' - Error : '.$error."\n");
                 fclose($file);
             }

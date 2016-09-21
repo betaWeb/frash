@@ -1,6 +1,6 @@
 <?php
     namespace Composants\Framework\Controller;
-    use Composants\Framework\Exception\DeterminateFail;
+    use Composants\Framework\Exception\Exception;
 
     /**
      * Class Determinate
@@ -10,12 +10,12 @@
         /**
          * @param string $path
          * @param string $param
-         * @return string
+         * @return Exception|string
          */
         public function bundle($path, $param){
             $bundle = explode('/', dirname($path));
 
-            if($param != 'not' && $param != 'with'){ return new DeterminateFail('Paramètre non valide'); }
+            if($param != 'not' && $param != 'with'){ return new Exception('Determinate : Paramètre non valide'); }
 
             return ($param == 'not') ? str_replace('Bundle', '', end($bundle)) : end($bundle);
         }

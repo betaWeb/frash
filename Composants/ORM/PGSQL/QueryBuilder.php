@@ -28,20 +28,19 @@
 
         /**
          * @param Insert $request
-         * @param bool $ajax
          * @return int
          */
-        public static function insert(Insert $request, $ajax = false){
+        public static function insert(Insert $request){
             try{
                 $req = self::$conn->prepare($request->getRequest());
                 $req->execute($request->getExecute());
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest(), $ajax);
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
 
                 return self::$conn->lastInsertId(str_replace('"', '', $request->getTable()).'_id_seq');
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage(), $ajax);
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -49,12 +48,11 @@
         /**
          * @param Select $select
          * @param string $bundle
-         * @param bool $ajax
          * @return array
          */
-        public static function selectOne(Select $select, $bundle, $ajax = false){
+        public static function selectOne(Select $select, $bundle){
             try{
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest(), $ajax);
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
                 $ent = 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity();
 
                 $req = self::$conn->prepare($select->getRequest());
@@ -70,7 +68,7 @@
                 }
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage(), $ajax);
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -78,12 +76,11 @@
         /**
          * @param Select $select
          * @param string $bundle
-         * @param bool $ajax
          * @return array
          */
-        public static function selectMany(Select $select, $bundle, $ajax = false){
+        public static function selectMany(Select $select, $bundle){
             try{
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest(), $ajax);
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
                 $ent = 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity();
 
                 $req = self::$conn->prepare($select->getRequest());
@@ -113,61 +110,58 @@
                 }
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage(), $ajax);
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
 
         /**
          * @param Delete $request
-         * @param bool $ajax
          */
-        public static function delete(Delete $request, $ajax = false){
+        public static function delete(Delete $request){
             try{
                 $req = self::$conn->prepare($request->getRequest());
                 $req->execute($request->getExecute());
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest(), $ajax);
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage(), $ajax);
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
 
         /**
          * @param Update $request
-         * @param bool $ajax
          */
-        public static function update(Update $request, $ajax = false){
+        public static function update(Update $request){
             try{
                 $req = self::$conn->prepare($request->getRequest());
                 $req->execute($request->getExecute());
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest(), $ajax);
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage(), $ajax);
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
 
         /**
          * @param Select $request
-         * @param bool $ajax
          * @return int
          */
-        public static function count(Select $request, $ajax = false){
+        public static function count(Select $request){
             try{
                 $req = self::$conn->prepare($request->getRequest());
                 $req->execute($request->getExecute());
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest(), $ajax);
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
 
                 return $req->rowCount();
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage(), $ajax);
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }

@@ -3,12 +3,13 @@
     use Composants\Framework\CreateLog\CreateErrorLog;
 
     /**
-     * Class InitMailFail
+     * Class Exception
      * @package Composants\Framework\Exception
      */
-    class InitMailFail{
+    class Exception{
         /**
-         * InitMailFail constructor.
+         * Exception constructor.
+         * @param string $message
          */
         public function __construct($message){
             new CreateErrorLog($message, false);
