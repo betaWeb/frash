@@ -1,7 +1,7 @@
 # LFW
 Light FrameWork
 
- - <kbd>Framework</kbd> : 0.12.167
+ - <kbd>Framework</kbd> : 0.12.168
 
 Installation
 ----------
@@ -13,4 +13,5 @@ Installation
 ----------
 
 Pour accéder aux commandes disponibles par la console :
+> php console
 > php console console:listcommand

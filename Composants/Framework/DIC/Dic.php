@@ -34,7 +34,7 @@
                 $path = str_replace('.', '\\', $this->dependencies[ $key ]);
 
                 $class = new $path();
-                array_push($this->open, [ $key => $class ]);
+                $this->open[ $key ] = $class;
 
                 return $class;
             }

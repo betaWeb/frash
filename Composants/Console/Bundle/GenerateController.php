@@ -19,6 +19,9 @@
             $code .= '	namespace Bundles\\'.$bundle.'\\Controllers;'."\n";
             $code .= '	use Composants\Framework\Controller;'."\n\n";
             $code .= '	class '.ucfirst($name).' extends Controller {'."\n";
+            $code .= '		public function __construct(){'."\n";
+            $code .= '			parent::__construct();'."\n";
+            $code .= '		}'."\n\n";
 
             foreach($list as $l){
                 $code .= '		public function '.$l.'(){'."\n";
