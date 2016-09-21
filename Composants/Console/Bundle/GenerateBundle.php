@@ -8,7 +8,7 @@
     class GenerateBundle{
         /**
          * GenerateBundle constructor.
-         * @param $name
+         * @param string $name
          */
         public function __construct($name){
             mkdir('Bundles/'.$name);
