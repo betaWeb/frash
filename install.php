@@ -15,8 +15,6 @@
             'Console/ORM/Addentity.php',
             'Console/ORM/Createdb.php',
             'Console/listcommand.php',
-            'Framework/Ajax/ajax.js',
-            'Framework/Ajax/ajax.php',
             'Framework/Controller/Determinate.php',
             'Framework/Controller/GetUrl.php',
             'Framework/Controller/TraductionFactory.php',
@@ -25,15 +23,7 @@
             'Framework/CreateLog/CreateHTTPLog.php',
             'Framework/CreateLog/CreateRequestLog.php',
             'Framework/DIC/Dic.php',
-            'Framework/Exception/ActionChargementFail.php',
-            'Framework/Exception/ConnexionORMFail.php',
-            'Framework/Exception/ControllerChargementFail.php',
-            'Framework/Exception/DeterminateFail.php',
-            'Framework/Exception/FailFactory.php',
-            'Framework/Exception/GetChargementFail.php',
-            'Framework/Exception/InitMailFail.php',
-            'Framework/Exception/RouteChargementFail.php',
-            'Framework/Exception/TwigChargementTemplateFail.php',
+            'Framework/Exception/Exception.php',
             'Framework/Globals/Files.php',
             'Framework/Globals/Get.php',
             'Framework/Globals/Server.php',
@@ -129,8 +119,6 @@
                 mkdir('Composants/Console/Bundle');
                 mkdir('Composants/Console/ORM');
             mkdir('Composants/Framework');
-                mkdir('Composants/Framework/Ajax');
-                    mkdir('Composants/Framework/Ajax/AjaxClass');
                 mkdir('Composants/Framework/Controller');
                 mkdir('Composants/Framework/CreateLog');
                 mkdir('Composants/Framework/DIC');
