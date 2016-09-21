@@ -15,14 +15,15 @@
          */
         public function __construct($bundle){
             $array = Yaml::parse(file_get_contents('Composants/Configuration/database.yml'));
+            $conn = $array['bundle'];
 
             try{
-                if($array['system'] == 'MySQL'){
-                    $db = new \PDO('mysql:host='.$array['host'], $array['username'], $array['password']);
-                    $db->exec('CREATE DATABASE IF NOT EXISTS '.$array['dbname']);
-                    new CreateRequestLog('CREATE DATABASE IF NOT EXISTS '.$array['dbname']);
+                if($conn['system'] == 'MySQL'){
+                    $db = new \PDO('mysql:host='.$conn['host'], $conn['username'], $conn['password']);
+                    $db->exec('CREATE DATABASE IF NOT EXISTS '.$conn['dbname']);
+                    new CreateRequestLog('CREATE DATABASE IF NOT EXISTS '.$conn['dbname']);
 
-                    echo 'La base de données '.$array['dbname'].' a bien été créée.';
+                    echo 'La base de données '.$conn['dbname'].' a bien été créée.';
                 }
             }
             catch(\PDOException $e){
