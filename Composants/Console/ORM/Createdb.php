@@ -11,9 +11,10 @@
     class Createdb{
         /**
          * Createdb constructor.
+         * @param string $bundle
          */
-        public function __construct(){
-            $array = Yaml::parse(file_get_contents('Others/config/database.yml'));
+        public function __construct($bundle){
+            $array = Yaml::parse(file_get_contents('Composants/Configuration/database.yml'));
 
             try{
                 if($array['system'] == 'MySQL'){

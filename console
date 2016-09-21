@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
     require('vendor/autoload.php');
-    use Composants\Console\ORM\Createdb;
     use Composants\Console\ORM\Addentity;
+    use Composants\Console\ORM\Createdb;
     use Composants\Console\Bundle\GenerateBundle;
     use Composants\Console\Bundle\GenerateController;
 
@@ -17,7 +17,9 @@
         $expl = explode(':', $argv[1]);
 
         if($argv[1] == 'ORM:createdb'){
-            new Createdb();
+            if(!empty($argv[2])){
+                new Createdb($argv[2]);
+            }
         }
 
         if($expl[0] == 'ORM' && $expl[1] == 'addentity' && !empty($expl[2]) && !empty($expl[3]) && !empty($argv[2])){
