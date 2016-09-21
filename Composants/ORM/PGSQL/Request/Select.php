@@ -59,6 +59,7 @@
         public function __construct($array){
             $table = $array['table'];
             $this->table = "\"$table\"";
+            $this->entity = ucfirst($array['table']);
 
             if(!empty($array['order'])){
                 $this->order = 'ORDER BY '.$array['order'];
