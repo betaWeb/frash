@@ -6,16 +6,18 @@
      * @package Composants\Console\Bundle
      */
     class GenerateBundle{
+        const PREFIX = 'Bundles/';
+    
         /**
          * GenerateBundle constructor.
          * @param string $name
          */
         public function __construct($name){
-            mkdir('Bundles/'.$name);
-            mkdir('Bundles/'.$name.'/Controllers');
-            mkdir('Bundles/'.$name.'/Entity');
-            mkdir('Bundles/'.$name.'/Requests');
-            mkdir('Bundles/'.$name.'/Views');
+            mkdir(self::PREFIX.$name);
+            mkdir(self::PREFIX.$name.'/Controllers');
+            mkdir(self::PREFIX.$name.'/Entity');
+            mkdir(self::PREFIX.$name.'/Requests');
+            mkdir(self::PREFIX.$name.'/Views');
 
             echo 'Bundle généré !'.PHP_EOL;
         }
