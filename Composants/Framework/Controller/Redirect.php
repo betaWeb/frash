@@ -1,13 +1,13 @@
 <?php
-    namespace Composants\Framework;
+    namespace Composants\Framework\Controller;
     use Composants\Framework\Globals\Server;
     use Composants\Yaml\Yaml;
 
     /**
-     * Class Controller
-     * @package Composants\Framework
+     * Class Redirect
+     * @package Composants\Framework\Controller
      */
-    class Controller{
+    class Redirect{
         /**
          * @var array
          */
@@ -19,7 +19,7 @@
         private $nurl = [];
 
         /**
-         * Controller constructor.
+         * Redirect constructor.
          */
         public function __construct(){
             $this->yaml = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
@@ -30,7 +30,7 @@
          * @param string $url
          * @return bool
          */
-        public function redirectToRoute($url){
+        public function route($url){
             if('/'.$this->nurl[0] == $this->yaml['prefix']){
                 $redirect = (in_array($this->nurl[1], $this->yaml['traduction']['available'])) ? $this->nurl[0].'/'.$this->nurl[1] : $this->nurl[0];
 
@@ -45,21 +45,8 @@
          * @param string $url
          * @return bool
          */
-        public function redirectToUrl($url){
+        public function url($url){
             header('Location:'.$url);
             return true;
-        }
-
-        /**
-         * @param string $url
-         * @return string
-         */
-        public function getUrl($url){
-            if('/'.$this->nurl[0] == $this->yaml['prefix']){
-                return (in_array($this->nurl[1], $this->yaml['traduction']['available'])) ? '/'.$this->nurl[0].'/'.$this->nurl[1].'/'.$url : '/'.$this->nurl[0].'/'.$url;
-            }
-            else{
-                return (in_array($this->nurl[0], $this->yaml['traduction']['available'])) ? '/'.$this->nurl[0].'/'.$url : $url;
-            }
         }
     }

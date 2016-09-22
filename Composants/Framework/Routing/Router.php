@@ -51,17 +51,8 @@
             $routarr = Yaml::parse(file_get_contents('Composants/Configuration/'.$conf['routing']['file']));
 
             if(!empty($path[0]) && $path[0][0].$path[0][1] == '__'){
-                $rout_dev = Yaml::parse(file_get_contents('Composants/Configuration/routing_dev.yml'));
-
-                if(isset($rout_dev[ $path[0] ]) && $conf['env'] == 'local'){
-                    $route = $rout_dev[ $path[0] ]['path'];
-                    $action = $rout_dev[ $path[0] ]['action'];
-
-                    if(file_exists($route.'.php')){
-                        $rout = new $route;
-                        return $rout->$action();
-                    }
-                }
+                $rout_dev = new RouterDev;
+                return $rout_dev->routing($path, $dic, $conf['env']);
             }
             elseif(empty($path[0]) && !empty($conf['racine']['path'])){
                 $nb_expl = 1;
@@ -99,39 +90,9 @@
 
             if($nb_expl > 0 && $lien != '' && $route != ''){
                 $list = explode('/', str_replace($lien.'/', '', implode('/', $path)));
-                $get = [];
+                $routarr_get = ($racine == 0) ? $routarr[ $lien ]['get'] : $conf['racine']['get'];
 
-                if(isset($routarr[ $lien ]['get']) && $racine == 0){
-                    $count_expl = count($list) - 1;
-                    for($i = 0; $i <= $count_expl; $i++){
-                        if(isset($routarr[ $lien ]['get'][ $i ])){
-                            if($routarr[ $lien ]['get'][ $i ]['fix'] == 'yes' && empty($list[ $i ])){ return new Exception('Get : Url incorrecte.'); }
-
-                            if($routarr[ $lien ]['get'][ $i ]['type'] == 'integer'){
-                                if(!ctype_digit($list[ $i ])){ return new Exception('Get : Url incorrecte.'); }
-                            }
-
-                            $get[] = urldecode(htmlentities($list[ $i ]));
-                        }
-                    }
-                }
-                elseif(isset($conf['racine']['get']) && $racine == 1){
-                    $count_expl = count($list) - 1;
-                    for($i = 0; $i <= $count_expl; $i++){
-                        if(isset($conf['racine']['get'][ $i ])){
-                            if($conf['racine']['get'][ $i ]['fix'] == 'yes' && empty($list[ $i ])){ return new Exception('Get : Url incorrecte.'); }
-
-                            if($conf['racine']['get'][ $i ]['fix'] == 'yes' || ($conf['racine']['get'][ $i ]['fix'] == 'no' && !empty($list[ $i ]))){
-                                if($conf['racine']['get'][ $i ]['type'] == 'integer' && !ctype_digit($list[ $i ])){ return new Exception('Get : Url incorrecte.'); }
-                                if($conf['racine']['get'][ $i ]['type'] == 'double' && !preg_match('/[^0-9(.{1})]/', $list[ $i ])){ return new Exception('Get : Url incorrecte.'); }
-                            }
-
-                            $get[] = urldecode(htmlentities($list[ $i ]));
-                        }
-                    }
-                }
-
-                $gets->set('get', $get);
+                $gets->set('get', DefineGet::defineNormal($routarr_get, $list, $racine));
 
                 list($bundle, $controller, $action) = explode(':', $route);
                 $routing = 'Bundles\\'.$bundle.'\\Controllers\\'.$controller;

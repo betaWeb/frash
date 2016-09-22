@@ -16,6 +16,7 @@
             'Console/listcommand.php',
             'Framework/Controller/Determinate.php',
             'Framework/Controller/GetUrl.php',
+            'Framework/Controller/Redirect.php',
             'Framework/Controller/TraductionFactory.php',
             'Framework/Controller/View.php',
             'Framework/CreateLog/CreateErrorLog.php',
@@ -28,7 +29,11 @@
             'Framework/Globals/Server.php',
             'Framework/Globals/Session.php',
             'Framework/Mail/Mailer.php',
+            'Framework/Routing/DefineGet.php',
             'Framework/Routing/Router.php',
+            'Framework/Routing/RouterDev.php',
+            'Framework/Systems/Ressources/Views/SQL/sql_no_choice.html.twig',
+            'Framework/Systems/SQL/Sql.php',
             'Framework/Templating/TemplateFactory.php',
             'Framework/Templating/View.php',
             'Framework/Utility/Forms/Type/Checkbox.php',
@@ -50,7 +55,6 @@
             'Framework/Utility/Forms/FormFactory.php',
             'Framework/Utility/Forms/VerifForm.php',
             'Framework/Utility/GenPass.php',
-            'Framework/Controller.php',
             'Framework/ControllerFactory.php',
             'Logs/.htaccess',
             'Logs/access.log',
@@ -125,6 +129,12 @@
                 mkdir('Composants/Framework/Globals');
                 mkdir('Composants/Framework/Mail');
                 mkdir('Composants/Framework/Routing');
+                mkdir('Composants/Framework/Systems');
+                    mkdir('Composants/Framework/Systems/Ressources');
+                        mkdir('Composants/Framework/Systems/Ressources/css');
+                        mkdir('Composants/Framework/Systems/Ressources/Views');
+                            mkdir('Composants/Framework/Systems/Ressources/Views/SQL');
+                    mkdir('Composants/Framework/Systems/SQL');
                 mkdir('Composants/Framework/Templating');
                     mkdir('Composants/Framework/Templating/Fonctions');
                 mkdir('Composants/Framework/Utility');

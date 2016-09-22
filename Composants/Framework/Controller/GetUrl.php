@@ -1,5 +1,6 @@
 <?php
     namespace Composants\Framework\Controller;
+    use Composants\Framework\Globals\Server;
     use Composants\Yaml\Yaml;
 
     /**
@@ -10,30 +11,18 @@
         const CONFIG = 'Composants/Configuration/config.yml';
 
         /**
-         * @var array
-         */
-        private $nurl = [];
-
-        /**
-         * @var array
-         */
-        private $yaml = [];
-
-        /**
          * @param string $url
-         * @param string $base
-         * @param mixed $prefix
          * @return string
          */
-        public function url($url, $base = '', $prefix = false){
-            $this->yaml = ($prefix === false) ? Yaml::parse(file_get_contents(self::CONFIG)) : Yaml::parse(file_get_contents($prefix.self::CONFIG));
-            $this->nurl = explode('/', ltrim($base, '/'));
+        public function url($url){
+            $yaml = Yaml::parse(file_get_contents(self::CONFIG));
+            $nurl = explode('/', ltrim(Server::getRequestUri(), '/'));
 
-            if('/'.$this->nurl[0] == $this->yaml['prefix']){
-                return (in_array($this->nurl[1], $this->yaml['traduction']['available'])) ? '/'.$this->nurl[0].'/'.$this->nurl[1].'/'.$url : '/'.$this->nurl[0].'/'.$url;
+            if('/'.$nurl[0] == $yaml['prefix']){
+                return (in_array($nurl[1], $yaml['traduction']['available'])) ? '/'.$nurl[0].'/'.$nurl[1].'/'.$url : '/'.$nurl[0].'/'.$url;
             }
             else{
-                return (in_array($this->nurl[0], $this->yaml['traduction']['available'])) ? '/'.$this->nurl[0].'/'.$url : $url;
+                return (in_array($nurl[0], $yaml['traduction']['available'])) ? '/'.$nurl[0].'/'.$url : $url;
             }
         }
     }

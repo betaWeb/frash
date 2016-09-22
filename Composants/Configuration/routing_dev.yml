@@ -4,6 +4,8 @@ __ftp:
 __sql:
     path: Composants/Framework/Systems/SQL/Sql
     action: sqlAction
+    get:
+        0: { fix: no, type: string }
 __console:
     path: Composants/Framework/Systems/Console/Console
     action: consoleAction
