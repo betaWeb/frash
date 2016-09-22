@@ -1,6 +1,6 @@
 <?php
     namespace Composants\Framework\Controller;
-    use Composants\Framework\Exception\TwigChargementTemplateFail;
+    use Composants\Framework\Exception\Exception;
     use Composants\Framework\Globals\Server;
     use Composants\Yaml\Yaml;
 
@@ -9,6 +9,11 @@
      * @package Composants\Framework\Controller
      */
     class View{
+        /**
+         * @var string
+         */
+        private $bundle = '';
+
         /**
          * @var array
          */
@@ -23,17 +28,18 @@
          * @param string $templ
          * @param string $bundle
          * @param array $param
-         * @return bool|TwigChargementTemplateFail
+         * @return Exception|bool
          */
         public function view($templ, $bundle, $param = []){
             if(!file_exists('Bundles/'.$bundle.'Bundle/Views/'.$templ)){
-                return new TwigChargementTemplateFail($templ);
+                return new Exception('TWIG : Template '.$templ.' not found');
             }
 
             $twig = new \Twig_Environment(new \Twig_Loader_Filesystem('Bundles/'.$bundle.'Bundle/Views'));
 
-            $this->yaml = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
+            $this->bundle = $bundle.'Bundle';
             $this->nurl = explode('/', ltrim(Server::getRequestUri(), '/'));
+            $this->yaml = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
 
             $url = new \Twig_SimpleFunction('url', function($url, $trad = ''){
                 if('/'.$this->nurl[0] == $this->yaml['prefix']){
@@ -54,8 +60,9 @@
                 }
             });
 
-            $bun = new \Twig_SimpleFunction('bundle', function($bundle, $file){
-                $base = '/Bundles/'.$bundle.'Bundle/Ressources/'.$file;
+            $bun = new \Twig_SimpleFunction('bundle', function($file, $bundle = false){
+                $bu = ($bundle === false) ? $this->bundle : $bundle.'Bundle';
+                $base = '/Bundles/'.$bu.'/Ressources/'.$file;
 
                 if('/'.$this->nurl[0] == $this->yaml['prefix']){
                     echo '/'.$this->nurl[0].$base;
