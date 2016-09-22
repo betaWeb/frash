@@ -127,6 +127,17 @@
                 }
             });
 
+            $comp = new \Twig_SimpleFunction('comp', function($file){
+                $base = '/Composants/Framework/Systems/Ressources/css/'.$file;
+
+                if('/'.$this->nurl[0] == $this->yaml['prefix']){
+                    echo '/'.$this->nurl[0].$base;
+                }
+                else{
+                    echo $base;
+                }
+            });
+
             $trad = new \Twig_SimpleFunction('trad', function($traduction){
                 if('/'.$this->nurl[0] == $this->yaml['prefix']){
                     $lang = (in_array($this->nurl[1], $this->yaml['traduction']['available'])) ? $this->nurl[1] : $this->yaml['traduction']['default'];
@@ -140,6 +151,7 @@
                 echo $tr->show($traduction);
             });
 
+            $twig->addFunction($comp);
             $twig->addFunction($url);
             $twig->addFunction($trad);
             echo $twig->render($file, $param);

@@ -32,6 +32,7 @@
             'Framework/Routing/DefineGet.php',
             'Framework/Routing/Router.php',
             'Framework/Routing/RouterDev.php',
+            'Framework/Systems/Ressources/css/sql.css',
             'Framework/Systems/Ressources/Views/SQL/sql_no_choice.html.twig',
             'Framework/Systems/SQL/Sql.php',
             'Framework/Templating/TemplateFactory.php',
