@@ -8,7 +8,6 @@
             'Configuration/database.yml',
             'Configuration/dependencies.yml',
             'Configuration/routing.yml',
-            'Configuration/routing_ajax.yml',
             'Configuration/routing_dev.yml',
             'Console/Bundle/GenerateBundle.php',
             'Console/Bundle/GenerateController.php',
