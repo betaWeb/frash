@@ -9,3 +9,8 @@ __sql:
 __console:
     path: Composants/Framework/Systems/Console/Console
     action: consoleAction
+__logs:
+    path: Composants/Framework/Systems/Logs/Logs
+    action: logAction
+    get:
+        0: { fix: no, type: string }
