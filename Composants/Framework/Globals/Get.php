@@ -9,14 +9,14 @@
         /**
          * @var array
          */
-        private static $gets = [];
+        private $gets = [];
 
         /**
          * @param mixed $name
          * @param mixed $value
          */
-        public static function set($name, $value){
-            self::$gets[ $name ] = $value;
+        public function set($name, $value){
+            $this->gets[ $name ] = $value;
         }
 
         /**
@@ -24,23 +24,23 @@
          * @param mixed $key
          * @return mixed
          */
-        public static function get($spec, $key = false){
-            if(is_array(self::$gets[ $spec ])){
+        public function get($spec, $key = false){
+            if(is_array($this->gets[ $spec ])){
                 if($key === false){
-                    return self::$gets[ $spec ];
+                    return $this->gets[ $spec ];
                 }
                 else{
-                    return self::$gets[ $spec ][ $key ];
+                    return $this->gets[ $spec ][ $key ];
                 }
             }
 
-            return (self::$gets[ $spec ]) ? self::$gets[ $spec ] : false;
+            return ($this->gets[ $spec ]) ? $this->gets[ $spec ] : false;
         }
 
         /**
          * @return array
          */
-        public static function getAll(){
-            return self::$gets;
+        public function getAll(){
+            return $this->gets;
         }
     }
