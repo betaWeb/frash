@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Light FrameWork - Logs</title>
+        <link rel="stylesheet" media="screen" type="text/css" href="{{ comp('logs.css') }}">
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+              crossorigin="anonymous">
+    </head>
+    <body>
+        <div id="corps">
+            <div id="interface">
+                <div id="left_bar_interface">
+                    <ul>
+                        <li><a href="{{ url('__logs/access/') }}">access.log</a></li>
+                        <li><a href="{{ url('__logs/error/') }}">error.log</a></li>
+                        <li><a href="{{ url('__logs/request/') }}">request.log</a></li>
+                    </ul>
+                </div>
+                <div id="body_interface">{{ file | raw }}</div>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+                crossorigin="anonymous"></script>
+    </body>
+</html>

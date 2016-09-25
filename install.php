@@ -32,8 +32,12 @@
             'Framework/Routing/DefineGet.php',
             'Framework/Routing/Router.php',
             'Framework/Routing/RouterDev.php',
+            'Framework/Systems/Ressources/css/logs.css',
             'Framework/Systems/Ressources/css/sql.css',
+            'Framework/Systems/Ressources/Views/Logs/logs_choice.html.twig',
+            'Framework/Systems/Ressources/Views/Logs/logs_no_choice.html.twig',
             'Framework/Systems/Ressources/Views/SQL/sql_no_choice.html.twig',
+            'Framework/Systems/Logs/Logs.php',
             'Framework/Systems/SQL/Sql.php',
             'Framework/Templating/TemplateFactory.php',
             'Framework/Templating/View.php',
@@ -131,9 +135,11 @@
                 mkdir('Composants/Framework/Mail');
                 mkdir('Composants/Framework/Routing');
                 mkdir('Composants/Framework/Systems');
+                    mkdir('Composants/Framework/Systems/Logs');
                     mkdir('Composants/Framework/Systems/Ressources');
                         mkdir('Composants/Framework/Systems/Ressources/css');
                         mkdir('Composants/Framework/Systems/Ressources/Views');
+                            mkdir('Composants/Framework/Systems/Ressources/Views/Logs');
                             mkdir('Composants/Framework/Systems/Ressources/Views/SQL');
                     mkdir('Composants/Framework/Systems/SQL');
                 mkdir('Composants/Framework/Templating');
