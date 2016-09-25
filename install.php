@@ -73,6 +73,7 @@
             'ORM/MySQL/Request/Update.php',
             'ORM/MySQL/Request/Where.php',
             'ORM/MySQL/QueryBuilder.php',
+            'ORM/PDO/PDO.php',
             'ORM/PGSQL/Request/ComplexWhere.php',
             'ORM/PGSQL/Request/Delete.php',
             'ORM/PGSQL/Request/Functions.php',
@@ -151,6 +152,7 @@
             mkdir('Composants/ORM');
                 mkdir('Composants/ORM/MySQL');
                     mkdir('Composants/ORM/MySQL/Request');
+                mkdir('Composants/ORM/PDO');
                 mkdir('Composants/ORM/PGSQL');
                     mkdir('Composants/ORM/PGSQL/Request');
             mkdir('Composants/Yaml');

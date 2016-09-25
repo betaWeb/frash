@@ -3,6 +3,7 @@
     use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Framework\CreateLog\CreateRequestLog;
     use Composants\ORM\Hydrator;
+    use Composants\ORM\PDO\PDO;
     use Composants\ORM\PGSQL\Request\Delete;
     use Composants\ORM\PGSQL\Request\Insert;
     use Composants\ORM\PGSQL\Request\Select;
@@ -14,15 +15,15 @@
      */
     class QueryBuilder extends Hydrator{
         /**
-         * @var \PDO
+         * @var PDO
          */
         protected static $conn;
 
         /**
          * QueryBuilder constructor.
-         * @param \PDO $conn
+         * @param PDO $conn
          */
-        public function __construct(\PDO $conn){
+        public function __construct(PDO $conn){
             self::$conn = $conn;
         }
 
@@ -32,11 +33,8 @@
          */
         public static function insert(Insert $request){
             try{
-                $req = self::$conn->prepare($request->getRequest());
-                $req->execute($request->getExecute());
-
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
-
+                self::$conn->request($request->getRequest(), $request->getExecute());
                 return self::$conn->lastInsertId(str_replace('"', '', $request->getTable()).'_id_seq');
             }
             catch(\Exception $e){
@@ -55,17 +53,9 @@
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
                 $ent = 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity();
 
-                $req = self::$conn->prepare($select->getRequest());
-                $req->execute($select->getExecute());
-
-                if($select->getColSel() == '*'){
-                    $res = $req->fetch(\PDO::FETCH_OBJ);
-                    return self::hydration($res, $ent);
-                }
-                else{
-                    $req->setFetchMode(\PDO::FETCH_CLASS, $ent);
-                    return $req->fetch();
-                }
+                self::$conn->request($select->getRequest(), $select->getExecute());
+                $res = self::$conn->fetch();
+                return self::hydration($res, $ent);
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());
@@ -83,31 +73,17 @@
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
                 $ent = 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity();
 
-                $req = self::$conn->prepare($select->getRequest());
-                $req->execute($select->getExecute());
+                self::$conn->request($select->getRequest(), $select->getExecute());
+                $res = self::$conn->fetchAll();
 
-                if($select->getColSel() == '*'){
-                    $res = $req->fetchAll(\PDO::FETCH_OBJ);
+                $count = count($res) - 1;
+                $array_obj = [];
 
-                    $count = count($res) - 1;
-                    $array_obj = [];
-
-                    for($i = 0; $i <= $count; $i++){
-                        $array_obj[ $i ] = self::hydration($res[ $i ], $ent);
-                    }
-
-                    return $array_obj;
+                for($i = 0; $i <= $count; $i++){
+                    $array_obj[ $i ] = self::hydration($res[ $i ], $ent);
                 }
-                else{
-                    $res = $req->fetchAll(\PDO::FETCH_CLASS, $ent);
 
-                    $array = [];
-                    foreach($res as $v){
-                        $array[] = $v;
-                    }
-
-                    return $array;
-                }
+                return $array_obj;
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());
@@ -120,9 +96,7 @@
          */
         public static function delete(Delete $request){
             try{
-                $req = self::$conn->prepare($request->getRequest());
-                $req->execute($request->getExecute());
-
+                self::$conn->request($request->getRequest(), $request->getExecute());
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
             }
             catch(\Exception $e){
@@ -136,9 +110,7 @@
          */
         public static function update(Update $request){
             try{
-                $req = self::$conn->prepare($request->getRequest());
-                $req->execute($request->getExecute());
-
+                self::$conn->request($request->getRequest(), $request->getExecute());
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
             }
             catch(\Exception $e){
@@ -153,12 +125,9 @@
          */
         public static function count(Select $request){
             try{
-                $req = self::$conn->prepare($request->getRequest());
-                $req->execute($request->getExecute());
-
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
-
-                return $req->rowCount();
+                self::$conn->request($request->getRequest(), $request->getExecute());
+                return self::$conn->rowCount();
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());
