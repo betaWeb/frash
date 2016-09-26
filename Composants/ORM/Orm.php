@@ -10,7 +10,7 @@
      */
     class Orm{
         /**
-         * @var \PDO
+         * @var PDO
          */
         private $connexion;
 
@@ -44,7 +44,7 @@
         }
 
         /**
-         * @return \PDO
+         * @return PDO
          */
         public function getConnexion(){
             return $this->connexion;
