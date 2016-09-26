@@ -16,13 +16,8 @@
             $list = explode('/', $action);
 
             $code = "<?php\n";
-            $code .= '	namespace Bundles\\'.$bundle.'\\Controllers;'."\n";
-            $code .= '	use Composants\Framework\Controller;'."\n\n";
-            $code .= '	class '.ucfirst($name).' extends Controller {'."\n";
-            $code .= '		public function __construct(){'."\n";
-            $code .= '			parent::__construct();'."\n";
-            $code .= '		}'."\n\n";
-
+            $code .= '	namespace Bundles\\'.$bundle.'\\Controllers;'."\n\n";
+            $code .= '	class '.ucfirst($name).'{'."\n";
             foreach($list as $l){
                 $code .= '		public function '.$l.'(){'."\n";
                 $code .= '			'."\n";
