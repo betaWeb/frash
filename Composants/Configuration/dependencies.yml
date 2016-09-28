@@ -1,6 +1,6 @@
 controller: Composants.Framework.ControllerFactory
 determinate: Composants.Framework.Controller.Determinate
-form: Composants.Framework.Utility.Forms.FormFactory
+form: Composants.Framework.Forms.FormFactory
 get: Composants.Framework.Globals.Get
 getOrm: Composants.ORM.OrmFactory
 getUrl: Composants.Framework.Controller.GetUrl
