@@ -1,5 +1,6 @@
 <?php
     namespace Composants\Framework\Utility\Forms\Type;
+    use Composants\Framework\Controller\GetUrl;
 
     /**
      * Class StartForm
@@ -16,6 +17,7 @@
          * @param array $spec
          */
         public function __construct($spec){
+            $url = new GetUrl;
             $this->input = '<form';
 
             if(!empty($spec['method'])){
@@ -23,7 +25,7 @@
             }
 
             if(!empty($spec['action'])){
-                $this->input .= ' action="'.$spec['action'].'"';
+                $this->input .= ' action="'.$url->url($spec['action']).'"';
             }
 
             if(!empty($spec['id'])){
