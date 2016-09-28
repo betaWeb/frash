@@ -23,7 +23,7 @@
 
         /**
          * PDO constructor.
-         * @param $dsn
+         * @param string $dsn
          * @param string $username
          * @param string $passwd
          * @param array $options
