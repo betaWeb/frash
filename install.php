@@ -24,6 +24,25 @@
             'Framework/CreateLog/CreateRequestLog.php',
             'Framework/DIC/Dic.php',
             'Framework/Exception/Exception.php',
+            'Framework/Forms/Type/Checkbox.php',
+            'Framework/Forms/Type/Color.php',
+            'Framework/Forms/Type/Csrf.php',
+            'Framework/Forms/Type/Date.php',
+            'Framework/Forms/Type/Email.php',
+            'Framework/Forms/Type/File.php',
+            'Framework/Forms/Type/Input.php',
+            'Framework/Forms/Type/Number.php',
+            'Framework/Forms/Type/Password.php',
+            'Framework/Forms/Type/Range.php',
+            'Framework/Forms/Type/Select.php',
+            'Framework/Forms/Type/StartForm.php',
+            'Framework/Forms/Type/Submit.php',
+            'Framework/Forms/Type/Text.php',
+            'Framework/Forms/Type/Textarea.php',
+            'Framework/Forms/CreateForm.php',
+            'Framework/Forms/FormFactory.php',
+            'Framework/Forms/FormTypeInterface.php',
+            'Framework/Forms/VerifForm.php',
             'Framework/Globals/Files.php',
             'Framework/Globals/Get.php',
             'Framework/Globals/Server.php',
@@ -41,24 +60,6 @@
             'Framework/Systems/SQL/Sql.php',
             'Framework/Templating/TemplateFactory.php',
             'Framework/Templating/View.php',
-            'Framework/Utility/Forms/Type/Checkbox.php',
-            'Framework/Utility/Forms/Type/Color.php',
-            'Framework/Utility/Forms/Type/Csrf.php',
-            'Framework/Utility/Forms/Type/Date.php',
-            'Framework/Utility/Forms/Type/Email.php',
-            'Framework/Utility/Forms/Type/File.php',
-            'Framework/Utility/Forms/Type/Input.php',
-            'Framework/Utility/Forms/Type/Number.php',
-            'Framework/Utility/Forms/Type/Password.php',
-            'Framework/Utility/Forms/Type/Range.php',
-            'Framework/Utility/Forms/Type/Select.php',
-            'Framework/Utility/Forms/Type/StartForm.php',
-            'Framework/Utility/Forms/Type/Submit.php',
-            'Framework/Utility/Forms/Type/Text.php',
-            'Framework/Utility/Forms/Type/Textarea.php',
-            'Framework/Utility/Forms/CreateForm.php',
-            'Framework/Utility/Forms/FormFactory.php',
-            'Framework/Utility/Forms/VerifForm.php',
             'Framework/Utility/GenPass.php',
             'Framework/ControllerFactory.php',
             'Logs/.htaccess',
@@ -90,7 +91,6 @@
             'ORM/OrmFactory.php',
             'ORM/RequestFactory.php',
             'ORM/RequestInterface.php',
-            'ORM/VerifParamDbYaml.php',
             'Yaml/Exception/DumpException.php',
             'Yaml/Exception/ExceptionInterface.php',
             'Yaml/Exception/ParseException.php',
@@ -132,6 +132,8 @@
                 mkdir('Composants/Framework/CreateLog');
                 mkdir('Composants/Framework/DIC');
                 mkdir('Composants/Framework/Exception');
+                mkdir('Composants/Framework/Forms');
+                    mkdir('Composants/Framework/Forms/Type');
                 mkdir('Composants/Framework/Globals');
                 mkdir('Composants/Framework/Mail');
                 mkdir('Composants/Framework/Routing');
@@ -146,8 +148,6 @@
                 mkdir('Composants/Framework/Templating');
                     mkdir('Composants/Framework/Templating/Fonctions');
                 mkdir('Composants/Framework/Utility');
-                    mkdir('Composants/Framework/Utility/Forms');
-                        mkdir('Composants/Framework/Utility/Forms/Type');
             mkdir('Composants/Logs');
             mkdir('Composants/ORM');
                 mkdir('Composants/ORM/MySQL');
