@@ -1,5 +1,6 @@
 <?php
     namespace Composants\Framework\Forms;
+    use Composants\Framework\DIC\Dic;
     use Composants\Framework\Forms\VerifForm;
     use Composants\Framework\Forms\CreateForm;
 
@@ -8,6 +9,19 @@
      * @package Composants\Framework\Forms
      */
     class FormFactory{
+        /**
+         * @var string
+         */
+        private $uri = '';
+
+        /**
+         * FormFactory constructor.
+         * @param Dic $dic
+         */
+        public function __construct($dic){
+            $this->uri = $dic->open('get')->get('uri');
+        }
+
         /**
          * @return \Composants\Framework\Forms\VerifForm
          */
@@ -19,7 +33,7 @@
          * @param string $uri
          * @return \Composants\Framework\Forms\CreateForm
          */
-        public function create($uri){
-            return new CreateForm($uri);
+        public function create(){
+            return new CreateForm($this->uri);
         }
     }
