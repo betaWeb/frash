@@ -46,20 +46,24 @@
         /**
          * @param Select $select
          * @param string $bundle
-         * @return array
+         * @param string $type
+         * @return object
          */
-        public static function selectOne(Select $select, $bundle){
-            try{
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
-                $ent = 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity();
+        public static function selectOne(Select $select, $bundle, $type = 'array'){
+            if($type == 'array' || $type == 'object'){
+                try{
+                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
+                    $ent = 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity();
 
-                self::$conn->request($select->getRequest(), $select->getExecute());
-                $res = self::$conn->fetch();
-                return self::hydration($res, $ent);
-            }
-            catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
-                die('Il y a eu une erreur.');
+                    self::$conn->request($select->getRequest(), $select->getExecute());
+                    $res = self::$conn->fetch();
+
+                    return ($type == 'array') ? self::hydration($res, $ent) : self::hydrationObject($res, $ent);
+                }
+                catch(\Exception $e){
+                    new CreateErrorLog($e->getMessage());
+                    die('Il y a eu une erreur.');
+                }
             }
         }
 

@@ -1,7 +1,7 @@
 # LFW
 Light FrameWork
 
- - <kbd>Framework</kbd> : 0.13.173
+ - <kbd>Framework</kbd> : 0.13.174
 
 Installation
 ----------
