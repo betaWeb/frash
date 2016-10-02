@@ -58,7 +58,7 @@
                     self::$conn->request($select->getRequest(), $select->getExecute());
                     $res = self::$conn->fetch();
 
-                    return ($type == 'array') ? self::hydration($res, $ent) : self::hydrationObject($res, $ent);
+                    return self::hydration($res, $ent);
                 }
                 catch(\Exception $e){
                     new CreateErrorLog($e->getMessage());
