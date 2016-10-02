@@ -20,11 +20,10 @@
 
         /**
          * Redirect constructor.
-         * @param string $uri
          */
-        public function __construct($uri){
+        public function __construct(){
             $this->yaml = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
-            $this->nurl = explode('/', $uri);
+            $this->nurl = explode('/', ltrim(Server::getRequestUri(), '/'));
         }
 
         /**
