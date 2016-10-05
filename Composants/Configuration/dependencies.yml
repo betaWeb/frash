@@ -1,3 +1,4 @@
+annot: Composants.Framework.Controller.Annotations.AnnotationFactory
 controller: Composants.Framework.ControllerFactory
 determinate: Composants.Framework.Controller.Determinate
 form: Composants.Framework.Forms.FormFactory

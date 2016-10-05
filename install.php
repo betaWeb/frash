@@ -14,6 +14,8 @@
             'Console/ORM/Addentity.php',
             'Console/ORM/Createdb.php',
             'Console/listcommand.php',
+            'Framework/Controller/Annotations/AnnotationFactory.php',
+            'Framework/Controller/Annotations/AnnotationObject.php',
             'Framework/Controller/Determinate.php',
             'Framework/Controller/GetUrl.php',
             'Framework/Controller/Redirect.php',
@@ -133,6 +135,7 @@
                 mkdir('Composants/Console/ORM');
             mkdir('Composants/Framework');
                 mkdir('Composants/Framework/Controller');
+                    mkdir('Composants/Framework/Controller/Annotations');
                 mkdir('Composants/Framework/CreateLog');
                 mkdir('Composants/Framework/DIC');
                 mkdir('Composants/Framework/Exception');
