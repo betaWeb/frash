@@ -125,6 +125,8 @@
                 mkdir('Bundles/AppBundle/Requests');
                 mkdir('Bundles/AppBundle/Views');
         mkdir('Composants');
+            mkdir('Composants/Cache');
+                mkdir('Composants/Cache/TWIG');
             mkdir('Composants/Configuration');
             mkdir('Composants/Console');
                 mkdir('Composants/Console/Bundle');

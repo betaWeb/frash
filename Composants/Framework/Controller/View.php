@@ -34,8 +34,9 @@
             if(!file_exists('Bundles/'.$bundle.'Bundle/Views/'.$templ)){
                 return new Exception('TWIG : Template '.$templ.' not found');
             }
-
-            $twig = new \Twig_Environment(new \Twig_Loader_Filesystem('Bundles/'.$bundle.'Bundle/Views'));
+            
+            $tlf = new \Twig_Loader_Filesystem('Bundles/'.$bundle.'Bundle/Views');
+            $twig = new \Twig_Environment($tlf, [ 'cache' => 'Composants/Cache/TWIG' ]);
 
             $this->bundle = $bundle.'Bundle';
             $this->nurl = explode('/', ltrim(Server::getRequestUri(), '/'));
@@ -103,7 +104,8 @@
                 return new Exception('TWIG : '.$path.$file.' not found');
             }
 
-            $twig = new \Twig_Environment(new \Twig_Loader_Filesystem($path));
+            $tlf = new \Twig_Loader_Filesystem('Bundles/'.$bundle.'Bundle/Views');
+            $twig = new \Twig_Environment($tlf, [ 'cache' => 'Composants/Cache/TWIG' ]);
 
             $this->nurl = explode('/', ltrim(Server::getRequestUri(), '/'));
             $this->yaml = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
