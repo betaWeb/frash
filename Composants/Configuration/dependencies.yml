@@ -2,10 +2,9 @@ controller: Composants.Framework.ControllerFactory
 determinate: Composants.Framework.Controller.Determinate
 form: Composants.Framework.Forms.FormFactory
 get: Composants.Framework.Globals.Get
-getOrm: Composants.ORM.OrmFactory
 getUrl: Composants.Framework.Controller.GetUrl
 mail: Composants.Framework.Mail.Mailer
-ormRequest: Composants.ORM.RequestFactory
+orm: Composants.ORM.OrmFactory
 redirect: Composants.Framework.Controller.Redirect
 router: Composants.Framework.Routing.Router
 session: Composants.Framework.Globals.Session

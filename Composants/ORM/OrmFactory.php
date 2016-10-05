@@ -1,6 +1,8 @@
 <?php
     namespace Composants\ORM;
     use Composants\ORM\Orm;
+    use Composants\ORM\PGSQL\Counter;
+    use Composants\ORM\PGSQL\Finder;
 
     /**
      * Class OrmFactory
@@ -8,20 +10,52 @@
      */
     class OrmFactory{
         /**
-         * @param string $prefix
-         * @return string
+         * @var \PDO
          */
-        private function setPath($prefix){
-            return $prefix.'Composants/Configuration/database.yml';
+        private $connexion;
+
+        /**
+         * @var string
+         */
+        private $bundle;
+
+        /**
+         * OrmFactory constructor.
+         * @param string $bundle
+         */
+        public function __construct($bundle){
+            $orm = new Orm($bundle, 'Composants/Configuration/database.yml');
+            $this->bundle = $bundle;
+            $this->connexion = $orm->getConnexion();
         }
 
         /**
-         * @param string $bundle
-         * @param string $prefix
          * @return \PDO
          */
-        public function getConnexion($bundle, $prefix = ''){
-            $orm = new Orm($bundle, $this->setPath($prefix));
-            return $orm::getConnexion();
+        public function getConnexion(){
+            return $this->connexion;
+        }
+
+        /**
+         * @param string $request
+         * @return object
+         */
+        public function getRequest($request){
+            $class = 'Bundles\\'.$this->bundle.'Bundle\Requests\\'.$request.'Requests';
+            return new $class($this->connexion);
+        }
+
+        /**
+         * @return Counter
+         */
+        public function getCounter(){
+            return new Counter($this->connexion);
+        }
+
+        /**
+         * @return Finder
+         */
+        public function getFinder(){
+            return new Finder($this->connexion);
         }
     }

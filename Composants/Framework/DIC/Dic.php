@@ -27,13 +27,14 @@
 
         /**
          * @param string $key
-         * @return object
+         * @param string $param
+         * @return mixed
          */
-        public function load($key){
+        public function load($key, $param = ''){
             if(array_key_exists($key, $this->dependencies)){
                 $path = str_replace('.', '\\', $this->dependencies[ $key ]);
 
-                $class = new $path();
+                $class = new $path($param);
                 $this->open[ $key ] = $class;
 
                 return $class;
