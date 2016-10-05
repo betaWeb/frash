@@ -24,8 +24,8 @@
          * @param string $bundle
          */
         public function __construct($bundle){
-            $orm = new Orm($bundle, 'Composants/Configuration/database.yml');
             $this->bundle = $bundle;
+            $orm = new Orm($this->bundle);
             $this->connexion = $orm->getConnexion();
         }
 

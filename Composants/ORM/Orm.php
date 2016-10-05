@@ -17,13 +17,13 @@
         /**
          * Orm constructor.
          * @param string $bundle
-         * @param string $path
          * @return Exception
          */
-        public function __construct($bundle, $path){
+        public function __construct($bundle){
+            $path = 'Composants/Configuration/database.yml';
             if(!file_exists($path)){ return new Exception('Le fichier database.yml n\'existe pas.'); }
-            $yaml = Yaml::parse(file_get_contents($path));
 
+            $yaml = Yaml::parse(file_get_contents($path));
             $bund = $yaml[ $bundle.'Bundle' ];
             if(empty($bund)){ return new Exception('Le bundle '.$bundle.' n\'existe pas.'); }
 
