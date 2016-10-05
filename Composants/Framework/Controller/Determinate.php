@@ -1,6 +1,7 @@
 <?php
     namespace Composants\Framework\Controller;
     use Composants\Framework\Exception\Exception;
+    use Composants\Framework\Globals\Server;
 
     /**
      * Class Determinate
@@ -18,5 +19,12 @@
             if($param != 'not' && $param != 'with'){ return new Exception('Determinate : Paramètre non valide'); }
 
             return ($param == 'not') ? str_replace('Bundle', '', end($bundle)) : end($bundle);
+        }
+
+        /**
+         * @return string
+         */
+        public function uri(){
+            return ltrim(Server::getRequestUri(), '/');
         }
     }
