@@ -8,7 +8,7 @@
     class TraductionFactory{
         /**
          * @param string $lang
-         * @return mixed
+         * @return object
          */
         public function trad($lang){
             $class = 'Traductions\\Trad'.ucfirst($lang);
