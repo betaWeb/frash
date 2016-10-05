@@ -40,6 +40,7 @@
             'Framework/Forms/Type/Text.php',
             'Framework/Forms/Type/Textarea.php',
             'Framework/Forms/CreateForm.php',
+            'Framework/Forms/CreateFormSql.php',
             'Framework/Forms/FormFactory.php',
             'Framework/Forms/FormTypeInterface.php',
             'Framework/Forms/VerifForm.php',

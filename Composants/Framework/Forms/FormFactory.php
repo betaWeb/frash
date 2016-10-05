@@ -3,24 +3,14 @@
     use Composants\Framework\DIC\Dic;
     use Composants\Framework\Forms\VerifForm;
     use Composants\Framework\Forms\CreateForm;
+    use Composants\Framework\Forms\CreateFormSql;
 
     /**
      * Class FormFactory
      * @package Composants\Framework\Forms
      */
     class FormFactory{
-        /**
-         * @var string
-         */
-        private $uri = '';
-
-        /**
-         * FormFactory constructor.
-         * @param Dic $dic
-         */
-        public function __construct($dic){
-            $this->uri = $dic->open('get')->get('uri');
-        }
+        const PATH = 'Composants\\Framework\\Forms\\Type\\';
 
         /**
          * @return \Composants\Framework\Forms\VerifForm
@@ -30,10 +20,16 @@
         }
 
         /**
-         * @param string $uri
          * @return \Composants\Framework\Forms\CreateForm
          */
         public function create(){
-            return new CreateForm($this->uri);
+            return new CreateForm(self::PATH);
+        }
+
+        /**
+         * @return \Composants\Framework\Forms\CreateFormSql
+         */
+        public function createSql(Dic $dic){
+            return new CreateFormSql(self::PATH, $dic);
         }
     }
