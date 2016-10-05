@@ -33,4 +33,27 @@
 
             return $str;
         }
+
+        /**
+         * @param string $lang
+         * @param array $array
+         * @param string $spec
+         * @return array|object
+         */
+        public function multiple($lang, $array, $spec = 'object'){
+            $path = 'Traductions\\Trad'.ucfirst($lang);
+            $arr_translate = [];
+
+            $class = new $path();
+            foreach($array as $str){
+                $arr_translate[ $str ] = $class->show($str);
+            }
+
+            if($spec == 'array'){
+                return $arr_translate;
+            }
+            elseif($spec == 'object'){
+                return (object) $arr_translate;
+            }
+        }
     }
