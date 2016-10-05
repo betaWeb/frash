@@ -121,6 +121,7 @@
             mkdir('Bundles/AppBundle');
                 mkdir('Bundles/AppBundle/Controllers');
                 mkdir('Bundles/AppBundle/Entity');
+                    mkdir('Bundles/AppBundle/Entity/Mapping');
                 mkdir('Bundles/AppBundle/Requests');
                 mkdir('Bundles/AppBundle/Views');
         mkdir('Composants');
