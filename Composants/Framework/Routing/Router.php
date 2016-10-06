@@ -98,7 +98,7 @@
                 $routing = 'Bundles\\'.$bundle.'\\Controllers\\'.$controller;
 
                 if(method_exists($routing, $action)){
-                    return $dic->load('controller')->getController($dic, $routing)->$action($dic);
+                    return $dic->load('controller', $dic)->call($routing)->$action($dic);
                 }
                 elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')){
                     return new Exception('Controller '.$controller.' not found');

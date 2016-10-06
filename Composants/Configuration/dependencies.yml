@@ -1,5 +1,5 @@
 annot: Composants.Framework.Controller.Annotations.AnnotationFactory
-controller: Composants.Framework.ControllerFactory
+controller: Composants.Framework.Controller.Controller
 determinate: Composants.Framework.Controller.Determinate
 form: Composants.Framework.Forms.FormFactory
 get: Composants.Framework.Globals.Get
