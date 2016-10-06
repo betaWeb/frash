@@ -25,8 +25,12 @@
                 foreach($comm as $c){
                     $expl = explode(' ', $c);
 
+                    if($expl[0] == '@@auto_increment'){
+                        $types['autoinc'][ $name ] = $expl[1];
+                    }
+
                     if($expl[0] == '@@type' && !empty($expl[1])){
-                        $types[ $name ] = $expl[1];
+                        $types['type'][ $name ] = $expl[1];
                     }
                 }
             }
