@@ -89,7 +89,6 @@
             'ORM/Hydrator.php',
             'ORM/Orm.php',
             'ORM/OrmFactory.php',
-            'ORM/RequestFactory.php',
             'ORM/RequestInterface.php',
             'Yaml/Exception/DumpException.php',
             'Yaml/Exception/ExceptionInterface.php',
