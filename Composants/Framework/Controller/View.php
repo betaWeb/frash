@@ -34,13 +34,13 @@
             if(!file_exists('Bundles/'.$bundle.'Bundle/Views/'.$templ)){
                 return new Exception('TWIG : Template '.$templ.' not found');
             }
-            
+
+            $this->yaml = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
             $tlf = new \Twig_Loader_Filesystem('Bundles/'.$bundle.'Bundle/Views');
-            $twig = new \Twig_Environment($tlf, [ 'cache' => 'Composants/Cache/TWIG' ]);
+            $twig = ($this->yaml['cache']['TWIG'] == 'yes') ? new \Twig_Environment($tlf, [ 'cache' => 'Composants/Cache/TWIG' ]) : new \Twig_Environment($tlf);
 
             $this->bundle = $bundle.'Bundle';
             $this->nurl = explode('/', ltrim(Server::getRequestUri(), '/'));
-            $this->yaml = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
 
             $url = new \Twig_SimpleFunction('url', function($url, $trad = ''){
                 if('/'.$this->nurl[0] == $this->yaml['prefix']){

@@ -1,6 +1,11 @@
 env: local
-racine: AppBundle:IndexController:indexAction
 prefix: /DIRECTORY
+
+racine:
+    path: AppBundle:IndexController:indexAction
+
+cache:
+    TWIG: yes
 
 traduction:
     default: fr
