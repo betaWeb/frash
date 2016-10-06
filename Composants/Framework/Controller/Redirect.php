@@ -1,7 +1,6 @@
 <?php
     namespace Composants\Framework\Controller;
-    use Composants\Framework\Globals\Server;
-    use Composants\Yaml\Yaml;
+    use Composants\Framework\DIC\Dic;
 
     /**
      * Class Redirect
@@ -20,10 +19,13 @@
 
         /**
          * Redirect constructor.
+         * @param Dic $dic
          */
-        public function __construct(){
-            $this->yaml = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
-            $this->nurl = explode('/', ltrim(Server::getRequestUri(), '/'));
+        public function __construct(Dic $dic){
+            $gets = $dic->open('get');
+
+            $this->yaml = $gets->get('yaml');
+            $this->nurl = explode('/', $gets->get('uri'));
         }
 
         /**

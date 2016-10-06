@@ -15,7 +15,7 @@
          * @param Dic $dic
          * @return object
          */
-        public function routing($url = '', Dic $dic){
+        public function routing($url, Dic $dic){
             $conf = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
             $gets = $dic->load('get');
             new CreateHTTPLog($url);
@@ -26,6 +26,7 @@
             $lien = '';
 
             $gets->set('uri', $url);
+            $gets->set('yaml', $conf);
 
             if('/'.$path[0] == $conf['prefix'] && !empty($path[0])){
                 if(in_array($path[1], $conf['traduction']['available'])){
