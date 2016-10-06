@@ -16,9 +16,8 @@
         /**
          * StartForm constructor.
          * @param array $spec
-         * @param string $uri
          */
-        public function __construct($spec, $uri = ''){
+        public function __construct($spec){
             $url = new GetUrl;
             $this->input = '<form';
 
