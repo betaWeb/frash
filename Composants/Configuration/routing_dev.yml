@@ -1,14 +1,3 @@
-__ftp:
-    path: Composants/Framework/Systems/FTP/Ftp
-    action: ftpAction
-__sql:
-    path: Composants/Framework/Systems/SQL/Sql
-    action: sqlAction
-    get:
-        0: { fix: no, type: string }
-__console:
-    path: Composants/Framework/Systems/Console/Console
-    action: consoleAction
 __logs:
     path: Composants/Framework/Systems/Logs/Logs
     action: logAction
