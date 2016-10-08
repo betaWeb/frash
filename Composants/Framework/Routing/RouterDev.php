@@ -1,7 +1,7 @@
 <?php
     namespace Composants\Framework\Routing;
     use Composants\Framework\DIC\Dic;
-    use Composants\Yaml\Yaml;
+    use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class RouterDev

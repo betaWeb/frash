@@ -1,7 +1,7 @@
 <?php
     namespace Composants\Framework\Controller;
     use Composants\Framework\Globals\Server;
-    use Composants\Yaml\Yaml;
+    use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class GetUrl

@@ -1,6 +1,6 @@
 <?php
     namespace Composants\Framework\CreateLog;
-    use Composants\Yaml\Yaml;
+    use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class CreateErrorLog

@@ -3,7 +3,7 @@
     use Composants\Framework\CreateLog\CreateHTTPLog;
     use Composants\Framework\Exception\Exception;
     use Composants\Framework\DIC\Dic;
-    use Composants\Yaml\Yaml;
+    use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class Router

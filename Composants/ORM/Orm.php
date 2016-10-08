@@ -2,7 +2,7 @@
     namespace Composants\ORM;
     use Composants\Framework\Exception\Exception;
     use Composants\ORM\PDO\PDO;
-    use Composants\Yaml\Yaml;
+    use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class Orm

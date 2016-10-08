@@ -1,6 +1,6 @@
 <?php
     namespace Composants\Console\ORM;
-    use Composants\Yaml\Yaml;
+    use Symfony\Component\Yaml\Yaml;
     use Composants\Framework\CreateLog\CreateErrorLog;
     use Composants\Framework\CreateLog\CreateRequestLog;
 
