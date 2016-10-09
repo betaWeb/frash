@@ -90,6 +90,13 @@
         }
 
         /**
+         * @param string $exec
+         */
+        public function setAddExec($exec){
+            $this->arrayWhere[] = $exec;
+        }
+
+        /**
          * @param array $exec
          */
         public function setExecute($exec = []){

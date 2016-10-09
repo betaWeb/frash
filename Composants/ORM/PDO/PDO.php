@@ -81,6 +81,14 @@
         }
 
         /**
+         * @param string $param
+         * @return string
+         */
+        public function quote($param){
+            return $this->pdo->quote($param);
+        }
+
+        /**
          * @return int
          */
         public function getCountReq(){

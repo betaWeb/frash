@@ -18,13 +18,26 @@
 
         /**
          * @param string $where
+         * @return string
+         */
+        private function defineFunc($where){
+            if(substr($where, 0, 2) == 'f '){
+                return substr($where, 2);
+            }
+            else{
+                return "\"$where\"";
+            }
+        }
+
+        /**
+         * @param string $where
          * @param string $sign
          * @param string $exec
          * @param string $prefix
          * @param string $suffix
          */
         public function where($where, $sign, $exec, $prefix = '', $suffix = ''){
-            $this->where .= ' '.$prefix."\"$where\"".' '.$sign.' '.$exec.' '.$suffix;
+            $this->where .= ' '.$prefix.$this->defineFunc($where).' '.$sign.' '.$exec.' '.$suffix;
             $this->arrayWhere[] = substr($exec, 1);
         }
 
@@ -34,7 +47,7 @@
          * @param string $exec
          */
         public function andWhere($where, $sign, $exec){
-            $this->where .= ' AND '."\"$where\"".' '.$sign.' '.$exec;
+            $this->where .= ' AND '.$this->defineFunc($where).' '.$sign.' '.$exec;
             $this->arrayWhere[] = substr($exec, 1);
         }
 
@@ -44,7 +57,7 @@
          * @param string $exec
          */
         public function orWhere($where, $sign, $exec){
-            $this->where .= ' OR '."\"$where\"".' '.$sign.' '.$exec;
+            $this->where .= ' OR '.$this->defineFunc($where).' '.$sign.' '.$exec;
             $this->arrayWhere[] = substr($exec, 1);
         }
 
