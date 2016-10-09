@@ -1,10 +1,10 @@
 #!/usr/bin/env php
 <?php
     require('vendor/autoload.php');
-    use Composants\Console\ORM\Addentity;
-    use Composants\Console\ORM\Createdb;
     use Composants\Console\Bundle\GenerateBundle;
     use Composants\Console\Bundle\GenerateController;
+    use Composants\Console\ORM\Addentity;
+    use Composants\Console\ORM\Createdb;
 
     if(count($argv) == 1 || $argv[1] == 'console:listcommand'){
         require_once('Composants/Console/listcommand.php');
