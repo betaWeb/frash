@@ -59,8 +59,6 @@
             'Framework/Systems/Ressources/Views/Logs/logs_choice.html.twig',
             'Framework/Systems/Ressources/Views/Logs/logs_no_choice.html.twig',
             'Framework/Systems/Logs/Logs.php',
-            'Framework/Templating/TemplateFactory.php',
-            'Framework/Templating/View.php',
             'Framework/Utility/GenPass.php',
             'Logs/.htaccess',
             'Logs/access.log',
@@ -89,19 +87,7 @@
             'ORM/Hydrator.php',
             'ORM/Orm.php',
             'ORM/OrmFactory.php',
-            'ORM/RequestInterface.php',
-            'Yaml/Exception/DumpException.php',
-            'Yaml/Exception/ExceptionInterface.php',
-            'Yaml/Exception/ParseException.php',
-            'Yaml/Exception/RuntimeException.php',
-            'Yaml/Dumper.php',
-            'Yaml/Escaper.php',
-            'Yaml/Inline.php',
-            'Yaml/LICENSE',
-            'Yaml/Parser.php',
-            'Yaml/Unescaper.php',
-            'Yaml/Yaml.php',
-            'Yaml/composer.json'
+            'ORM/RequestInterface.php'
         ];
 
         $files_trad = [
@@ -147,8 +133,6 @@
                         mkdir('LFW/Framework/Systems/Ressources/css');
                         mkdir('LFW/Framework/Systems/Ressources/Views');
                             mkdir('LFW/Framework/Systems/Ressources/Views/Logs');
-                mkdir('LFW/Framework/Templating');
-                    mkdir('LFW/Framework/Templating/Fonctions');
                 mkdir('LFW/Framework/Utility');
             mkdir('LFW/Logs');
             mkdir('LFW/ORM');
