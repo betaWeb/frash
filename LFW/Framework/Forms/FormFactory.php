@@ -32,4 +32,11 @@
         public function createSql(Dic $dic){
             return new CreateFormSql(self::PATH, $dic);
         }
+
+        /**
+         * @return object
+         */
+        public function getPost(){
+            return (object) $_POST;
+        }
     }
