@@ -8,7 +8,7 @@
      * @package LFW\Framework\Controller
      */
     class GetUrl{
-        const CONFIG = 'Composants/Configuration/config.yml';
+        const CONFIG = 'LFW/Configuration/config.yml';
 
         /**
          * @param string $url

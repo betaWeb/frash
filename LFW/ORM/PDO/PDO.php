@@ -1,9 +1,9 @@
 <?php
-    namespace Composants\ORM\PDO;
+    namespace LFW\ORM\PDO;
 
     /**
      * Class PDO
-     * @package Composants\ORM\PDO
+     * @package LFW\ORM\PDO
      */
     class PDO{
         /**
