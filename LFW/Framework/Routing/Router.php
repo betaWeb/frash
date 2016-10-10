@@ -7,7 +7,7 @@
 
     /**
      * Class Router
-     * @package Composants\Framework\Routing
+     * @package LFW\Framework\Routing
      */
     class Router{
         /**
