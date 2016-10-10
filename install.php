@@ -144,8 +144,8 @@
         mkdir('Traductions');
 
         foreach($files_c as $v){
-            file_put_contents('Composants/'.$v, file_get_contents($prefix.'Composants/'.$v));
-            echo $prefix.'Composants/'.$v.PHP_EOL;
+            file_put_contents('LFW/'.$v, file_get_contents($prefix.'LFW/'.$v));
+            echo $prefix.'LFW/'.$v.PHP_EOL;
         }
 
         foreach($files_trad as $v){
