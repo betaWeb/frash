@@ -22,7 +22,7 @@
          */
         public function __construct($prefix = false){
             $path = ($prefix === false) ? '' : $prefix;
-            $this->dependencies = Yaml::parse(file_get_contents($path.'Composants/Configuration/dependencies.yml'));
+            $this->dependencies = Yaml::parse(file_get_contents($path.'LFW/Configuration/dependencies.yml'));
         }
 
         /**
