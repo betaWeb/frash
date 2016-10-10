@@ -1,9 +1,9 @@
 <?php
-    namespace Composants\ORM\PGSQL\Request;
+    namespace LFW\ORM\PGSQL\Request;
 
     /**
      * Class Where
-     * @package Composants\ORM\PGSQL\Request
+     * @package LFW\ORM\PGSQL\Request
      */
     class Where{
         /**

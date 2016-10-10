@@ -1,11 +1,11 @@
 <?php
-    namespace Composants\Framework\CreateLog;
-    use Composants\Framework\Globals\Server;
+    namespace LFW\Framework\CreateLog;
+    use LFW\Framework\Globals\Server;
     use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class CreateHTTPLog
-     * @package Composants\Framework\CreateLog
+     * @package LFW\Framework\CreateLog
      */
     class CreateHTTPLog{
         /**

@@ -1,9 +1,9 @@
 <?php
-    namespace Composants\Framework\Globals;
+    namespace LFW\Framework\Globals;
 
     /**
      * Class Files
-     * @package Composants\Framework\Globals
+     * @package LFW\Framework\Globals
      */
     class Files{
         /**

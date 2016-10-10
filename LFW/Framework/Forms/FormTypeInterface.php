@@ -1,9 +1,9 @@
 <?php
-    namespace Composants\Framework\Forms;
+    namespace LFW\Framework\Forms;
 
     /**
      * Interface FormTypeInterface
-     * @package Composants\Framework\Forms
+     * @package LFW\Framework\Forms
      */
     interface FormTypeInterface{
         public function __construct($spec);

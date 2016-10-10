@@ -1,8 +1,8 @@
 <?php
-    namespace Composants\Framework\Routing;
-    use Composants\Framework\CreateLog\CreateHTTPLog;
-    use Composants\Framework\Exception\Exception;
-    use Composants\Framework\DIC\Dic;
+    namespace LFW\Framework\Routing;
+    use LFW\Framework\CreateLog\CreateHTTPLog;
+    use LFW\Framework\Exception\Exception;
+    use LFW\Framework\DIC\Dic;
     use Symfony\Component\Yaml\Yaml;
 
     /**
@@ -16,7 +16,7 @@
          * @return object
          */
         public function routing($url, Dic $dic){
-            $conf = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
+            $conf = Yaml::parse(file_get_contents('LFW/Configuration/config.yml'));
             $gets = $dic->load('get');
             new CreateHTTPLog($url);
 
@@ -49,7 +49,7 @@
             array_shift($path);
 
             $racine = 0;
-            $routarr = Yaml::parse(file_get_contents('Composants/Configuration/'.$conf['routing']['file']));
+            $routarr = Yaml::parse(file_get_contents('LFW/Configuration/'.$conf['routing']['file']));
 
             if(!empty($path[0]) && $path[0][0].$path[0][1] == '__'){
                 $rout_dev = new RouterDev;

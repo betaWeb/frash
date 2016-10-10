@@ -1,11 +1,11 @@
 <?php
-    namespace Composants\Framework\Controller;
-    use Composants\Framework\Globals\Server;
+    namespace LFW\Framework\Controller;
+    use LFW\Framework\Globals\Server;
     use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class GetUrl
-     * @package Composants\Framework\Controller
+     * @package LFW\Framework\Controller
      */
     class GetUrl{
         const CONFIG = 'Composants/Configuration/config.yml';

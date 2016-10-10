@@ -1,10 +1,10 @@
 <?php
-    namespace Composants\Framework\Controller;
-    use Composants\Framework\DIC\Dic;
+    namespace LFW\Framework\Controller;
+    use LFW\Framework\DIC\Dic;
 
     /**
      * Class Redirect
-     * @package Composants\Framework\Controller
+     * @package LFW\Framework\Controller
      */
     class Redirect{
         /**

@@ -1,12 +1,12 @@
 <?php
-    namespace Composants\ORM;
-    use Composants\Framework\Exception\Exception;
-    use Composants\ORM\PDO\PDO;
+    namespace LFW\ORM;
+    use LFW\Framework\Exception\Exception;
+    use LFW\ORM\PDO\PDO;
     use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class Orm
-     * @package Composants\ORM
+     * @package LFW\ORM
      */
     class Orm{
         /**
@@ -20,7 +20,7 @@
          * @return Exception
          */
         public function __construct($bundle){
-            $path = 'Composants/Configuration/database.yml';
+            $path = 'LFW/Configuration/database.yml';
             if(!file_exists($path)){ return new Exception('Le fichier database.yml n\'existe pas.'); }
 
             $yaml = Yaml::parse(file_get_contents($path));

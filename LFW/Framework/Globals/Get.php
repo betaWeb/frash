@@ -1,9 +1,9 @@
 <?php
-    namespace Composants\Framework\Globals;
+    namespace LFW\Framework\Globals;
 
     /**
      * Class Get
-     * @package Composants\Framework\Globals
+     * @package LFW\Framework\Globals
      */
     class Get{
         /**

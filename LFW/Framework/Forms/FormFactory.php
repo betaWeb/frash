@@ -1,33 +1,33 @@
 <?php
-    namespace Composants\Framework\Forms;
-    use Composants\Framework\DIC\Dic;
-    use Composants\Framework\Forms\VerifForm;
-    use Composants\Framework\Forms\CreateForm;
-    use Composants\Framework\Forms\CreateFormSql;
+    namespace LFW\Framework\Forms;
+    use LFW\Framework\DIC\Dic;
+    use LFW\Framework\Forms\VerifForm;
+    use LFW\Framework\Forms\CreateForm;
+    use LFW\Framework\Forms\CreateFormSql;
 
     /**
      * Class FormFactory
-     * @package Composants\Framework\Forms
+     * @package LFW\Framework\Forms
      */
     class FormFactory{
-        const PATH = 'Composants\\Framework\\Forms\\Type\\';
+        const PATH = 'LFW\\Framework\\Forms\\Type\\';
 
         /**
-         * @return \Composants\Framework\Forms\VerifForm
+         * @return \LFW\Framework\Forms\VerifForm
          */
         public function verif(){
             return new VerifForm;
         }
 
         /**
-         * @return \Composants\Framework\Forms\CreateForm
+         * @return \LFW\Framework\Forms\CreateForm
          */
         public function create(){
             return new CreateForm(self::PATH);
         }
 
         /**
-         * @return \Composants\Framework\Forms\CreateFormSql
+         * @return \LFW\Framework\Forms\CreateFormSql
          */
         public function createSql(Dic $dic){
             return new CreateFormSql(self::PATH, $dic);

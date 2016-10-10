@@ -1,7 +1,7 @@
 <?php
-    namespace Composants\ORM\PGSQL\Request;
-    use Composants\Framework\CreateLog\CreateErrorLog;
-    use Composants\Framework\CreateLog\CreateRequestLog;
+    namespace LFW\ORM\PGSQL\Request;
+    use LFW\Framework\CreateLog\CreateErrorLog;
+    use LFW\Framework\CreateLog\CreateRequestLog;
 
     /**
      * Class ResetAutoInc

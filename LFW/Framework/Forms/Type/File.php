@@ -1,10 +1,10 @@
 <?php
-    namespace Composants\Framework\Forms\Type;
-    use Composants\Framework\Forms\FormTypeInterface;
+    namespace LFW\Framework\Forms\Type;
+    use LFW\Framework\Forms\FormTypeInterface;
 
     /**
      * Class File
-     * @package Composants\Framework\Forms\Type
+     * @package LFW\Framework\Forms\Type
      */
     class File implements FormTypeInterface {
         /**

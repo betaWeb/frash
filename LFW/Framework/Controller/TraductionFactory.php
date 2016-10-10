@@ -1,9 +1,9 @@
 <?php
-    namespace Composants\Framework\Controller;
+    namespace LFW\Framework\Controller;
 
     /**
      * Class TraductionFactory
-     * @package Composants\Framework\Controller
+     * @package LFW\Framework\Controller
      */
     class TraductionFactory{
         /**

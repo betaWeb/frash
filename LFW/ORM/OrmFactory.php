@@ -1,12 +1,12 @@
 <?php
-    namespace Composants\ORM;
-    use Composants\ORM\Orm;
-    use Composants\ORM\PGSQL\Counter;
-    use Composants\ORM\PGSQL\Finder;
+    namespace LFW\ORM;
+    use LFW\ORM\Orm;
+    use LFW\ORM\PGSQL\Counter;
+    use LFW\ORM\PGSQL\Finder;
 
     /**
      * Class OrmFactory
-     * @package Composants\ORM
+     * @package LFW\ORM
      */
     class OrmFactory{
         /**

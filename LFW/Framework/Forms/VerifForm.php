@@ -1,10 +1,10 @@
 <?php
-    namespace Composants\Framework\Forms;
-    use Composants\Framework\Globals\Session;
+    namespace LFW\Framework\Forms;
+    use LFW\Framework\Globals\Session;
 
     /**
      * Class VerifForm
-     * @package Composants\Framework\Forms
+     * @package LFW\Framework\Forms
      */
     class VerifForm{
         /**

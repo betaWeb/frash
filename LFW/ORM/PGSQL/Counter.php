@@ -1,8 +1,8 @@
 <?php
-    namespace Composants\ORM\PGSQL;
-    use Composants\Framework\CreateLog\CreateErrorLog;
-    use Composants\Framework\CreateLog\CreateRequestLog;
-    use Composants\ORM\PDO\PDO;
+    namespace LFW\ORM\PGSQL;
+    use LFW\Framework\CreateLog\CreateErrorLog;
+    use LFW\Framework\CreateLog\CreateRequestLog;
+    use LFW\ORM\PDO\PDO;
 
     /**
      * Class Counter

@@ -1,12 +1,12 @@
 <?php
-    namespace Composants\Framework\Forms;
+    namespace LFW\Framework\Forms;
 
     /**
      * Class CreateForm
-     * @package Composants\Framework\Forms
+     * @package LFW\Framework\Forms
      */
     class CreateForm{
-        const PATH = 'Composants\\Framework\\Forms\\Type\\';
+        const PATH = 'LFW\\Framework\\Forms\\Type\\';
 
         /**
          * @var string

@@ -1,9 +1,9 @@
 <?php
-    namespace Composants\ORM;
+    namespace LFW\ORM;
 
     /**
      * Class Hydrator
-     * @package Composants\ORM
+     * @package LFW\ORM
      */
     class Hydrator{
         /**

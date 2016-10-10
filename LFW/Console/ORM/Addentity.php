@@ -1,9 +1,9 @@
 <?php
-    namespace Composants\Console\ORM;
+    namespace LFW\Console\ORM;
 
     /**
      * Class Addentity
-     * @package Composants\Console\ORM
+     * @package LFW\Console\ORM
      */
     class Addentity{
         /**

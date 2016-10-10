@@ -1,10 +1,10 @@
 <?php
-    namespace Composants\Framework\Routing;
-    use Composants\Framework\Exception\Exception;
+    namespace LFW\Framework\Routing;
+    use LFW\Framework\Exception\Exception;
 
     /**
      * Class DefineGet
-     * @package Composants\Framework\Routing
+     * @package LFW\Framework\Routing
      */
     class DefineGet{
         /**

@@ -1,10 +1,10 @@
 <?php
-    namespace Composants\Framework\Forms;
-    use Composants\Framework\DIC\Dic;
+    namespace LFW\Framework\Forms;
+    use LFW\Framework\DIC\Dic;
 
     /**
      * Class CreateFormSql
-     * @package Composants\Framework\Forms
+     * @package LFW\Framework\Forms
      */
     class CreateFormSql{
         /**

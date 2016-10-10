@@ -1,10 +1,10 @@
 <?php
-    namespace Composants\Framework\DIC;
+    namespace LFW\Framework\DIC;
     use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class Dic
-     * @package Composants\Framework\DIC
+     * @package LFW\Framework\DIC
      */
     class Dic{
         /**

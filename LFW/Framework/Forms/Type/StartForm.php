@@ -1,11 +1,11 @@
 <?php
-    namespace Composants\Framework\Forms\Type;
-    use Composants\Framework\Controller\GetUrl;
-    use Composants\Framework\Forms\FormTypeInterface;
+    namespace LFW\Framework\Forms\Type;
+    use LFW\Framework\Controller\GetUrl;
+    use LFW\Framework\Forms\FormTypeInterface;
 
     /**
      * Class StartForm
-     * @package Composants\Framework\Forms\Type
+     * @package LFW\Framework\Forms\Type
      */
     class StartForm implements FormTypeInterface {
         /**

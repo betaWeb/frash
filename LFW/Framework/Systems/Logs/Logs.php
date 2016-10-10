@@ -1,13 +1,13 @@
 <?php
-    namespace Composants\Framework\Systems\Logs;
-    use Composants\Framework\DIC\Dic;
+    namespace LFW\Framework\Systems\Logs;
+    use LFW\Framework\DIC\Dic;
 
     /**
      * Class Logs
-     * @package Composants\Framework\Systems\Logs
+     * @package LFW\Framework\Systems\Logs
      */
     class Logs{
-        const PATH = 'Composants/Framework/Systems/Ressources/Views/Logs/';
+        const PATH = 'LFW/Framework/Systems/Ressources/Views/Logs/';
 
         public function logAction(Dic $dic){
             $gets = $dic->open('get');
@@ -17,7 +17,7 @@
             }
             else{
                 return $dic->load('view')->viewDev('logs_choice.html.twig', self::PATH, [
-                    'file' => nl2br(file_get_contents('Composants/Logs/'.$gets->get('get', 0).'.log'))
+                    'file' => nl2br(file_get_contents('LFW/Logs/'.$gets->get('get', 0).'.log'))
                 ]);
             }
         }

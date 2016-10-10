@@ -1,12 +1,12 @@
 <?php
-    namespace Composants\Framework\Controller;
-    use Composants\Framework\Exception\Exception;
-    use Composants\Framework\Globals\Server;
+    namespace LFW\Framework\Controller;
+    use LFW\Framework\Exception\Exception;
+    use LFW\Framework\Globals\Server;
     use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class View
-     * @package Composants\Framework\Controller
+     * @package LFW\Framework\Controller
      */
     class View{
         /**
@@ -35,7 +35,7 @@
                 return new Exception('TWIG : Template '.$templ.' not found');
             }
 
-            $this->yaml = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
+            $this->yaml = Yaml::parse(file_get_contents('LFW/Configuration/config.yml'));
             $tlf = new \Twig_Loader_Filesystem('Bundles/'.$bundle.'Bundle/Views');
             $twig = ($this->yaml['cache']['TWIG'] == 'yes') ? new \Twig_Environment($tlf, [ 'cache' => 'Composants/Cache/TWIG' ]) : new \Twig_Environment($tlf);
 
@@ -95,20 +95,21 @@
 
         /**
          * @param string $file
-         * @param string $path
          * @param array $param
          * @return bool|Exception
          */
-        public function viewDev($file, $path, $param = []){
-            if(!file_exists($path.$file)){
-                return new Exception('TWIG : '.$path.$file.' not found');
+        public function viewDev($file, $param = []){
+            $path = 'Composants/Framework/Systems/Ressources/Views';
+
+            if(!file_exists($path.'/'.$file)){
+                return new Exception('TWIG : '.$path.'/'.$file.' not found');
             }
 
-            $tlf = new \Twig_Loader_Filesystem('Bundles/'.$bundle.'Bundle/Views');
-            $twig = new \Twig_Environment($tlf, [ 'cache' => 'Composants/Cache/TWIG' ]);
+            $this->yaml = Yaml::parse(file_get_contents('LFW/Configuration/config.yml'));
+            $tlf = new \Twig_Loader_Filesystem($path);
+            $twig = ($this->yaml['cache']['TWIG'] == 'yes') ? new \Twig_Environment($tlf, [ 'cache' => 'Composants/Cache/TWIG' ]) : new \Twig_Environment($tlf);
 
             $this->nurl = explode('/', ltrim(Server::getRequestUri(), '/'));
-            $this->yaml = Yaml::parse(file_get_contents('Composants/Configuration/config.yml'));
 
             $url = new \Twig_SimpleFunction('url', function($url, $trad = ''){
                 if('/'.$this->nurl[0] == $this->yaml['prefix']){

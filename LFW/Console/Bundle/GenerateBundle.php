@@ -1,9 +1,9 @@
 <?php
-    namespace Composants\Console\Bundle;
+    namespace LFW\Console\Bundle;
 
     /**
      * Class GenerateBundle
-     * @package Composants\Console\Bundle
+     * @package LFW\Console\Bundle
      */
     class GenerateBundle{
         const PREFIX = 'Bundles/';

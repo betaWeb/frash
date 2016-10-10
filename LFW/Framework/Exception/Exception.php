@@ -1,10 +1,10 @@
 <?php
-    namespace Composants\Framework\Exception;
-    use Composants\Framework\CreateLog\CreateErrorLog;
+    namespace LFW\Framework\Exception;
+    use LFW\Framework\CreateLog\CreateErrorLog;
 
     /**
      * Class Exception
-     * @package Composants\Framework\Exception
+     * @package LFW\Framework\Exception
      */
     class Exception{
         /**

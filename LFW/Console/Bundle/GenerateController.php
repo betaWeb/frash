@@ -1,9 +1,9 @@
 <?php
-    namespace Composants\Console\Bundle;
+    namespace LFW\Console\Bundle;
 
     /**
      * Class GenerateController
-     * @package Composants\Console\Bundle
+     * @package LFW\Console\Bundle
      */
     class GenerateController{
         /**

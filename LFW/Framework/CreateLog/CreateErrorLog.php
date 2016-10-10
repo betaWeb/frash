@@ -1,10 +1,10 @@
 <?php
-    namespace Composants\Framework\CreateLog;
+    namespace LFW\Framework\CreateLog;
     use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class CreateErrorLog
-     * @package Composants\Framework\CreateLog
+     * @package LFW\Framework\CreateLog
      */
     class CreateErrorLog{
         const CONFIG = 'Composants/Configuration/config.yml';

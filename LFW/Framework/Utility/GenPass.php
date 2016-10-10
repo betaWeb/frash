@@ -1,9 +1,9 @@
 <?php
-    namespace Composants\Framework\Utility;
+    namespace LFW\Framework\Utility;
 
     /**
      * Class GenPass
-     * @package Composants\Framework\Utility
+     * @package LFW\Framework\Utility
      */
     class GenPass{
         /**

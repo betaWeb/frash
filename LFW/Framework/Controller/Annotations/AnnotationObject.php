@@ -1,9 +1,9 @@
 <?php
-    namespace Composants\Framework\Controller\Annotations;
+    namespace LFW\Framework\Controller\Annotations;
 
     /**
      * Class AnnotationObject
-     * @package Composants\Framework\Controller\Annotations
+     * @package LFW\Framework\Controller\Annotations
      */
     class AnnotationObject{
         /**

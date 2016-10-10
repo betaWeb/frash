@@ -1,6 +1,6 @@
 <?php
-    namespace Composants\Framework\Routing;
-    use Composants\Framework\DIC\Dic;
+    namespace LFW\Framework\Routing;
+    use LFW\Framework\DIC\Dic;
     use Symfony\Component\Yaml\Yaml;
 
     /**
@@ -9,7 +9,7 @@
      */
     class RouterDev{
         public function routing($path, Dic $dic, $env){
-            $rout_dev = Yaml::parse(file_get_contents('Composants/Configuration/routing_dev.yml'));
+            $rout_dev = Yaml::parse(file_get_contents('LFW/Configuration/routing_dev.yml'));
 
             if(isset($rout_dev[ $path[0] ]) && $env == 'local'){
                 $route = $rout_dev[ $path[0] ]['path'];

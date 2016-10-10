@@ -1,10 +1,10 @@
 <?php
-    namespace Composants\ORM\PGSQL\Request;
-    use Composants\ORM\RequestInterface;
+    namespace LFW\ORM\PGSQL\Request;
+    use LFW\ORM\RequestInterface;
 
     /**
      * Class Select
-     * @package Composants\ORM\PGSQL\Request
+     * @package LFW\ORM\PGSQL\Request
      */
     class Select implements RequestInterface{
         /**

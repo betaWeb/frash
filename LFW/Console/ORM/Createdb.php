@@ -1,12 +1,12 @@
 <?php
     namespace Composants\Console\ORM;
     use Symfony\Component\Yaml\Yaml;
-    use Composants\Framework\CreateLog\CreateErrorLog;
-    use Composants\Framework\CreateLog\CreateRequestLog;
+    use LFW\Framework\CreateLog\CreateErrorLog;
+    use LFW\Framework\CreateLog\CreateRequestLog;
 
     /**
      * Class Createdb
-     * @package Console\ORM
+     * @package LFW\Console\ORM
      */
     class Createdb{
         /**

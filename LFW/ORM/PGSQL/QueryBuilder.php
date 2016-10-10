@@ -1,17 +1,17 @@
 <?php
-    namespace Composants\ORM\PGSQL;
-    use Composants\Framework\CreateLog\CreateErrorLog;
-    use Composants\Framework\CreateLog\CreateRequestLog;
-    use Composants\ORM\Hydrator;
-    use Composants\ORM\PDO\PDO;
-    use Composants\ORM\PGSQL\Request\Delete;
-    use Composants\ORM\PGSQL\Request\Insert;
-    use Composants\ORM\PGSQL\Request\Select;
-    use Composants\ORM\PGSQL\Request\Update;
+    namespace LFW\ORM\PGSQL;
+    use LFW\Framework\CreateLog\CreateErrorLog;
+    use LFW\Framework\CreateLog\CreateRequestLog;
+    use LFW\ORM\Hydrator;
+    use LFW\ORM\PDO\PDO;
+    use LFW\ORM\PGSQL\Request\Delete;
+    use LFW\ORM\PGSQL\Request\Insert;
+    use LFW\ORM\PGSQL\Request\Select;
+    use LFW\ORM\PGSQL\Request\Update;
 
     /**
      * Class QueryBuilder
-     * @package Composants\ORM\PGSQL
+     * @package LFW\ORM\PGSQL
      */
     class QueryBuilder extends Hydrator{
         /**

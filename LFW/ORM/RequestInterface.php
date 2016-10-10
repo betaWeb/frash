@@ -1,9 +1,9 @@
 <?php
-    namespace Composants\ORM;
+    namespace LFW\ORM;
 
     /**
      * Interface RequestInterface
-     * @package Composants\ORM
+     * @package LFW\ORM
      */
     interface RequestInterface{
         public function getExecute();

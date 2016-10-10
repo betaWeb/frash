@@ -1,11 +1,11 @@
 <?php
-    namespace Composants\Framework\Controller;
-    use Composants\Framework\Exception\Exception;
-    use Composants\Framework\Globals\Server;
+    namespace LFW\Framework\Controller;
+    use LFW\Framework\Exception\Exception;
+    use LFW\Framework\Globals\Server;
 
     /**
      * Class Determinate
-     * @package Composants\Framework\Controller
+     * @package LFW\Framework\Controller
      */
     class Determinate{
         /**
