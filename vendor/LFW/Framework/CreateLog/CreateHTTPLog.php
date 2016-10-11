@@ -18,7 +18,7 @@
             if($yaml['log']['access'] == 'yes'){
                 $server = new Server;
 
-                $file = fopen('LFW/Logs/access.log', 'a');
+                $file = fopen('vendor/LFW/Logs/access.log', 'a');
                 fwrite($file, date('d/m/Y à H:i:s').' - IP : '.$server->getRemoteAddr().' - '.$url."\n");
                 fclose($file);
             }
