@@ -11,5 +11,5 @@ Installation
 ----------
 
 To access the commands available through the console :
-> php console
-> php console console:listcommand
+> - php console
+> - php console console:listcommand
