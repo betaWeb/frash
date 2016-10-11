@@ -3,7 +3,7 @@
   "description": "Small PHP Framework - MVC, based on TWIG",
   "keywords": [ "LFW", "Framework", "MVC" ],
   "license": "MIT",
-  "minimum-stability": "dev-master",
+  "minimum-stability": "dev",
   "require": {
     "twig/twig": "1.24.1",
     "symfony/yaml": "3.1.5"
