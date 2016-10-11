@@ -33,7 +33,7 @@
                         $this->connexion = new PDO('mysql:host='.$bund['host'].';dbname='. $bund['dbname'].';charset=UTF8;', $bund['username'], $bund['password'], []);
                         break;
                     case 'PGSQL':
-                        $this->connexion = new PDO('pgsql:dbname='. $bund['dbname'].';host='.$bund['host'], $bund['username'], $bund['password']);
+                        $this->connexion = new PDO('pgsql:dbname='.$bund['dbname'].';port='.$bund['port'].';host='.$bund['host'], $bund['username'], $bund['password']);
                         $this->connexion->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
                         break;
                 }
