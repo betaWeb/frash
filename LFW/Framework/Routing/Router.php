@@ -44,6 +44,9 @@
                 $gets->set('lang', $path[0]);
                 unset($path[0]);
             }
+            else{
+                $gets->set('lang', $conf['traduction']['default']);
+            }
 
             array_unshift($path, 0);
             array_shift($path);
