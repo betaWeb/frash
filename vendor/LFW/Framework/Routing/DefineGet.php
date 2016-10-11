@@ -14,7 +14,7 @@
          * @return array|Exception
          */
         public static function defineNormal($routarr, $list, $racine){
-            $count_expl = count($list) - 1;
+            $count_expl = count($list) - 2;
             $get = [];
 
             if($racine == 0){

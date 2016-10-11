@@ -30,7 +30,7 @@
                     return $this->gets[ $spec ];
                 }
                 else{
-                    return $this->gets[ $spec ][ $key ];
+                    return (isset($this->gets[ $spec ][ $key ])) ? $this->gets[ $spec ][ $key ] : '';
                 }
             }
 
