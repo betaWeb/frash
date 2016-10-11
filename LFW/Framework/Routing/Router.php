@@ -91,7 +91,9 @@
 
             if($nb_expl > 0 && $lien != '' && $route != ''){
                 $list = explode('/', str_replace($lien.'/', '', implode('/', $path)));
-                $routarr_get = ($racine == 0) ? $routarr[ $lien ]['get'] : $conf['racine']['get'];
+
+                $conf_get = (!empty($conf['racine']['get'])) ? $conf['racine']['get'] : [];
+                $routarr_get = ($racine == 0) ? $routarr[ $lien ]['get'] : $conf_get;
 
                 $gets->set('get', DefineGet::defineNormal($routarr_get, $list, $racine));
 
