@@ -6,12 +6,10 @@ Light FrameWork
 Installation
 ----------
 
-> - Fork le repo ! ;)
-> - git clone
-> - php composer.phar install
+> - php composer.phar create-project alixsperoza/lfw DIRECTORY dev-master
 
 ----------
 
-Pour accéder aux commandes disponibles par la console :
+To access the commands available through the console :
 > php console
 > php console console:listcommand
