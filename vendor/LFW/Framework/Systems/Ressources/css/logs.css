@@ -1,0 +1,37 @@
+body{ margin:auto; }
+a{ text-decoration:none; }
+a:visited{ color:blue; }
+
+#corps{
+    margin-top: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top:10px;
+    padding-bottom: 100px;
+    position:relative;
+    background-color:#F5F5F5;
+}
+
+#interface{
+    border:1px solid black;
+    margin-left:20px;
+    margin-right:20px;
+    margin-top:10px;
+    height:550px;
+}
+
+#left_bar_interface{
+    float:left;
+    width:200px;
+    height:550px;
+    border-right:1px solid black;
+    padding-top:2px;
+    font-size:0.9em;
+}
+
+#body_interface{
+    height:550px;
+    padding-left:10px;
+    overflow:scroll;
+    border-bottom:1px solid black;
+}

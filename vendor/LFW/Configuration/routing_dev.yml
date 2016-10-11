@@ -1,0 +1,5 @@
+__logs:
+    path: Composants/Framework/Systems/Logs/Logs
+    action: logAction
+    get:
+        0: { fix: no, type: string }
