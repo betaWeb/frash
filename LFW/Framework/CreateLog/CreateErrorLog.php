@@ -7,8 +7,8 @@
      * @package LFW\Framework\CreateLog
      */
     class CreateErrorLog{
-        const CONFIG = 'LFW/Configuration/config.yml';
-        const LOG = 'LFW/Logs/error.log';
+        const CONFIG = 'vendor/LFW/Configuration/config.yml';
+        const LOG = 'vendor/LFW/Logs/error.log';
 
         /**
          * CreateErrorLog constructor.

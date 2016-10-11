@@ -5,11 +5,11 @@
 
     /**
      * Class RouterDev
-     * @package Composants\Framework\Routing
+     * @package LFW\Framework\Routing
      */
     class RouterDev{
         public function routing($path, Dic $dic, $env){
-            $rout_dev = Yaml::parse(file_get_contents('LFW/Configuration/routing_dev.yml'));
+            $rout_dev = Yaml::parse(file_get_contents('vendor/LFW/Configuration/routing_dev.yml'));
 
             if(isset($rout_dev[ $path[0] ]) && $env == 'local'){
                 $route = $rout_dev[ $path[0] ]['path'];

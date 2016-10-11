@@ -20,7 +20,7 @@
          * @return Exception
          */
         public function __construct($bundle){
-            $path = 'LFW/Configuration/database.yml';
+            $path = 'vendor/LFW/Configuration/database.yml';
             if(!file_exists($path)){ return new Exception('Le fichier database.yml n\'existe pas.'); }
 
             $yaml = Yaml::parse(file_get_contents($path));

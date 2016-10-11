@@ -1,5 +1,5 @@
 <?php
-    namespace Composants\Console\ORM;
+    namespace LFW\Console\ORM;
     use Symfony\Component\Yaml\Yaml;
     use LFW\Framework\CreateLog\CreateErrorLog;
     use LFW\Framework\CreateLog\CreateRequestLog;
@@ -14,7 +14,7 @@
          * @param string $bundle
          */
         public function __construct($bundle){
-            $array = Yaml::parse(file_get_contents('Composants/Configuration/database.yml'));
+            $array = Yaml::parse(file_get_contents('vendor/LFW/Configuration/database.yml'));
             $conn = $array['bundle'];
 
             try{

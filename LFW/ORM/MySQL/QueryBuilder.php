@@ -1,12 +1,12 @@
 <?php
-    namespace Composants\ORM\MySQL;
-    use Composants\Framework\CreateLog\CreateErrorLog;
-    use Composants\Framework\CreateLog\CreateRequestLog;
-    use Composants\ORM\Hydrator;
-    use Composants\ORM\MySQL\Request\Delete;
-    use Composants\ORM\MySQL\Request\Insert;
-    use Composants\ORM\MySQL\Request\Select;
-    use Composants\ORM\MySQL\Request\Update;
+    namespace LFW\ORM\MySQL;
+    use LFW\Framework\CreateLog\CreateErrorLog;
+    use LFW\Framework\CreateLog\CreateRequestLog;
+    use LFW\ORM\Hydrator;
+    use LFW\ORM\MySQL\Request\Delete;
+    use LFW\ORM\MySQL\Request\Insert;
+    use LFW\ORM\MySQL\Request\Select;
+    use LFW\ORM\MySQL\Request\Update;
 
     /**
      * Class QueryBuilder

@@ -16,7 +16,7 @@
          * @return object
          */
         public function routing($url, Dic $dic){
-            $conf = Yaml::parse(file_get_contents('LFW/Configuration/config.yml'));
+            $conf = Yaml::parse(file_get_contents('vendor/LFW/Configuration/config.yml'));
             $gets = $dic->load('get');
             new CreateHTTPLog($url);
 
@@ -52,7 +52,7 @@
             array_shift($path);
 
             $racine = 0;
-            $routarr = Yaml::parse(file_get_contents('LFW/Configuration/'.$conf['routing']['file']));
+            $routarr = Yaml::parse(file_get_contents('vendor/LFW/Configuration/'.$conf['routing']['file']));
 
             if(!empty($path[0]) && $path[0][0].$path[0][1] == '__'){
                 $rout_dev = new RouterDev;

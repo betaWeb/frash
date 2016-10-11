@@ -1,9 +1,9 @@
 <?php
-    namespace Composants\ORM\MySQL\Request;
+    namespace LFW\ORM\MySQL\Request;
 
     /**
      * Class Update
-     * @package Composants\ORM\MySQL\Request
+     * @package LFW\ORM\MySQL\Request
      */
     class Update{
         /**

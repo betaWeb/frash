@@ -13,7 +13,7 @@
          * @param string $url
          */
         public function __construct($url){
-            $yaml = Yaml::parse(file_get_contents('LFW/Configuration/config.yml'));
+            $yaml = Yaml::parse(file_get_contents('vendor/LFW/Configuration/config.yml'));
 
             if($yaml['log']['access'] == 'yes'){
                 $server = new Server;

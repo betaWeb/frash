@@ -35,9 +35,9 @@
                 return new Exception('TWIG : Template '.$templ.' not found');
             }
 
-            $this->yaml = Yaml::parse(file_get_contents('LFW/Configuration/config.yml'));
+            $this->yaml = Yaml::parse(file_get_contents('vendor/LFW/Configuration/config.yml'));
             $tlf = new \Twig_Loader_Filesystem('Bundles/'.$bundle.'Bundle/Views');
-            $twig = ($this->yaml['cache']['TWIG'] == 'yes') ? new \Twig_Environment($tlf, [ 'cache' => 'Composants/Cache/TWIG' ]) : new \Twig_Environment($tlf);
+            $twig = ($this->yaml['cache']['TWIG'] == 'yes') ? new \Twig_Environment($tlf, [ 'cache' => 'vendor/LFW/Cache/TWIG' ]) : new \Twig_Environment($tlf);
 
             $this->bundle = $bundle.'Bundle';
             $this->nurl = explode('/', ltrim(Server::getRequestUri(), '/'));
@@ -99,15 +99,15 @@
          * @return bool|Exception
          */
         public function viewDev($file, $param = []){
-            $path = 'Composants/Framework/Systems/Ressources/Views';
+            $path = 'vendor/LFW/Framework/Systems/Ressources/Views';
 
             if(!file_exists($path.'/'.$file)){
                 return new Exception('TWIG : '.$path.'/'.$file.' not found');
             }
 
-            $this->yaml = Yaml::parse(file_get_contents('LFW/Configuration/config.yml'));
+            $this->yaml = Yaml::parse(file_get_contents('vendor/LFW/Configuration/config.yml'));
             $tlf = new \Twig_Loader_Filesystem($path);
-            $twig = ($this->yaml['cache']['TWIG'] == 'yes') ? new \Twig_Environment($tlf, [ 'cache' => 'Composants/Cache/TWIG' ]) : new \Twig_Environment($tlf);
+            $twig = ($this->yaml['cache']['TWIG'] == 'yes') ? new \Twig_Environment($tlf, [ 'cache' => 'vendor/LFW/Cache/TWIG' ]) : new \Twig_Environment($tlf);
 
             $this->nurl = explode('/', ltrim(Server::getRequestUri(), '/'));
 
@@ -131,7 +131,7 @@
             });
 
             $comp = new \Twig_SimpleFunction('comp', function($file){
-                $base = '/Composants/Framework/Systems/Ressources/css/'.$file;
+                $base = '/vendor/LFW/Framework/Systems/Ressources/css/'.$file;
 
                 if('/'.$this->nurl[0] == $this->yaml['prefix']){
                     echo '/'.$this->nurl[0].$base;

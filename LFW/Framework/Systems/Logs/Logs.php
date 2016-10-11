@@ -7,7 +7,7 @@
      * @package LFW\Framework\Systems\Logs
      */
     class Logs{
-        const PATH = 'LFW/Framework/Systems/Ressources/Views/Logs/';
+        const PATH = 'vendor/LFW/Framework/Systems/Ressources/Views/Logs/';
 
         public function logAction(Dic $dic){
             $gets = $dic->open('get');
