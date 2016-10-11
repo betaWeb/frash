@@ -43,7 +43,7 @@
             $this->nurl = explode('/', ltrim(Server::getRequestUri(), '/'));
 
             $url = new \Twig_SimpleFunction('url', function($url, $trad = ''){
-                if('/'.$this->nurl[0] == $this->yaml['prefix']){
+                if('/'.$this->nurl[0] == $this->yaml['prefix'] && $this->yaml['prefix'] != '/'){
                     if(in_array($this->nurl[1], $this->yaml['traduction']['available'])){
                         echo ($trad === true) ? '/'.$this->nurl[0].'/'.$url : '/'.$this->nurl[0].'/'.$this->nurl[1].'/'.$url;
                     }
@@ -65,7 +65,7 @@
                 $bu = ($bundle === false) ? $this->bundle : $bundle.'Bundle';
                 $base = '/Bundles/'.$bu.'/Ressources/'.$file;
 
-                if('/'.$this->nurl[0] == $this->yaml['prefix']){
+                if('/'.$this->nurl[0] == $this->yaml['prefix'] && $this->yaml['prefix'] != '/'){
                     echo '/'.$this->nurl[0].$base;
                 }
                 else{
@@ -74,7 +74,7 @@
             });
 
             $trad = new \Twig_SimpleFunction('trad', function($traduction){
-                if('/'.$this->nurl[0] == $this->yaml['prefix']){
+                if('/'.$this->nurl[0] == $this->yaml['prefix'] && $this->yaml['prefix'] != '/'){
                     $lang = (in_array($this->nurl[1], $this->yaml['traduction']['available'])) ? $this->nurl[1] : $this->yaml['traduction']['default'];
                 }
                 else{
