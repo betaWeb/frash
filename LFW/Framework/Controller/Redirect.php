@@ -33,14 +33,15 @@
          * @return bool
          */
         public function route($url){
-            if('/'.$this->nurl[0] == $this->yaml['prefix']){
+            if('/'.$this->nurl[0] == $this->yaml['prefix'] && $this->yaml['prefix'] != '/'){
                 $redirect = (in_array($this->nurl[1], $this->yaml['traduction']['available'])) ? $this->nurl[0].'/'.$this->nurl[1] : $this->nurl[0];
-
-                header('Location:/'.$redirect.'/'.$url);
-                return true;
+            }
+            else{
+                $redirect = (in_array($this->nurl[0], $this->yaml['traduction']['available'])) ? $this->nurl[0] : '';
             }
 
-            return false;
+            header('Location:/'.$redirect.'/'.$url);
+            return true;
         }
 
         /**
