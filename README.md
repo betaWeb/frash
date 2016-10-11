@@ -10,6 +10,4 @@ Installation
 
 ----------
 
-To access the commands available through the console :
-> - php console
-> - php console console:listcommand
+To access the commands available through the console : php console console:listcommand
