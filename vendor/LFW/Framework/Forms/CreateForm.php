@@ -6,19 +6,17 @@
      * @package LFW\Framework\Forms
      */
     class CreateForm{
-        const PATH = 'LFW\\Framework\\Forms\\Type\\';
-
         /**
          * @var string
          */
-        private $uri = '';
+        private $path = '';
 
         /**
          * CreateForm constructor.
-         * @param string $uri
+         * @param string $path
          */
-        public function __construct($uri = ''){
-            $this->uri = $uri;
+        public function __construct($path){
+            $this->path = $path;
         }
 
         /**
@@ -27,8 +25,8 @@
          * @return string
          */
         public function create($type_form, $spec){
-            $routing = self::PATH.$type_form;
-            $type = new $routing($spec, $this->uri);
+            $routing = $this->path.$type_form;
+            $type = new $routing($spec);
             return $type->getInput();
         }
     }
