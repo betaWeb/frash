@@ -1,6 +1,5 @@
 <?php
     namespace LFW\Framework\DIC;
-    use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class Dic
@@ -21,7 +20,7 @@
          * Dic constructor.
          */
         public function __construct(){
-            $this->dependencies = Yaml::parse(file_get_contents('vendor/LFW/Configuration/dependencies.yml'));
+            $this->dependencies = json_decode(file_get_contents('vendor/LFW/Configuration/dependencies.json'), true);
         }
 
         /**

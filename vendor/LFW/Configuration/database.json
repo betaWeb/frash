@@ -1,0 +1,10 @@
+{
+  "AppBundle": {
+    "host": "localhost",
+    "username": "",
+    "password": "",
+    "dbname": "",
+    "system": "",
+    "port": ""
+  }
+}

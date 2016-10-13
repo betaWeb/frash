@@ -2,7 +2,6 @@
     namespace LFW\ORM;
     use LFW\Framework\Exception\Exception;
     use LFW\ORM\PDO\PDO;
-    use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class Orm
@@ -20,11 +19,11 @@
          * @return Exception
          */
         public function __construct($bundle){
-            $path = 'vendor/LFW/Configuration/database.yml';
-            if(!file_exists($path)){ return new Exception('Le fichier database.yml n\'existe pas.'); }
+            $path = 'vendor/LFW/Configuration/database.json';
+            if(!file_exists($path)){ return new Exception('Le fichier database.json n\'existe pas.'); }
 
-            $yaml = Yaml::parse(file_get_contents($path));
-            $bund = $yaml[ $bundle.'Bundle' ];
+            $json = json_decode(file_get_contents($path), true);
+            $bund = $json[ $bundle.'Bundle' ];
             if(empty($bund)){ return new Exception('Le bundle '.$bundle.' n\'existe pas.'); }
 
             try{

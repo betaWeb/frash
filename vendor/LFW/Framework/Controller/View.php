@@ -2,7 +2,6 @@
     namespace LFW\Framework\Controller;
     use LFW\Framework\Exception\Exception;
     use LFW\Framework\Globals\Server;
-    use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class View
@@ -22,7 +21,7 @@
         /**
          * @var array
          */
-        private $yaml = [];
+        private $json = [];
 
         /**
          * @param string $templ
@@ -35,16 +34,16 @@
                 return new Exception('TWIG : Template '.$templ.' not found');
             }
 
-            $this->yaml = Yaml::parse(file_get_contents('vendor/LFW/Configuration/config.yml'));
+            $this->yaml = json_decode(file_get_contents('vendor/LFW/Configuration/config.json'), true);
             $tlf = new \Twig_Loader_Filesystem('Bundles/'.$bundle.'Bundle/Views');
-            $twig = ($this->yaml['cache']['TWIG'] == 'yes') ? new \Twig_Environment($tlf, [ 'cache' => 'vendor/LFW/Cache/TWIG' ]) : new \Twig_Environment($tlf);
+            $twig = ($this->json['cache']['TWIG'] == 'yes') ? new \Twig_Environment($tlf, [ 'cache' => 'vendor/LFW/Cache/TWIG' ]) : new \Twig_Environment($tlf);
 
             $this->bundle = $bundle.'Bundle';
             $this->nurl = explode('/', Server::getReqUriTrim());
 
             $url = new \Twig_SimpleFunction('url', function($url, $trad = ''){
-                if('/'.$this->nurl[0] == $this->yaml['prefix'] && $this->yaml['prefix'] != '/'){
-                    if(in_array($this->nurl[1], $this->yaml['traduction']['available'])){
+                if('/'.$this->nurl[0] == $this->json['prefix'] && $this->json['prefix'] != '/'){
+                    if(in_array($this->nurl[1], $this->json['traduction']['available'])){
                         echo ($trad === true) ? '/'.$this->nurl[0].'/'.$url : '/'.$this->nurl[0].'/'.$this->nurl[1].'/'.$url;
                     }
                     else{
@@ -52,7 +51,7 @@
                     }
                 }
                 else{
-                    if(in_array($this->nurl[0], $this->yaml['traduction']['available'])){
+                    if(in_array($this->nurl[0], $this->json['traduction']['available'])){
                         echo ($trad === true) ? '/'.$url : '/'.$this->nurl[0].'/'.$url;
                     }
                     else{
@@ -65,7 +64,7 @@
                 $bu = ($bundle === false) ? $this->bundle : $bundle.'Bundle';
                 $base = '/Bundles/'.$bu.'/Ressources/'.$file;
 
-                if('/'.$this->nurl[0] == $this->yaml['prefix'] && $this->yaml['prefix'] != '/'){
+                if('/'.$this->nurl[0] == $this->json['prefix'] && $this->json['prefix'] != '/'){
                     echo '/'.$this->nurl[0].$base;
                 }
                 else{
@@ -74,11 +73,11 @@
             });
 
             $trad = new \Twig_SimpleFunction('trad', function($traduction){
-                if('/'.$this->nurl[0] == $this->yaml['prefix'] && $this->yaml['prefix'] != '/'){
-                    $lang = (in_array($this->nurl[1], $this->yaml['traduction']['available'])) ? $this->nurl[1] : $this->yaml['traduction']['default'];
+                if('/'.$this->nurl[0] == $this->json['prefix'] && $this->json['prefix'] != '/'){
+                    $lang = (in_array($this->nurl[1], $this->json['traduction']['available'])) ? $this->nurl[1] : $this->json['traduction']['default'];
                 }
                 else{
-                    $lang = (in_array($this->nurl[0], $this->yaml['traduction']['available'])) ? $this->nurl[0] : $this->yaml['traduction']['default'];
+                    $lang = (in_array($this->nurl[0], $this->json['traduction']['available'])) ? $this->nurl[0] : $this->json['traduction']['default'];
                 }
 
                 $class = 'Traductions\\Trad'.ucfirst($lang);

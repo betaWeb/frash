@@ -1,7 +1,6 @@
 <?php
     namespace LFW\Framework\CreateLog;
     use LFW\Framework\Globals\Server;
-    use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class CreateHTTPLog
@@ -13,13 +12,11 @@
          * @param string $url
          */
         public function __construct($url){
-            $yaml = Yaml::parse(file_get_contents('vendor/LFW/Configuration/config.yml'));
+            $json = json_decode(file_get_contents('vendor/LFW/Configuration/config.json'), true);
 
-            if($yaml['log']['access'] == 'yes'){
-                $server = new Server;
-
+            if($json['log']['access'] == 'yes'){
                 $file = fopen('vendor/LFW/Logs/access.log', 'a');
-                fwrite($file, date('d/m/Y à H:i:s').' - IP : '.$server->getRemoteAddr().' - '.$url."\n");
+                fwrite($file, date('d/m/Y à H:i:s').' - IP : '.Server::getRemoteAddr().' - '.$url."\n");
                 fclose($file);
             }
         }

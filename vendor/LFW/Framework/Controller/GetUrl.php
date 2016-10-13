@@ -1,29 +1,26 @@
 <?php
     namespace LFW\Framework\Controller;
     use LFW\Framework\Globals\Server;
-    use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class GetUrl
      * @package LFW\Framework\Controller
      */
     class GetUrl{
-        const CONFIG = 'vendor/LFW/Configuration/config.yml';
-
         /**
          * @param string $url
          * @param string $uri
          * @return string
          */
         public function url($url, $uri = ''){
-            $yaml = Yaml::parse(file_get_contents(self::CONFIG));
+            $json = json_decode(file_get_contents('vendor/LFW/Configuration/config.json'), true);
             $nurl = ($uri == '') ? explode('/', Server::getReqUriTrim()) : explode('/', $uri);
 
-            if('/'.$nurl[0] == $yaml['prefix'] && $yaml['prefix'] != '/'){
-                return (in_array($nurl[1], $yaml['traduction']['available'])) ? '/'.$nurl[0].'/'.$nurl[1].'/'.$url : '/'.$nurl[0].'/'.$url;
+            if('/'.$nurl[0] == $json['prefix'] && $json['prefix'] != '/'){
+                return (in_array($nurl[1], $json['traduction']['available'])) ? '/'.$nurl[0].'/'.$nurl[1].'/'.$url : '/'.$nurl[0].'/'.$url;
             }
             else{
-                return (in_array($nurl[0], $yaml['traduction']['available'])) ? '/'.$nurl[0].'/'.$url : '/'.$url;
+                return (in_array($nurl[0], $json['traduction']['available'])) ? '/'.$nurl[0].'/'.$url : '/'.$url;
             }
         }
     }

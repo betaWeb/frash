@@ -3,7 +3,6 @@
     use LFW\Framework\CreateLog\CreateHTTPLog;
     use LFW\Framework\Exception\Exception;
     use LFW\Framework\DIC\Dic;
-    use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class Router
@@ -16,7 +15,7 @@
          * @return object
          */
         public function routing($url, Dic $dic){
-            $conf = Yaml::parse(file_get_contents('vendor/LFW/Configuration/config.yml'));
+            $conf = json_decode(file_get_contents('vendor/LFW/Configuration/config.json'), true);
             $gets = $dic->load('get');
             new CreateHTTPLog($url);
 
@@ -52,7 +51,7 @@
             array_shift($path);
 
             $racine = 0;
-            $routarr = Yaml::parse(file_get_contents('vendor/LFW/Configuration/'.$conf['routing']['file']));
+            $routarr = json_decode(file_get_contents('vendor/LFW/Configuration/'.$conf['routing']['file'].'.json'), true);
 
             if(empty($path[0]) && !empty($conf['racine']['path'])){
                 $nb_expl = 1;

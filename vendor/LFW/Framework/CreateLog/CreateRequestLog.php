@@ -1,24 +1,20 @@
 <?php
     namespace LFW\Framework\CreateLog;
-    use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class CreateRequestLog
      * @package LFW\Framework\CreateLog
      */
     class CreateRequestLog{
-        const CONFIG = 'vendor/LFW/Configuration/config.yml';
-        const LOG = 'vendor/LFW/Logs/request.log';
-
         /**
          * CreateRequestLog constructor.
          * @param string $request
          */
         public function __construct($request){
-            $yaml = Yaml::parse(file_get_contents(self::CONFIG));
+            $json = json_decode(file_get_contents('vendor/LFW/Configuration/config.json'), true);
 
-            if($yaml['log']['request'] == 'yes'){
-                $file = fopen(self::LOG, 'a');
+            if($json['log']['request'] == 'yes'){
+                $file = fopen('vendor/LFW/Logs/request.log', 'a');
                 fwrite($file, date('d/m/Y à H:i:s').' - Request : '.$request."\n");
                 fclose($file);
             }

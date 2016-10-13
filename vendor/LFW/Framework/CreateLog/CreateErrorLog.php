@@ -1,24 +1,20 @@
 <?php
     namespace LFW\Framework\CreateLog;
-    use Symfony\Component\Yaml\Yaml;
 
     /**
      * Class CreateErrorLog
      * @package LFW\Framework\CreateLog
      */
     class CreateErrorLog{
-        const CONFIG = 'vendor/LFW/Configuration/config.yml';
-        const LOG = 'vendor/LFW/Logs/error.log';
-
         /**
          * CreateErrorLog constructor.
          * @param string $error
          */
         public function __construct($error){
-            $yaml = Yaml::parse(file_get_contents(self::CONFIG));
+            $json = json_decode(file_get_contents('vendor/LFW/Configuration/config.json'), true);
 
-            if($yaml['log']['error'] == 'yes'){
-                $file = fopen(self::LOG, 'a');
+            if($json['log']['error'] == 'yes'){
+                $file = fopen('vendor/LFW/Logs/error.log', 'a');
                 fwrite($file, date('d/m/Y à H:i:s').' - Error : '.$error."\n");
                 fclose($file);
             }
