@@ -92,9 +92,12 @@
                 $list = explode('/', str_replace($lien.'/', '', implode('/', $path)));
 
                 $conf_get = (!empty($conf['racine']['get'])) ? $conf['racine']['get'] : [];
-                $routarr_get = ($racine == 0) ? $routarr[ $lien ]['get'] : $conf_get;
+                $rout_get = (!empty($routarr[ $lien ]['get'])) ? $routarr[ $lien ]['get'] : [];
+                $routarr_get = ($racine == 0) ? $rout_get : $conf_get;
 
-                $gets->set('get', DefineGet::defineNormal($routarr_get, $list, $racine));
+                if(!empty($routarr_get)){
+                    $gets->set('get', DefineGet::defineNormal($routarr_get, $list, $racine));
+                }
 
                 list($bundle, $controller, $action) = explode(':', $route);
                 $routing = 'Bundles\\'.$bundle.'\\Controllers\\'.$controller;
