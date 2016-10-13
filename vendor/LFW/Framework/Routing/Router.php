@@ -54,11 +54,7 @@
             $racine = 0;
             $routarr = Yaml::parse(file_get_contents('vendor/LFW/Configuration/'.$conf['routing']['file']));
 
-            if(!empty($path[0]) && $path[0][0].$path[0][1] == '__'){
-                $rout_dev = new RouterDev;
-                return $rout_dev->routing($path, $dic, $conf['env']);
-            }
-            elseif(empty($path[0]) && !empty($conf['racine']['path'])){
+            if(empty($path[0]) && !empty($conf['racine']['path'])){
                 $nb_expl = 1;
                 $lien = '/';
                 $route = $conf['racine']['path'];

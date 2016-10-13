@@ -5,4 +5,4 @@
     use LFW\Framework\Globals\Server;
 
     $dic = new Dic();
-    $dic->load('router')->routing(ltrim(Server::getRequestUri(), '/'), $dic);
+    $dic->load('router')->routing(Server::getReqUriTrim(), $dic);
