@@ -1,7 +1,7 @@
 <?php
     namespace LFW\Framework\Controller;
+    use LFW\Framework\DIC\Dic;
     use LFW\Framework\Exception\Exception;
-    use LFW\Framework\Globals\Server;
 
     /**
      * Class View
@@ -24,22 +24,29 @@
         private $json = [];
 
         /**
+         * View constructor.
+         * @param Dic $dic
+         */
+        public function __construct(Dic $dic){
+            $this->nurl = explode('/', $dic->open('get')->get('uri'));
+        }
+
+        /**
          * @param string $templ
          * @param string $bundle
          * @param array $param
          * @return Exception|bool
          */
         public function view($templ, $bundle, $param = []){
-            if(!file_exists('Bundles/'.$bundle.'Bundle/Views/'.$templ)){
+            $this->bundle = $bundle.'Bundle';
+
+            if(!file_exists('Bundles/'.$this->bundle.'/Views/'.$templ)){
                 return new Exception('TWIG : Template '.$templ.' not found');
             }
 
-            $this->yaml = json_decode(file_get_contents('vendor/LFW/Configuration/config.json'), true);
-            $tlf = new \Twig_Loader_Filesystem('Bundles/'.$bundle.'Bundle/Views');
+            $this->json = json_decode(file_get_contents('vendor/LFW/Configuration/config.json'), true);
+            $tlf = new \Twig_Loader_Filesystem('Bundles/'.$this->bundle.'/Views');
             $twig = ($this->json['cache']['TWIG'] == 'yes') ? new \Twig_Environment($tlf, [ 'cache' => 'vendor/LFW/Cache/TWIG' ]) : new \Twig_Environment($tlf);
-
-            $this->bundle = $bundle.'Bundle';
-            $this->nurl = explode('/', Server::getReqUriTrim());
 
             $url = new \Twig_SimpleFunction('url', function($url, $trad = ''){
                 if('/'.$this->nurl[0] == $this->json['prefix'] && $this->json['prefix'] != '/'){

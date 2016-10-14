@@ -25,7 +25,7 @@
 
         /**
          * @param string $key
-         * @param string $param
+         * @param mixed $param
          * @return mixed
          */
         public function load($key, $param = ''){
