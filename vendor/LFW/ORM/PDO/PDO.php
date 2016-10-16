@@ -76,8 +76,8 @@
          * @param string $sequence
          * @return int
          */
-        public function lastInsertId($sequence){
-            return $this->pdo->lastInsertId($sequence);
+        public function lastInsertId($sequence = ''){
+            return ($sequence == '') ? $this->pdo->lastInsertId() : $this->pdo->lastInsertId($sequence);
         }
 
         /**
