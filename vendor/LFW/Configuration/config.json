@@ -1,6 +1,6 @@
 {
   "env": "local",
-  "prefix": "/DIRECTORT",
+  "prefix": "/DIRECTORY",
   "racine": {
     "path": "AppBundle:IndexController:indexAction"
   },

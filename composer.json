@@ -8,7 +8,7 @@
     "twig/twig": "1.24.1"
   },
   "autoload": {
-    "classmap": [ ".htaccess", "console", "index.php" ],
+    "classmap": [ ".htaccess", "console.php", "index.php" ],
     "psr-4": {
       "Bundles\\": "Bundles/",
       "Traductions\\": "Traductions/",
