@@ -43,7 +43,7 @@
                 $this->input .= ' size="'.$spec['size'].'"';
             }
 
-            if(!empty($spec['require']) && $spec['require'] === true){
+            if(!empty($spec['required']) && $spec['required'] === true){
                 $this->input .= ' required';
             }
 
