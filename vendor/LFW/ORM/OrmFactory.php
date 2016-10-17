@@ -1,8 +1,6 @@
 <?php
     namespace LFW\ORM;
     use LFW\ORM\Orm;
-    use LFW\ORM\MySQL\Counter;
-    use LFW\ORM\MySQL\Finder;
 
     /**
      * Class OrmFactory
