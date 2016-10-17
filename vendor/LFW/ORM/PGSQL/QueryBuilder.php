@@ -3,12 +3,9 @@
     use LFW\Framework\CreateLog\CreateErrorLog;
     use LFW\Framework\CreateLog\CreateRequestLog;
     use LFW\ORM\Hydrator;
+    use LFW\ORM\RequestInterface;
     use LFW\ORM\PDO\PDO;
-    use LFW\ORM\PGSQL\Request\Delete;
-    use LFW\ORM\PGSQL\Request\Insert;
-    use LFW\ORM\PGSQL\Request\Select;
-    use LFW\ORM\PGSQL\Request\Update;
-
+    
     /**
      * Class QueryBuilder
      * @package LFW\ORM\PGSQL
@@ -28,10 +25,10 @@
         }
 
         /**
-         * @param Insert $request
+         * @param RequestInterface $request
          * @return int
          */
-        public static function insert(Insert $request){
+        public static function insert(RequestInterface $request){
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
                 self::$conn->request($request->getRequest(), $request->getExecute());
@@ -44,12 +41,12 @@
         }
 
         /**
-         * @param Select $select
+         * @param RequestInterface $select
          * @param string $bundle
          * @param string $type
          * @return object
          */
-        public static function selectOne(Select $select, $bundle, $type = 'array'){
+        public static function selectOne(RequestInterface $select, $bundle, $type = 'array'){
             if($type == 'array' || $type == 'object'){
                 try{
                     new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
@@ -68,11 +65,11 @@
         }
 
         /**
-         * @param Select $select
+         * @param RequestInterface $select
          * @param string $bundle
          * @return array
          */
-        public static function selectMany(Select $select, $bundle){
+        public static function selectMany(RequestInterface $select, $bundle){
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
                 $ent = 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity();
@@ -96,9 +93,9 @@
         }
 
         /**
-         * @param Delete $request
+         * @param RequestInterface $request
          */
-        public static function delete(Delete $request){
+        public static function delete(RequestInterface $request){
             try{
                 self::$conn->request($request->getRequest(), $request->getExecute());
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
@@ -110,9 +107,9 @@
         }
 
         /**
-         * @param Update $request
+         * @param RequestInterface $request
          */
-        public static function update(Update $request){
+        public static function update(RequestInterface $request){
             try{
                 self::$conn->request($request->getRequest(), $request->getExecute());
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
@@ -124,10 +121,10 @@
         }
 
         /**
-         * @param Select $request
+         * @param RequestInterface $request
          * @return int
          */
-        public static function count(Select $request){
+        public static function count(RequestInterface $request){
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
                 self::$conn->request($request->getRequest(), $request->getExecute());
