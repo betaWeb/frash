@@ -22,19 +22,20 @@
             $path = 'vendor/LFW/Configuration/database.json';
             if(!file_exists($path)){ return new Exception('Le fichier database.json n\'existe pas.'); }
 
-            $json = json_decode(file_get_contents($path), true);
-            $bund = $json[ $bundle.'Bundle' ];
-            if(empty($bund)){ return new Exception('Le bundle '.$bundle.' n\'existe pas.'); }
+            $json = json_decode(file_get_contents($path));
+            $bund = $json->$bundle;
 
             try{
-                switch($bund['system']){
+                switch($bund->system){
                     case 'MySQL':
-                        $this->connexion = new PDO('mysql:host='.$bund['host'].';dbname='. $bund['dbname'].';charset=UTF8;', $bund['username'], $bund['password'], []);
+                        $this->connexion = new PDO('mysql:host='.$bund->host.';dbname='. $bund->dbname.';charset=UTF8;', $bund->username, $bund->password, []);
                         break;
                     case 'PGSQL':
-                        $this->connexion = new PDO('pgsql:dbname='.$bund['dbname'].';port='.$bund['port'].';host='.$bund['host'], $bund['username'], $bund['password']);
+                        $this->connexion = new PDO('pgsql:dbname='.$bund->dbname.';port='.$bund->port.';host='.$bund->host, $bund->username, $bund->password);
                         $this->connexion->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
                         break;
+                    default:
+                        return new Exception('Le bundle '.$bundle.' n\'existe pas.');
                 }
             }
             catch(\Exception $e){

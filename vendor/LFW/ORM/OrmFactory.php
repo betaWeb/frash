@@ -1,8 +1,8 @@
 <?php
     namespace LFW\ORM;
     use LFW\ORM\Orm;
-    use LFW\ORM\PGSQL\Counter;
-    use LFW\ORM\PGSQL\Finder;
+    use LFW\ORM\MySQL\Counter;
+    use LFW\ORM\MySQL\Finder;
 
     /**
      * Class OrmFactory
@@ -24,7 +24,7 @@
          * @param string $bundle
          */
         public function __construct($bundle){
-            $this->bundle = $bundle;
+            $this->bundle = $bundle.'Bundle';
             $orm = new Orm($this->bundle);
             $this->connexion = $orm->getConnexion();
         }
@@ -41,21 +41,7 @@
          * @return object
          */
         public function getRequest($request){
-            $class = 'Bundles\\'.$this->bundle.'Bundle\Requests\\'.$request.'Requests';
+            $class = 'Bundles\\'.$this->bundle.'\Requests\\'.$request.'Requests';
             return new $class($this->connexion);
-        }
-
-        /**
-         * @return Counter
-         */
-        public function getCounter(){
-            return new Counter($this->connexion);
-        }
-
-        /**
-         * @return Finder
-         */
-        public function getFinder(){
-            return new Finder($this->connexion);
         }
     }
