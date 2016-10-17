@@ -5,7 +5,7 @@
     use LFW\ORM\Hydrator;
     use LFW\ORM\RequestInterface;
     use LFW\ORM\PDO\PDO;
-    
+
     /**
      * Class QueryBuilder
      * @package LFW\ORM\PGSQL
@@ -43,24 +43,21 @@
         /**
          * @param RequestInterface $select
          * @param string $bundle
-         * @param string $type
          * @return object
          */
-        public static function selectOne(RequestInterface $select, $bundle, $type = 'array'){
-            if($type == 'array' || $type == 'object'){
-                try{
-                    new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
-                    $ent = 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity();
+        public static function selectOne(RequestInterface $select, $bundle){
+            try{
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
+                $ent = 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity();
 
-                    self::$conn->request($select->getRequest(), $select->getExecute());
-                    $res = self::$conn->fetch();
+                self::$conn->request($select->getRequest(), $select->getExecute());
+                $res = self::$conn->fetch();
 
-                    return self::hydration($res, $ent);
-                }
-                catch(\Exception $e){
-                    new CreateErrorLog($e->getMessage());
-                    die('Il y a eu une erreur.');
-                }
+                return self::hydration($res, $ent);
+            }
+            catch(\Exception $e){
+                new CreateErrorLog($e->getMessage());
+                die('Il y a eu une erreur.');
             }
         }
 
