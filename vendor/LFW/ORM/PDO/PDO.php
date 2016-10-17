@@ -17,7 +17,7 @@
         private $count_req = 0;
 
         /**
-         * @var
+         * @var object
          */
         private $results;
 
