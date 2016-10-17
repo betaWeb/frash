@@ -3,40 +3,35 @@
     use LFW\Framework\CreateLog\CreateErrorLog;
     use LFW\Framework\CreateLog\CreateRequestLog;
     use LFW\ORM\Hydrator;
-    use LFW\ORM\MySQL\Request\Delete;
-    use LFW\ORM\MySQL\Request\Insert;
-    use LFW\ORM\MySQL\Request\Select;
-    use LFW\ORM\MySQL\Request\Update;
+    use LFW\ORM\RequestInterface;
+    use LFW\ORM\PDO\PDO;
 
     /**
      * Class QueryBuilder
-     * @package Composants\ORM\MySQL
+     * @package LFW\ORM\MySQL
      */
-    class QueryBuilder{
+    class QueryBuilder extends Hydrator{
         /**
-         * @var \PDO
+         * @var PDO
          */
         protected static $conn;
 
         /**
          * QueryBuilder constructor.
-         * @param \PDO $conn
+         * @param PDO $conn
          */
-        public function __construct(\PDO $conn){
+        public function __construct(PDO $conn){
             self::$conn = $conn;
         }
 
         /**
-         * @param Insert $request
+         * @param RequestInterface $request
          * @return int
          */
-        public static function insert(Insert $request){
+        public static function insert(RequestInterface $request){
             try{
-                $req = self::$conn->prepare($request->getRequest());
-                $req->execute($request->getExecute());
-
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
-
+                self::$conn->request($request->getRequest(), $request->getExecute());
                 return self::$conn->lastInsertId();
             }
             catch(\Exception $e){
@@ -46,27 +41,19 @@
         }
 
         /**
-         * @param Select $select
-         * @param string $entity
+         * @param RequestInterface $select
          * @param string $bundle
-         * @return array
+         * @return object
          */
-        public static function selectOne(Select $select, $entity, $bundle){
+        public static function selectOne(RequestInterface $select, $bundle){
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
-                $ent = 'Bundles\\'.$bundle.'\Entity\\'.$entity;
+                $ent = 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity();
 
-                $req = self::$conn->prepare($select->getRequest());
-                $req->execute($select->getExecute());
+                self::$conn->request($select->getRequest(), $select->getExecute());
+                $res = self::$conn->fetch();
 
-                if($select->getColSel() == '*'){
-                    $res = $req->fetch(\PDO::FETCH_OBJ);
-                    return self::hydration($res, $ent);
-                }
-                else{
-                    $req->setFetchMode(\PDO::FETCH_CLASS, $ent);
-                    return $req->fetch();
-                }
+                return self::hydration($res, $ent);
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());
@@ -75,12 +62,12 @@
         }
 
         /**
-         * @param Select $select
+         * @param RequestInterface $select
          * @param string $entity
          * @param string $bundle
          * @return array
          */
-        public static function selectMany(Select $select, $entity, $bundle){
+        public static function selectMany(RequestInterface $select, $entity, $bundle){
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
                 $ent = 'Bundles\\'.$bundle.'\Entity\\'.$entity;
@@ -118,9 +105,9 @@
         }
 
         /**
-         * @param Delete $request
+         * @param RequestInterface $request
          */
-        public static function delete(Delete $request){
+        public static function delete(RequestInterface $request){
             try{
                 $req = self::$conn->prepare($request->getRequest());
                 $req->execute($request->getExecute());
@@ -134,9 +121,9 @@
         }
 
         /**
-         * @param Update $request
+         * @param RequestInterface $request
          */
-        public static function update(Update $request){
+        public static function update(RequestInterface $request){
             try{
                 $req = self::$conn->prepare($request->getRequest());
                 $req->execute($request->getExecute());
@@ -150,10 +137,10 @@
         }
 
         /**
-         * @param Select $request
+         * @param RequestInterface $request
          * @return int
          */
-        public static function count(Select $request){
+        public static function count(RequestInterface $request){
             try{
                 $req = self::$conn->prepare($request->getRequest());
                 $req->execute($request->getExecute());

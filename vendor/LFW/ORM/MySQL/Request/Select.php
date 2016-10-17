@@ -1,15 +1,21 @@
 <?php
     namespace LFW\ORM\MySQL\Request;
+    use LFW\ORM\RequestInterface;
 
     /**
      * Class Select
      * @package LFW\ORM\MySQL\Request
      */
-    class Select{
+    class Select implements RequestInterface{
         /**
          * @var string
          */
         private $table = '';
+
+        /**
+         * @var string
+         */
+        private $entity = '';
 
         /**
          * @var string
@@ -52,6 +58,7 @@
          */
         public function __construct($array){
             $this->table = $array['table'];
+            $this->entity = ucfirst($array['table']);
 
             if(!empty($array['order'])){
                 $this->order = 'ORDER BY '.$array['order'];
@@ -111,5 +118,12 @@
          */
         public function getColSel(){
             return $this->colSel;
+        }
+
+        /**
+         * @return string
+         */
+        public function getEntity(){
+            return $this->entity;
         }
     }
