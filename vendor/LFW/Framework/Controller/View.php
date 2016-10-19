@@ -28,17 +28,25 @@
          * @param Dic $dic
          */
         public function __construct(Dic $dic){
-            $this->nurl = explode('/', $dic->open('get')->get('uri'));
+            $gets = $dic->open('get');
+            $this->bundle = $gets->get('bundle');
+            $this->nurl = explode('/', $gets->get('uri'));
         }
 
         /**
          * @param string $templ
-         * @param string $bundle
+         * @param mixed $bundle
          * @param array $param
          * @return Exception|bool
          */
         public function view($templ, $bundle, $param = []){
-            $this->bundle = $bundle.'Bundle';
+            if(is_array($bundle)){
+                $params = $bundle;
+            }
+            else{
+                $params = $param;
+                $this->bundle = $bundle.'Bundle';
+            }
 
             if(!file_exists('Bundles/'.$this->bundle.'/Views/'.$templ)){
                 return new Exception('TWIG : Template '.$templ.' not found');
@@ -95,7 +103,7 @@
             $twig->addFunction($url);
             $twig->addFunction($bun);
             $twig->addFunction($trad);
-            echo $twig->render($templ, $param);
+            echo $twig->render($templ, $params);
             return true;
         }
     }
