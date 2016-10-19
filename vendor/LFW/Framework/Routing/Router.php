@@ -3,6 +3,7 @@
     use LFW\Framework\CreateLog\CreateHTTPLog;
     use LFW\Framework\Exception\Exception;
     use LFW\Framework\DIC\Dic;
+    use LFW\Framework\Globals\Server;
 
     /**
      * Class Router
@@ -88,6 +89,10 @@
             }
 
             if($nb_expl > 0 && $lien != '' && $route != ''){
+                if(!empty($routarr[ $lien ]['type']) && $routarr[ $lien ]['type'] != Server::getRequestMethod()){
+                    return new Exception('Request Method not correct');
+                }
+
                 $list = explode('/', str_replace($lien.'/', '', implode('/', $path)));
 
                 $conf_get = (!empty($conf['racine']['get'])) ? $conf['racine']['get'] : [];
