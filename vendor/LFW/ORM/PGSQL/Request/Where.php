@@ -25,7 +25,7 @@
                 return substr($where, 2);
             }
             else{
-                return "\"$where\"";
+                return $where;
             }
         }
 
@@ -65,14 +65,14 @@
          * @param string $where
          */
         public function isNullWhere($where){
-            $this->where .= "\"$where\"".' IS NULL';
+            $this->where .= $where.' IS NULL';
         }
 
         /**
          * @param string $where
          */
         public function isNotNullWhere($where){
-            $this->where .= "\"$where\"".' IS NOT NULL';
+            $this->where .= $where.' IS NOT NULL';
         }
 
         /**
@@ -80,7 +80,7 @@
          * @param string $exec
          */
         public function inWhere($where, $exec){
-            $this->where .= "\"$where\"".' IN ('.$exec.')';
+            $this->where .= $where.' IN ('.$exec.')';
             $this->arrayWhere[] = substr($exec, 1);
         }
 

@@ -42,7 +42,7 @@
          * @param string $table
          */
         public function __construct($table){
-            $this->table = "\"$table\"";
+            $this->table = $table;
         }
 
         /**

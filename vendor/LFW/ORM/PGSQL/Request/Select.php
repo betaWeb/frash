@@ -15,11 +15,6 @@
         /**
          * @var string
          */
-        private $entity = '';
-
-        /**
-         * @var string
-         */
         private $colSel = '*';
 
         /**
@@ -57,9 +52,7 @@
          * @param array $array
          */
         public function __construct($array){
-            $table = $array['table'];
-            $this->table = "\"$table\"";
-            $this->entity = ucfirst($array['table']);
+            $this->table = $array['table'];
 
             if(!empty($array['order'])){
                 $this->order = 'ORDER BY '.$array['order'];
@@ -139,6 +132,6 @@
          * @return string
          */
         public function getEntity(){
-            return $this->entity;
+            return ucfirst($this->table);
         }
     }

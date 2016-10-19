@@ -30,21 +30,21 @@
          */
         public function normal($where, $sign, $exec){
             $this->arrayWhere[] = substr($exec, 1);
-            return "\"$where\"".' '.$sign.' '.$exec;
+            return $where.' '.$sign.' '.$exec;
         }
 
         /**
          * @param string $where
          */
         public function isNull($where){
-            return "\"$where\"".' IS NULL';
+            return $where.' IS NULL';
         }
 
         /**
          * @param string $where
          */
         public function isNotNull($where){
-            return "\"$where\"".' IS NOT NULL';
+            return $where.' IS NOT NULL';
         }
 
         /**
