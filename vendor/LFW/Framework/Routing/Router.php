@@ -102,6 +102,7 @@
                 $routing = 'Bundles\\'.$bundle.'\\Controllers\\'.$controller;
 
                 if(method_exists($routing, $action)){
+                    $gets->set('bundle', $bundle);
                     return $dic->load('controller', $dic)->call($routing)->$action($dic);
                 }
                 elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')){
