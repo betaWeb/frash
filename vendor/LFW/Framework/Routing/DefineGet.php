@@ -50,33 +50,4 @@
 
             return $get;
         }
-
-        /**
-         * @param array $path
-         * @param array $gets
-         * @return array|Exception
-         */
-        public static function defineDev($path, $gets){
-            $count = count($path) - 1;
-            $get = [];
-
-            for($i = 1; $i <= $count; $i++){
-                $curr = $i - 1;
-                $getc = $gets[ $curr ];
-
-                if(isset($getc)){
-                    if($getc['fix'] == 'yes' && empty($path[ $i ])){ return new Exception('Get : Url incorrecte.'); }
-
-                    if($getc['fix'] == 'yes'){
-                        if($gets[ $i ]['type'] == 'integer'){
-                            if(!ctype_digit($path[ $i ])){ return new Exception('Get : Url incorrecte.'); }
-                        }
-                    }
-
-                    $get[] = urldecode(htmlentities($path[ $i ]));
-                }
-            }
-
-            return $get;
-        }
     }
