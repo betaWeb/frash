@@ -14,6 +14,11 @@
         private $connexion;
 
         /**
+         * @var string
+         */
+        private $system;
+
+        /**
          * Orm constructor.
          * @param string $bundle
          * @return Exception
@@ -24,6 +29,7 @@
 
             $json = json_decode(file_get_contents($path));
             $bund = $json->$bundle;
+            $this->system = $bund->system;
 
             try{
                 switch($bund->system){
@@ -55,5 +61,12 @@
          */
         public function getCountReq(){
             return $this->connexion->getCountReq();
+        }
+
+        /**
+         * @return string
+         */
+        public function getSystem(){
+            return $this->system;
         }
     }
