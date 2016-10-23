@@ -13,6 +13,11 @@
          * @param string $name
          */
         public function __construct($name){
+            if(!file_exists(self::PREFIX)){
+                mkdir('Bundles', 0755);
+                echo 'Dossier Bundles généré !'.PHP_EOL;
+            }
+
             mkdir(self::PREFIX.$name);
             mkdir(self::PREFIX.$name.'/Controllers');
             mkdir(self::PREFIX.$name.'/Entity');
