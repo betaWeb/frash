@@ -11,13 +11,25 @@
      */
     class Router{
         /**
-         * @param string $url
+         * @var Dic
+         */
+        private $dic;
+
+        /**
+         * Router constructor.
          * @param Dic $dic
+         */
+        public function __construct(Dic $dic){
+            $this->dic = $dic;
+        }
+
+        /**
+         * @param string $url
          * @return object
          */
-        public function routing($url, Dic $dic){
+        public function routing($url){
             $conf = json_decode(file_get_contents('vendor/LFW/Configuration/config.json'), true);
-            $gets = $dic->load('get');
+            $gets = $this->dic->load('get');
             new CreateHTTPLog($url);
 
             $path = explode('/', $url);
@@ -108,7 +120,7 @@
 
                 if(method_exists($routing, $action)){
                     $gets->set('bundle', $bundle);
-                    return $dic->load('controller', $dic)->call($routing)->$action($dic);
+                    return $this->dic->load('controller')->call($routing)->$action($this->dic);
                 }
                 elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')){
                     return new Exception('Controller '.$controller.' not found');
