@@ -54,15 +54,29 @@
         /**
          * @return array
          */
-        public function fetchAll(){
-            return $this->results->fetchAll(\PDO::FETCH_OBJ);
+        public function fetchAssoc(){
+            return $this->results->fetch(\PDO::FETCH_ASSOC);
         }
 
         /**
          * @return array
          */
-        public function fetch(){
+        public function fetchObj(){
             return $this->results->fetch(\PDO::FETCH_OBJ);
+        }
+
+        /**
+         * @return array
+         */
+        public function fetchAllAssoc(){
+            return $this->results->fetchAll(\PDO::FETCH_ASSOC);
+        }
+
+        /**
+         * @return array
+         */
+        public function fetchAllObj(){
+            return $this->results->fetchAll(\PDO::FETCH_OBJ);
         }
 
         /**
