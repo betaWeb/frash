@@ -1,5 +1,6 @@
 <?php
     namespace LFW\ORM;
+    use LFW\Framework\DIC\Dic;
     use LFW\ORM\Orm;
 
     /**
@@ -8,6 +9,11 @@
      */
     class OrmFactory{
         /**
+         * @var string
+         */
+        private $bundle;
+
+        /**
          * @var \PDO
          */
         private $connexion;
@@ -15,16 +21,18 @@
         /**
          * @var string
          */
-        private $bundle;
+        private $system;
 
         /**
          * OrmFactory constructor.
+         * @param Dic $dic
          * @param string $bundle
          */
         public function __construct($bundle){
             $this->bundle = $bundle.'Bundle';
             $orm = new Orm($this->bundle);
             $this->connexion = $orm->getConnexion();
+            $this->system = $orm->getSystem();
         }
 
         /**
@@ -41,5 +49,21 @@
         public function getRequest($request){
             $class = 'Bundles\\'.$this->bundle.'\Requests\\'.$request.'Requests';
             return new $class($this->connexion);
+        }
+
+        /**
+         * @return object
+         */
+        public function getCounter(){
+            $namespace = 'LFW\\ORM\\'.$this->system.'\Counter';
+            return new $namespace($this->connexion);
+        }
+
+        /**
+         * @return object
+         */
+        public function getFinder(){
+            $namespace = 'LFW\ORM\\'.$this->system.'\Finder';
+            return new $namespace($this->connexion, $this->bundle);
         }
     }
