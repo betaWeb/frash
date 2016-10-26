@@ -28,7 +28,7 @@
          * @param Dic $dic
          * @param string $bundle
          */
-        public function __construct($bundle){
+        public function __construct(Dic $dic, $bundle){
             $this->bundle = $bundle.'Bundle';
             $orm = new Orm($this->bundle);
             $this->connexion = $orm->getConnexion();
