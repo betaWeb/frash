@@ -52,7 +52,7 @@
                 return new Exception('TWIG : Template '.$templ.' not found');
             }
 
-            $this->json = json_decode(file_get_contents('vendor/LFW/Configuration/config.json'), true);
+            $this->json = json_decode(file_get_contents('Configuration/config.json'), true);
             $tlf = new \Twig_Loader_Filesystem('Bundles/'.$this->bundle.'/Views');
             $twig = ($this->json['cache']['TWIG'] == 'yes') ? new \Twig_Environment($tlf, [ 'cache' => 'vendor/LFW/Cache/TWIG' ]) : new \Twig_Environment($tlf);
 

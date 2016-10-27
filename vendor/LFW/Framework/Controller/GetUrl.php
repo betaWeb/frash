@@ -13,7 +13,7 @@
          * @return string
          */
         public function url($url, $uri = ''){
-            $json = json_decode(file_get_contents('vendor/LFW/Configuration/config.json'), true);
+            $json = json_decode(file_get_contents('Configuration/config.json'), true);
             $nurl = ($uri == '') ? explode('/', Server::getReqUriTrim()) : explode('/', $uri);
 
             if('/'.$nurl[0] == $json['prefix'] && $json['prefix'] != '/'){

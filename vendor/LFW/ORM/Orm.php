@@ -24,7 +24,7 @@
          * @return Exception
          */
         public function __construct($bundle){
-            $path = 'vendor/LFW/Configuration/database.json';
+            $path = 'Configuration/database.json';
             if(!file_exists($path)){ return new Exception('Le fichier database.json n\'existe pas.'); }
 
             $json = json_decode(file_get_contents($path));

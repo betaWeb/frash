@@ -28,7 +28,7 @@
          * @return object
          */
         public function routing($url){
-            $conf = json_decode(file_get_contents('vendor/LFW/Configuration/config.json'), true);
+            $conf = json_decode(file_get_contents('Configuration/config.json'), true);
             $gets = $this->dic->load('get');
             new CreateHTTPLog($url);
 
@@ -64,7 +64,7 @@
             array_shift($path);
 
             $racine = 0;
-            $routarr = json_decode(file_get_contents('vendor/LFW/Configuration/'.$conf['routing']['file'].'.json'), true);
+            $routarr = json_decode(file_get_contents('Configuration/'.$conf['routing']['file'].'.json'), true);
 
             if(empty($path[0]) && !empty($conf['racine']['path'])){
                 $nb_expl = 1;

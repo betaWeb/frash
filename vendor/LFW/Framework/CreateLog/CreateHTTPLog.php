@@ -12,7 +12,7 @@
          * @param string $url
          */
         public function __construct($url){
-            $json = json_decode(file_get_contents('vendor/LFW/Configuration/config.json'), true);
+            $json = json_decode(file_get_contents('Configuration/config.json'), true);
 
             if($json['log']['access'] == 'yes'){
                 $file = fopen('vendor/LFW/Logs/access.log', 'a');

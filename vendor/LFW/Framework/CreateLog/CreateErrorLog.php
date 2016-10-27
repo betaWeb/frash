@@ -11,7 +11,7 @@
          * @param string $error
          */
         public function __construct($error){
-            $json = json_decode(file_get_contents('vendor/LFW/Configuration/config.json'), true);
+            $json = json_decode(file_get_contents('Configuration/config.json'), true);
 
             if($json['log']['error'] == 'yes'){
                 $file = fopen('vendor/LFW/Logs/error.log', 'a');

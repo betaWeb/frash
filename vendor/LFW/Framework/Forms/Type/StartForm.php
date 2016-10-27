@@ -2,6 +2,7 @@
     namespace LFW\Framework\Forms\Type;
     use LFW\Framework\Controller\GetUrl;
     use LFW\Framework\Forms\FormTypeInterface;
+    use LFW\Framework\Globals\Session;
 
     /**
      * Class StartForm
@@ -50,6 +51,13 @@
             }
 
             $this->input .= '>';
+
+            if(!empty($spec['csrf']) && $spec['csrf'] == 'yes'){
+                $sess = new Session();
+                $csrf = new Csrf($sess->getSession('token'));
+
+                $this->input .= $csrf->getInput();
+            }
         }
 
         /**
