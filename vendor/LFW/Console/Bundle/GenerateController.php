@@ -16,8 +16,13 @@
             $list = explode('/', $action);
 
             $code = "<?php\n";
-            $code .= '	namespace Bundles\\'.$bundle.'\\Controllers;'."\n\n";
+            $code .= '	namespace Bundles\\'.$bundle.'\\Controllers;'."\n";
+            $code .= '  use LFW\\Framework\\DIC\\Dic;'."\n\n";
             $code .= '	class '.ucfirst($name).'{'."\n";
+            $code .= '      public function __construct(Dic $dic){'."\n";
+            $code .= '          '."\n";
+            $code .= '      }'."\n\n";
+
             foreach($list as $l){
                 $code .= '		public function '.$l.'(){'."\n";
                 $code .= '			'."\n";
