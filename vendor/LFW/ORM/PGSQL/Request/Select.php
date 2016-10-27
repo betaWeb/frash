@@ -52,7 +52,8 @@
          * @param array $array
          */
         public function __construct($array){
-            $this->table = $array['table'];
+            $table = $array['table'];
+            $this->table = "\"$table\"";
 
             if(!empty($array['order'])){
                 $this->order = 'ORDER BY '.$array['order'];
