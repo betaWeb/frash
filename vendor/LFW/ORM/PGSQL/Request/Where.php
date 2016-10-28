@@ -25,7 +25,7 @@
                 return substr($where, 2);
             }
             else{
-                return $where;
+                return "\"$where\"";
             }
         }
 
