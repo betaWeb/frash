@@ -20,7 +20,18 @@
             $code .= '	namespace Bundles\\'.$bundle.'\\Entity;'."\n\n";
             $code .= '	class '.ucfirst($table).'{'."\n";
             foreach($champs as $l){
-                list($name, $type) = explode('=', $l);
+                $name = '';
+                $type = '';
+
+                if(strstr($l, '=')){
+                    $expl = explode('=', $l);
+                    $name = $expl[0];
+                    $type = $expl[1];
+                }
+                else{
+                    $name = $l;
+                }
+                
                 $types[ $name ] = (empty($type)) ? '' : $type;
 
                 $code .= '		protected $'.$l.';'."\n";
