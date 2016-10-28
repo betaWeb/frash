@@ -39,7 +39,7 @@
                 return $this->pdo->rowCount();
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage(), false);
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
