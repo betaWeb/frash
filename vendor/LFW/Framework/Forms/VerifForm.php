@@ -9,12 +9,13 @@
     class VerifForm{
         /**
          * @param string $csrf
+         * @param string $name
          * @return bool
          */
-        public function csrf($csrf){
+        public function csrf($csrf, $name){
             if($csrf != ''){
                 $session = new Session;
-                return ($session->getSession('token') == $csrf) ? true : false;
+                return ($session->getSession($name) == $csrf) ? true : false;
             }
         }
 

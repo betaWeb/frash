@@ -133,6 +133,7 @@
          * @return string
          */
         public function getEntity(){
-            return ucfirst($this->table);
+            $table = str_replace('"', '', $this->table);
+            return ucfirst($table);
         }
     }

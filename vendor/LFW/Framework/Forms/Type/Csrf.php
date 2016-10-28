@@ -14,10 +14,10 @@
 
         /**
          * Csrf constructor.
-         * @param string $token
+         * @param string $spec
          */
-        public function __construct($token){
-            $this->input = '<input type="hidden" name="token" value="'.$token.'">';
+        public function __construct($spec){
+            $this->input = '<input type="hidden" name="'.$spec['name'].'" value="'.$spec['session'].'">';
         }
 
         /**

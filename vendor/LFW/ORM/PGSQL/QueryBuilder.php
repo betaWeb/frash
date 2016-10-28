@@ -51,7 +51,7 @@
                 $ent = 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity();
 
                 self::$conn->request($select->getRequest(), $select->getExecute());
-                $res = self::$conn->fetch();
+                $res = self::$conn->fetchObj();
 
                 return self::hydration($res, $ent);
             }
@@ -72,7 +72,7 @@
                 $ent = 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity();
 
                 self::$conn->request($select->getRequest(), $select->getExecute());
-                $res = self::$conn->fetchAll();
+                $res = self::$conn->fetchAllObj();
 
                 $count = count($res) - 1;
                 $array_obj = [];
