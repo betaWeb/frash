@@ -3,6 +3,7 @@
     use LFW\Framework\Controller\GetUrl;
     use LFW\Framework\Forms\FormTypeInterface;
     use LFW\Framework\Globals\Session;
+    use LFW\Framework\Forms\Type\Csrf;
 
     /**
      * Class StartForm
