@@ -96,9 +96,15 @@
                 echo $tr->show($traduction);
             });
 
+            $jquery = new \Twig_SimpleFunction('jquery', function(){ echo '<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>'; });
+            $jquery_ui = new \Twig_SimpleFunction('jquery_ui', function(){ echo '<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>'; });
+
             $twig->addFunction($url);
             $twig->addFunction($bun);
             $twig->addFunction($trad);
+            $twig->addFunction($jquery);
+            $twig->addFunction($jquery_ui);
+
             echo $twig->render($templ, $params);
             return true;
         }
