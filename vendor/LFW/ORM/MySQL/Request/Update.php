@@ -1,11 +1,12 @@
 <?php
     namespace LFW\ORM\MySQL\Request;
+    use LFW\ORM\RequestInterface;
 
     /**
      * Class Update
      * @package LFW\ORM\MySQL\Request
      */
-    class Update{
+    class Update implements RequestInterface{
         /**
          * @var string
          */

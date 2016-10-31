@@ -51,7 +51,7 @@
                 $ent = 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity();
 
                 self::$conn->request($select->getRequest(), $select->getExecute());
-                $res = self::$conn->fetch();
+                $res = self::$conn->fetchObj();
 
                 return self::hydration($res, $ent);
             }
@@ -72,31 +72,17 @@
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
                 $ent = 'Bundles\\'.$bundle.'\Entity\\'.$entity;
 
-                $req = self::$conn->prepare($select->getRequest());
-                $req->execute($select->getExecute());
+                self::$conn->request($select->getRequest(), $select->getExecute());
+                $res = self::$conn->fetchAllObj();
 
-                if($select->getColSel() == '*'){
-                    $res = $req->fetchAll(\PDO::FETCH_OBJ);
+                $count = count($res) - 1;
+                $array_obj = [];
 
-                    $count = count($res) - 1;
-                    $array_obj = [];
-
-                    for($i = 0; $i <= $count; $i++){
-                        $array_obj[ $i ] = self::hydration($res[ $i ], $ent);
-                    }
-
-                    return $array_obj;
+                for($i = 0; $i <= $count; $i++){
+                    $array_obj[ $i ] = self::hydration($res[ $i ], $ent);
                 }
-                else{
-                    $res = $req->fetchAll(\PDO::FETCH_CLASS, $ent);
 
-                    $array = [];
-                    foreach($res as $v){
-                        $array[] = $v;
-                    }
-
-                    return $array;
-                }
+                return $array_obj;
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());
@@ -125,9 +111,7 @@
          */
         public static function update(RequestInterface $request){
             try{
-                $req = self::$conn->prepare($request->getRequest());
-                $req->execute($request->getExecute());
-
+                self::$conn->request($request->getRequest(), $request->getExecute());
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
             }
             catch(\Exception $e){

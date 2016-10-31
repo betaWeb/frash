@@ -88,12 +88,8 @@
             });
 
             $trad = new \Twig_SimpleFunction('trad', function($traduction){
-                if('/'.$this->nurl[0] == $this->json['prefix'] && $this->json['prefix'] != '/'){
-                    $lang = (in_array($this->nurl[1], $this->json['traduction']['available'])) ? $this->nurl[1] : $this->json['traduction']['default'];
-                }
-                else{
-                    $lang = (in_array($this->nurl[0], $this->json['traduction']['available'])) ? $this->nurl[0] : $this->json['traduction']['default'];
-                }
+                $lang = ('/'.$this->nurl[0] == $this->json['prefix'] && $this->json['prefix'] != '/') ? $this->nurl[1] : $lang = $this->nurl[0];
+                $def_lang = (in_array($lang, $this->json['traduction']['available'])) ? $lang : $this->json['traduction']['default'];
 
                 $class = 'Traductions\\Trad'.ucfirst($lang);
                 $tr = new $class;
