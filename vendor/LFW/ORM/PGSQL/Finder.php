@@ -11,6 +11,11 @@
      */
     class Finder{
         /**
+         * @var string
+         */
+        private $bundle;
+
+        /**
          * @var PDO
          */
         private $pdo;
@@ -18,25 +23,26 @@
         /**
          * Finder constructor.
          * @param PDO $pdo
+         * @param string $bundle
          */
-        public function __construct(PDO $pdo){
+        public function __construct(PDO $pdo, $bundle){
+            $this->bundle = $bundle;
             $this->pdo = $pdo;
         }
 
         /**
-         * @param string $bundle
          * @param string $entity
          * @param string $where
          * @param array $arguments
          * @return array
          */
-        private function findBy($bundle, $entity, $where, $arguments){
+        private function findBy($entity, $where, $arguments){
             try{
                 $table = lcfirst($entity);
                 $request = 'SELECT * FROM '."\"$table\"".' '.$where;
 
                 $this->pdo->request($request, $arguments);
-                $res = $this->pdo->fetchAll();
+                $res = $this->pdo->fetchAllObj();
 
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
 
@@ -44,38 +50,37 @@
                 $array_obj = [];
 
                 for($i = 0; $i <= $count; $i++){
-                    $array_obj[ $i ] = Hydrator::hydration($res[ $i ], 'Bundles\\'.$bundle.'Bundle\Entity\\'.$entity);
+                    $array_obj[ $i ] = Hydrator::hydration($res[ $i ], 'Bundles\\'.$this->bundle.'\Entity\\'.$entity);
                 }
 
                 return $array_obj;
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage(), false);
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
 
         /**
-         * @param string $bundle
          * @param string $entity
          * @param string $where
          * @param array $arguments
          * @return object
          */
-        private function findOneBy($bundle, $entity, $where, $arguments){
+        private function findOneBy($entity, $where, $arguments){
             try{
                 $table = lcfirst($entity);
                 $request = 'SELECT * FROM '."\"$table\"".' '.$where;
 
                 $this->pdo->request($request, $arguments);
-                $res = $this->pdo->fetch();
+                $res = $this->pdo->fetchObj();
 
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
 
-                return Hydrator::hydration($res, 'Bundles\\'.$bundle.'Bundle\Entity\\'.$entity);
+                return Hydrator::hydration($res, 'Bundles\\'.$this->bundle.'\Entity\\'.$entity);
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage(), false);
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -86,7 +91,7 @@
          * @return array|object
          */
         public function __call($method, $arg){
-            list($bundle, $entity) = explode(':', $arg[0]);
+            $entity = $arg[0];
             array_shift($arg);
 
             if(substr($method, 0, 6) == 'findBy'){
@@ -99,7 +104,7 @@
                     $array_method[] = "\"$lc_method\"".' = ?';
                 }
 
-                return $this->findBy($bundle, $entity, 'WHERE '.implode(' AND ', $array_method), $arg);
+                return $this->findBy($entity, 'WHERE '.implode(' AND ', $array_method), $arg);
             }
             elseif(substr($method, 0, 9) == 'findOneBy'){
                 $method = str_replace('findOneBy', '', $method);
@@ -111,13 +116,13 @@
                     $array_method[] = "\"$lc_method\"".' = ?';
                 }
 
-                return $this->findOneBy($bundle, $entity, 'WHERE '.implode(' AND ', $array_method), $arg);
+                return $this->findOneBy($entity, 'WHERE '.implode(' AND ', $array_method), $arg);
             }
             elseif($method == 'find'){
-                return $this->findBy($bundle, $entity, "WHERE \"id\" = ?", $arg);
+                return $this->findBy($entity, "WHERE \"id\" = ?", $arg);
             }
             elseif($method == 'findOne'){
-                return $this->findOneBy($bundle, $entity, "WHERE \"id\" = ?", $arg);
+                return $this->findOneBy($entity, "WHERE \"id\" = ?", $arg);
             }
         }
     }
