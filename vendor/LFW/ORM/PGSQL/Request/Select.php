@@ -15,6 +15,11 @@
         /**
          * @var string
          */
+        private $entity = '';
+
+        /**
+         * @var string
+         */
         private $colSel = '*';
 
         /**
@@ -48,12 +53,18 @@
         private $offset = '';
 
         /**
+         * @var string
+         */
+        private $groupBy = '';
+
+        /**
          * Select constructor.
          * @param array $array
          */
         public function __construct($array){
             $table = $array['table'];
             $this->table = "\"$table\"";
+            $this->setEntity($table);
 
             if(!empty($array['order'])){
                 $this->order = 'ORDER BY '.$array['order'];
@@ -91,6 +102,15 @@
         }
 
         /**
+         * @param string $col
+         * @param string $having
+         */
+        public function setGroupBy($col, $having = ''){
+            $this->groupBy = 'GROUP BY '.$col;
+            $this->groupBy .= ($having == '') ? '' : ' HAVING '.$having;
+        }
+
+        /**
          * @param array $exec
          */
         public function setExecute($exec = []){
@@ -111,7 +131,7 @@
          */
         public function getRequest(){
             if(!empty($this->table) && !empty($this->colSel)){
-                return 'SELECT '.$this->colSel.' FROM '.$this->table.' '.$this->where.' '.$this->order.' '.$this->limit.' '.$this->offset;
+                return 'SELECT '.$this->colSel.' FROM '.$this->table.' '.$this->where.' '.$this->groupBy.' '.$this->order.' '.$this->limit.' '.$this->offset;
             }
         }
 
@@ -133,7 +153,13 @@
          * @return string
          */
         public function getEntity(){
-            $table = str_replace('"', '', $this->table);
-            return ucfirst($table);
+            return $this->entity;
+        }
+
+        /**
+         * @param string $table
+         */
+        public function setEntity($table){
+            $this->entity = ucfirst($table);
         }
     }

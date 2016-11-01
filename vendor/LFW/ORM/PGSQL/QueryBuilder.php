@@ -14,25 +14,25 @@
         /**
          * @var PDO
          */
-        protected static $conn;
+        protected $conn;
 
         /**
          * QueryBuilder constructor.
          * @param PDO $conn
          */
         public function __construct(PDO $conn){
-            self::$conn = $conn;
+            $this->conn = $conn;
         }
 
         /**
          * @param RequestInterface $request
          * @return int
          */
-        public static function insert(RequestInterface $request){
+        public function insert(RequestInterface $request){
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
-                self::$conn->request($request->getRequest(), $request->getExecute());
-                return self::$conn->lastInsertId(str_replace('"', '', $request->getTable()).'_id_seq');
+                $this->conn->request($request->getRequest(), $request->getExecute());
+                return $this->conn->lastInsertId(str_replace('"', '', $request->getTable()).'_id_seq');
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());
@@ -45,15 +45,13 @@
          * @param string $bundle
          * @return object
          */
-        public static function selectOne(RequestInterface $select, $bundle){
+        public function selectOne(RequestInterface $select, $bundle){
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
-                $ent = 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity();
 
-                self::$conn->request($select->getRequest(), $select->getExecute());
-                $res = self::$conn->fetchObj();
-
-                return self::hydration($res, $ent);
+                $this->conn->request($select->getRequest(), $select->getExecute());
+                $res = $this->conn->fetchObj();
+                return $this->hydration($res, 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity());
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());
@@ -66,19 +64,18 @@
          * @param string $bundle
          * @return array
          */
-        public static function selectMany(RequestInterface $select, $bundle){
+        public function selectMany(RequestInterface $select, $bundle){
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
-                $ent = 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity();
 
-                self::$conn->request($select->getRequest(), $select->getExecute());
-                $res = self::$conn->fetchAllObj();
+                $this->conn->request($select->getRequest(), $select->getExecute());
+                $res = $this->conn->fetchAllObj();
 
                 $count = count($res) - 1;
                 $array_obj = [];
 
                 for($i = 0; $i <= $count; $i++){
-                    $array_obj[ $i ] = self::hydration($res[ $i ], $ent);
+                    $array_obj[ $i ] = $this->hydration($res[ $i ], 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity());
                 }
 
                 return $array_obj;
@@ -92,9 +89,9 @@
         /**
          * @param RequestInterface $request
          */
-        public static function delete(RequestInterface $request){
+        public function delete(RequestInterface $request){
             try{
-                self::$conn->request($request->getRequest(), $request->getExecute());
+                $this->conn->request($request->getRequest(), $request->getExecute());
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
             }
             catch(\Exception $e){
@@ -106,9 +103,9 @@
         /**
          * @param RequestInterface $request
          */
-        public static function update(RequestInterface $request){
+        public function update(RequestInterface $request){
             try{
-                self::$conn->request($request->getRequest(), $request->getExecute());
+                $this->conn->request($request->getRequest(), $request->getExecute());
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
             }
             catch(\Exception $e){
@@ -121,11 +118,43 @@
          * @param RequestInterface $request
          * @return int
          */
-        public static function count(RequestInterface $request){
+        public function count(RequestInterface $request){
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
-                self::$conn->request($request->getRequest(), $request->getExecute());
-                return self::$conn->rowCount();
+                $this->conn->request($request->getRequest(), $request->getExecute());
+                return $this->conn->rowCount();
+            }
+            catch(\Exception $e){
+                new CreateErrorLog($e->getMessage());
+                die('Il y a eu une erreur.');
+            }
+        }
+
+        /**
+         * @param Custom $request
+         * @return array
+         */
+        public function custom(RequestInterface $request){
+            try{
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
+                $this->conn->request($request->getRequest(), $request->getExecute());
+                return $this->conn->fetchAssoc();
+            }
+            catch(\Exception $e){
+                new CreateErrorLog($e->getMessage());
+                die('Il y a eu une erreur.');
+            }
+        }
+
+        /**
+         * @param Custom $request
+         * @return array
+         */
+        public function customMany(RequestInterface $request){
+            try{
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
+                $this->conn->request($request->getRequest(), $request->getExecute());
+                return $this->conn->fetchAllAssoc();
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());
