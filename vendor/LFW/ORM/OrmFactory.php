@@ -55,7 +55,7 @@
          * @return object
          */
         public function getCounter(){
-            $namespace = 'LFW\\ORM\\'.$this->system.'\Counter';
+            $namespace = 'LFW\ORM\\'.$this->system.'\Counter';
             return new $namespace($this->connexion);
         }
 
