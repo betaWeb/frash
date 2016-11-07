@@ -38,7 +38,7 @@
             $lien = '';
 
             $gets->set('uri', $url);
-            $gets->set('yaml', $conf);
+            $gets->set('cache_twig', $conf['cache']['TWIG']);
 
             if('/'.$path[0] == $conf['prefix'] && !empty($path[0])){
                 if(in_array($path[1], $conf['traduction']['available'])){
