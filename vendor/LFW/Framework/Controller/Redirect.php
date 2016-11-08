@@ -10,11 +10,6 @@
         /**
          * @var array
          */
-        private $yaml = [];
-
-        /**
-         * @var array
-         */
         private $nurl = [];
 
         /**
@@ -22,10 +17,7 @@
          * @param Dic $dic
          */
         public function __construct(Dic $dic){
-            $gets = $dic->open('get');
-
-            $this->yaml = $gets->get('yaml');
-            $this->nurl = explode('/', $gets->get('uri'));
+            $this->nurl = explode('/', $dic->open('get')->get('uri'));
         }
 
         /**
@@ -33,11 +25,13 @@
          * @return bool
          */
         public function route($url){
-            if('/'.$this->nurl[0] == $this->yaml['prefix'] && $this->yaml['prefix'] != '/'){
-                $redirect = (in_array($this->nurl[1], $this->yaml['traduction']['available'])) ? $this->nurl[0].'/'.$this->nurl[1] : $this->nurl[0];
+            $json = json_decode(file_get_contents('Configuration/config.json'), true);
+            
+            if('/'.$this->nurl[0] == $json['prefix'] && $json['prefix'] != '/'){
+                $redirect = (in_array($this->nurl[1], $json['traduction']['available'])) ? $this->nurl[0].'/'.$this->nurl[1] : $this->nurl[0];
             }
             else{
-                $redirect = (in_array($this->nurl[0], $this->yaml['traduction']['available'])) ? $this->nurl[0] : '';
+                $redirect = (in_array($this->nurl[0], $json['traduction']['available'])) ? $this->nurl[0] : '';
             }
 
             header('Location:/'.$redirect.'/'.$url);
