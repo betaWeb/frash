@@ -116,7 +116,7 @@
 
 		private function importBottomBar(){
 			if($this->env == 'local'){
-				return str_replace('</body>', '<div id="tpl_bottom_bar">Bottom bar</div>'."\n".'    </body>', $this->tpl);
+				$this->tpl = str_replace('</body>', '<div id="tpl_bottom_bar">Bottom bar</div>'."\n".'    </body>', $this->tpl);
 			}
 		}
 
