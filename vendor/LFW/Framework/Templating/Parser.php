@@ -53,7 +53,7 @@
 
 		public function parse(){
 			$this->removeComment();
-			$this->importParent();
+			$this->parseParent();
 			$this->importRessourcesBundle();
 			$this->importRoutes();
 			$this->importTraduction();
@@ -77,31 +77,36 @@
 			$mapper = 0;
 
 		    foreach($res_split as $key => $tag){
-		    	if(preg_match($matches['escape'], $tag)){
-		    		$escape++;
-		    	}
-		    	elseif(preg_match($matches['end_escape'], $tag)){
-		    		$escape--;
-		    	}
-		    	elseif($escape == 0){
-		    		if(preg_match($matches['parts'], $tag)){
-			    		$level_part++;
-			    		$parts[] = [ 'name' => $res_split[ $key + 1 ], 'statut' => 'open' ];
-			    	}
-			    	elseif(preg_match($matches['parent'], $tag)){
-			    		$name = $parts[ count($parts) - 1 ]['name'];
-			    	}
-			    	elseif(preg_match($matches['end_parts'], $tag)){
-			    		$level_part--;
-			    		$parts[ count($parts) - 1 ]['statut'] = 'close';
-			    	}
-			    	elseif(preg_match($matches['set_var'], $tag)){
-			    		$this->params[$res_split[ $key + 1 ]] = $res_split[ $key + 2 ];
-			    		$this->tpl = str_replace($res_split[ $key ], '', $this->tpl);
-			    	}
-			    	elseif(preg_match($matches['show_var'], $tag)){
-			    		$this->tpl = str_replace($res_split[ $key ], $this->params[$res_split[ $key + 1 ]], $this->tpl);
-			    	}
+		    	switch(true){
+		    		case (preg_match($matches['escape'], $tag)):
+		    			$escape++;
+		    			break;
+		    		case (preg_match($matches['end_escape'], $tag)):
+		    			$escape--;
+		    			break;
+		    		case ($escape == 0):
+		    			switch(true){
+		    				case (preg_match($matches['parts'], $tag)):
+		    					$level_part++;
+			    				$parts[] = [ 'name' => $res_split[ $key + 1 ], 'statut' => 'open' ];
+		    					break;
+		    				case (preg_match($matches['parent'], $tag)):
+		    					$name = $parts[ count($parts) - 1 ]['name'];
+		    					break;
+		    				case (preg_match($matches['end_parts'], $tag)):
+		    					$level_part--;
+			    				$parts[ count($parts) - 1 ]['statut'] = 'close';
+			    				break;
+			    			case (preg_match($matches['set_var'], $tag)):
+			    				$this->params[$res_split[ $key + 1 ]] = $res_split[ $key + 2 ];
+			    				$this->tpl = str_replace($res_split[ $key ], '', $this->tpl);
+			    				break;
+			    			case (preg_match($matches['show_var'], $tag)):
+			    				$this->tpl = str_replace($res_split[ $key ], $this->params[$res_split[ $key + 1 ]], $this->tpl);
+			    				break;
+		    			}
+
+		    			break;
 		    	}
 		    }
 
@@ -113,13 +118,6 @@
 			if($this->env == 'local'){
 				return str_replace('</body>', '<div id="tpl_bottom_bar">Bottom bar</div>'."\n".'    </body>', $this->tpl);
 			}
-		}
-
-		private function importParent(){
-			preg_match('/\[extend\](.*)\[\/extend\]/s', $this->tpl, $match);
-			list($bundle, $file) = explode('::', $match[1]);
-			$this->parent = file_get_contents('Bundles/'.$bundle.'/Views/'.$file);
-			$this->tpl = str_replace($match[0], '', $this->tpl);
 		}
 
 		private function importRessourcesBundle(){
@@ -156,6 +154,13 @@
 			foreach($matches[1] as $trad){
 				$this->tpl = str_replace('[traduction '.$trad.']', $tr->show($trad), $this->tpl);
 			}
+		}
+
+		private function parseParent(){
+			preg_match('/\[extend\](.*)\[\/extend\]/s', $this->tpl, $match);
+			list($bundle, $file) = explode('::', $match[1]);
+			$this->parent = file_get_contents('Bundles/'.$bundle.'/Views/'.$file);
+			$this->tpl = str_replace($match[0], '', $this->tpl);
 		}
 
 		private function removeComment(){
