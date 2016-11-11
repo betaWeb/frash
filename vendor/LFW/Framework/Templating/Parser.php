@@ -1,9 +1,9 @@
 <?php
 	namespace LFW\Framework\Templating;
 	use LFW\Framework\Templating\Extensions\RemoveComment;
-	use LFW\Framework\Templating\Extensions\Import\ImportRessourcesBundle;
 	use LFW\Framework\Templating\Parsing\ParseWithExtend;
 	use LFW\Framework\Templating\Parsing\ParseWithoutExtend;
+	use LFW\Framework\Templating\Extensions\Import\ImportRessourcesBundle;
 
 	class Parser{
 		private $comment = [];
@@ -19,9 +19,9 @@
 			'end_foreach' => '/\[\/foreach\]/',
 			'end_mapper' => '/\[\/mapper\]/',
 			'end_parts' => '/\[\/part (\w+)\]/',
-			'for_index' => '/\[for_index (\w+)\]/', // for(i; 0...10)
-			'for_simple' => '/\[for_simple (\w+)\]/', // for(i = 0; i <= 10; i++)
-			'foreach' => '/\[foreach (\w+)\]/',
+			'for_index' => '/\[for_index (\w+)\]/', // [for_index i -> 0...10]
+			'for_simple' => '/\[for_simple (\w+)\]/', // [for_simple i = 0; i <= 10; i++]
+			'foreach' => '/\[foreach (.*) :: (.*), (.*)\]/', // [foreach array :: key, value]
 			//'include' => '/\[include (\w+)\]/', // include('bundle', 'file.html')
 			'mapper' => '/\[map (\w+)\]/',
 			'parent' => '/\[parent this\]/',
