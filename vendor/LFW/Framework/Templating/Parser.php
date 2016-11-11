@@ -40,8 +40,6 @@
 		private $nurl = [];
 		private $params = [];
 
-		private $with_extends = 0;
-
 		public function __construct($file, $list){
 			$this->tpl = file_get_contents($file);
 
