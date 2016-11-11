@@ -24,6 +24,6 @@
             }
 
             $parser = new Parser('Bundles/'.$this->bundle.'/Views/'.$this->file, $this->list);
-            echo $parser->parse();
+            $parser->parse();
 		}
 	}
