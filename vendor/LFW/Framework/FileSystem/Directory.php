@@ -7,7 +7,7 @@
 		}
 
 		public static function exist($path){
-			if(file_exists($path){
+			if(file_exists($path)){
                 return true;
             }
             else{
