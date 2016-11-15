@@ -11,6 +11,6 @@
   "router": "LFW.Framework.Routing.Router",
   "session": "LFW.Framework.Globals.Session",
   "trad": "LFW.Framework.Controller.TraductionFactory",
-  "view": "LFW.Framework.Controller.View",
-  "view2": "LFW.Framework.Controller.Templating"
+  "twig": "LFW.Framework.Controller.View",
+  "tel": "LFW.Framework.Controller.Templating"
 }
