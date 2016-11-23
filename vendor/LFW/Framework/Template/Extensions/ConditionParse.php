@@ -18,7 +18,7 @@
 
 			$count = count($condition) - 1;
 			for($i = 0; $i <= $count; $i++){
-				if($condition[ $i ]['type'] != 'end'){
+				if($condition[ $i ]['type'] != 'end' && $condition[ $i ]['type'] != 'else'){
 					if($condition[ $i + 1 ]['type'] == 'end'){
 						preg_match('/\['.$condition[ $i ]['condition'].'\](.*)\[\/condition\]/Us', $tpl, $value_cond);
 					}
@@ -37,18 +37,27 @@
 					if($split_cond[4] == '!empty'){
 						$treatment .= $split_cond[1].'(!empty($this->params'.$this->dic_t->load('FormatVar')->parse($split_cond[2]).')){'."\n";
 						$treatment .= '				return \''.trim($value_cond[1]).'\';'."\n";
-						$treatment .= '			}'."\n\n";
+						$treatment .= '			}'."\n";
 					}
 					elseif($split_cond[4] == 'empty'){
 						$treatment .= $split_cond[1].'(empty($this->params'.$this->dic_t->load('FormatVar')->parse($split_cond[2]).')){'."\n";
 						$treatment .= '				return \''.trim($value_cond[1]).'\';'."\n";
-						$treatment .= '			}'."\n\n";
+						$treatment .= '			}'."\n";
 					}
+				}
+				elseif($condition[ $i ]['type'] == 'else'){
+					preg_match('/\[else\](.*)\[\/condition\]/Us', $tpl, $value_cond);
 
-					$treatment .= '			return \'\';';
+					$implode[] = '[else]';
+					$implode[] = $value_cond[1];
+
+					$treatment .= 'else{'."\n";
+					$treatment .= '				return \''.trim($value_cond[1]).'\';'."\n";
+					$treatment .= '			}'."\n";
 				}
 			}
 
+			$treatment .= "\n".'			return \'\';';
 			$implode[] = '[/condition]';
 
 			$code = '		public function condition'.md5($name_condition).'(){'."\n";
