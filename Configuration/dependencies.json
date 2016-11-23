@@ -6,6 +6,7 @@
   "get": "LFW.Framework.Globals.Get",
   "getUrl": "LFW.Framework.Controller.GetUrl",
   "mail": "LFW.Framework.Mail.Mailer",
+  "microtime": "LFW.Framework.Microtime",
   "orm": "LFW.ORM.OrmFactory",
   "redirect": "LFW.Framework.Controller.Redirect",
   "router": "LFW.Framework.Routing.Router",

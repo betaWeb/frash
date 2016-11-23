@@ -44,7 +44,7 @@
 			file_put_contents('vendor/LFW/Cache/Templating/'.$this->name_class.'.php', $this->class_cache);
 
 			$path_class = 'LFW\Cache\Templating\\'.$this->name_class;
-			$tpl_class = new $path_class($this->dic_t, $this->params, $this->env);
+			$tpl_class = new $path_class($this->dic, $this->dic_t, $this->params, $this->env);
 			echo $tpl_class->display();
 		}
 

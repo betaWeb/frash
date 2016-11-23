@@ -11,11 +11,11 @@
 			$class_cache .= '		private $bott_bar = \'\';'."\n";
 			$class_cache .= '		private $dic_t;'."\n";
 			$class_cache .= '		private $params = [];'."\n\n";
-			$class_cache .= '		public function __construct(DependTemplEngine $dic_t, $params = [], $env){'."\n";
+			$class_cache .= '		public function __construct($dic, DependTemplEngine $dic_t, $params = [], $env){'."\n";
 			$class_cache .= '			$this->dic_t = $dic_t;'."\n";
 			$class_cache .= '			$this->params = $params;'."\n\n";
 			$class_cache .= '			if($env == \'local\'){'."\n";
-			$class_cache .= '				$this->bott_bar = new ImportBottomBar($this->dic_t);'."\n";
+			$class_cache .= '				$this->bott_bar = new ImportBottomBar($dic, $this->dic_t);'."\n";
 			$class_cache .= '			}'."\n";
 			$class_cache .= '		}'."\n\n";
 
