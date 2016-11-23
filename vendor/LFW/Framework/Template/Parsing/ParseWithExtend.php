@@ -71,7 +71,7 @@
 							case preg_match($this->parsing['call'], $tag[0]):
 								break;
 							case preg_match($this->parsing['else'], $tag[0]):
-								$condition[ $level_condition ][] = [ 'type' => 'else', 'condition' => '' ];
+								$condition[ $level_condition ][] = [ 'type' => 'else', 'condition' => 'else' ];
 								break;
 							case preg_match($this->parsing['elseif'], $tag[0]):
 								$condition[ $level_condition ][] = [ 'type' => 'elseif', 'condition' => $match_all[ $key ][2] ];
@@ -100,8 +100,6 @@
 								break;
 							case preg_match($this->parsing['end_func'], $tag[0]):
 								break;
-							case preg_match($this->parsing['end_mapper'], $tag[0]):
-								break;
 							case preg_match($this->parsing['end_parts'], $tag[0]):
 								$name = $parts[ $level_part ]['name'];
 								preg_match('/\[part '.$name.'\](.*)\[\/part '.$name.'\]/Us', $this->tpl, $part_child);
@@ -128,8 +126,6 @@
 								$condition[ $level_condition ][] = [ 'type' => 'if', 'condition' => $match_all[ $key ][2] ];
 								break;
 							case preg_match($this->parsing['include'], $tag[0]):
-								break;
-							case preg_match($this->parsing['mapper'], $tag[0]):
 								break;
 							case preg_match($this->parsing['parent'], $tag[0]):
 								preg_match('/\[part '.$match_all[ $key ][4].'\](.*)\[\/part '.$match_all[ $key ][4].'\]/Us', $this->class_cache, $match);
