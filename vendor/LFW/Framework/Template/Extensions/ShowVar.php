@@ -5,7 +5,7 @@
 		private $params = [];
 
 		public function __construct($dic_t, $params){
-			$this->params = $params;
+			$this->params = $params['params'];
 		}
 
 		public function parse($variable){
@@ -17,7 +17,7 @@
 
 				foreach($expl as $k => $v){
 					if($k == 0){
-						$array = (!empty($this->params['params'][ $v ])) ? $this->params['params'][ $v ] : [];
+						$array = (!empty($this->params[ $v ])) ? $this->params[ $v ] : [];
 						$param = '[\''.$v.'\']';
 					}
 					else{
@@ -38,9 +38,9 @@
 				}
 			}
 			else{
-				if(gettype($this->params['params'][ $variable ]) == 'object'){}
-				elseif(gettype($this->params['params'][ $variable ]) == 'array'){
-					$param = str_replace("'", "\'", $this->params['params'][ $variable ]);
+				if(gettype($this->params[ $variable ]) == 'object'){}
+				else{
+					$param = '[\''.$variable.'\']';
 				}
 			}
 
