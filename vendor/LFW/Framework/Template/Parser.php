@@ -1,20 +1,56 @@
 <?php
 	namespace LFW\Framework\Template;
+    use LFW\Framework\DIC\Dic;
 	use LFW\Framework\Template\Cache\CreateClassCache;
-	use LFW\Framework\Template\Cache\ImportBottomBar;
 	use LFW\Framework\Template\Parsing\ParseWithExtend;
 
+    /**
+     * Class Parser
+     * @package LFW\Framework\Template
+     */
 	class Parser{
+        /**
+         * @var Dic
+         */
 		private $dic;
+
+        /**
+         * @var DependTemplEngine
+         */
 		private $dic_t;
+
+        /**
+         * @var string
+         */
 		private $env = '';
+
+        /**
+         * @var array
+         */
 		private $params = [];
 
+        /**
+         * @var string
+         */
 		private $class_cache = '';
+
+        /**
+         * @var string
+         */
 		private $name_class = '';
+
+        /**
+         * @var mixed|string
+         */
 		private $tpl = '';
 
-		public function __construct($path, $params, $dic){
+        /**
+         * Parser constructor.
+         * @param string $path
+         * @param array $params
+         * @param Dic $dic
+         */
+		public function __construct($path, $params, Dic $dic){
 			$this->dic = $dic;
 			$this->env = $this->dic->open('get')->get('env');
 			$this->params = $params;

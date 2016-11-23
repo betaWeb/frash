@@ -1,8 +1,18 @@
 <?php
 	namespace LFW\Framework\Template\Extensions;
 
+    /**
+     * Class Part
+     * @package LFW\Framework\Template\Extensions
+     */
 	class Part{
-		public function parse($part, $parent, $name, $incl_parent){
+        /**
+         * @param string $part
+         * @param string $name
+         * @param array $incl_parent
+         * @return string
+         */
+		public function parse($part, $name, $incl_parent){
 			preg_match('/\[parent (\w+)\]/', $part, $name_parent);
 			
 			if(!empty($name_parent[1])){

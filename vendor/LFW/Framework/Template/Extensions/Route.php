@@ -1,15 +1,36 @@
 <?php
 	namespace LFW\Framework\Template\Extensions;
+    use LFW\Framework\Template\DependTemplEngine;
 
+    /**
+     * Class Route
+     * @package LFW\Framework\Template\Extensions
+     */
 	class Route{
+        /**
+         * @var DependTemplEngine
+         */
         private $dic_t;
-        private $params;
 
-        public function __construct($dic_t, $params){
+        /**
+         * @var array
+         */
+        private $params = [];
+
+        /**
+         * Route constructor.
+         * @param DependTemplEngine $dic_t
+         * @param array $params
+         */
+        public function __construct(DependTemplEngine $dic_t, $params){
             $this->dic_t = $dic_t;
             $this->params = $params;
         }
 
+        /**
+         * @param string $route
+         * @return string
+         */
         public function parse($route){
             if(strstr($route, '/')){
                 $road = explode('/', $route);
@@ -49,6 +70,12 @@
             }
         }
 
+        /**
+         * @param string $route
+         * @param string $k
+         * @param string $v
+         * @return string
+         */
         public function parseForeach($route, $k, $v){
             if(strstr($route, '/')){
                 $road = explode('/', $route);

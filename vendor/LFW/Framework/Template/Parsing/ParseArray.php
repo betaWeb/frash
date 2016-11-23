@@ -1,7 +1,14 @@
 <?php
 	namespace LFW\Framework\Template\Parsing;
 
+    /**
+     * Class ParseArray
+     * @package LFW\Framework\Template\Parsing
+     */
 	class ParseArray{
+        /**
+         * @var array
+         */
 		protected $parsing = [
 			'bundle' => '/\[bundle (.*?)\]/',
 			'call' => '/\[call (\w+)\]/', // Call route to execute action in view

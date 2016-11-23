@@ -1,16 +1,37 @@
 <?php
 	namespace LFW\Framework\Template\Extensions;
-	use LFW\Framework\Template\Parsing\ParseCondition;
+    use LFW\Framework\Template\DependTemplEngine;
 
+    /**
+     * Class ConditionParse
+     * @package LFW\Framework\Template\Extensions
+     */
 	class ConditionParse{
+        /**
+         * @var DependTemplEngine
+         */
 		private $dic_t;
-		private $params;
 
-		public function __construct($dic_t, $params){
+        /**
+         * @var array
+         */
+		private $params = [];
+
+        /**
+         * ConditionParse constructor.
+         * @param DependTemplEngine $dic_t
+         * @param array $params
+         */
+		public function __construct(DependTemplEngine $dic_t, $params){
 			$this->dic_t = $dic_t;
 			$this->params = $params;
 		}
 
+        /**
+         * @param array $condition
+         * @param string $tpl
+         * @return array
+         */
 		public function parse($condition, $tpl){
 			$treatment = '';
 			$name_condition = $condition[0]['condition'];

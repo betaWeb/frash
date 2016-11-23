@@ -1,13 +1,30 @@
 <?php
 	namespace LFW\Framework\Template\Extensions;
+    use LFW\Framework\Template\DependTemplEngine;
 
+    /**
+     * Class ShowVar
+     * @package LFW\Framework\Template\Extensions
+     */
 	class ShowVar{
+        /**
+         * @var array
+         */
 		private $params = [];
 
-		public function __construct($dic_t, $params){
+        /**
+         * ShowVar constructor.
+         * @param DependTemplEngine $dic_t
+         * @param array $params
+         */
+		public function __construct(DependTemplEngine $dic_t, $params){
 			$this->params = $params['params'];
 		}
 
+        /**
+         * @param string $variable
+         * @return string
+         */
 		public function parse($variable){
 			$array = [];
 			$param = '';
@@ -47,6 +64,10 @@
 			return '\'.$this->params'.$param.'.\'';
 		}
 
+        /**
+         * @param string $variable
+         * @return string
+         */
 		public function parseCondition($variable){
 			$param = '';
 
@@ -78,6 +99,11 @@
 			return $param;
 		}
 
+        /**
+         * @param string $variable
+         * @param string $prefix
+         * @return string
+         */
 		public function parseForeach($variable, $prefix = ''){
 			$expl = explode('.', $variable);
 			$new_var = ($prefix == '') ? '$'.$expl[0] : '$'.$prefix;

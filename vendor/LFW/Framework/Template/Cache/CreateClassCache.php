@@ -1,7 +1,15 @@
 <?php
 	namespace LFW\Framework\Template\Cache;
 
+    /**
+     * Class CreateClassCache
+     * @package LFW\Framework\Template\Cache
+     */
 	class CreateClassCache{
+        /**
+         * @param string $name_class
+         * @return string
+         */
 		public static function create($name_class){
 			$class_cache = '<?php'."\n";
 			$class_cache .= '	namespace LFW\Cache\Templating;'."\n";
@@ -22,6 +30,9 @@
 			return $class_cache;
 		}
 
+        /**
+         * @return string
+         */
 		public static function endClass(){
 			return '	}';
 		}

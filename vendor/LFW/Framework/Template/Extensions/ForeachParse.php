@@ -3,15 +3,36 @@
 	use LFW\Framework\Template\DependTemplEngine;
 	use LFW\Framework\Template\Parsing\ParseArray;
 
+    /**
+     * Class ForeachParse
+     * @package LFW\Framework\Template\Extensions
+     */
 	class ForeachParse extends ParseArray{
+        /**
+         * @var DependTemplEngine
+         */
 		private $dic_t;
-		private $params;
 
-		public function __construct($dic_t, $params){
+        /**
+         * @var array
+         */
+		private $params = [];
+
+        /**
+         * ForeachParse constructor.
+         * @param DependTemplEngine $dic_t
+         * @param array $params
+         */
+		public function __construct(DependTemplEngine $dic_t, $params){
 			$this->dic_t = $dic_t;
 			$this->params = $params;
 		}
 
+        /**
+         * @param string $foreach
+         * @param string $value
+         * @return string
+         */
 		public function parse($foreach, $value){
 			$foreach_origine = $foreach;
 
@@ -19,7 +40,6 @@
 			list($k, $v) = explode(', ', $p);
 			$treatment = 'foreach($this->params[\''.$array.'\'] as $'.$k.' => $'.$v.'){'."\n";
 
-			$list_methods = [];
 			$level_escape = 0;
 
 			preg_match_all('/\[(\/?)(([a-zA-Z]*)?\s?([a-zA-Z\/@_!=:,\.\s]*))\]/', $value, $match_all, PREG_SET_ORDER);

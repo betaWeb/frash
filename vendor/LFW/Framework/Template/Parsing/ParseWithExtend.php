@@ -1,21 +1,65 @@
 <?php
 	namespace LFW\Framework\Template\Parsing;
+    use LFW\Framework\DIC\Dic;
 	use LFW\Framework\Template\DependTemplEngine;
 	use LFW\Framework\Template\Parsing\ParseArray;
 	use LFW\Framework\Template\Parsing\ParseParent;
 	use LFW\Framework\Template\Parsing\ParseTplParent;
 
+    /**
+     * Class ParseWithExtend
+     * @package LFW\Framework\Template\Parsing
+     */
 	class ParseWithExtend extends ParseArray{
+        /**
+         * @var string
+         */
 		private $bundle = '';
+
+        /**
+         * @var string
+         */
 		private $class_cache = '';
+
+        /**
+         * @var array
+         */
 		private $params = [];
+
+        /**
+         * @var array|string
+         */
 		private $parent = [];
+
+        /**
+         * @var string
+         */
 		private $tpl = '';
+
+        /**
+         * @var array
+         */
 		private $incl_parent = [];
+
+        /**
+         * @var object
+         */
 		private $trad;
+
+        /**
+         * @var DependTemplEngine
+         */
 		private $dic_t;
 
-		public function __construct($tpl, $extend, $dic, $params, $dic_t){
+        /**
+         * ParseWithExtend constructor.
+         * @param string $tpl
+         * @param string $extend
+         * @param Dic $dic
+         * @param array $params
+         * @param DependTemplEngine $dic_t
+         */
+		public function __construct($tpl, $extend, Dic $dic, $params, DependTemplEngine $dic_t){
 			$gets = $dic->open('get');
 			$this->bundle = $gets->get('bundle');
 			$this->dic_t = $dic_t;
@@ -32,6 +76,9 @@
 			$this->class_cache .= '		}'."\n\n";
 		}
 
+        /**
+         * @return string
+         */
 		public function parse(){
 			$level_condition = 0;
 			$level_escape = 0;
@@ -56,7 +103,7 @@
 						break;
 					case (preg_match($this->parsing['end_escape'], $tag[0])):
 						preg_match('/\[escape\](.*)\[\/escape\]/Us', $this->tpl, $match);
-						$class_cache .= $this->dic_t->load('Escape')->parse($match);
+						$this->class_cache .= $this->dic_t->load('Escape')->parse($match);
 						$this->tpl = str_replace($match[0], '\'.$this->escape'.md5($match[1]).'().\'', $this->tpl);
 						$level_escape--;
 						break;
@@ -106,7 +153,7 @@
 								preg_match('/\[part '.$name.'\](.*)\[\/part '.$name.'\]/Us', $this->class_cache, $part_parent);
 
 								$this->class_cache = str_replace($part_parent[0], '\'.$this->part'.ucfirst($name).'().\'', $this->class_cache);
-								$this->class_cache .= $this->dic_t->load('Part')->parse($part_child[1], $part_parent[1], $name, $this->incl_parent);
+								$this->class_cache .= $this->dic_t->load('Part')->parse($part_child[1], $name, $this->incl_parent);
 								$list_methods[] = '\'.$this->part'.ucfirst($name).'().\'';
 
 								$level_part--;
@@ -177,6 +224,10 @@
 			return $this->class_cache;
 		}
 
+        /**
+         * @param string $extend
+         * @return string
+         */
 		private function determinatePathExtend($extend){
 			if(strstr($extend, '::')){
 				list($bundle, $file) = explode('::', $extend);
