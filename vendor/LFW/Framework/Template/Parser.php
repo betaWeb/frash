@@ -86,7 +86,7 @@
 
 		private function importBottomBar(){
 			if($this->env == 'local'){
-				$this->class_cache = str_replace('</body>', '	\'.$this->bott_bar->parse().\''."\n".'	</body>', $this->class_cache);
+				//$this->class_cache = str_replace('</body>', '	\'.$this->bott_bar->parse().\''."\n".'	</body>', $this->class_cache);
 			}
 		}
 	}
