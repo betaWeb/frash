@@ -49,7 +49,7 @@
                 return new Exception('Template '.$this->file.' not found.');
             }
 
-            if(File::exist('vendor/LFW/Cache/Templating') === false){
+            if(Directory::exist('vendor/LFW/Cache/Templating') === false){
             	Directory::create('vendor/LFW/Cache/Templating', 0775);
 			}
 
