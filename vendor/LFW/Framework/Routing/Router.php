@@ -67,7 +67,8 @@
             $racine = 0;
             $routarr = json_decode(file_get_contents('Configuration/'.$conf['routing']['file'].'.json'), true);
 
-            if(empty($path[0]) && !empty($conf['racine']['path'])){
+            if($path[0][0].$path[0][1] == '__'){}
+            elseif(empty($path[0]) && !empty($conf['racine']['path'])){
                 $nb_expl = 1;
                 $lien = '/';
                 $route = $conf['racine']['path'];

@@ -52,11 +52,14 @@
             fwrite(STDOUT, 'Exceptions (Séparez par ;) : ');
             $except = trim(fgets(STDIN));
 
+            fwrite(STDOUT, 'Format HTML ou consultable depuis ce site ? (Réponses : HTML/site) ');
+            $format = trim(fgets(STDIN));
+
             $list = ListDirFiles::generation(getcwd());
             TreatmentList::setExcept($except);
             $new_list = TreatmentList::removeExcept($list);
 
-            TreatmentFiles::setOutput($output);
+            TreatmentFiles::setParams($output, $format);
             TreatmentFiles::generationClass($new_list);
             TreatmentFiles::defineClass();
         }
