@@ -7,74 +7,38 @@
      */
     class GenPass{
         /**
-         * @var int
-         */
-        private static $size;
-
-        /**
-         * @var bool
-         */
-        private static $number = false;
-
-        /**
-         * @var bool
-         */
-        private static $min = false;
-
-        /**
-         * @var bool
-         */
-        private static $maj = false;
-
-        /**
-         * @var bool
-         */
-        private static $otca = false;
-
-        /**
-         * GenPass constructor.
          * @param int $size
          * @param bool $number
          * @param bool $min
          * @param bool $maj
          * @param bool $otca
-         */
-        public function __construct($size, $number, $min, $maj, $otca){
-            self::$size = $size;
-            self::$number = $number;
-            self::$min = $min;
-            self::$maj = $maj;
-            self::$otca = $otca;
-        }
-
-        /**
          * @return string
          */
-        public static function getGenPass(){
+        public static function getGenPass($size, $number, $min, $maj, $otca){
             $caract = '';
             $poss = 0;
-            if(self::$number === true){
+            if($number === true){
                 $caract .= '123456789';
                 $poss += 9;
             }
 
-            if(self::$min === true){
+            if($min === true){
                 $caract .= 'abcdefghijklmnopqrstuvwxyz';
                 $poss += 26;
             }
 
-            if(self::$maj === true){
+            if($maj === true){
                 $caract .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
                 $poss += 26;
             }
 
-            if(self::$otca === true){
+            if($otca === true){
                 $caract .= '&#{([-_@)]=}+$§?';
                 $poss += 17;
             }
 
             $gener = '';
-            for($i = 0; $i <= self::$size; $i++){
+            for($i = 0; $i <= $size; $i++){
                 $rand = mt_rand(0, $poss - 1);
                 $gener .= $caract[ $rand ];
             }

@@ -59,7 +59,7 @@
 			}
 			else{
 				if(gettype($this->params[ $variable ]) == 'object'){}
-				elseif(gettype($this->params[ $variable ]) == 'array'){
+				else{
 					$param = '[\''.$variable.'\']';
 				}
 			}
