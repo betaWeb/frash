@@ -65,7 +65,7 @@
 		}
 
 		public function parse(){
-			preg_match('/\[extend\](.*)\[\/extend\]/s', $this->tpl, $extend);
+        	preg_match('/\[extend\](.*)\[\/extend\]/s', $this->tpl, $extend);
 
 			if(!empty($extend)){
 				$parse = new ParseWithExtend(str_replace($extend[0], '', $this->tpl), $extend, $this->dic, $this->params, $this->dic_t);
@@ -86,7 +86,7 @@
 
 		private function importBottomBar(){
 			if($this->env == 'local'){
-				//$this->class_cache = str_replace('</body>', '	\'.$this->bott_bar->parse().\''."\n".'	</body>', $this->class_cache);
+				$this->class_cache = str_replace('</body>', '	\'.$this->bott_bar->parse().\''."\n".'	</body>', $this->class_cache);
 			}
 		}
 	}

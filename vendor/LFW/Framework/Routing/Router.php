@@ -40,6 +40,7 @@
             $gets->set('uri', $url);
             $gets->set('cache_twig', $conf['cache']['TWIG']);
             $gets->set('env', $conf['env']);
+            $gets->set('prefix', $conf['prefix']);
 
             if('/'.$path[0] == $conf['prefix'] && !empty($path[0])){
                 if(in_array($path[1], $conf['traduction']['available'])){

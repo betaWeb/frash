@@ -19,6 +19,11 @@
 		private $dic_t;
 
         /**
+         * @var string
+         */
+        private $prefix = '';
+
+        /**
          * ImportBottomBar constructor.
          * @param Dic $dic
          * @param DependTemplEngine $dic_t
@@ -26,6 +31,7 @@
 		public function __construct(Dic $dic, DependTemplEngine $dic_t){
 			$dic->open('microtime')->setMicrotime('bottom_bar');
 			$this->dic = $dic;
+            $this->prefix = $this->dic->open('get')->get('prefix');
 			$this->dic_t = $dic_t;
 		}
 
@@ -35,8 +41,9 @@
 		public function parse(){
 			$microtime = $this->dic->open('microtime');
 
-			$code = '<div id="tpl_bottom_bar">'."\n";
-			$code .= '			'.$microtime->getTiming('start', 'bottom_bar')."\n";
+            $code = '<link rel="stylesheet" media="screen" type="text/css" href="'.$this->prefix.'/vendor/LFW/Framework/Template/Cache/bottom_bar.css">'."\n";
+			$code .= '<div id="tpl_bottom_bar">'."\n";
+			$code .= '			<div class="float">'.$microtime->getTiming('start', 'bottom_bar').'</div>'."\n";
 			$code .= '		</div>'."\n";
 
 			return $code;
