@@ -60,7 +60,7 @@
          * @param DependTemplEngine $dic_t
          */
 		public function __construct($tpl, $extend, Dic $dic, $params, DependTemplEngine $dic_t){
-			$gets = $dic->open('get');
+			$gets = $dic->load('get');
 			$this->bundle = $gets->get('bundle');
 			$this->dic_t = $dic_t;
 

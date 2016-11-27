@@ -29,9 +29,9 @@
          * @param DependTemplEngine $dic_t
          */
 		public function __construct(Dic $dic, DependTemplEngine $dic_t){
-			$dic->open('microtime')->setMicrotime('bottom_bar');
+			$dic->load('microtime')->setMicrotime('bottom_bar');
 			$this->dic = $dic;
-            $this->prefix = $this->dic->open('get')->get('prefix');
+            $this->prefix = $this->dic->load('get')->get('prefix');
 			$this->dic_t = $dic_t;
 		}
 
@@ -39,7 +39,7 @@
          * @return string
          */
 		public function parse(){
-			$microtime = $this->dic->open('microtime');
+			$microtime = $this->dic->load('microtime');
 
             $code = '<link rel="stylesheet" media="screen" type="text/css" href="'.$this->prefix.'/vendor/LFW/Framework/Template/Cache/bottom_bar.css">'."\n";
 			$code .= '<div id="tpl_bottom_bar">'."\n";

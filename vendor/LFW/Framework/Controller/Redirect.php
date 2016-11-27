@@ -17,7 +17,7 @@
          * @param Dic $dic
          */
         public function __construct(Dic $dic){
-            $this->nurl = explode('/', $dic->open('get')->get('uri'));
+            $this->nurl = explode('/', $dic->load('get')->get('uri'));
         }
 
         /**

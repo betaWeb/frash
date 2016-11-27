@@ -29,23 +29,16 @@
          * @return object
          */
         public function load($key, $param = ''){
-            if(array_key_exists($key, $this->dependencies)){
+            if(array_key_exists($key, $this->open)){
+                return $this->open[ $key ];
+            }
+            elseif(array_key_exists($key, $this->dependencies)){
                 $path = str_replace('.', '\\', $this->dependencies[ $key ]);
 
                 $class = new $path($this, $param);
                 $this->open[ $key ] = $class;
 
                 return $class;
-            }
-        }
-
-        /**
-         * @param string $key
-         * @return object
-         */
-        public function open($key){
-            if(array_key_exists($key, $this->open)){
-                return $this->open[ $key ];
             }
         }
     }

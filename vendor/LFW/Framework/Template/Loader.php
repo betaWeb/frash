@@ -38,7 +38,7 @@
          * @param Dic $dic
          */
 		public function __construct($file, $params, Dic $dic){
-			$this->bundle = $dic->open('get')->get('bundle');
+			$this->bundle = $dic->load('get')->get('bundle');
 			$this->dic = $dic;
 			$this->file = $file;
 			$this->params = $params;

@@ -28,7 +28,7 @@
          * @param Dic $dic
          */
         public function __construct(Dic $dic){
-            $gets = $dic->open('get');
+            $gets = $dic->load('get');
             $this->bundle = $gets->get('bundle');
             $this->nurl = explode('/', $gets->get('uri'));
         }

@@ -52,7 +52,9 @@
          */
 		public function __construct($path, $params, Dic $dic){
 			$this->dic = $dic;
-			$this->env = $this->dic->open('get')->get('env');
+
+			$gets = $this->dic->load('get');
+			$this->env = $gets->get('env');
 			$this->params = $params;
 			$this->tpl = str_replace("'", "\'", file_get_contents($path));
 			$this->name_class = 'TemplateOf'.md5($path);
@@ -60,7 +62,7 @@
 
 			$this->dic_t = new DependTemplEngine;
 			$this->dic_t->setParams('json', json_decode(file_get_contents('Configuration/config.json'), true));
-			$this->dic_t->setParams('nurl', explode('/', $dic->open('get')->get('uri')));
+			$this->dic_t->setParams('nurl', explode('/', $gets->get('uri')));
 			$this->dic_t->setParams('params', $this->params);
 		}
 
