@@ -209,7 +209,7 @@
 
 								break;
 							case preg_match($this->parsing['traduction'], $tag[0]):
-								$this->tpl = str_replace($match_all[ $key ][0], $this->trad->show($match_all[ $key ][4]), $this->tpl);
+								$this->tpl = str_replace($match_all[ $key ][0], str_replace('\'', "\'", $this->trad->show($match_all[ $key ][4])), $this->tpl);
 								break;
 						}
 
