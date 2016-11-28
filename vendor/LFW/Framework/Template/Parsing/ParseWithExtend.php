@@ -95,7 +95,7 @@
 
 			$pp = new ParseParent($this->trad, $this->bundle, $this->tpl, $this->dic_t);
 
-			preg_match_all('/\[(\/?)(([a-zA-Z]*)?\s?([a-zA-Z\/@_!=:",\.\s]*))\]/', $this->tpl, $match_all, PREG_SET_ORDER);
+			preg_match_all('/\[(\/?)(([a-zA-Z]*)?\s?([a-zA-Z0-9\/@_!=:",\.\s]*))\]/', $this->tpl, $match_all, PREG_SET_ORDER);
 			foreach($match_all as $key => $tag){
 				switch(true){
 					case (preg_match($this->parsing['escape'], $tag[0])):

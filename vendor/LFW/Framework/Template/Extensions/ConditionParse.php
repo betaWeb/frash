@@ -65,7 +65,7 @@
 						$treatment .= '				return \''.trim($value_cond[1]).'\';'."\n";
 						$treatment .= '			}'."\n";
 					}
-					elseif($split_cond[4][0] == '"'){
+					elseif($split_cond[4][0] == '"' || preg_match('/(\d)/', $split_cond[4])){
 						$treatment .= $split_cond[1].'($this->params'.$this->dic_t->load('FormatVar')->parse($split_cond[2]).' == '.$split_cond[4].'){'."\n";
 						$treatment .= '				return \''.trim($value_cond[1]).'\';'."\n";
 						$treatment .= '			}'."\n";
