@@ -1,6 +1,5 @@
 <?php
     namespace LFW\ORM;
-    use LFW\Framework\UpperCamelCase;
 
     /**
      * Class Hydrator
@@ -15,7 +14,7 @@
             $ent = new $entity;
 
             foreach($object as $col => $val){
-                $method = (strstr($col, '_')) ? 'set'.ucfirst(UpperCamelCase::treatment($col)) : 'set'.ucfirst($col);
+                $method = 'set'.ucfirst($col);
                 $ent->$method($val);
             }
 
