@@ -13,17 +13,15 @@
          * @return string
          */
 		public function parse($part, $name, $incl_parent){
-			preg_match('/\[parent (\w+)\]/', $part, $name_parent);
-			
-			if(!empty($name_parent[1])){
-				$child = str_replace('[parent '.$name_parent[1].']', $incl_parent[$name_parent[1]], $part);
-			}
-			else{
-				$child = $part;
+			preg_match_all('/\[parent (\w+)\]/', $part, $name_parent, PREG_SET_ORDER);
+			foreach($name_parent as $key => $tag){
+				if(!empty($tag[1])){
+					$part = str_replace('[parent '.$tag[1].']', $incl_parent[$tag[1]], $part);
+				}
 			}
 
 			$code = '		public function part'.ucfirst($name).'(){'."\n";
-			$code .= '			return \''.trim($child).'\';'."\n";
+			$code .= '			return \''.trim($part).'\';'."\n";
 			$code .= '		}'."\n\n";
 
 			return $code;
