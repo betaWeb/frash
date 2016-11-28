@@ -28,8 +28,14 @@
          * @param Dic $dic
          * @param string $bundle
          */
-        public function __construct(Dic $dic, $bundle){
-            $this->bundle = $bundle.'Bundle';
+        public function __construct(Dic $dic, $bundle = ''){
+            if($bundle == ''){
+                $this->bundle = $dic->load('get')->get('bundle');
+            }
+            else{
+                $this->bundle = $bundle.'Bundle';
+            }
+            
             $orm = new Orm($this->bundle);
             $this->connexion = $orm->getConnexion();
             $this->system = $orm->getSystem();
