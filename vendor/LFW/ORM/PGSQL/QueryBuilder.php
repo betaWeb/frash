@@ -12,6 +12,11 @@
      */
     class QueryBuilder extends Hydrator{
         /**
+         * @var string
+         */
+        protected $bundle = '';
+
+        /**
          * @var PDO
          */
         protected $conn;
@@ -20,7 +25,8 @@
          * QueryBuilder constructor.
          * @param PDO $conn
          */
-        public function __construct(PDO $conn){
+        public function __construct(PDO $conn, $bundle){
+            $this->bundle = $bundle;
             $this->conn = $conn;
         }
 
@@ -42,16 +48,15 @@
 
         /**
          * @param RequestInterface $select
-         * @param string $bundle
          * @return object
          */
-        public function selectOne(RequestInterface $select, $bundle){
+        public function selectOne(RequestInterface $select){
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
 
                 $this->conn->request($select->getRequest(), $select->getExecute());
                 $res = $this->conn->fetchObj();
-                return $this->hydration($res, 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity());
+                return $this->hydration($res, 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity());
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());
@@ -61,10 +66,9 @@
 
         /**
          * @param RequestInterface $select
-         * @param string $bundle
          * @return array
          */
-        public function selectMany(RequestInterface $select, $bundle){
+        public function selectMany(RequestInterface $select){
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
 
@@ -75,7 +79,7 @@
                 $array_obj = [];
 
                 for($i = 0; $i <= $count; $i++){
-                    $array_obj[ $i ] = $this->hydration($res[ $i ], 'Bundles\\'.$bundle.'\Entity\\'.$select->getEntity());
+                    $array_obj[ $i ] = $this->hydration($res[ $i ], 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity());
                 }
 
                 return $array_obj;
