@@ -43,7 +43,7 @@
 
             $code = '<link rel="stylesheet" media="screen" type="text/css" href="'.$this->prefix.'/vendor/LFW/Framework/Template/Cache/bottom_bar.css">'."\n";
 			$code .= '<div id="tpl_bottom_bar">'."\n";
-			$code .= '			<div class="float">'.$microtime->getTiming('start', 'bottom_bar').'</div>'."\n";
+			$code .= '			<div class="float time">Time : '.$microtime->getTiming('start', 'bottom_bar').'</div>'."\n";
 			$code .= '		</div>'."\n";
 
 			return $code;
