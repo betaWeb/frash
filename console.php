@@ -4,8 +4,9 @@
     use LFW\Console\Bundle\GenerateController;
     use LFW\Console\ORM\Addentity;
     use LFW\Console\ORM\Createdb;
+    use LFW\DocGen\GenerationDoc;
     use LFW\DocGen\ListDirFiles;
-    use LFW\DocGen\TreatmentFiles;
+    use LFW\DocGen\TreatmentClass;
     use LFW\DocGen\TreatmentList;
 
     if(count($argv) == 1 || $argv[1] == 'console:listcommand'){
@@ -18,10 +19,8 @@
     else{
         $expl = explode(':', $argv[1]);
 
-        if($argv[1] == 'ORM:createdb'){
-            if(!empty($argv[2])){
-                new Createdb($argv[2]);
-            }
+        if($argv[1] == 'ORM:createdb' && !empty($argv[2])){
+            new Createdb($argv[2]);
         }
 
         if($expl[0] == 'ORM' && $expl[1] == 'addentity' && !empty($expl[2]) && !empty($expl[3]) && !empty($argv[2])){
@@ -52,15 +51,11 @@
             fwrite(STDOUT, 'Exceptions (Séparez par ;) : ');
             $except = trim(fgets(STDIN));
 
-            fwrite(STDOUT, 'Format HTML ou consultable depuis ce site ? (Réponses : HTML/site) ');
-            $format = trim(fgets(STDIN));
-
             $list = ListDirFiles::generation(getcwd());
             TreatmentList::setExcept($except);
             $new_list = TreatmentList::removeExcept($list);
 
-            TreatmentFiles::setParams($output, $format);
             TreatmentFiles::generationClass($new_list);
-            TreatmentFiles::defineClass();
+            GenerationDoc::work(TreatmentFiles::getClass());
         }
     }
