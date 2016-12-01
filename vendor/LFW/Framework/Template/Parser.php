@@ -67,7 +67,7 @@
 		}
 
 		public function parse(){
-        	preg_match('/\[extend\](.*)\[\/extend\]/s', $this->tpl, $extend);
+        	preg_match('/\[extend\](.*)\[\/extend\]/', $this->tpl, $extend);
 
 			if(!empty($extend)){
 				$parse = new ParseWithExtend(str_replace($extend[0], '', $this->tpl), $extend, $this->dic, $this->params, $this->dic_t);

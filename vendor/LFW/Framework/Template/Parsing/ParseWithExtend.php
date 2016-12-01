@@ -248,6 +248,7 @@
 				$bundle = $this->bundle;
 			}
 
+
 			return 'Bundles/'.$bundle.'/Views/'.$file;
 		}
 
