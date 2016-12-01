@@ -52,6 +52,11 @@
 		private $dic_t;
 
         /**
+         * @var array
+         */
+		private $parts_in_escape = [];
+
+        /**
          * ParseWithExtend constructor.
          * @param string $tpl
          * @param string $extend
@@ -107,6 +112,27 @@
 						$this->tpl = str_replace($match[0], '\'.$this->escape'.md5($match[1]).'().\'', $this->tpl);
 						$level_escape--;
 						break;
+					case preg_match($this->parsing['end_parts'], $tag[0]):
+						$name = $parts[ $level_part ]['name'];
+
+						if($level_escape == 0){
+							preg_match('/\[part '.$name.'\](.*)\[\/part '.$name.'\]/Us', $this->tpl, $part_child);
+							preg_match('/\[part '.$name.'\](.*)\[\/part '.$name.'\]/Us', $this->class_cache, $part_parent);
+
+							$this->class_cache = str_replace($part_parent[0], '\'.$this->part'.ucfirst($name).'().\'', $this->class_cache);
+							$this->class_cache .= $this->dic_t->load('Part')->parse($part_child[1], $name, $this->incl_parent);
+							$list_methods[] = '\'.$this->part'.ucfirst($name).'().\'';
+						}
+						elseif($level_escape > 0){
+							$this->parts_in_escape[] = $name;
+						}
+
+						$level_part--;
+						break;
+					case preg_match($this->parsing['parts'], $tag[0]):
+						$level_part++;
+						$parts[ $level_part ] = [ 'name' => $match_all[ $key ][4], 'value' => '' ];
+						break;
 					case $level_escape == 0:
 						switch(true){
 							case preg_match($this->parsing['bundle'], $tag[0]):
@@ -147,17 +173,6 @@
 								break;
 							case preg_match($this->parsing['end_func'], $tag[0]):
 								break;
-							case preg_match($this->parsing['end_parts'], $tag[0]):
-								$name = $parts[ $level_part ]['name'];
-								preg_match('/\[part '.$name.'\](.*)\[\/part '.$name.'\]/Us', $this->tpl, $part_child);
-								preg_match('/\[part '.$name.'\](.*)\[\/part '.$name.'\]/Us', $this->class_cache, $part_parent);
-
-								$this->class_cache = str_replace($part_parent[0], '\'.$this->part'.ucfirst($name).'().\'', $this->class_cache);
-								$this->class_cache .= $this->dic_t->load('Part')->parse($part_child[1], $name, $this->incl_parent);
-								$list_methods[] = '\'.$this->part'.ucfirst($name).'().\'';
-
-								$level_part--;
-								break;
 							case preg_match($this->parsing['for_index'], $tag[0]):
 								break;
 							case preg_match($this->parsing['for_itvl'], $tag[0]):
@@ -182,10 +197,6 @@
 								$this->incl_parent[$match_all[ $key ][4]] = '\'.$this->parent'.ucfirst($match_all[ $key ][4]).'().\'';
 								$list_methods[] = '\'.$this->parent'.ucfirst($match_all[ $key ][4]).'().\'';
 
-								break;
-							case preg_match($this->parsing['parts'], $tag[0]):
-								$level_part++;
-								$parts[ $level_part ] = [ 'name' => $match_all[ $key ][4], 'value' => '' ];
 								break;
 							case preg_match($this->parsing['route'], $tag[0]):
 								if($level_foreach == 0 && $level_for_simple == 0 && $level_for_index == 0 && $level_for_itvl == 0){
@@ -241,6 +252,11 @@
 		}
 
 		private function removeUnuseParts(){
-			$this->class_cache = preg_replace('/\[part (\w+)\](.*)\[\/part (\w+)\]/Us', '', $this->class_cache);
+			preg_match_all('/\[part (\w+)\](.*)\[\/part (\w+)\]/Us', $this->class_cache, $unuse, PREG_SET_ORDER);
+			foreach($unuse as $k => $u){
+				if(!in_array($u[1], $this->parts_in_escape)){
+					$this->class_cache = str_replace($u[0], '', $this->class_cache);
+				}
+			}
 		}
 	}
