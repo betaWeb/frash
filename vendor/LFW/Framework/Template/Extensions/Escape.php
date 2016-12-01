@@ -12,7 +12,7 @@
          */
 		public function parse($escaping){
 			$code = '		private function escape'.md5($escaping[1]).'(){'."\n";
-			$code .= '			return \''.trim($escaping[1]).'\';'."\n";
+			$code .= '			return \''.trim(htmlentities($escaping[1])).'\';'."\n";
 			$code .= '		}'."\n\n";
 
 			return $code;
