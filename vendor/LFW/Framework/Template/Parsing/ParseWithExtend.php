@@ -56,6 +56,11 @@
          */
 		private $parts_in_escape = [];
 
+		/**
+		 * @var string
+		 */
+		private $display = '';
+
         /**
          * ParseWithExtend constructor.
          * @param string $tpl
@@ -76,9 +81,9 @@
 			$this->parent = file_get_contents($this->determinatePathExtend($extend[1]));
 			$this->tpl = $tpl;
 
-			$this->class_cache = '		public function display(){'."\n";
-			$this->class_cache .= '			return \''.$this->parent.'\';'."\n";
-			$this->class_cache .= '		}'."\n\n";
+			$this->display = '		public function display(){'."\n";
+			$this->display .= '			return \''.$this->parent.'\';'."\n";
+			$this->display .= '		}'."\n\n";
 		}
 
         /**
@@ -117,9 +122,9 @@
 
 						if($level_escape == 0){
 							preg_match('/\[part '.$name.'\](.*)\[\/part '.$name.'\]/Us', $this->tpl, $part_child);
-							preg_match('/\[part '.$name.'\](.*)\[\/part '.$name.'\]/Us', $this->class_cache, $part_parent);
+							preg_match('/\[part '.$name.'\](.*)\[\/part '.$name.'\]/Us', $this->display, $part_parent);
 
-							$this->class_cache = str_replace($part_parent[0], '\'.$this->part'.ucfirst($name).'().\'', $this->class_cache);
+							$this->display = str_replace($part_parent[0], '\'.$this->part'.ucfirst($name).'().\'', $this->display);
 							$this->class_cache .= $this->dic_t->load('Part')->parse($part_child[1], $name, $this->incl_parent);
 							$list_methods[] = '\'.$this->part'.ucfirst($name).'().\'';
 						}
@@ -228,10 +233,12 @@
 				}
 			}
 
-			$ptp = new ParseTplParent($this->trad, $this->bundle, $this->tpl, $this->class_cache, $this->dic_t);
-			$this->class_cache = $ptp->parse();
+			$ptp = new ParseTplParent($this->trad, $this->bundle, $this->display, $this->dic_t);
+			$this->display = $ptp->parse();
 
+			$this->class_cache .= $this->display;
 			$this->removeUnuseParts();
+
 			return $this->class_cache;
 		}
 
@@ -247,7 +254,6 @@
 				$file = $extend;
 				$bundle = $this->bundle;
 			}
-
 
 			return 'Bundles/'.$bundle.'/Views/'.$file;
 		}
