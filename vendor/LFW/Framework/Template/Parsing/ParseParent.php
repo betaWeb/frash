@@ -33,6 +33,7 @@
          * @param string $trad
          * @param string $bundle
          * @param string $tpl
+         * @param DependTemplEngine $dic_t
          */
 		public function __construct($trad, $bundle, $tpl, DependTemplEngine $dic_t){
 			$this->bundle = $bundle;
@@ -81,6 +82,12 @@
 							case preg_match($this->parsing['if'], $tag[0]):
 								$level_condition++;
 								$condition[ $level_condition ][] = [ 'type' => 'if', 'condition' => $res_split[ $key ][2] ];
+								break;
+							case preg_match($this->parsing['route'], $tag[0]):
+								if($level_foreach == 0 && $level_for_simple == 0 && $level_for_index == 0 && $level_for_itvl == 0){
+									$value = str_replace($res_split[ $key ][0], $this->dic_t->load('Route')->parse($res_split[ $key ][4]), $value);
+								}
+
 								break;
 							case preg_match($this->parsing['show_var'], $tag[0]):
 								if($level_foreach == 0 && $level_for_simple == 0 && $level_for_index == 0 && $level_for_itvl == 0){
