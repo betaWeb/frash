@@ -195,7 +195,7 @@
 							case preg_match($this->parsing['include'], $tag[0]):
 								break;
 							case preg_match($this->parsing['parent'], $tag[0]):
-								preg_match('/\[part '.$match_all[ $key ][4].'\](.*)\[\/part '.$match_all[ $key ][4].'\]/Us', $this->class_cache, $match);
+								preg_match('/\[part '.$match_all[ $key ][4].'\](.*)\[\/part '.$match_all[ $key ][4].'\]/Us', $this->display, $match);
 								$this->class_cache = str_replace($match[0], '\'.$this->parent'.ucfirst($match_all[ $key ][4]).'().\'', $this->class_cache);
 								$this->class_cache .= $pp->parse($match_all[ $key ][4], $match[1]);
 
