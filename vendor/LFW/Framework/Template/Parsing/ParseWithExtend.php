@@ -220,7 +220,8 @@
 								break;
 							case preg_match($this->parsing['show_var'], $tag[0]):
 								if($level_foreach == 0 && $level_for_simple == 0 && $level_for_index == 0 && $level_for_itvl == 0){
-									$this->tpl = str_replace($match_all[ $key ][0], $this->dic_t->load('ShowVar')->parse($match_all[ $key ][4]), $this->tpl);
+									$variable = $this->dic_t->load('ShowVar')->parse(ltrim($match_all[ $key ][4], '@'));
+									$this->tpl = str_replace($match_all[ $key ][0], $variable, $this->tpl);
 								}
 
 								break;
