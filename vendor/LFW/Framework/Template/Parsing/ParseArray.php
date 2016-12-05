@@ -33,7 +33,7 @@
 			'parts' => '/\[part (\w+)\]/',
 			'route' => '/\[route (.*)]/',
 			'set_func' => '/\[func (\w+)\]/',
-			'set_var' => '/\[@(\w+)\]/',
+			'set_var' => '/\[define (\w+)\]/',
 			'show_var' => '/\[show (.*)\]/',
 			'show_var_for' => '/\[show !(.*)\]/',
 			'traduction' => '/\[traduction (.*?)\]/'
