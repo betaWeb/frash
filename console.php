@@ -55,7 +55,7 @@
             TreatmentList::setExcept($except);
             $new_list = TreatmentList::removeExcept($list);
 
-            TreatmentFiles::generationClass($new_list);
-            GenerationDoc::work(TreatmentFiles::getClass());
+            TreatmentClass::generationClass($new_list);
+            GenerationDoc::work($output, TreatmentClass::getClass());
         }
     }
