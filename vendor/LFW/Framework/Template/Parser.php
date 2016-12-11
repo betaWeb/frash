@@ -1,6 +1,7 @@
 <?php
 	namespace LFW\Framework\Template;
     use LFW\Framework\DIC\Dic;
+    use LFW\Framework\Template\DependTemplEngine;
 	use LFW\Framework\Template\Cache\CreateClassCache;
 	use LFW\Framework\Template\Parsing\ParseWithExtend;
 
@@ -49,21 +50,20 @@
          * @param string $path
          * @param array $params
          * @param Dic $dic
+         * @param DependTemplEngine $dic_t
+         * @param string $name_class
          */
-		public function __construct($path, $params, Dic $dic){
+		public function __construct($path, $params, Dic $dic, DependTemplEngine $dic_t, $name_class){
 			$this->dic = $dic;
 
 			$gets = $this->dic->load('get');
 			$this->env = $gets->get('env');
 			$this->params = $params;
 			$this->tpl = str_replace("'", "\'", file_get_contents($path));
-			$this->name_class = 'TemplateOf'.md5($path);
+			$this->name_class = $name_class;
 			$this->class_cache = CreateClassCache::create($this->name_class);
 
-			$this->dic_t = new DependTemplEngine;
-			$this->dic_t->setParams('json', json_decode(file_get_contents('Configuration/config.json'), true));
-			$this->dic_t->setParams('nurl', explode('/', $gets->get('uri')));
-			$this->dic_t->setParams('params', $this->params);
+			$this->dic_t = $dic_t;
 		}
 
 		public function parse(){
@@ -80,10 +80,6 @@
 			$this->importBottomBar();
 			$this->class_cache .= CreateClassCache::endClass();
 			file_put_contents('vendor/LFW/Cache/Templating/'.$this->name_class.'.php', $this->class_cache);
-
-			$path_class = 'LFW\Cache\Templating\\'.$this->name_class;
-			$tpl_class = new $path_class($this->dic, $this->dic_t, $this->params, $this->env);
-			echo $tpl_class->display();
 		}
 
 		private function importBottomBar(){
