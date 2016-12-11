@@ -2,17 +2,29 @@
 	namespace LFW\DocGen\Treatment\Create;
     use LFW\Framework\FileSystem\File;
 
+    /**
+     * Class Css
+     * @package LFW\DocGen\Treatment\Create
+     */
 	class Css{
-		public static function work(){
+		public static function work($output){
 			$code = "#corps{
-	margin-top: 40px;
-	padding-left: 10px;
-	padding-right: 10px;
+	margin-top:40px;
+	padding-left:10px;
+	padding-right:10px;
 	padding-top:10px;
-	padding-bottom: 100px;
+	padding-bottom:100px;
 	position:relative;
 	overflow:hidden;
 	background-color:#F5F5F5;
+}
+
+a{
+	text-decoration:none;
+}
+
+a:visited{
+	color:blue;
 }
 
 #summary{
@@ -23,14 +35,18 @@
 	padding-top:2px;
 	padding-left:4px;
 	overflow:scroll;
-	font-size:0.9em;
 }
 
 #contenu{
 	float:left;
 	margin-left:20px;
+}
+
+.div_object{
+	float:left;
+	margin-left:20px;
 }";
 
-			File::create('output/design.css', $code);
+			File::create($output.'/design.css', $code);
 		}
 	}
