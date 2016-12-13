@@ -1,6 +1,6 @@
 {
   "name": "alixsperoza/lfw",
-  "description": "Small PHP Framework - MVC, based on TWIG",
+  "description": "Small PHP Framework - MVC",
   "keywords": [ "LFW", "Framework", "MVC" ],
   "license": "MIT",
   "minimum-stability": "dev",
