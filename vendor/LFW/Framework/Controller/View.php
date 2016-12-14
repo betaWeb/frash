@@ -2,6 +2,7 @@
     namespace LFW\Framework\Controller;
     use LFW\Framework\DIC\Dic;
     use LFW\Framework\Exception\Exception;
+    use LFW\Framework\FileSystem\Json;
 
     /**
      * Class View
@@ -39,7 +40,7 @@
          * @param array $param
          * @return Exception|bool
          */
-        public function view($templ, $bundle, $param = []){
+        public function view(string $templ, $bundle, array $param = []){
             if(is_array($bundle)){
                 $params = $bundle;
             }
@@ -52,7 +53,7 @@
                 return new Exception('TWIG : Template '.$templ.' not found');
             }
 
-            $this->json = json_decode(file_get_contents('Configuration/config.json'), true);
+            $this->json = Json::importConfigArray();
             $tlf = new \Twig_Loader_Filesystem('Bundles/'.$this->bundle.'/Views');
             $twig = ($this->json['cache']['TWIG'] == 'yes') ? new \Twig_Environment($tlf, [ 'cache' => 'vendor/LFW/Cache/TWIG' ]) : new \Twig_Environment($tlf);
 
@@ -96,14 +97,9 @@
                 echo $tr->show($traduction);
             });
 
-            $jquery = new \Twig_SimpleFunction('jquery', function(){ echo '<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>'; });
-            $jquery_ui = new \Twig_SimpleFunction('jquery_ui', function(){ echo '<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>'; });
-
             $twig->addFunction($url);
             $twig->addFunction($bun);
             $twig->addFunction($trad);
-            $twig->addFunction($jquery);
-            $twig->addFunction($jquery_ui);
 
             echo $twig->render($templ, $params);
             return true;

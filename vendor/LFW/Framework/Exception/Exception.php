@@ -11,7 +11,7 @@
          * Exception constructor.
          * @param string $message
          */
-        public function __construct($message){
+        public function __construct(string $message){
             new CreateErrorLog($message);
 
             header('HTTP/1.0 404 Not Found', true, 404);

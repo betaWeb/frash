@@ -11,7 +11,7 @@
          * @param int $div
          * @return int
          */
-		public static function percentage($mult, $div){
+		public static function percentage(int $mult, int $div): int{
 			return $mult * 100 / $div;
 		}
 	}

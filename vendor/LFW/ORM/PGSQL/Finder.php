@@ -1,7 +1,6 @@
 <?php
     namespace LFW\ORM\PGSQL;
-    use LFW\Framework\CreateLog\CreateErrorLog;
-    use LFW\Framework\CreateLog\CreateRequestLog;
+    use LFW\Framework\CreateLog\{ CreateErrorLog, CreateRequestLog };
     use LFW\ORM\Hydrator;
     use LFW\ORM\PDO\PDO;
 
@@ -25,7 +24,7 @@
          * @param PDO $pdo
          * @param string $bundle
          */
-        public function __construct(PDO $pdo, $bundle){
+        public function __construct(PDO $pdo, string $bundle){
             $this->bundle = $bundle;
             $this->pdo = $pdo;
         }
@@ -36,7 +35,7 @@
          * @param array $arguments
          * @return array
          */
-        private function findBy($entity, $where, $arguments){
+        private function findBy(string $entity, string $where, array $arguments): array{
             try{
                 $table = lcfirst($entity);
                 $request = 'SELECT * FROM '."\"$table\"".' '.$where;
@@ -67,7 +66,7 @@
          * @param array $arguments
          * @return object
          */
-        private function findOneBy($entity, $where, $arguments){
+        private function findOneBy(string $entity, string $where, array $arguments){
             try{
                 $table = lcfirst($entity);
                 $request = 'SELECT * FROM '."\"$table\"".' '.$where;
@@ -90,7 +89,7 @@
          * @param array $arg
          * @return array|object
          */
-        public function __call($method, $arg){
+        public function __call(string $method, array $arg){
             $entity = $arg[0];
             array_shift($arg);
 

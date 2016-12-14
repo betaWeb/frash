@@ -41,20 +41,19 @@
          * Update constructor.
          * @param string $table
          */
-        public function __construct($table){
+        public function __construct(string $table){
             $this->table = "\"$table\"";
         }
 
         /**
          * @param string $exec
          */
-        public function setAddExec($exec){
+        public function setAddExec(string $exec){
             $this->updateExecute[] = $exec;
         }
 
         /**
-         * @param string $where
-         * @param array $arrayWhere
+         * @param Where $where
          */
         public function setWhere(Where $where){
             $this->where = $where->getWhere();
@@ -64,7 +63,7 @@
         /**
          * @param array $update
          */
-        public function setUpdate($update = []){
+        public function setUpdate(array $update = []){
             $upd = [];
 
             foreach($update as $k => $v){
@@ -95,7 +94,7 @@
         /**
          * @param array $exec
          */
-        public function setExecute($exec){
+        public function setExecute(array $exec){
             $arrayUpd = [];
 
             foreach($this->updateExecute as $v){
@@ -112,14 +111,14 @@
         /**
          * @return array
          */
-        public function getExecute(){
+        public function getExecute(): array{
             return $this->execute;
         }
 
         /**
          * @return string
          */
-        public function getRequest(){
+        public function getRequest(): string{
             if(!empty($this->table) && !empty($this->update)){
                 $request = 'UPDATE '.$this->table.' SET '.$this->update.' ';
                 if($this->where != ''){ $request .= $this->where; }

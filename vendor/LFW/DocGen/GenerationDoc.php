@@ -1,22 +1,20 @@
 <?php
-    namespace LFW\DocGen;
-    use LFW\DocGen\Treatment\DirExist;
-    use LFW\DocGen\Treatment\DirsClass;
-    use LFW\DocGen\Treatment\Create\Css;
-    use LFW\DocGen\Treatment\Create\Display;
-    use LFW\Framework\FileSystem\Directory;
+	namespace LFW\DocGen;
+    use LFW\DocGen\Treatment\{ DirExist, DirsClass };
+    use LFW\DocGen\Treatment\Create\{ Css, Display };
+    use LFW\Framework\FileSystem\{ Directory, Json };
 
     /**
      * Class GenerationDoc
      * @package LFW\DocGen
      */
-    class GenerationDoc{
+	class GenerationDoc{
         /**
          * @param string $output
          * @param string $class
          */
-        public static function work($output, $class){
-            $json = json_decode(file_get_contents('Configuration/config.json'), true);
+		public static function work($output, $class){
+            $json = Json::importConfigArray();
             $prefix = ($json['prefix'] == '/') ? '' : $json['prefix'];
 
             DirExist::verif($output);
@@ -38,5 +36,5 @@
 
                 Display::work($output, $name, $class, $c, $prefix, $rc, $pub_ob, $prot_ob, $priv_ob);
             }
-        }
-    }
+		}
+	}

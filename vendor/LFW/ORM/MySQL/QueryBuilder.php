@@ -1,9 +1,7 @@
 <?php
     namespace LFW\ORM\MySQL;
-    use LFW\Framework\CreateLog\CreateErrorLog;
-    use LFW\Framework\CreateLog\CreateRequestLog;
-    use LFW\ORM\Hydrator;
-    use LFW\ORM\RequestInterface;
+    use LFW\Framework\CreateLog\{ CreateErrorLog, CreateRequestLog };
+    use LFW\ORM\{ Hydrator, RequestInterface };
     use LFW\ORM\PDO\PDO;
 
     /**

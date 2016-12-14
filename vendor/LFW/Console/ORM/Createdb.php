@@ -1,7 +1,7 @@
 <?php
     namespace LFW\Console\ORM;
-    use LFW\Framework\CreateLog\CreateErrorLog;
-    use LFW\Framework\CreateLog\CreateRequestLog;
+    use LFW\Framework\CreateLog\{ CreateErrorLog, CreateRequestLog };
+    use LFW\Framework\FileSystem\Json;
 
     /**
      * Class Createdb
@@ -12,9 +12,8 @@
          * Createdb constructor.
          * @param string $bundle
          */
-        public function __construct($bundle){
-            $array = json_decode(file_get_contents('Configuration/database.json'), true);
-            $conn = $array['bundle'];
+        public function __construct(string $bundle){
+            $conn = Json::importConfigArray()['bundle'];
 
             try{
                 if($conn['system'] == 'MySQL'){

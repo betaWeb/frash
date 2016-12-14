@@ -8,5 +8,5 @@
     interface RequestInterface{
         public function getExecute();
         public function getRequest();
-        public function setExecute($exec);
+        public function setExecute(array $exec);
     }

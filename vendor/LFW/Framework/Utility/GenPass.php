@@ -14,7 +14,7 @@
          * @param bool $otca
          * @return string
          */
-        public static function getGenPass($size, $number, $min, $maj, $otca){
+        public static function getGenPass(int $size, bool $number, bool $min, bool $maj, bool $otca): string{
             $caract = '';
             $poss = 0;
             if($number === true){
@@ -34,7 +34,7 @@
 
             if($otca === true){
                 $caract .= '&#{([-_@)]=}+$§?';
-                $poss += 17;
+                $poss += 16;
             }
 
             $gener = '';

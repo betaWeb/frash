@@ -1,9 +1,7 @@
 <?php
     namespace LFW\ORM\PGSQL;
-    use LFW\Framework\CreateLog\CreateErrorLog;
-    use LFW\Framework\CreateLog\CreateRequestLog;
-    use LFW\ORM\Hydrator;
-    use LFW\ORM\RequestInterface;
+    use LFW\Framework\CreateLog\{ CreateErrorLog, CreateRequestLog };
+    use LFW\ORM\{ Hydrator, RequestInterface };
     use LFW\ORM\PDO\PDO;
 
     /**
@@ -24,8 +22,9 @@
         /**
          * QueryBuilder constructor.
          * @param PDO $conn
+         * @param string $bundle
          */
-        public function __construct(PDO $conn, $bundle){
+        public function __construct(PDO $conn, string $bundle){
             $this->bundle = $bundle;
             $this->conn = $conn;
         }
@@ -34,7 +33,7 @@
          * @param RequestInterface $request
          * @return int
          */
-        public function insert(RequestInterface $request){
+        public function insert(RequestInterface $request): int{
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
                 $this->conn->request($request->getRequest(), $request->getExecute());
@@ -68,7 +67,7 @@
          * @param RequestInterface $select
          * @return array
          */
-        public function selectMany(RequestInterface $select){
+        public function selectMany(RequestInterface $select): array{
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
 
@@ -122,7 +121,7 @@
          * @param RequestInterface $request
          * @return int
          */
-        public function count(RequestInterface $request){
+        public function count(RequestInterface $request): int{
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
                 $this->conn->request($request->getRequest(), $request->getExecute());

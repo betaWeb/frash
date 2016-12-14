@@ -13,7 +13,7 @@
          * @param string $param
          * @return Exception|string
          */
-        public function bundle($path, $param){
+        public function bundle(string $path, string $param){
             $bundle = explode('/', dirname($path));
 
             if($param != 'not' && $param != 'with'){ return new Exception('Determinate : Paramètre non valide'); }
@@ -24,7 +24,7 @@
         /**
          * @return string
          */
-        public function uri(){
+        public function uri(): string{
             return ltrim(Server::getRequestUri(), '/');
         }
     }

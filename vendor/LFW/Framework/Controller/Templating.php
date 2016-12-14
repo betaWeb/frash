@@ -23,11 +23,11 @@
 
         /**
          * @param string $file
-         * @param string $bundle
+         * @param string|array $bundle
          * @param array $param
          * @return bool
          */
-		public function view($file, $bundle = '', $param = []){
+		public function view(string $file, $bundle = '', array $param = []): bool{
             if(!is_array($bundle) && !empty($bundle)){
                 $this->bundle = $bundle;
                 $params = $param;

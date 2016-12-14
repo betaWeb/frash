@@ -51,7 +51,7 @@
          * @param string $request
          * @return object
          */
-        public function getRequest($request){
+        public function getRequest(string $request){
             $class = 'Bundles\\'.$this->bundle.'\Requests\\'.$request.'Requests';
             return new $class($this->connexion, $this->bundle);
         }

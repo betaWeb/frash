@@ -28,7 +28,7 @@
          * @param string $passwd
          * @param array $options
          */
-        public function __construct($dsn, $username, $passwd, $options = []){
+        public function __construct(string $dsn, string $username, string $passwd, array $options = []){
             $this->pdo = new \PDO($dsn, $username, $passwd, $options = []);
         }
 
@@ -36,7 +36,7 @@
          * @param int $attribute
          * @param mixed $value
          */
-        public function setAttribute($attribute, $value){
+        public function setAttribute(int $attribute, $value){
             $this->pdo->setAttribute($attribute, $value);
         }
 
@@ -44,7 +44,7 @@
          * @param string $request
          * @param array $params
          */
-        public function request($request, $params = []){
+        public function request(string $request, array $params = []){
             $this->incrementCountReq();
 
             $this->results = $this->pdo->prepare($request);
@@ -54,7 +54,7 @@
         /**
          * @return array
          */
-        public function fetchAssoc(){
+        public function fetchAssoc(): array{
             return $this->results->fetch(\PDO::FETCH_ASSOC);
         }
 
@@ -82,7 +82,7 @@
         /**
          * @return int
          */
-        public function rowCount(){
+        public function rowCount(): int{
             return $this->results->rowCount();
         }
 
@@ -90,7 +90,7 @@
          * @param string $sequence
          * @return int
          */
-        public function lastInsertId($sequence = ''){
+        public function lastInsertId(string $sequence = ''): int{
             return ($sequence == '') ? $this->pdo->lastInsertId() : $this->pdo->lastInsertId($sequence);
         }
 
@@ -98,14 +98,14 @@
          * @param string $param
          * @return string
          */
-        public function quote($param){
+        public function quote(string $param): string{
             return $this->pdo->quote($param);
         }
 
         /**
          * @return int
          */
-        public function getCountReq(){
+        public function getCountReq(): int{
             return $this->count_req;
         }
 

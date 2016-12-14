@@ -11,7 +11,7 @@
          * @param array $array
          * @return string
          */
-        public static function concat($pdo, $array){
+        public static function concat($pdo, array $array): string{
             $arr = [];
 
             foreach($array as $v){
@@ -27,7 +27,7 @@
          * @param mixed $target
          * @return string
          */
-        public static function leven($pdo, $source, $target){
+        public static function leven($pdo, $source, $target): string{
             $sourc = self::defineType($pdo, $source);
             $targ = self::defineType($pdo, $target);
 
@@ -39,7 +39,7 @@
          * @param mixed $param
          * @return string
          */
-        private static function defineType($pdo, $param){
+        private static function defineType($pdo, $param): string{
             if(substr($param, 0, 2) == 'c '){
                 $string = substr($param, 2);
                 return "\"$string\"";

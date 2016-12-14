@@ -2,9 +2,7 @@
 	namespace LFW\Framework\Template\Parsing;
     use LFW\Framework\DIC\Dic;
 	use LFW\Framework\Template\DependTemplEngine;
-	use LFW\Framework\Template\Parsing\ParseArray;
-	use LFW\Framework\Template\Parsing\ParseParent;
-	use LFW\Framework\Template\Parsing\ParseTplParent;
+	use LFW\Framework\Template\Parsing\{ ParseArray, ParseParent, ParseTplParent };
 
     /**
      * Class ParseWithExtend

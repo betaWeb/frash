@@ -61,7 +61,7 @@
          * Select constructor.
          * @param array $array
          */
-        public function __construct($array){
+        public function __construct(array $array){
             $table = $array['table'];
             $this->table = "\"$table\"";
             $this->setEntity($table);
@@ -90,14 +90,14 @@
         /**
          * @param string $col
          */
-        public function setColSel($col){
+        public function setColSel(string $col){
             $this->colSel = $col;
         }
 
         /**
          * @param string $exec
          */
-        public function setAddExec($exec){
+        public function setAddExec(string $exec){
             $this->arrayWhere[] = $exec;
         }
 
@@ -105,7 +105,7 @@
          * @param string $col
          * @param string $having
          */
-        public function setGroupBy($col, $having = ''){
+        public function setGroupBy(string $col, string $having = ''){
             $this->groupBy = 'GROUP BY '.$col;
             $this->groupBy .= ($having == '') ? '' : ' HAVING '.$having;
         }
@@ -113,7 +113,7 @@
         /**
          * @param array $exec
          */
-        public function setExecute($exec = []){
+        public function setExecute(array $exec = []){
             if(count($exec) == count($this->arrayWhere)){
                 $this->execute = array_combine($this->arrayWhere, $exec);
             }
@@ -122,14 +122,14 @@
         /**
          * @return array
          */
-        public function getExecute(){
+        public function getExecute(): array{
             return $this->execute;
         }
 
         /**
          * @return string
          */
-        public function getRequest(){
+        public function getRequest(): string{
             if(!empty($this->table) && !empty($this->colSel)){
                 return 'SELECT '.$this->colSel.' FROM '.$this->table.' '.$this->where.' '.$this->groupBy.' '.$this->order.' '.$this->limit.' '.$this->offset;
             }
@@ -138,28 +138,28 @@
         /**
          * @return string
          */
-        public function getColSel(){
+        public function getColSel(): string{
             return $this->colSel;
         }
 
         /**
          * @return string
          */
-        public function getTable(){
+        public function getTable(): string{
             return $this->table;
         }
 
         /**
          * @return string
          */
-        public function getEntity(){
+        public function getEntity(): string{
             return $this->entity;
         }
 
         /**
          * @param string $table
          */
-        public function setEntity($table){
+        public function setEntity(string $table){
             $this->entity = ucfirst($table);
         }
     }

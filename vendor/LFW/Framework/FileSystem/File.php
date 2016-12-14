@@ -10,7 +10,7 @@
          * @param string $path
          * @return bool
          */
-		public static function exist($path){
+		public static function exist(string $path): bool{
 			if(file_exists($path)){
                 return true;
             }
@@ -23,7 +23,14 @@
          * @param string $path
          * @param string $value
          */
-        public static function create($path, $value){
+        public static function create(string $path, string $value){
             file_put_contents($path, $value);
+        }
+
+        /**
+         * @param string $path
+         */
+        public static function delete(string $path){
+            unlink($path);
         }
 	}

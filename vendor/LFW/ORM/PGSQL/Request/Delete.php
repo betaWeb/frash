@@ -29,17 +29,17 @@
 
         /**
          * Delete constructor.
-         * @param $table
+         * @param string $table
          */
-        public function __construct($table){
+        public function __construct(string $table){
             $this->table = $table;
         }
 
         /**
-         * @param $where
-         * @param $arrayWhere
+         * @param string $where
+         * @param array $arrayWhere
          */
-        public function setWhere($where, $arrayWhere){
+        public function setWhere(string $where, array $arrayWhere){
             $this->where = $where;
             $this->arrayWhere = $arrayWhere;
         }
@@ -47,7 +47,7 @@
         /**
          * @param array $exec
          */
-        public function setExecute($exec = []){
+        public function setExecute(array $exec = []){
             if(count($exec) == count($this->arrayWhere)){
                 $this->execute = $exec;
             }
@@ -56,14 +56,14 @@
         /**
          * @return array
          */
-        public function getExecute(){
+        public function getExecute(): array{
             return $this->execute;
         }
 
         /**
          * @return string
          */
-        public function getRequest(){
+        public function getRequest(): string{
             if(!empty($this->table)){
                 $request = 'DELETE FROM '.$this->table;
                 if($this->where != ''){ $request .= $this->where; }

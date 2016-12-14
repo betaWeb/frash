@@ -1,5 +1,6 @@
 <?php
     namespace LFW\Framework\CreateLog;
+    use LFW\Framework\FileSystem\Json;
 
     /**
      * Class CreateErrorLog
@@ -10,8 +11,8 @@
          * CreateErrorLog constructor.
          * @param string $error
          */
-        public function __construct($error){
-            $json = json_decode(file_get_contents('Configuration/config.json'), true);
+        public function __construct(string $error){
+            $json = Json::importConfigArray();
 
             if($json['log']['error'] == 'yes'){
                 $file = fopen('vendor/LFW/Logs/error.log', 'a');

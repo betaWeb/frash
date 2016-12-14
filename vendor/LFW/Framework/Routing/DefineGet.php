@@ -13,7 +13,7 @@
          * @param int $racine
          * @return array|Exception
          */
-        public static function defineNormal($routarr, $list, $racine){
+        public static function defineNormal(array $routarr, array $list, int $racine){
             $count_expl = count($list) - 2;
             $get = [];
 

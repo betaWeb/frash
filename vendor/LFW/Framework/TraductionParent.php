@@ -10,7 +10,7 @@
          * @param string $trad
          * @return string
          */
-		public function show($trad){
+		public function show(string $trad): string{
             return $this->$trad;
         }
 	}

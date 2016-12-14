@@ -13,19 +13,18 @@
          * @param \PDO $conn
          * @param string $table
          * @param int $number
-         * @param bool $ajax
          */
-        public function __construct(\PDO $conn, $table, $number, $ajax = false){
+        public function __construct(\PDO $conn, string $table, int $number){
             try{
                 $request = 'ALTER SEQUENCE '.$table.'_id_seq RESTART WITH '.$number.';';
 
                 $req = $conn->prepare($request);
                 $req->execute();
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request, $ajax);
+                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage(), $ajax);
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }

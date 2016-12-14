@@ -1,8 +1,9 @@
 <?php
     namespace LFW\Framework\Routing;
     use LFW\Framework\CreateLog\CreateHTTPLog;
-    use LFW\Framework\Exception\Exception;
     use LFW\Framework\DIC\Dic;
+    use LFW\Framework\Exception\Exception;
+    use LFW\Framework\FileSystem\Json;
     use LFW\Framework\Globals\Server;
 
     /**
@@ -27,8 +28,8 @@
          * @param string $url
          * @return object
          */
-        public function routing($url){
-            $conf = json_decode(file_get_contents('Configuration/config.json'), true);
+        public function routing(string $url){
+            $conf = Json::importConfigArray();
             $gets = $this->dic->load('get');
             new CreateHTTPLog($url);
 
@@ -66,9 +67,13 @@
             array_shift($path);
 
             $racine = 0;
-            $routarr = json_decode(file_get_contents('Configuration/'.$conf['routing']['file'].'.json'), true);
+            $routarr = Json::importRoutingArray($conf['routing']['file']);
 
-            if(!empty($path[0]) && $path[0][0].$path[0][1] == '__'){}
+            if(!empty($path[0]) && $path[0][0].$path[0][1] == '__'){
+                if($path[0] == '__documentation'){
+                    
+                }
+            }
             elseif(empty($path[0]) && !empty($conf['racine']['path'])){
                 $nb_expl = 1;
                 $lien = '/';

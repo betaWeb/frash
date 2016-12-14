@@ -1,7 +1,6 @@
 <?php
     namespace LFW\ORM\PGSQL;
-    use LFW\Framework\CreateLog\CreateErrorLog;
-    use LFW\Framework\CreateLog\CreateRequestLog;
+    use LFW\Framework\CreateLog\{ CreateErrorLog, CreateRequestLog };
     use LFW\ORM\PDO\PDO;
 
     /**
@@ -28,7 +27,7 @@
          * @param array $arguments
          * @return int
          */
-        private function count($entity, $where, $arguments){
+        private function count(string $entity, string $where, array $arguments): int{
             try{
                 $table = lcfirst($entity);
                 $request = 'SELECT * FROM '."\"$table\"".' '.$where;
@@ -49,7 +48,7 @@
          * @param array $arg
          * @return int
          */
-        public function __call($method, $arg){
+        public function __call(string $method, array $arg): int{
             $entity = $arg[0];
             array_shift($arg);
 

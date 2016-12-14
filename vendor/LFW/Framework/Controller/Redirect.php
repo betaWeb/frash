@@ -1,6 +1,7 @@
 <?php
     namespace LFW\Framework\Controller;
     use LFW\Framework\DIC\Dic;
+    use LFW\Framework\FileSystem\Json;
 
     /**
      * Class Redirect
@@ -24,8 +25,8 @@
          * @param string $url
          * @return bool
          */
-        public function route($url){
-            $json = json_decode(file_get_contents('Configuration/config.json'), true);
+        public function route(string $url): bool{
+            $json = Json::importConfigArray();
             
             if('/'.$this->nurl[0] == $json['prefix'] && $json['prefix'] != '/'){
                 $redirect = (in_array($this->nurl[1], $json['traduction']['available'])) ? $this->nurl[0].'/'.$this->nurl[1] : $this->nurl[0];
@@ -42,7 +43,7 @@
          * @param string $url
          * @return bool
          */
-        public function url($url){
+        public function url(string $url): bool{
             header('Location:'.$url);
             return true;
         }

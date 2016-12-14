@@ -1,5 +1,6 @@
 <?php
     namespace LFW\Framework\CreateLog;
+    use LFW\Framework\FileSystem\Json;
 
     /**
      * Class CreateRequestLog
@@ -10,8 +11,8 @@
          * CreateRequestLog constructor.
          * @param string $request
          */
-        public function __construct($request){
-            $json = json_decode(file_get_contents('Configuration/config.json'), true);
+        public function __construct(string $request){
+            $json = Json::importConfigArray();
 
             if($json['log']['request'] == 'yes'){
                 $file = fopen('vendor/LFW/Logs/request.log', 'a');

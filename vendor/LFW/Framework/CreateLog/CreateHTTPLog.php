@@ -1,5 +1,6 @@
 <?php
     namespace LFW\Framework\CreateLog;
+    use LFW\Framework\FileSystem\Json;
     use LFW\Framework\Globals\Server;
 
     /**
@@ -11,8 +12,8 @@
          * CreateHTTPLog constructor.
          * @param string $url
          */
-        public function __construct($url){
-            $json = json_decode(file_get_contents('Configuration/config.json'), true);
+        public function __construct(string $url){
+            $json = Json::importConfigArray();
 
             if($json['log']['access'] == 'yes'){
                 $file = fopen('vendor/LFW/Logs/access.log', 'a');

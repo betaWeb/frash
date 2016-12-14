@@ -1,5 +1,6 @@
 <?php
     namespace LFW\Framework\DIC;
+    use LFW\Framework\FileSystem\Json;
 
     /**
      * Class Dic
@@ -20,7 +21,7 @@
          * Dic constructor.
          */
         public function __construct(){
-            $this->dependencies = json_decode(file_get_contents('Configuration/dependencies.json'), true);
+            $this->dependencies = Json::importDependenciesArray();
         }
 
         /**

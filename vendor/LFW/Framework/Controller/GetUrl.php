@@ -1,5 +1,6 @@
 <?php
     namespace LFW\Framework\Controller;
+    use LFW\Framework\FileSystem\Json;
     use LFW\Framework\Globals\Server;
 
     /**
@@ -12,8 +13,8 @@
          * @param string $uri
          * @return string
          */
-        public function url($url, $uri = ''){
-            $json = json_decode(file_get_contents('Configuration/config.json'), true);
+        public function url(string $url, string $uri = ''): string{
+            $json = Json::importConfigArray();
             $nurl = ($uri == '') ? explode('/', Server::getReqUriTrim()) : explode('/', $uri);
 
             if('/'.$nurl[0] == $json['prefix'] && $json['prefix'] != '/'){
