@@ -14,6 +14,12 @@
         public function __construct(string $message){
             new CreateErrorLog($message);
 
+            ob_start();
+            debug_print_backtrace();
+            $data = ob_get_clean();
+
+            echo '<pre>'; print_r($data); echo '</pre>';
+
             header('HTTP/1.0 404 Not Found', true, 404);
             die();
         }
