@@ -23,7 +23,7 @@
          * @param DependTemplEngine $dic_t
          * @param array $params
          */
-		public function __construct(DependTemplEngine $dic_t, $params){
+		public function __construct(DependTemplEngine $dic_t, array $params){
 			$this->dic_t = $dic_t;
 			$this->params = $params;
 		}
@@ -33,7 +33,7 @@
          * @param string $value
          * @return string
          */
-		public function parse($foreach, $value){
+		public function parse(string $foreach, string $value): string{
 			$foreach_origine = $foreach;
 
 			list($array, $p) = explode(' :: ', $foreach);

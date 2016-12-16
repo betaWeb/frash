@@ -41,7 +41,7 @@
          * @param array $params
          * @param Dic $dic
          */
-		public function __construct($file, $params, Dic $dic){
+		public function __construct(string $file, array $params, Dic $dic){
             $this->dic = $dic;
             $gets = $this->dic->load('get');
 

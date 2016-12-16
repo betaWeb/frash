@@ -53,7 +53,7 @@
          * @param DependTemplEngine $dic_t
          * @param string $name_class
          */
-		public function __construct($path, $params, Dic $dic, DependTemplEngine $dic_t, $name_class){
+		public function __construct(string $path, array $params, Dic $dic, DependTemplEngine $dic_t, string $name_class){
 			$this->dic = $dic;
 
 			$gets = $this->dic->load('get');

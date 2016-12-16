@@ -25,7 +25,7 @@
          * @param PDO $pdo
          * @param string $bundle
          */
-        public function __construct(PDO $pdo, $bundle){
+        public function __construct(PDO $pdo, string $bundle){
             $this->bundle = $bundle;
             $this->pdo = $pdo;
         }
@@ -36,7 +36,7 @@
          * @param array $arguments
          * @return array
          */
-        private function findBy($entity, $where, $arguments){
+        private function findBy(string $entity, string $where, array $arguments): array{
             try{
                 $request = 'SELECT * FROM '.lcfirst($entity).' '.$where;
 
@@ -55,7 +55,7 @@
                 return $array_obj;
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage(), false);
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -66,7 +66,7 @@
          * @param array $arguments
          * @return object
          */
-        private function findOneBy($entity, $where, $arguments){
+        private function findOneBy(string $entity, string $where, array $arguments){
             try{
                 $request = 'SELECT * FROM '.lcfirst($entity).' '.$where;
 
@@ -78,7 +78,7 @@
                 return Hydrator::hydration($res, 'Bundles\\'.$this->bundle.'\Entity\\'.$entity);
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage(), false);
+                new CreateErrorLog($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -88,7 +88,7 @@
          * @param array $arg
          * @return array|object
          */
-        public function __call($method, $arg){
+        public function __call(string $method, array $arg){
             $entity = $arg[0];
             array_shift($arg);
 

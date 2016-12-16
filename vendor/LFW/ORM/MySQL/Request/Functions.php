@@ -10,7 +10,7 @@
          * @param array $array
          * @return string
          */
-        public static function concat($array){
+        public static function concat(array $array): string{
             $arr = [];
 
             foreach($array as $v){

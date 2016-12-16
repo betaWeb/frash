@@ -22,7 +22,7 @@
          * @param DependTemplEngine $dic_t
          * @param array $params
          */
-        public function __construct(DependTemplEngine $dic_t, $params){
+        public function __construct(DependTemplEngine $dic_t, array $params){
             $this->dic_t = $dic_t;
             $this->params = $params;
         }
@@ -31,7 +31,7 @@
          * @param string $route
          * @return string
          */
-        public function parse($route){
+        public function parse(string $route): string{
             if(strstr($route, '/')){
                 $road = explode('/', $route);
                 foreach($road as $r){
@@ -76,7 +76,7 @@
          * @param string $v
          * @return string
          */
-        public function parseForeach($route, $k, $v){
+        public function parseForeach(string $route, string $k, string $v): string{
             if(strstr($route, '/')){
                 $road = explode('/', $route);
                 foreach($road as $r){

@@ -76,9 +76,10 @@
 
                 $count = count($res) - 1;
                 $array_obj = [];
+                $ent = 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity();
 
                 for($i = 0; $i <= $count; $i++){
-                    $array_obj[ $i ] = $this->hydration($res[ $i ], 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity());
+                    $array_obj[ $i ] = $this->hydration($res[ $i ], $ent);
                 }
 
                 return $array_obj;

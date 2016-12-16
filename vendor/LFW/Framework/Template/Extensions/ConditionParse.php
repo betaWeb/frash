@@ -22,7 +22,7 @@
          * @param DependTemplEngine $dic_t
          * @param array $params
          */
-		public function __construct(DependTemplEngine $dic_t, $params){
+		public function __construct(DependTemplEngine $dic_t, array $params){
 			$this->dic_t = $dic_t;
 			$this->params = $params;
 		}
@@ -32,7 +32,7 @@
          * @param string $tpl
          * @return array
          */
-		public function parse($condition, $tpl){
+		public function parse(array $condition, string $tpl): array{
 			$treatment = '';
 			$name_condition = $condition[0]['condition'];
 			$implode = [];

@@ -6,18 +6,20 @@
      * @package LFW\Framework\Template
      */
 	class DependTemplEngine{
+        const EXTENSIONS = 'LFW.Framework.Template.Extensions';
+
         /**
          * @var array
          */
 		private $dependencies = [
-			'Bundle' => 'LFW.Framework.Template.Extensions.Bundle',
-			'Condition' => 'LFW.Framework.Template.Extensions.ConditionParse',
-			'Escape' => 'LFW.Framework.Template.Extensions.Escape',
-			'Foreach' => 'LFW.Framework.Template.Extensions.ForeachParse',
-			'FormatVar' => 'LFW.Framework.Template.Extensions.FormatVar',
-			'Part' => 'LFW.Framework.Template.Extensions.Part',
-			'Route' => 'LFW.Framework.Template.Extensions.Route',
-			'ShowVar' => 'LFW.Framework.Template.Extensions.ShowVar'
+			'Bundle' => self::EXTENSIONS.'.Bundle',
+			'Condition' => self::EXTENSIONS.'.ConditionParse',
+			'Escape' => self::EXTENSIONS.'.Escape',
+			'Foreach' => self::EXTENSIONS.'.ForeachParse',
+			'FormatVar' => self::EXTENSIONS.'.FormatVar',
+			'Part' => self::EXTENSIONS.'.Part',
+			'Route' => self::EXTENSIONS.'.Route',
+			'ShowVar' => self::EXTENSIONS.'.ShowVar'
 		];
 
         /**
@@ -34,7 +36,7 @@
          * @param string $key
          * @return object
          */
-		public function load($key){
+		public function load(string $key){
 			if(array_key_exists($key, $this->open)){
                 return $this->open[ $key ];
             }
@@ -52,14 +54,14 @@
          * @param string $name
          * @param mixed $param
          */
-		public function setParams($name, $param){
+		public function setParams(string $name, $param){
 			$this->params[ $name ] = $param;
 		}
 
         /**
          * @param string $name
          */
-		public function unsetParams($name){
+		public function unsetParams(string $name){
 			unset($this->params[ $name ]);
 		}
 	}

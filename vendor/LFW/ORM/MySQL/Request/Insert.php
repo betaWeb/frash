@@ -35,14 +35,14 @@
          * Insert constructor.
          * @param string $table
          */
-        public function __construct($table){
+        public function __construct(string $table){
             $this->table = $table;
         }
 
         /**
          * @param array $val
          */
-        public function setInsert($val){
+        public function setInsert(array $val){
             $this->insertCol = implode(', ', $val);
 
             $array = [];
@@ -57,28 +57,28 @@
         /**
          * @param array $exec
          */
-        public function setExecute($exec){
+        public function setExecute(array $exec){
             $this->execute = array_combine($this->insertExecute, $exec);
         }
 
         /**
          * @return string
          */
-        public function getRequest(){
+        public function getRequest(): string{
             return 'INSERT INTO '.$this->table.' ('.$this->insertCol.') VALUES ('.$this->insertVal.')';
         }
 
         /**
          * @return array
          */
-        public function getExecute(){
+        public function getExecute(): array{
             return $this->execute;
         }
 
         /**
          * @return string
          */
-        public function getTable(){
+        public function getTable(): string{
             return $this->table;
         }
     }

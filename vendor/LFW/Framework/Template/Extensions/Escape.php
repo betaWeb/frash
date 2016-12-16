@@ -10,7 +10,7 @@
          * @param array $escaping
          * @return string
          */
-		public function parse($escaping){
+		public function parse(array $escaping): string{
 			$code = '		private function escape'.md5($escaping[1]).'(){'."\n";
 			$code .= '			return \''.trim(htmlentities($escaping[1])).'\';'."\n";
 			$code .= '		}'."\n\n";

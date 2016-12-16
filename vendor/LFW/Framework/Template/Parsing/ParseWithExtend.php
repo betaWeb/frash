@@ -25,11 +25,6 @@
 		private $params = [];
 
         /**
-         * @var array|string
-         */
-		private $parent = [];
-
-        /**
          * @var string
          */
 		private $tpl = '';
@@ -62,12 +57,12 @@
         /**
          * ParseWithExtend constructor.
          * @param string $tpl
-         * @param string $extend
+         * @param array $extend
          * @param Dic $dic
          * @param array $params
          * @param DependTemplEngine $dic_t
          */
-		public function __construct($tpl, $extend, Dic $dic, $params, DependTemplEngine $dic_t){
+		public function __construct(string $tpl, array $extend, Dic $dic, array $params, DependTemplEngine $dic_t){
 			$gets = $dic->load('get');
 			$this->bundle = $gets->get('bundle');
 			$this->dic_t = $dic_t;
@@ -76,18 +71,17 @@
 			$this->trad = new $class_trad;
 
 			$this->params = $params;
-			$this->parent = file_get_contents($this->determinatePathExtend($extend[1]));
 			$this->tpl = $tpl;
 
 			$this->display = '		public function display(){'."\n";
-			$this->display .= '			return \''.$this->parent.'\';'."\n";
+			$this->display .= '			return \''.file_get_contents($this->determinatePathExtend($extend[1])).'\';'."\n";
 			$this->display .= '		}'."\n\n";
 		}
 
         /**
          * @return string
          */
-		public function parse(){
+		public function parse(): string{
 			$level_condition = 0;
 			$level_escape = 0;
 			$level_for_index = 0;
@@ -98,7 +92,6 @@
 
 			$condition = [];
 			$foreach = [];
-			$list_methods = [];
 			$parts = [];
 
 			$pp = new ParseParent($this->trad, $this->bundle, $this->tpl, $this->dic_t);
@@ -124,7 +117,6 @@
 
 							$this->display = str_replace($part_parent[0], '\'.$this->part'.ucfirst($name).'().\'', $this->display);
 							$this->class_cache .= $this->dic_t->load('Part')->parse($part_child[1], $name, $this->incl_parent);
-							$list_methods[] = '\'.$this->part'.ucfirst($name).'().\'';
 						}
 						elseif($level_escape > 0){
 							$this->parts_in_escape[] = $name;
@@ -198,7 +190,6 @@
 								$this->class_cache .= $pp->parse($match_all[ $key ][4], $match[1]);
 
 								$this->incl_parent[$match_all[ $key ][4]] = '\'.$this->parent'.ucfirst($match_all[ $key ][4]).'().\'';
-								$list_methods[] = '\'.$this->parent'.ucfirst($match_all[ $key ][4]).'().\'';
 
 								break;
 							case preg_match($this->parsing['route'], $tag[0]):
@@ -245,7 +236,7 @@
          * @param string $extend
          * @return string
          */
-		private function determinatePathExtend($extend){
+		private function determinatePathExtend(string $extend): string{
 			if(strstr($extend, '::')){
 				list($bundle, $file) = explode('::', $extend);
 			}
@@ -259,7 +250,7 @@
 
 		private function removeUnuseParts(){
 			preg_match_all('/\[part (\w+)\](.*)\[\/part (\w+)\]/Us', $this->class_cache, $unuse, PREG_SET_ORDER);
-			foreach($unuse as $k => $u){
+			foreach($unuse as $u){
 				if(!in_array($u[1], $this->parts_in_escape)){
 					$this->class_cache = str_replace($u[0], '', $this->class_cache);
 				}

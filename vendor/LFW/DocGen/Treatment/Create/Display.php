@@ -34,7 +34,7 @@
             $code .= '          </div>'."\n";
             $code .= '          <div id="contenu">'."\n";
             $code .= '              <h2 id="title_class">'.$c.'</h2>'."\n";
-            $code .= '              '.nl2br(CommentClass::work($rc->getDocComment()))."\n";
+            $code .= '              '.nl2br(CommentClass::work($rc->getDocComment()));
             $code .= '              <h2>Objects</h2>'."\n";
             $code .= '              <div class="div_object">'."\n";
             $code .= '                  <h3>public</h3>'."\n";

@@ -17,7 +17,7 @@
          * @param DependTemplEngine $dic_t
          * @param array $params
          */
-		public function __construct(DependTemplEngine $dic_t, $params){
+		public function __construct(DependTemplEngine $dic_t, array $params){
 			$this->params = $params;
 		}
 
@@ -26,7 +26,7 @@
          * @param string $bundle
          * @return string
          */
-		public function parse($path, $bundle){
+		public function parse(string $path, string $bundle): string{
             if(strstr($path, '::')){
 				list($bundle, $file) = explode('::', $path);
 			}

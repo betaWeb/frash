@@ -35,12 +35,12 @@
 
         /**
          * ParseTplParent constructor.
-         * @param string $trad
+         * @param object $trad
          * @param string $bundle
          * @param string $display
          * @param DependTemplEngine $dic_t
          */
-		public function __construct($trad, $bundle, $display, DependTemplEngine $dic_t){
+		public function __construct($trad, string $bundle, string $display, DependTemplEngine $dic_t){
 			$this->bundle = $bundle;
 			$this->display = $display;
 			$this->dic_t = $dic_t;
@@ -50,7 +50,7 @@
         /**
          * @return string
          */
-		public function parse(){
+		public function parse(): string{
 			$level_escape = 0;
 
 			preg_match_all('/\[(\/?)(([a-z]*)?\s?([a-z\/@_!=:,\.\s]*))\]/', $this->display, $res_split, PREG_SET_ORDER);

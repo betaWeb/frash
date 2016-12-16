@@ -28,11 +28,9 @@
          * @param array $arguments
          * @return int
          */
-        private function count($entity, $where, $arguments){
+        private function count(string $entity, string $where, array $arguments): int{
             try{
-                $table = lcfirst($entity);
-                $request = 'SELECT * FROM '.$table.' '.$where;
-
+                $request = 'SELECT * FROM '.lcfirst($entity).' '.$where;
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
 
                 $this->pdo->request($request, $arguments);
@@ -49,7 +47,7 @@
          * @param array $arg
          * @return int
          */
-        public function __call($method, $arg){
+        public function __call(string $method, array $arg): int{
             $entity = $arg[0];
             array_shift($arg);
 

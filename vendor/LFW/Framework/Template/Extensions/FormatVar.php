@@ -22,7 +22,7 @@
          * @param DependTemplEngine $dic_t
          * @param array $params
          */
-		public function __construct(DependTemplEngine $dic_t, $params){
+		public function __construct(DependTemplEngine $dic_t, array $params){
 			$this->dic_t = $dic_t;
 			$this->params = $params['params'];
 		}
@@ -31,7 +31,7 @@
          * @param string $variable
          * @return string
          */
-		public function parse($variable){
+		public function parse(string $variable): string{
 			$array = [];
 			$param = '';
 

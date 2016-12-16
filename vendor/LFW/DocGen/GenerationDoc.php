@@ -11,11 +11,11 @@
 	class GenerationDoc{
         /**
          * @param string $output
-         * @param string $class
+         * @param array $class
          */
-		public static function work($output, $class){
-            $json = Json::importConfigArray();
-            $prefix = ($json['prefix'] == '/') ? '' : $json['prefix'];
+		public static function work(string $output, array $class){
+            $json = (array) Json::importConfigArray();
+            $prefix = (string) ($json['prefix'] == '/') ? '' : $json['prefix'];
 
             DirExist::verif($output);
             Directory::create($output.'/src', 0775);

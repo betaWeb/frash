@@ -30,12 +30,12 @@
 
         /**
          * ParseParent constructor.
-         * @param string $trad
+         * @param object $trad
          * @param string $bundle
          * @param string $tpl
          * @param DependTemplEngine $dic_t
          */
-		public function __construct($trad, $bundle, $tpl, DependTemplEngine $dic_t){
+		public function __construct($trad, string $bundle, string $tpl, DependTemplEngine $dic_t){
 			$this->bundle = $bundle;
 			$this->dic_t = $dic_t;
 			$this->tpl = $tpl;
@@ -47,7 +47,7 @@
          * @param string $value
          * @return string
          */
-		public function parse($name, $value){
+		public function parse(string $name, string $value): string{
 			$condition = [];
 
 			$level_condition = 0;
