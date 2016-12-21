@@ -5,5 +5,6 @@
     use LFW\Framework\Globals\Server;
 
     $dic = new Dic();
+    $dic->load('get')->set('time_warning', time());
     $dic->load('microtime')->setMicrotime('start');
     $dic->load('router')->routing(Server::getReqUriTrim());
