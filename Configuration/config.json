@@ -1,20 +1,21 @@
 {
   "env": "local",
-  "prefix": "/DIRECTORY",
+  "prefix": "",
   "racine": {
-    "path": "AppBundle:IndexController:indexAction"
+    "path": "LfwBundle:IndexController:indexAction"
   },
   "cache": {
     "TWIG": "yes"
   },
   "traduction": {
     "default": "fr",
-    "available": [ "fr" ]
+    "available": [ "fr", "en" ]
   },
   "log": {
+    "access": "yes",
     "error": "yes",
     "request": "yes",
-    "access": "yes"
+    "warning": "yes"
   },
   "routing": {
     "file": "routing"
