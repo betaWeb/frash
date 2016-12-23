@@ -39,7 +39,7 @@
             $lien = '';
 
             $gets->set('uri', $url);
-            $gets->set('cache_twig', $conf['cache']['TWIG']);
+            $gets->set('cache_tpl', $conf['cache']['tpl']);
             $gets->set('env', $conf['env']);
             $gets->set('prefix', $conf['prefix']);
 
