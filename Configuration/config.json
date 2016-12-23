@@ -5,7 +5,7 @@
     "path": "LfwBundle:IndexController:indexAction"
   },
   "cache": {
-    "TWIG": "yes"
+    "tpl": "yes"
   },
   "traduction": {
     "default": "fr",
