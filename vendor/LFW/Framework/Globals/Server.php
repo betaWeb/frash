@@ -205,13 +205,6 @@
         /**
          * @return string
          */
-        public static function getReqUriTrim(){
-            return ltrim(self::getRequestUri(), '/');
-        }
-
-        /**
-         * @return string
-         */
         public static function getPhpAuthDigest(){
             return $_SERVER['PHP_AUTH_DIGEST'];
         }
