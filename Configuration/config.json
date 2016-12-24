@@ -1,6 +1,5 @@
 {
   "env": "local",
-  "prefix": "",
   "racine": {
     "path": "LfwBundle:IndexController:indexAction"
   },
