@@ -16,6 +16,11 @@
         private $bundle = '';
 
         /**
+         * @var string
+         */
+        private $cache = '';
+
+        /**
          * @var Dic
          */
         private $dic;
@@ -46,6 +51,7 @@
             $gets = $this->dic->load('get');
 
 			$this->bundle = $gets->get('bundle');
+            $this->cache = $gets->get('cache_tpl');
             $this->env = $gets->get('env');
 			$this->file = $file;
 			$this->params = $params;
@@ -78,5 +84,9 @@
             $path_class = 'LFW\Cache\Templating\\'.$name_file;
             $tpl_class = new $path_class($this->dic, $this->dic_t, $this->params, $this->env);
             echo $tpl_class->display();
+
+            if($this->cache != 'yes'){
+                File::delete('vendor/LFW/Cache/Templating/'.$name_file.'.php');
+            }
 		}
 	}
