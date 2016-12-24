@@ -7,7 +7,8 @@
      */
     class Hydrator{
         /**
-         * @param array $object
+         * @param object $object
+         * @param object $entity;
          * @return object
          */
         public function hydration($object, $entity){

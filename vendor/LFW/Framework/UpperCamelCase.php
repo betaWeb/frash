@@ -15,8 +15,8 @@
          * @param string $string
          * @return string
          */
-		public static function treatment($string){
-			self::$str = $string;
+		public static function treatment(string $string): string{
+			self::$str = ucfirst($string);
 			self::recursive();
 
 			return self::$str;

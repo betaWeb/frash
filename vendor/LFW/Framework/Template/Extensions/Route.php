@@ -52,22 +52,7 @@
                 }
             }
 
-            if('/'.$this->params['nurl'][0] == $this->params['json']['prefix'] && $this->params['json']['prefix'] != '/'){
-                if(in_array($this->params['nurl'][1], $this->params['json']['traduction']['available'])){
-                    return '/'.$this->params['nurl'][0].'/'.$this->params['nurl'][1].'/'.$route;
-                }
-                else{
-                    return '/'.$this->params['nurl'][0].'/'.$route;
-                }
-            }
-            else{
-                if(in_array($this->params['nurl'][0], $this->params['traduction']['available'])){
-                    return '/'.$this->params['nurl'][0].'/'.$route;
-                }
-                else{
-                    return $route;
-                }
-            }
+            return $this->params['prefix_lang'].'/'.$route;
         }
 
         /**
@@ -105,21 +90,6 @@
                 }
             }
 
-            if('/'.$this->params['nurl'][0] == $this->params['json']['prefix'] && $this->params['json']['prefix'] != '/'){
-                if(in_array($this->params['nurl'][1], $this->params['json']['traduction']['available'])){
-                    return '/'.$this->params['nurl'][0].'/'.$this->params['nurl'][1].'/'.$route;
-                }
-                else{
-                    return '/'.$this->params['nurl'][0].'/'.$route;
-                }
-            }
-            else{
-                if(in_array($this->params['nurl'][0], $this->params['traduction']['available'])){
-                    return '/'.$this->params['nurl'][0].'/'.$route;
-                }
-                else{
-                    return $route;
-                }
-            }
+            return $this->params['prefix_lang'].'/'.$route;
         }
 	}

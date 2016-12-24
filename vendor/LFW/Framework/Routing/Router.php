@@ -41,21 +41,10 @@
             $gets->set('uri', $url);
             $gets->set('cache_tpl', $conf['cache']['tpl']);
             $gets->set('env', $conf['env']);
-            $gets->set('prefix', $conf['prefix']);
 
-            if('/'.$path[0] == $conf['prefix'] && !empty($path[0])){
-                if(in_array($path[1], $conf['traduction']['available'])){
-                    $gets->set('lang', $path[1]);
-                    unset($path[0], $path[1]);
-                }
-                elseif(!in_array($path[1], $conf['traduction']['available'])){
-                    $gets->set('lang', $conf['traduction']['default']);
+            $prefix = $gets->get('prefix');
 
-                    $slice = array_slice($path, 1);
-                    $path = $slice;
-                }
-            }
-            elseif(in_array($path[0], $conf['traduction']['available'])){
+            if(in_array($path[0], $conf['traduction']['available'])){
                 $gets->set('lang', $path[0]);
                 unset($path[0]);
             }
@@ -63,18 +52,15 @@
                 $gets->set('lang', $conf['traduction']['default']);
             }
 
+            $gets->set('prefix_lang', $prefix.'/'.$gets->get('lang'));
+
             array_unshift($path, 0);
             array_shift($path);
 
             $racine = 0;
             $routarr = Json::importRoutingArray($conf['routing']['file']);
 
-            if(!empty($path[0]) && $path[0][0].$path[0][1] == '__'){
-                if($path[0] == '__documentation'){
-                    
-                }
-            }
-            elseif(empty($path[0]) && !empty($conf['racine']['path'])){
+            if(empty($path[0]) && !empty($conf['racine']['path'])){
                 $nb_expl = 1;
                 $lien = '/';
                 $route = $conf['racine']['path'];

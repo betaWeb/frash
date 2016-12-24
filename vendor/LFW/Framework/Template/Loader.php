@@ -54,6 +54,8 @@
             $this->dic_t->setParams('json', Json::importConfigArray());
             $this->dic_t->setParams('nurl', explode('/', $gets->get('uri')));
             $this->dic_t->setParams('params', $this->params);
+            $this->dic_t->setParams('prefix', $gets->get('prefix'));
+            $this->dic_t->setParams('prefix_lang', $gets->get('prefix_lang'));
 		}
 
 		public function view(){

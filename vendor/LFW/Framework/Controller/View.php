@@ -40,8 +40,8 @@
          */
         public function __construct(Dic $dic){
             $this->gets = $dic->load('get');
-            $this->bundle = $gets->get('bundle');
-            $this->nurl = explode('/', $gets->get('uri'));
+            $this->bundle = $this->gets->get('bundle');
+            $this->nurl = explode('/', $this->gets->get('uri'));
             $this->prefix = $this->gets->get('prefix');
         }
 

@@ -34,13 +34,6 @@
 				$file = $path;
 			}
 
-			$base = '/Bundles/'.$bundle.'/Ressources/'.$file;
-
-			if('/'.$this->params['nurl'][0] == $this->params['json']['prefix'] && $this->params['json']['prefix'] != '/'){
-                return '/'.$this->params['nurl'][0].$base;
-            }
-            else{
-                return $base;
-            }
+            return $this->params['prefix'].'/Bundles/'.$bundle.'/Ressources/'.$file;
 		}
 	}

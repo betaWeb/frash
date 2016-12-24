@@ -14,11 +14,19 @@
         private $nurl = [];
 
         /**
+         * @var string
+         */
+        private $prefix = '';
+
+        /**
          * Redirect constructor.
          * @param Dic $dic
          */
         public function __construct(Dic $dic){
-            $this->nurl = explode('/', $dic->load('get')->get('uri'));
+            $gets = $dic->load('get');
+
+            $this->nurl = explode('/', $gets->get('uri'));
+            $this->prefix = $gets->get('prefix_lang');
         }
 
         /**
@@ -26,16 +34,7 @@
          * @return bool
          */
         public function route(string $url): bool{
-            $json = Json::importConfigArray();
-            
-            if('/'.$this->nurl[0] == $json['prefix'] && $json['prefix'] != '/'){
-                $redirect = (in_array($this->nurl[1], $json['traduction']['available'])) ? $this->nurl[0].'/'.$this->nurl[1] : $this->nurl[0];
-            }
-            else{
-                $redirect = (in_array($this->nurl[0], $json['traduction']['available'])) ? $this->nurl[0] : '';
-            }
-
-            header('Location:/'.$redirect.'/'.$url);
+            header('Location:'.$this->prefix.'/'.$url);
             return true;
         }
 

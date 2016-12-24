@@ -1,6 +1,6 @@
 <?php
     namespace LFW\Framework\Forms\Type;
-    use LFW\Framework\Controller\GetUrl;
+    use LFW\Framework\DIC\Dic;
     use LFW\Framework\Forms\FormTypeInterface;
     use LFW\Framework\Globals\Session;
     use LFW\Framework\Forms\Type\Csrf;
@@ -9,7 +9,7 @@
      * Class StartForm
      * @package LFW\Framework\Forms\Type
      */
-    class StartForm implements FormTypeInterface {
+    class StartForm{
         /**
          * @var string
          */
@@ -18,9 +18,9 @@
         /**
          * StartForm constructor.
          * @param array $spec
+         * @param Dic $dic
          */
-        public function __construct($spec){
-            $url = new GetUrl;
+        public function __construct($spec, Dic $dic){
             $this->input = '<form';
 
             if(!empty($spec['method'])){
@@ -28,7 +28,7 @@
             }
 
             if(!empty($spec['action'])){
-                $this->input .= ' action="'.$url->url($spec['action']).'"';
+                $this->input .= ' action="'.$dic->load('getUrl')->url($spec['action']).'"';
             }
 
             if(!empty($spec['id'])){

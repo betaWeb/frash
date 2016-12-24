@@ -13,6 +13,19 @@
         const PATH = 'LFW\\Framework\\Forms\\Type\\';
 
         /**
+         * @var Dic
+         */
+        private $dic;
+
+        /**
+         * FormFactory constructor.
+         * @param Dic $dic
+         */
+        public function __construct(Dic $dic){
+            $this->dic = $dic;
+        }
+
+        /**
          * @return \LFW\Framework\Forms\VerifForm
          */
         public function verif(){
@@ -23,14 +36,14 @@
          * @return \LFW\Framework\Forms\CreateForm
          */
         public function create(){
-            return new CreateForm(self::PATH);
+            return new CreateForm(self::PATH, $this->dic);
         }
 
         /**
          * @return \LFW\Framework\Forms\CreateFormSql
          */
-        public function createSql(Dic $dic){
-            return new CreateFormSql(self::PATH, $dic);
+        public function createSql(){
+            return new CreateFormSql(self::PATH, $this->dic);
         }
 
         /**
