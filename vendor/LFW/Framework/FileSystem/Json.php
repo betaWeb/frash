@@ -52,4 +52,20 @@
         public static function importRoutingArray(string $routing): array{
             return json_decode(file_get_contents('Configuration/'.$routing.'.json'), true);
         }
+
+        /**
+         * @param array $json
+         * @return string
+         */
+        public static function encode(array $json): string{
+            return json_encode($json);
+        }
+
+        /**
+         * @param string $json
+         * @return array
+         */
+        public static function decode(string $json): array{
+            return json_decode($json);
+        }
 	}
