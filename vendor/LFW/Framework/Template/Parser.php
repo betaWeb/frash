@@ -1,6 +1,7 @@
 <?php
 	namespace LFW\Framework\Template;
     use LFW\Framework\DIC\Dic;
+    use LFW\Framework\FileSystem\File;
     use LFW\Framework\Template\DependTemplEngine;
 	use LFW\Framework\Template\Cache\CreateClassCache;
 	use LFW\Framework\Template\Parsing\ParseWithExtend;
@@ -79,7 +80,7 @@
 
 			$this->importBottomBar();
 			$this->class_cache .= CreateClassCache::endClass();
-			file_put_contents('vendor/LFW/Cache/Templating/'.$this->name_class.'.php', $this->class_cache);
+			File::create('vendor/LFW/Cache/Templating/'.$this->name_class.'.php', $this->class_cache);
 		}
 
 		private function importBottomBar(){
