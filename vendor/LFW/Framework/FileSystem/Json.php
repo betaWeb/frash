@@ -63,9 +63,14 @@
 
         /**
          * @param string $json
-         * @return array
+         * @return array|object
          */
-        public static function decode(string $json): array{
-            return json_decode($json);
+        public static function decode(string $json, string $object = 'false'){
+            if($object == 'false'){
+                return json_decode($json, true);
+            }
+            elseif($object == 'true'){
+                return json_decode($json);
+            }
         }
 	}

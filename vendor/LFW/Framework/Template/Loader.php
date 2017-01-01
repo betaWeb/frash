@@ -65,19 +65,15 @@
 		}
 
 		public function view(){
-			if(File::exist('Bundles/'.$this->bundle.'/Views/'.$this->file) === false){
+            $this->dirTemplatingExist();
+
+            if(File::exist('Bundles/'.$this->bundle.'/Views/'.$this->file) === false){
                 return new Exception('Template '.$this->file.' not found.');
             }
 
-            if(Directory::exist('vendor/LFW/Cache/Templating') === false){
-            	Directory::create('vendor/LFW/Cache/Templating', 0775);
-			}
-
             $name_file = 'TemplateOf'.md5('Bundles/'.$this->bundle.'/Views/'.$this->file);
             if(File::exist('vendor/LFW/Cache/Templating/'.$name_file.'.php') === false){
-                $path_tpl = 'Bundles/'.$this->bundle.'/Views/'.$this->file;
-
-                $parser = new Parser($path_tpl, $this->params, $this->dic, $this->dic_t, $name_file);
+                $parser = new Parser('Bundles/'.$this->bundle.'/Views/'.$this->file, $this->params, $this->dic, $this->dic_t, $name_file);
                 $parser->parse();
             }
 
@@ -85,8 +81,34 @@
             $tpl_class = new $path_class($this->dic, $this->dic_t, $this->params, $this->env);
             echo $tpl_class->display();
 
-            if($this->cache != 'yes'){
-                File::delete('vendor/LFW/Cache/Templating/'.$name_file.'.php');
-            }
+            $this->ifNoCache($name_file);
 		}
+
+        public function internal(string $type, string $file){
+            $this->dirTemplatingExist();
+
+            $name_file = 'Display'.$type;
+            if(File::exist('vendor/LFW/Cache/Templating/Display.php') === false){
+                $parser = new Parser($this->file, $this->params, $this->dic, $this->dic_t, $name_file);
+                $parser->parse($type);
+            }
+
+            $path_class = 'LFW\Cache\Templating\\'.$name_file;
+            $tpl_class = new $path_class($this->dic, $this->dic_t, $this->params, $this->env);
+            echo $tpl_class->display();
+
+            $this->ifNoCache('Display'.$type);
+        }
+
+        private function dirTemplatingExist(){
+            if(Directory::exist('vendor/LFW/Cache/Templating') === false){
+                Directory::create('vendor/LFW/Cache/Templating', 0775);
+            }
+        }
+
+        private function ifNoCache(string $file){
+            if($this->cache != 'yes'){
+                File::delete('vendor/LFW/Cache/Templating/'.$file.'.php');
+            }
+        }
 	}

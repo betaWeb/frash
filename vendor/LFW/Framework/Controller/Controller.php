@@ -1,6 +1,7 @@
 <?php
     namespace LFW\Framework\Controller;
     use LFW\Framework\DIC\Dic;
+    use LFW\Framework\FileSystem\Json;
 
     /**
      * Class Controller
@@ -25,5 +26,9 @@
          */
         public function call($controller){
             return new $controller($this->dic);
+        }
+
+        public function generationAnalyzer(){
+            $this->dic->load('analyzer')->generation();
         }
     }

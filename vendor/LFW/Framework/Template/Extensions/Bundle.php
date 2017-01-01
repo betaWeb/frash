@@ -34,6 +34,7 @@
 				$file = $path;
 			}
 
-            return $this->params['prefix'].'/Bundles/'.$bundle.'/Ressources/'.$file;
+            $prefix = ($this->params['prefix'] == '/') ? '' : $this->params['prefix'];
+            return $prefix.'/Bundles/'.$bundle.'/Ressources/'.$file;
 		}
 	}

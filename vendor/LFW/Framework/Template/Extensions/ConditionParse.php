@@ -55,15 +55,7 @@
 						$split_cond[2] = ltrim($split_cond[2], '@');
 					}
 
-					if($split_cond[3] == 'start_with' || $split_cond[3] == 'end_with'){
-						if($split_cond[3] == 'start_with'){
-							$count = count($split_cond[4]);
-							$treatment .= $split_cond[1].'(substr($this->params'.$this->dic_t->load('FormatVar')->parse($split_cond[2]).', '.$count.') == '.$split_cond[4].'){'."\n";
-							$treatment .= '				return \''.trim($value_cond[1]).'\';'."\n";
-							$treatment .= '			}'."\n";
-						}
-					}
-					elseif($split_cond[4] == '!empty'){
+					if($split_cond[4] == '!empty'){
 						$treatment .= $split_cond[1].'(!empty($this->params'.$this->dic_t->load('FormatVar')->parse($split_cond[2]).')){'."\n";
 						$treatment .= '				return \''.trim($value_cond[1]).'\';'."\n";
 						$treatment .= '			}'."\n";

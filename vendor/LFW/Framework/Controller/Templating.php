@@ -23,22 +23,20 @@
 
         /**
          * @param string $file
-         * @param string|array $bundle
          * @param array $param
          * @return bool
          */
-		public function view(string $file, $bundle = '', array $param = []): bool{
-            if(!is_array($bundle) && !empty($bundle)){
-                $this->bundle = $bundle;
-                $params = $param;
-            }
-            else{
-                $params = $bundle;
-            }
-
-            $loader = new Loader($file, $params, $this->dic);
+		public function view(string $file, array $param = []): bool{
+            $loader = new Loader($file, $param, $this->dic);
             $loader->view();
 
             return true;
 		}
+
+        public function internal(string $type, string $link, string $file, array $param = []): bool{
+            $loader = new Loader($link, $param, $this->dic);
+            $loader->internal($type, $file);
+
+            return true;
+        }
 	}

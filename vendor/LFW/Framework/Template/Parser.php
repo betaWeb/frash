@@ -4,7 +4,7 @@
     use LFW\Framework\FileSystem\File;
     use LFW\Framework\Template\DependTemplEngine;
 	use LFW\Framework\Template\Cache\CreateClassCache;
-	use LFW\Framework\Template\Parsing\ParseWithExtend;
+	use LFW\Framework\Template\Parsing\{ ParseWithExtend, ParseWithoutExtend };
 
     /**
      * Class Parser
@@ -67,7 +67,7 @@
 			$this->dic_t = $dic_t;
 		}
 
-		public function parse(){
+		public function parse(string $type = 'normal'){
         	preg_match('/\[extend (.*)\]/', $this->tpl, $extend);
 
 			if(!empty($extend)){
@@ -75,12 +75,19 @@
 				$this->class_cache .= $parse->parse();
 			}
 			else{
-				// ParseWithoutExtend
+				$parse = new ParseWithoutExtend($this->tpl, $this->dic, $this->params, $this->dic_t);
+				$this->class_cache .= $parse->parse();
 			}
 
 			$this->importBottomBar();
 			$this->class_cache .= CreateClassCache::endClass();
-			File::create('vendor/LFW/Cache/Templating/'.$this->name_class.'.php', $this->class_cache);
+
+			if($type == 'normal'){
+				File::create('vendor/LFW/Cache/Templating/'.$this->name_class.'.php', $this->class_cache);
+			}
+			elseif($type == 'Analyzer'){
+				File::create('vendor/LFW/Cache/Templating/DisplayAnalyzer.php', $this->class_cache);
+			}
 		}
 
 		private function importBottomBar(){
