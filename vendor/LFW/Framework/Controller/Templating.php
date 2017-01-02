@@ -22,19 +22,35 @@
 		}
 
         /**
+         * @param array $params
+         * @return array
+         */
+        public function getInternalParam(array $params): array{
+            $gets = $this->dic->load('get');
+            return array_merge([ 'internal_prefix' => $gets->get('prefix'), 'internal_prefix_lang' => $gets->get('prefix_lang') ], $params);
+        }
+
+        /**
          * @param string $file
          * @param array $param
          * @return bool
          */
 		public function view(string $file, array $param = []): bool{
-            $loader = new Loader($file, $param, $this->dic);
+            $loader = new Loader($file, $this->getInternalParam($param), $this->dic);
             $loader->view();
 
             return true;
 		}
 
+        /**
+         * @param string $type
+         * @param string $link
+         * @param string $file
+         * @param array $param
+         * @return bool
+         */
         public function internal(string $type, string $link, string $file, array $param = []): bool{
-            $loader = new Loader($link, $param, $this->dic);
+            $loader = new Loader($link, $this->getInternalParam($param), $this->dic);
             $loader->internal($type, $file);
 
             return true;

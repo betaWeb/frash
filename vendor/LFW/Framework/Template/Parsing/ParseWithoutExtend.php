@@ -92,10 +92,7 @@
 					case $level_escape == 0:
 						switch(true){
 							case preg_match($this->parsing['bundle'], $tag[0]):
-								if($level_foreach == 0 && $level_for_simple == 0 && $level_for_index == 0 && $level_for_itvl == 0){
-									$this->tpl = str_replace($match_all[ $key ][0], $this->dic_t->load('Bundle')->parse($match_all[ $key ][4], $this->bundle), $this->tpl);
-								}
-
+								$this->tpl = str_replace($match_all[ $key ][0], $this->dic_t->load('Bundle')->parse($match_all[ $key ][4], $this->bundle), $this->tpl);
 								break;
 							case preg_match($this->parsing['call'], $tag[0]):
 								break;
@@ -144,6 +141,9 @@
 								$condition[ $level_condition ][] = [ 'type' => 'if', 'condition' => $match_all[ $key ][2] ];
 								break;
 							case preg_match($this->parsing['include'], $tag[0]):
+								break;
+							case preg_match($this->parsing['internal'], $tag[0]):
+								$this->tpl = str_replace($match_all[ $key ][0], $this->dic_t->load('Bundle')->internal($match_all[ $key ][4]), $this->tpl);
 								break;
 							case preg_match($this->parsing['route'], $tag[0]):
 								if($level_foreach == 0 && $level_for_simple == 0 && $level_for_index == 0 && $level_for_itvl == 0){

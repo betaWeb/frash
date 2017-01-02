@@ -12,4 +12,4 @@
     $gets->set('prefix', Prefix::define(Server::getScriptName()));
 
     $dic->load('microtime')->setMicrotime('start');
-    $dic->load('router')->routing(substr(Server::getRequestUri(), strlen($gets->get('prefix').'/')));
+    $dic->load('router')->routing(substr(Server::getRequestUri(), strlen($gets->get('prefix'))));

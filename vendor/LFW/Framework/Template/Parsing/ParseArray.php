@@ -10,7 +10,7 @@
          * @var array
          */
 		protected $parsing = [
-			'bundle' => '/\[bundle (.*?)\]/',
+			'bundle' => '/\[bundle (.*)\]/',
 			'call' => '/\[call (\w+)\]/', // Call route to execute action in view
 			'else' => '/\[else\]/',
 			'elseif' => '/\[elseif (.*)\]/',
@@ -29,6 +29,7 @@
 			'foreach' => '/\[foreach (.*) :: (.*), (.*)\]/',
 			'if' => '/\[if (.*)\]/',
 			'include' => '/\[include (\w+)\]/', // include('bundle', 'file.html')
+			'internal' => '/\[internal (.*)\]/',
 			'parent' => '/\[parent (\w+)\]/',
 			'parts' => '/\[part (\w+)\]/',
 			'route' => '/\[route (.*)]/',
@@ -36,6 +37,6 @@
 			'set_var' => '/\[define (\w+)\]/',
 			'show_var' => '/\[@(.*)\]/',
 			'show_var_for' => '/\[!(.*)\]/',
-			'traduction' => '/\[traduction (.*?)\]/'
+			'traduction' => '/\[traduction (.*)\]/'
 		];
 	}

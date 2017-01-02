@@ -16,7 +16,7 @@
 			}
 			else{
 				$expl = explode('/', ltrim($script_name, '/'));
-				return '/'.$expl[0];
+				return '/'.$expl[0].'/';
 			}
 		}
 	}

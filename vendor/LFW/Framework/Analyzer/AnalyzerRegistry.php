@@ -5,14 +5,20 @@
 	class AnalyzerRegistry{
 		private $config = [];
 		private $request = [];
+		private $route = '';
 		private $session = [];
 
 		public function getAllRegistry(): array{
 			return [
 				'config' => $this->config,
 				'request' => $this->request,
+				'route' => $this->route,
 				'session' => $this->session
 			];
+		}
+
+		public function getRoute(): string{
+			return $this->route;
 		}
 
 		public function setConfigPHP(){
@@ -21,6 +27,10 @@
 
 		public function setRequest(string $request){
 			$this->request[] = $request;
+		}
+
+		public function setRoute(string $route){
+			$this->route = $route;
 		}
 
 		public function setSession(string $session){

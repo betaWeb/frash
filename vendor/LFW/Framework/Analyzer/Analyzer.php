@@ -1,7 +1,6 @@
 <?php
 	namespace LFW\Framework\Analyzer;
-	use LFW\Framework\Analyzer\AnalyzerGeneration;
-	use LFW\Framework\Analyzer\AnalyzerRegistry;
+	use LFW\Framework\Analyzer\{ AnalyzerGeneration, AnalyzerRegistry };
     use LFW\Framework\DIC\Dic;
     use LFW\Framework\FileSystem\Json;
     use LFW\Framework\Globals\Server;
@@ -17,21 +16,25 @@
 		}
 
 		public function generation(){
-			new AnalyzerGeneration($this->registry->getAllRegistry(), $this->route);
+			new AnalyzerGeneration($this->registry->getAllRegistry(), $this->registry->getRoute());
 		}
 
 		public function getRegistry(){
 			return $this->registry;
 		}
 
-		public function setRoute(string $route){
-			$this->route = $route;
-		}
-
-		public function display(string $file){
+		public function display(string $route, string $file){
 			$prefix = $this->dic->load('get')->get('prefix');
-			$prefix_array = 'http://'.Server::getServerName().$prefix.'vendor/LFW/Cache/Analyzer/'.$file.'.json';
 
-			return $this->dic->load('tel')->internal('Analyzer', 'vendor/LFW/Framework/Analyzer/display.tpl', $file, Json::decode(file_get_contents($prefix_array)));
+			$port = Server::getServerPort();
+			if($port == 80){
+				$prefix_array = 'http://'.Server::getServerName().$prefix.'vendor/LFW/Cache/Analyzer/'.$file.'.json';
+			}
+			else{
+				$prefix_array = 'http://'.Server::getServerName().':'.$port.$prefix.'vendor/LFW/Cache/Analyzer/'.$file.'.json';
+			}
+
+			$params = array_merge([ 'true_route' => $route ], Json::decode(file_get_contents($prefix_array)));
+			return $this->dic->load('tel')->internal('Analyzer', 'vendor/LFW/Framework/Analyzer/display.tpl', $file, $params);
 		}
 	}

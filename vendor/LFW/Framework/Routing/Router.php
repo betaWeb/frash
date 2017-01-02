@@ -69,7 +69,7 @@
             if(!empty($path[0]) && $path[0][0].$path[0][1] == '__'){
                 if($path[0] == '__analyzer'){
                     array_shift($path);
-                    $this->dic->load('analyzer')->display(rtrim(implode('.', $path), '.'));
+                    $this->dic->load('analyzer')->display(implode('/', $path), rtrim(implode('.', $path), '.'));
                 }
             }
             else{
@@ -129,7 +129,7 @@
                         $gets->set('bundle', $bundle);
 
                         if($conf['analyzer'] == 'yes'){
-                            $this->dic->load('analyzer')->setRoute(str_replace('/', '.', $lien));
+                            $this->dic->load('analyzer')->getRegistry()->setRoute(str_replace('/', '.', $lien));
                             $controller = $this->dic->load('controller');
 
                             $controller->call($routing)->$action($this->dic);

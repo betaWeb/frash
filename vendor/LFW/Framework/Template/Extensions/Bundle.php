@@ -37,4 +37,13 @@
             $prefix = ($this->params['prefix'] == '/') ? '' : $this->params['prefix'];
             return $prefix.'/Bundles/'.$bundle.'/Ressources/'.$file;
 		}
+
+        /**
+         * @param string $path
+         * @return string
+         */
+        public function internal(string $path): string{
+            $prefix = ($this->params['prefix'] == '/') ? '' : $this->params['prefix'];
+            return $prefix.'/'.$path;
+        }
 	}
