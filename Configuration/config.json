@@ -1,5 +1,6 @@
 {
   "env": "local",
+  "analyzer": "yes",
   "racine": {
     "path": "LfwBundle:IndexController:indexAction"
   },
