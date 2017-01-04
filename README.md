@@ -1,7 +1,7 @@
 # LFW
 Light FrameWork
 
- - <kbd>LFW</kdb> : 1.3.17
+ - <kbd>LFW</kbd> : 1.3.17
  - <kbd>Console</kbd> : 0.1.0
  - <kbd>DocGen</kbd> : 0.2.0
  - <kbd>Framework</kbd> : 1.0.0
