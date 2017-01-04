@@ -14,7 +14,7 @@
 			$class_cache = '<?php'."\n";
 			$class_cache .= '	namespace LFW\Cache\Templating;'."\n";
 			$class_cache .= '	use LFW\Framework\Template\DependTemplEngine;'."\n";
-			$class_cache .= '	use LFW\Framework\Template\Cache\ImportBottomBar;'."\n\n";
+			$class_cache .= '	use LFW\Framework\Template\Extensions\BottomBar\ImportBottomBar;'."\n\n";
 			$class_cache .= '	class '.$name_class.'{'."\n";
 			$class_cache .= '		private $bott_bar = \'\';'."\n";
 			$class_cache .= '		private $dic_t;'."\n";

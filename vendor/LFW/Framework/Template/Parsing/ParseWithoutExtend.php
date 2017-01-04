@@ -45,7 +45,7 @@
 		private $display = '';
 
         /**
-         * ParseWithExtend constructor.
+         * ParseWithoutExtend constructor.
          * @param string $tpl
          * @param Dic $dic
          * @param array $params
@@ -69,9 +69,9 @@
 		public function parse(): string{
 			$level_condition = 0;
 			$level_escape = 0;
+			$level_for = 0;
 			$level_for_index = 0;
 			$level_for_itvl = 0;
-			$level_for_simple = 0;
 			$level_foreach = 0;
 
 			$condition = [];
@@ -92,7 +92,10 @@
 					case $level_escape == 0:
 						switch(true){
 							case preg_match($this->parsing['bundle'], $tag[0]):
-								$this->tpl = str_replace($match_all[ $key ][0], $this->dic_t->load('Bundle')->parse($match_all[ $key ][4], $this->bundle), $this->tpl);
+								if($level_foreach == 0 && $level_for == 0 && $level_for_index == 0 && $level_for_itvl == 0){
+									$this->tpl = str_replace($match_all[ $key ][0], $this->dic_t->load('Bundle')->parse($match_all[ $key ][4], $this->bundle), $this->tpl);
+								}
+
 								break;
 							case preg_match($this->parsing['call'], $tag[0]):
 								break;
@@ -116,7 +119,7 @@
 								break;
 							case preg_match($this->parsing['end_for_itvl'], $tag[0]):
 								break;
-							case preg_match($this->parsing['end_for_simple'], $tag[0]):
+							case preg_match($this->parsing['end_for'], $tag[0]):
 								break;
 							case preg_match($this->parsing['end_foreach'], $tag[0]):
 								preg_match('/\[foreach '.$foreach[ $level_foreach ]['param'].'\](.*)\[\/foreach\]/Us', $this->tpl, $match);
@@ -130,7 +133,7 @@
 								break;
 							case preg_match($this->parsing['for_itvl'], $tag[0]):
 								break;
-							case preg_match($this->parsing['for_simple'], $tag[0]):
+							case preg_match($this->parsing['for'], $tag[0]):
 								break;
 							case preg_match($this->parsing['foreach'], $tag[0]):
 								$level_foreach++;
@@ -146,7 +149,7 @@
 								$this->tpl = str_replace($match_all[ $key ][0], $this->dic_t->load('Bundle')->internal($match_all[ $key ][4]), $this->tpl);
 								break;
 							case preg_match($this->parsing['route'], $tag[0]):
-								if($level_foreach == 0 && $level_for_simple == 0 && $level_for_index == 0 && $level_for_itvl == 0){
+								if($level_foreach == 0 && $level_for == 0 && $level_for_index == 0 && $level_for_itvl == 0){
 									$this->tpl = str_replace($match_all[ $key ][0], $this->dic_t->load('Route')->parse($match_all[ $key ][4]), $this->tpl);
 								}
 
@@ -154,14 +157,14 @@
 							case preg_match($this->parsing['set_func'], $tag[0]):
 								break;
 							case preg_match($this->parsing['set_var'], $tag[0]):
-								if($level_foreach == 0 && $level_for_simple == 0 && $level_for_index == 0 && $level_for_itvl == 0){
+								if($level_foreach == 0 && $level_for == 0 && $level_for_index == 0 && $level_for_itvl == 0){
 									preg_match('/\[\@(\w+)\](.*)\[\/var]/', $this->tpl, $set_var);
 									$this->params[$set_var[1]] = $set_var[2];
 								}
 
 								break;
 							case preg_match($this->parsing['show_var'], $tag[0]):
-								if($level_foreach == 0 && $level_for_simple == 0 && $level_for_index == 0 && $level_for_itvl == 0){
+								if($level_foreach == 0 && $level_for == 0 && $level_for_index == 0 && $level_for_itvl == 0){
 									$variable = $this->dic_t->load('ShowVar')->parse(ltrim($match_all[ $key ][4], '@'));
 									$this->tpl = str_replace($match_all[ $key ][0], $variable, $this->tpl);
 								}
