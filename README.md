@@ -1,7 +1,13 @@
 # LFW
 Light FrameWork
 
- - <kbd>Framework</kbd> : 1.3.16
+ - <kbd>LFW</kdb> : 1.3.17
+ - <kbd>Console</kbd> : 0.1.0
+ - <kbd>DocGen</kbd> : 0.2.0
+ - <kbd>Framework</kbd> : 1.0.0
+ - <kbd>ORM</kbd> : 0.9
+ - <kbd>Template</kbd> : 1.0.0
+ - <kbd>UnitTest</kbd> : 0.0.0
 
 Installation
 ----------
@@ -10,4 +16,4 @@ Installation
 
 ----------
 
-To access the commands available through the console : php console console:listcommand
+To access the commands available through the console : php console.php console:listcommand
