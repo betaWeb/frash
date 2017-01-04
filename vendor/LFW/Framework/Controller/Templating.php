@@ -1,7 +1,7 @@
 <?php
 	namespace LFW\Framework\Controller;
     use LFW\Framework\DIC\Dic;
-	use LFW\Framework\Template\Loader;
+	use LFW\Template\Loader;
 
     /**
      * Class Templating
