@@ -79,6 +79,15 @@
             }
         }
 
+        public function setCount(){
+            if($this->colSel == '*'){
+                $this->colSel = 'COUNT(*) AS number_result';
+            }
+            else{
+                $this->colSel = ', COUNT(*) AS number_result';
+            }
+        }
+
         /**
          * @param Where $where
          */

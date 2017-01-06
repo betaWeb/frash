@@ -55,6 +55,7 @@
 
                 $this->conn->request($select->getRequest(), $select->getExecute());
                 $res = $this->conn->fetchObj();
+
                 return $this->hydration($res, 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity());
             }
             catch(\Exception $e){
@@ -76,10 +77,9 @@
 
                 $count = count($res) - 1;
                 $array_obj = [];
-                $ent = 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity();
 
                 for($i = 0; $i <= $count; $i++){
-                    $array_obj[ $i ] = $this->hydration($res[ $i ], $ent);
+                    $array_obj[ $i ] = $this->hydration($res[ $i ], 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity());
                 }
 
                 return $array_obj;
@@ -111,22 +111,6 @@
             try{
                 $this->conn->request($request->getRequest(), $request->getExecute());
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
-            }
-            catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
-                die('Il y a eu une erreur.');
-            }
-        }
-
-        /**
-         * @param RequestInterface $request
-         * @return int
-         */
-        public function count(RequestInterface $request): int{
-            try{
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
-                $this->conn->request($request->getRequest(), $request->getExecute());
-                return $this->conn->rowCount();
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());

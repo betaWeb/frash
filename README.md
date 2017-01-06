@@ -5,7 +5,7 @@ Light FrameWork
  - <kbd>Console</kbd> : 0.1.0
  - <kbd>DocGen</kbd> : 0.2.0
  - <kbd>Framework</kbd> : 1.0.0
- - <kbd>ORM</kbd> : 0.9
+ - <kbd>ORM</kbd> : 0.10.0
  - <kbd>Template</kbd> : 1.0.0
  - <kbd>UnitTest</kbd> : 0.0.0
 
