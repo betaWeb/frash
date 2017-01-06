@@ -1,5 +1,6 @@
 <?php
     namespace LFW\Console\ORM;
+    use LFW\Console\CommandInterface;
     use LFW\Framework\CreateLog\{ CreateErrorLog, CreateRequestLog };
     use LFW\Framework\FileSystem\Json;
 
@@ -7,13 +8,22 @@
      * Class Createdb
      * @package LFW\Console\ORM
      */
-    class Createdb{
+    class Createdb implements CommandInterface{
+        /**
+         * @var string
+         */
+        private $bundle = '';
+
         /**
          * Createdb constructor.
-         * @param string $bundle
+         * @param array $argv
          */
-        public function __construct(string $bundle){
-            $conn = Json::importConfigArray()['bundle'];
+        public function __construct(array $argv){
+            $this->bundle = $argv[2];
+        }
+
+        public function work(){
+            $conn = (array) Json::importDatabaseArray()[ $this->bundle ]['bundle'];
 
             try{
                 if($conn['system'] == 'MySQL'){

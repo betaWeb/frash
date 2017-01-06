@@ -1,31 +1,30 @@
 <?php
-	namespace LFW\Console\Files;
-	use LFW\Framework\FileSystem\File;
+    namespace LFW\Console\Files;
+    use LFW\Console\CommandInterface;
+    use LFW\Framework\FileSystem\File;
 
     /**
      * Class ClearCache
      * @package LFW\Console\Files
      */
-	class ClearCache{
-        /**
-         * @param string $path
-         */
-		public function work(string $path){
-			$dir_content = scandir($path);
+    class ClearCache implements CommandInterface{
+        const PATH = 'vendor/LFW/Cache/Templating';
 
-            if($dir_content !== FALSE){
+        /**
+         * ClearCache constructor.
+         * @param array $argv
+         */
+        public function __construct(array $argv){}
+
+        public function work(){
+            $dir_content = (array) scandir(self::PATH);
+
+            if($dir_content !== false){
                 foreach($dir_content as $entry){
                     if(!in_array($entry, [ '.', '..' ])){
-                        $entry = $path.'/'.$entry;
-
-                        if(!is_dir($entry)){
-                            File::delete($entry);
-                        }
-                        else{
-                            $this->work($entry);
-                        }
+                        File::delete(self::PATH.'/'.$entry);
                     }
                 }
             }
-		}
-	}
+        }
+    }

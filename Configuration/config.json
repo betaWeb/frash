@@ -19,5 +19,16 @@
   },
   "routing": {
     "file": "routing"
-  }
+  },
+  "console": {
+    "default": {
+      "Bundle:generate": "LFW.Console.Bundle.GenerateBundle",
+      "Clear:Cache": "LFW.Console.Files.ClearCache",
+      "Controller:generate": "LFW.Console.Bundle.GenerateController",
+      "Documentation:create": "LFW.Console.Documentation.DocGen",
+      "ORM:addentity": "LFW.Console.ORM.Addentity",
+      "ORM:createdb": "LFW.Console.ORM.Createdb",
+      "Test:Unit:run": "LFW.UnitTest.RunTest"
+    },
+    "custom": {}
 }

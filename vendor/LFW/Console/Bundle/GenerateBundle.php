@@ -1,30 +1,42 @@
 <?php
     namespace LFW\Console\Bundle;
+    use LFW\Console\CommandInterface;
+    use LFW\Framework\FileSystem\Directory;
 
     /**
      * Class GenerateBundle
      * @package LFW\Console\Bundle
      */
-    class GenerateBundle{
+    class GenerateBundle implements CommandInterface{
+        const CHMOD = 0770;
         const PREFIX = 'Bundles/';
-    
+
+        /**
+         * @var string
+         */
+        private $name = '';
+
         /**
          * GenerateBundle constructor.
-         * @param string $name
+         * @param array $argv
          */
-        public function __construct($name){
+        public function __construct(array $argv){
+            $this->name = $argv[2];
+        }
+
+        public function work(){
             if(!file_exists(self::PREFIX)){
-                mkdir('Bundles', 0755);
+                Directory::create('Bundles', self::CHMOD);
                 echo 'Dossier Bundles généré !'.PHP_EOL;
             }
 
-            mkdir(self::PREFIX.$name);
-            mkdir(self::PREFIX.$name.'/Controllers');
-            mkdir(self::PREFIX.$name.'/Entity');
-            mkdir(self::PREFIX.$name.'/Entity/Mapping');
-            mkdir(self::PREFIX.$name.'/Requests');
-            mkdir(self::PREFIX.$name.'/Ressources');
-            mkdir(self::PREFIX.$name.'/Views');
+            Directory::create(self::PREFIX.$this->name, self::CHMOD);
+            Directory::create(self::PREFIX.$this->name.'/Controllers', self::CHMOD);
+            Directory::create(self::PREFIX.$this->name.'/Entity', self::CHMOD);
+            Directory::create(self::PREFIX.$this->name.'/Entity/Mapping', self::CHMOD);
+            Directory::create(self::PREFIX.$this->name.'/Requests', self::CHMOD);
+            Directory::create(self::PREFIX.$this->name.'/Ressources', self::CHMOD);
+            Directory::create(self::PREFIX.$this->name.'/Views', self::CHMOD);
 
             echo 'Bundle généré !'.PHP_EOL;
         }

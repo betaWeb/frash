@@ -2,7 +2,7 @@
 Light FrameWork
 
  - <kbd>LFW</kbd> : 1.3.17
- - <kbd>Console</kbd> : 0.1.0
+ - <kbd>Console</kbd> : 1.0.0
  - <kbd>DocGen</kbd> : 0.2.0
  - <kbd>Framework</kbd> : 1.0.0
  - <kbd>ORM</kbd> : 0.10.0
