@@ -5,10 +5,13 @@
   "license": "MIT",
   "minimum-stability": "dev",
   "require": {
-    "twig/twig": "1.27.0"
+    "twig/twig": "1.30.0"
   },
   "autoload": {
-    "classmap": [ ".htaccess", "console.php", "index.php", "Configuration/.htaccess", "Configuration/config.json", "Configuration/database.json", "Configuration/dependencies.json", "Configuration/routing.json" ],
+    "classmap": [
+      ".htaccess", "console.php", "index.php", "Configuration/.htaccess", "Configuration/config.json", "Configuration/database.json", 
+      "Configuration/dependencies.json", "Configuration/routing.json"
+    ],
     "psr-4": {
       "Bundles\\": "Bundles/",
       "Traductions\\": "Traductions/",
