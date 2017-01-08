@@ -1,4 +1,5 @@
 {
+  "analyzer": "LFW.Framework.Analyzer.Analyzer",
   "annot": "LFW.Framework.Controller.Annotations.AnnotationFactory",
   "controller": "LFW.Framework.Controller.Controller",
   "determinate": "LFW.Framework.Controller.Determinate",
