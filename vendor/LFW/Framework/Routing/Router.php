@@ -29,14 +29,11 @@
          * @return object
          */
         public function routing(string $url){
-            $conf = Json::importConfigArray();
+            $conf = Json::importConfig();
             $gets = $this->dic->load('get');
             new CreateHTTPLog($url);
 
             $path = explode('/', $url);
-            $route = '';
-            $nb_expl = 0;
-            $lien = '';
 
             $gets->set('uri', $url);
             $gets->set('cache_tpl', $conf['cache']['tpl']);
@@ -64,7 +61,7 @@
             }
 
             $racine = 0;
-            $routarr = Json::importRoutingArray($conf['routing']['file']);
+            $routarr = Json::importRouting($conf['routing']['file']);
 
             if(!empty($path[0]) && $path[0][0].$path[0][1] == '__'){
                 if($path[0] == '__analyzer'){
@@ -73,6 +70,10 @@
                 }
             }
             else{
+                $lien = '';
+                $nb_expl = 0;
+                $route = '';
+
                 if(empty($path[0]) && !empty($conf['racine']['path'])){
                     $nb_expl = 1;
                     $lien = '/';

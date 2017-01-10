@@ -70,6 +70,11 @@
 						$treatment .= '				return \''.trim($value_cond[1]).'\';'."\n";
 						$treatment .= '			}'."\n";
 					}
+					elseif($split_cond[4][0] == '@'){
+						$treatment .= $split_cond[1].'($this->params'.$this->dic_t->load('FormatVar')->parse($split_cond[2]).' '.$split_cond[3].' $this->params'.$this->dic_t->load('FormatVar')->parse($split_cond[4]).'){'."\n";
+						$treatment .= '				return \''.trim($value_cond[1]).'\';'."\n";
+						$treatment .= '			}'."\n";
+					}
 				}
 				elseif($condition[ $i ]['type'] == 'else'){
 					preg_match('/\[else\](.*)\[\/condition\]/Us', $tpl, $value_cond);

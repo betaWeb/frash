@@ -42,7 +42,7 @@
 			$microtime = $this->dic->load('microtime');
             $analyzer = $this->dic->load('getUrl')->url('__analyzer/').$this->dic->load('get')->get('url_analyzer');
 
-            $code = '<link rel="stylesheet" media="screen" type="text/css" href="'.$this->prefix.'/vendor/LFW/Framework/Template/Cache/bottom_bar.css">'."\n";
+            $code = '<link rel="stylesheet" media="screen" type="text/css" href="'.$this->prefix.'/vendor/LFW/Template/Extensions/BottomBar/bottom_bar.css">'."\n";
 			$code .= '<div id="tpl_bottom_bar">'."\n";
 			$code .= '			<div class="middle float_left time">Time : '.$microtime->getTiming('start', 'bottom_bar').'</div>'."\n";
             $code .= '          <div class="middile float_right analyzer"><a href="'.$analyzer.'">Analyzer</a></div>'."\n";

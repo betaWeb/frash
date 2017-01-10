@@ -12,15 +12,14 @@
         /**
          * @param string $output
          * @param string $name
-         * @param string $class
-         * @param string $prefix
-         * @param \ReflectionClass $class
+         * @param mixed $class
          * @param string $c
+         * @param string $prefix
          * @param \ReflectionClass $pub_ob
          * @param \ReflectionClass $prot_ob
          * @param \ReflectionClass $priv_ob
          */
-		public static function work($output, $name, $class, $c, $prefix, $rc, $pub_ob, $prot_ob, $priv_ob){
+		public static function work(string $output, string $name, $class, string $c, string $prefix, $rc, $pub_ob, $prot_ob, $priv_ob){
 			$code = '<html>'."\n";
             $code .= '  <head>'."\n";
             $code .= '      <meta charset="UTF-8">'."\n";

@@ -64,7 +64,7 @@
                 return new Exception('TWIG : Template '.$templ.' not found');
             }
 
-            $this->json = Json::importConfigArray();
+            $this->json = (array) Json::importConfig();
             $tlf = new \Twig_Loader_Filesystem('Bundles/'.$this->bundle.'/Views');
             $twig = ($this->gets->get('cache_tpl') == 'yes') ? new \Twig_Environment($tlf, [ 'cache' => 'vendor/LFW/Cache/TWIG' ]) : new \Twig_Environment($tlf);
 

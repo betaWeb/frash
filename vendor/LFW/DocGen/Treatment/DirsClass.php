@@ -2,8 +2,15 @@
 	namespace LFW\DocGen\Treatment;
 	use LFW\DocGen\Treatment\DirExist;
 
+    /**
+     * Class DirsClass
+     * @package LFW\DocGen\Treatment
+     */
 	class DirsClass{
-		public static function work($class){
+        /**
+         * @param array $class
+         */
+		public static function work(array $class){
 			foreach($class as $c){
                 $expl = explode('/', str_replace('\\', '/', $c));
                 $dir = 'output/src';

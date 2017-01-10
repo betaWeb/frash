@@ -14,18 +14,18 @@
          * @param array $class
          */
 		public static function work(string $output, array $class){
-            $json = (array) Json::importConfigArray();
+            $json = (array) Json::importConfig();
             $prefix = (string) ($json['prefix'] == '/') ? '' : $json['prefix'];
 
             DirExist::verif($output);
-            Directory::create($output.'/src', 0775);
+            Directory::create($output.'/src', 0770);
             DirsClass::work($class);
 
             Css::work($output);
 
             foreach($class as $k => $c){
                 $rc = new \ReflectionClass($c);
-                $name = str_replace('\\', '/', $c);
+                $name = (string) str_replace('\\', '/', $c);
 
                 $const = $rc->getConstants();
                 $method = $rc->getMethods();

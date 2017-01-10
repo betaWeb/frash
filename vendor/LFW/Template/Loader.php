@@ -36,6 +36,11 @@
         private $file = '';
 
         /**
+         * @var boolean
+         */
+        private $no_cache = false;
+
+        /**
          * @var array
          */
         private $params = [];
@@ -46,7 +51,7 @@
          * @param array $params
          * @param Dic $dic
          */
-		public function __construct(string $file, array $params, Dic $dic){
+		public function __construct(string $file, array $params, Dic $dic, array $extensions){
             $this->dic = $dic;
             $gets = $this->dic->load('get');
 
@@ -57,14 +62,21 @@
 			$this->params = $params;
 
             $this->dic_t = new DependTemplEngine;
-            $this->dic_t->setParams('json', Json::importConfigArray());
-            $this->dic_t->setParams('nurl', explode('/', $gets->get('uri')));
-            $this->dic_t->setParams('params', $this->params);
-            $this->dic_t->setParams('prefix', $gets->get('prefix'));
-            $this->dic_t->setParams('prefix_lang', $gets->get('prefix_lang'));
+            $this->dic_t->setParams([
+                'json' => Json::importConfig(),
+                'nurl' => explode('/', $gets->get('uri')),
+                'params' => $this->params,
+                'prefix' => $gets->get('prefix'),
+                'prefix_lang' => $gets->get('prefix_lang')
+            ]);
 		}
 
-		public function view(){
+        /**
+         * @param bool $no_cache
+         * @return Exception
+         */
+		public function view(bool $no_cache){
+            $this->no_cache = $no_cache;
             $this->dirTemplatingExist();
 
             if(File::exist('Bundles/'.$this->bundle.'/Views/'.$this->file) === false){
@@ -72,28 +84,32 @@
             }
 
             $name_file = 'TemplateOf'.md5('Bundles/'.$this->bundle.'/Views/'.$this->file);
-            if(File::exist('vendor/LFW/Cache/Templating/'.$name_file.'.php') === false){
+            if(File::exist('Storage/Cache/Templating/'.$name_file.'.php') === false){
                 $parser = new Parser('Bundles/'.$this->bundle.'/Views/'.$this->file, $this->params, $this->dic, $this->dic_t, $name_file);
                 $parser->parse();
             }
 
-            $path_class = 'LFW\Cache\Templating\\'.$name_file;
+            $path_class = 'Storage\Cache\Templating\\'.$name_file;
             $tpl_class = new $path_class($this->dic, $this->dic_t, $this->params, $this->env);
             echo $tpl_class->display();
 
             $this->ifNoCache($name_file);
 		}
 
+        /**
+         * @param string $type
+         * @param string $file
+         */
         public function internal(string $type, string $file){
             $this->dirTemplatingExist();
 
             $name_file = 'Display'.$type;
-            if(File::exist('vendor/LFW/Cache/Templating/Display.php') === false){
+            if(File::exist('Storage/Cache/Templating/Display.php') === false){
                 $parser = new Parser($this->file, $this->params, $this->dic, $this->dic_t, $name_file);
                 $parser->parse($type);
             }
 
-            $path_class = 'LFW\Cache\Templating\\'.$name_file;
+            $path_class = 'Storage\Cache\Templating\\'.$name_file;
             $tpl_class = new $path_class($this->dic, $this->dic_t, $this->params, $this->env);
             echo $tpl_class->display();
 
@@ -101,14 +117,17 @@
         }
 
         private function dirTemplatingExist(){
-            if(Directory::exist('vendor/LFW/Cache/Templating') === false){
-                Directory::create('vendor/LFW/Cache/Templating', 0775);
+            if(Directory::exist('Storage/Cache/Templating') === false){
+                Directory::create('Storage/Cache/Templating', 0775);
             }
         }
 
+        /**
+         * @param string $file
+         */
         private function ifNoCache(string $file){
-            if($this->cache != 'yes'){
-                File::delete('vendor/LFW/Cache/Templating/'.$file.'.php');
+            if($this->cache != 'yes' || $this->no_cache === true){
+                File::delete('Storage/Cache/Templating/'.$file.'.php');
             }
         }
 	}

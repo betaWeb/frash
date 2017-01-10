@@ -9,21 +9,14 @@
      * @package LFW\Console\ORM
      */
     class Createdb implements CommandInterface{
-        /**
-         * @var string
-         */
-        private $bundle = '';
+        private $bundle;
 
-        /**
-         * Createdb constructor.
-         * @param array $argv
-         */
         public function __construct(array $argv){
             $this->bundle = $argv[2];
         }
 
         public function work(){
-            $conn = (array) Json::importDatabaseArray()[ $this->bundle ]['bundle'];
+            $conn = Json::importDatabaseArray()[ $this->bundle ]['bundle'];
 
             try{
                 if($conn['system'] == 'MySQL'){

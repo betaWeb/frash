@@ -83,10 +83,10 @@
 			$this->class_cache .= CreateClassCache::endClass();
 
 			if($type == 'normal'){
-				File::create('vendor/LFW/Cache/Templating/'.$this->name_class.'.php', $this->class_cache);
+				File::create('Storage/Cache/Templating/'.$this->name_class.'.php', $this->class_cache);
 			}
 			elseif($type == 'Analyzer'){
-				File::create('vendor/LFW/Cache/Templating/DisplayAnalyzer.php', $this->class_cache);
+				File::create('Storage/Cache/Templating/DisplayAnalyzer.php', $this->class_cache);
 			}
 		}
 

@@ -26,7 +26,7 @@
             $gets = $dic->load('get');
 
             $this->nurl = explode('/', $gets->get('uri'));
-            $this->prefix = $gets->get('prefix_lang');
+            $this->prefix = (string) $gets->get('prefix_lang');
         }
 
         /**

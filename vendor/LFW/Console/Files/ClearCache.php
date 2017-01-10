@@ -1,14 +1,14 @@
 <?php
-    namespace LFW\Console\Files;
+	namespace LFW\Console\Files;
     use LFW\Console\CommandInterface;
-    use LFW\Framework\FileSystem\File;
+	use LFW\Framework\FileSystem\File;
 
     /**
      * Class ClearCache
      * @package LFW\Console\Files
      */
-    class ClearCache implements CommandInterface{
-        const PATH = 'vendor/LFW/Cache/Templating';
+	class ClearCache implements CommandInterface{
+        const PATH = 'Storage/Cache/Templating';
 
         /**
          * ClearCache constructor.
@@ -16,8 +16,8 @@
          */
         public function __construct(array $argv){}
 
-        public function work(){
-            $dir_content = (array) scandir(self::PATH);
+		public function work(){
+			$dir_content = (array) scandir(self::PATH);
 
             if($dir_content !== false){
                 foreach($dir_content as $entry){
@@ -26,5 +26,5 @@
                     }
                 }
             }
-        }
-    }
+		}
+	}

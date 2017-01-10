@@ -12,7 +12,7 @@
          */
 		public static function create($name_class){
 			$class_cache = '<?php'."\n";
-			$class_cache .= '	namespace LFW\Cache\Templating;'."\n";
+			$class_cache .= '	namespace Storage\Cache\Templating;'."\n";
 			$class_cache .= '	use LFW\Template\DependTemplEngine;'."\n";
 			$class_cache .= '	use LFW\Template\Extensions\BottomBar\ImportBottomBar;'."\n\n";
 			$class_cache .= '	class '.$name_class.'{'."\n";

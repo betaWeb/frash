@@ -68,7 +68,7 @@
          * @param RequestInterface $select
          * @return array
          */
-        public function selectMany(RequestInterface $select): array{
+        public function selectMany(RequestInterface $select){
             try{
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
 

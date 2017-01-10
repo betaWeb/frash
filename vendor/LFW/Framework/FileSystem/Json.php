@@ -1,5 +1,6 @@
 <?php
 	namespace LFW\Framework\FileSystem;
+    use LFW\Framework\FileSystem\File;
 
     /**
      * Class Json
@@ -9,48 +10,49 @@
         const CONFIG = 'Configuration/config.json';
         const DATABASE = 'Configuration/database.json';
         const DEPEND = 'Configuration/dependencies.json';
+        const TEST = 'Configuration/test_unit.json';
 
         /**
          * @return array
          */
-		public static function importConfigArray(): array{
-			return json_decode(file_get_contents(self::CONFIG), true);
-		}
-
-        /**
-         * @return object
-         */
-		public static function importConfigObject(){
-			return json_decode(file_get_contents(self::CONFIG));
+		public static function importConfig(): array{
+			return self::decode(File::read(self::CONFIG));
 		}
 
         /**
          * @return array
          */
         public static function importDatabaseArray(): array{
-            return json_decode(file_get_contents(self::DATABASE), true);
+            return self::decode(File::read(self::DATABASE));
         }
 
         /**
          * @return object
          */
         public static function importDatabaseObject(){
-            return json_decode(file_get_contents(self::DATABASE));
+            return self::decode(File::read(self::DATABASE), 'true');
         }
 
         /**
          * @return array
          */
-        public static function importDependenciesArray(): array{
-            return json_decode(file_get_contents(self::DEPEND), true);
+        public static function importDependencies(): array{
+            return self::decode(File::read(self::DEPEND));
         }
 
         /**
          * @param string $routing
          * @return array
          */
-        public static function importRoutingArray(string $routing): array{
-            return json_decode(file_get_contents('Configuration/'.$routing.'.json'), true);
+        public static function importRouting(string $routing): array{
+            return self::decode(File::read('Configuration/'.$routing.'.json'));
+        }
+
+        /**
+         * @return array
+         */
+        public static function importTestUnit(): array{
+            return self::decode(File::read(self::TEST));
         }
 
         /**

@@ -2,7 +2,7 @@
   "env": "local",
   "analyzer": "yes",
   "racine": {
-    "path": "LfwBundle:IndexController:indexAction"
+    "path": "AppBundle:IndexController:indexAction"
   },
   "cache": {
     "tpl": "yes"
@@ -31,4 +31,5 @@
       "Test:Unit:run": "LFW.UnitTest.RunTest"
     },
     "custom": {}
+  }
 }

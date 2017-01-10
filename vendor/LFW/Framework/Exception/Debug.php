@@ -1,6 +1,10 @@
 <?php
 	namespace LFW\Framework\Exception;
 
+    /**
+     * Class Debug
+     * @package LFW\Framework\Exception
+     */
 	class Debug{
 		public static function dump($array){
 			print_r($array);

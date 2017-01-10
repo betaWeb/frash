@@ -96,7 +96,7 @@
 
 			$pp = new ParseParent($this->trad, $this->bundle, $this->tpl, $this->dic_t);
 
-			preg_match_all('/\[(\/?)(([a-zA-Z]*)?\s?([a-zA-Z0-9\/@_!=:",\.\s]*))\]/', $this->tpl, $match_all, PREG_SET_ORDER);
+			preg_match_all('/\[(\/?)(([a-zA-Z_]*)?\s?([a-zA-Z0-9\/@_!=:;+",<>\-\.\s]*))\]/', $this->tpl, $match_all, PREG_SET_ORDER);
 			foreach($match_all as $key => $tag){
 				switch(true){
 					case (preg_match($this->parsing['escape'], $tag[0])):
@@ -156,8 +156,6 @@
 								break;
 							case preg_match($this->parsing['end_for_index'], $tag[0]):
 								break;
-							case preg_match($this->parsing['end_for_itvl'], $tag[0]):
-								break;
 							case preg_match($this->parsing['end_for'], $tag[0]):
 								break;
 							case preg_match($this->parsing['end_foreach'], $tag[0]):
@@ -168,9 +166,9 @@
 								break;
 							case preg_match($this->parsing['end_func'], $tag[0]):
 								break;
-							case preg_match($this->parsing['for_index'], $tag[0]):
+							case preg_match($this->parsing['end_itvl'], $tag[0]):
 								break;
-							case preg_match($this->parsing['for_itvl'], $tag[0]):
+							case preg_match($this->parsing['for_index'], $tag[0]):
 								break;
 							case preg_match($this->parsing['for'], $tag[0]):
 								break;
@@ -183,6 +181,8 @@
 								$condition[ $level_condition ][] = [ 'type' => 'if', 'condition' => $match_all[ $key ][2] ];
 								break;
 							case preg_match($this->parsing['include'], $tag[0]):
+								break;
+							case preg_match($this->parsing['itvl'], $tag[0]):
 								break;
 							case preg_match($this->parsing['parent'], $tag[0]):
 								preg_match('/\[part '.$match_all[ $key ][4].'\](.*)\[\/part '.$match_all[ $key ][4].'\]/Us', $this->display, $match);

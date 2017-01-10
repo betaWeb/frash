@@ -28,7 +28,7 @@
          */
 		public function __construct(array $argv){
 			$this->argv = $argv;
-			$this->conf = Json::importConfigArray();
+			$this->conf = Json::importConfig();
 
 			if($argv[1] == '--a'){
 	            $this->isCustom();

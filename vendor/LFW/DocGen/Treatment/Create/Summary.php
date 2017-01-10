@@ -1,8 +1,18 @@
 <?php
 	namespace LFW\DocGen\Treatment\Create;
 
+    /**
+     * Class Summary
+     * @package LFW\DocGen\Treatment\Create
+     */
 	class Summary{
-		public static function work($output, $class, $prefix){
+		/**
+		 * @param string $output
+		 * @param array $class
+		 * @param string $prefix
+		 * @return string
+		 */
+		public static function work(string $output, array $class, string $prefix): string{
 			$code = '';
             foreach($class as $c){
                 $path = str_replace('\\', '/', $c);

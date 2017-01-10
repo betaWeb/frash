@@ -9,6 +9,8 @@
      * @package LFW\Framework\Controller
      */
     class GetUrl{
+        private $prefix = '';
+
         /**
          * @param Dic $dic
          */

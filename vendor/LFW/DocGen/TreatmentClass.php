@@ -14,7 +14,7 @@
         /**
          * @param array $list
          */
-        public static function generationClass($list){
+        public static function generationClass(array $list){
             foreach($list as $l){
                 $namespace = str_replace('vendor/', '', $l);
                 $namespace = str_replace('/', '\\', $namespace);
@@ -24,7 +24,10 @@
             }
         }
 
-        public static function getClass(){
+        /**
+         * @return array
+         */
+        public static function getClass(): array{
             return self::$class;
         }
     }

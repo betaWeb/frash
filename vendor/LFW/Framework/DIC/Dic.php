@@ -21,7 +21,7 @@
          * Dic constructor.
          */
         public function __construct(){
-            $this->dependencies = Json::importDependenciesArray();
+            $this->dependencies = Json::importDependencies();
         }
 
         /**

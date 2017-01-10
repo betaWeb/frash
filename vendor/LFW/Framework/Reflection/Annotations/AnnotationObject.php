@@ -11,12 +11,12 @@
          * @return array
          */
         public function determinate($properties){
-            $types = [];
+            $types = (array) [];
 
             foreach($properties as $object){
-                $name = $object->name;
-                $comm = explode("\n", $object->getDocComment());
-                $count = count($comm);
+                $name = (string) $object->name;
+                $comm = (array) explode("\n", $object->getDocComment());
+                $count = (int) count($comm);
 
                 for($i = 1; $i <= $count - 2; $i++){
                     $comm[ $i ] = substr($comm[ $i ], strpos($comm[ $i ], '@'));

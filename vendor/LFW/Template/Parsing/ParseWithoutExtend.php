@@ -117,8 +117,6 @@
 								break;
 							case preg_match($this->parsing['end_for_index'], $tag[0]):
 								break;
-							case preg_match($this->parsing['end_for_itvl'], $tag[0]):
-								break;
 							case preg_match($this->parsing['end_for'], $tag[0]):
 								break;
 							case preg_match($this->parsing['end_foreach'], $tag[0]):
@@ -129,9 +127,9 @@
 								break;
 							case preg_match($this->parsing['end_func'], $tag[0]):
 								break;
-							case preg_match($this->parsing['for_index'], $tag[0]):
+							case preg_match($this->parsing['end_itvl'], $tag[0]):
 								break;
-							case preg_match($this->parsing['for_itvl'], $tag[0]):
+							case preg_match($this->parsing['for_index'], $tag[0]):
 								break;
 							case preg_match($this->parsing['for'], $tag[0]):
 								break;
@@ -147,6 +145,8 @@
 								break;
 							case preg_match($this->parsing['internal'], $tag[0]):
 								$this->tpl = str_replace($match_all[ $key ][0], $this->dic_t->load('Bundle')->internal($match_all[ $key ][4]), $this->tpl);
+								break;
+							case preg_match($this->parsing['itvl'], $tag[0]):
 								break;
 							case preg_match($this->parsing['route'], $tag[0]):
 								if($level_foreach == 0 && $level_for == 0 && $level_for_index == 0 && $level_for_itvl == 0){

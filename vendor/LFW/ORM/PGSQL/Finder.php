@@ -8,7 +8,7 @@
      * Class Finder
      * @package Composants\ORM\PGSQL
      */
-    class Finder{
+    class Finder extends Hydrator{
         /**
          * @var string
          */
@@ -76,7 +76,7 @@
 
                 new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
 
-                return Hydrator::hydration($res, 'Bundles\\'.$this->bundle.'\Entity\\'.$entity);
+                return $this->hydration($res, 'Bundles\\'.$this->bundle.'\Entity\\'.$entity);
             }
             catch(\Exception $e){
                 new CreateErrorLog($e->getMessage());

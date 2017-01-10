@@ -7,7 +7,10 @@
      * @package LFW\DocGen\Treatment\Create
      */
 	class Css{
-		public static function work($output){
+		/**
+		 * @param string $output
+		 */
+		public static function work(string $output){
 			$code = "#corps{
 	margin-top:40px;
 	padding-left:10px;

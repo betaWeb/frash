@@ -8,6 +8,21 @@
 	class File{
         /**
          * @param string $path
+         * @param string $value
+         */
+        public static function create(string $path, string $value){
+            file_put_contents($path, $value);
+        }
+
+        /**
+         * @param string $path
+         */
+        public static function delete(string $path){
+            unlink($path);
+        }
+
+        /**
+         * @param string $path
          * @return bool
          */
 		public static function exist(string $path): bool{
@@ -21,16 +36,9 @@
 
         /**
          * @param string $path
-         * @param string $value
+         * @return string
          */
-        public static function create(string $path, string $value){
-            file_put_contents($path, $value);
-        }
-
-        /**
-         * @param string $path
-         */
-        public static function delete(string $path){
-            unlink($path);
+        public static function read(string $path): string{
+            return file_get_contents($path);
         }
 	}

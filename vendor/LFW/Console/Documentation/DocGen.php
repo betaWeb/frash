@@ -3,20 +3,12 @@
     use LFW\Console\CommandInterface;
     use LFW\DocGen\{ GenerationDoc, ListDirFiles, TreatmentClass, TreatmentList };
 
-    /**
-     * Class DocGen
-     * @package LFW\Console\Documentation
-     */
 	class DocGen implements CommandInterface{
-        /**
-         * DocGen constructor.
-         * @param array $argv
-         */
 		public function __construct(array $argv){}
 
 		public function work(){
 			fwrite(STDOUT, 'Dossier de sortie : ');
-            $output = (string) trim(fgets(STDIN));
+            $output = trim(fgets(STDIN));
 
             fwrite(STDOUT, 'Exceptions (Séparez par ;) : ');
             $except = trim(fgets(STDIN));

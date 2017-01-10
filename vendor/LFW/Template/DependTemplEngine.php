@@ -54,9 +54,18 @@
          * @param string $name
          * @param mixed $param
          */
-		public function setParams(string $name, $param){
+		public function setParam(string $name, $param){
 			$this->params[ $name ] = $param;
 		}
+
+        /**
+         * @param array $params
+         */
+        public function setParams(array $params){
+            foreach($params as $name => $param){
+                $this->params[ $name ] = $param;
+            }
+        }
 
         /**
          * @param string $name

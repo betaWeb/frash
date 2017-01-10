@@ -11,7 +11,7 @@
          * @return object
          */
         public function trad($lang){
-            $class = 'Traductions\\Trad'.ucfirst($lang);
+            $class = (string) 'Traductions\\Trad'.ucfirst($lang);
             return new $class();
         }
 
@@ -22,10 +22,10 @@
          * @return mixed
          */
         public function translate($string, $search, $lang){
-            $class = 'Traductions\\Trad'.ucfirst($lang);
+            $class = (string) 'Traductions\\Trad'.ucfirst($lang);
             $trad = new $class();
 
-            $str = $string;
+            $str = (string) $string;
 
             foreach($search as $v){
                 str_replace('%'.$v.'%', $trad->show($v), $str);
@@ -42,7 +42,7 @@
          */
         public function multiple($lang, $array, $spec = 'object'){
             $path = 'Traductions\\Trad'.ucfirst($lang);
-            $arr_translate = [];
+            $arr_translate = (array) [];
 
             $class = new $path();
             foreach($array as $str){

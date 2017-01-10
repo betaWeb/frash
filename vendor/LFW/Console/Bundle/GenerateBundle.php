@@ -11,15 +11,8 @@
         const CHMOD = 0770;
         const PREFIX = 'Bundles/';
 
-        /**
-         * @var string
-         */
         private $name = '';
 
-        /**
-         * GenerateBundle constructor.
-         * @param array $argv
-         */
         public function __construct(array $argv){
             $this->name = $argv[2];
         }
