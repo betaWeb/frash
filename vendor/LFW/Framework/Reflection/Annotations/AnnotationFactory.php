@@ -1,10 +1,10 @@
 <?php
-    namespace LFW\Framework\Controller\Annotations;
-    use LFW\Framework\Controller\Annotations\AnnotationObject;
+    namespace LFW\Framework\Reflection\Annotations;
+    use LFW\Framework\Reflection\Annotations\AnnotationObject;
 
     /**
      * Class AnnotationFactory
-     * @package LFW\Framework\Controller\Annotations
+     * @package LFW\Framework\Reflection\Annotations
      */
     class AnnotationFactory{
         /**
