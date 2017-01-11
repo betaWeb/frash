@@ -41,4 +41,12 @@
         public static function read(string $path): string{
             return file_get_contents($path);
         }
+
+        /**
+         * @param string $file
+         * @return int
+         */
+        public static function size(string $file): int{
+            return filesize($file);
+        }
 	}

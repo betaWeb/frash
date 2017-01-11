@@ -12,16 +12,22 @@
 		protected $number_result;
 
 		/**
-		 * @return int
+		 * @var string
 		 */
-		public function getNumber_result(): int{
-			return $this->number_result;
+		protected $primary_key = 'id';
+
+		/**
+		 * @param string $column
+		 */
+		public function __get(string $column){
+			return $this->$column;
 		}
 
 		/**
-		 * @param int $number_result
+		 * @param string $column
+		 * @param mixed $value
 		 */
-		public function setNumber_result(int $number_result){
-			$this->number_result = $number_result;
+		public function __set(string $column, $value){
+			$this->$column = $value;
 		}
 	}
