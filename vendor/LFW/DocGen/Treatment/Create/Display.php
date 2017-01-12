@@ -24,7 +24,7 @@
             $code .= '  <head>'."\n";
             $code .= '      <meta charset="UTF-8">'."\n";
             $code .= '      <title>'.$name.'</title>'."\n";
-            $code .= '      <link rel="stylesheet" media="screen" type="text/css" href="'.$prefix.'/'.$output.'/design.css">'."\n";
+            $code .= '      <link rel="stylesheet" media="screen" type="text/css" href="/'.$output.'/design.css">'."\n";
             $code .= '  </head>'."\n";
             $code .= '  <body>'."\n";
             $code .= '      <div id="corps">'."\n";

@@ -2,7 +2,7 @@
 	namespace LFW\DocGen;
     use LFW\DocGen\Treatment\{ DirExist, DirsClass };
     use LFW\DocGen\Treatment\Create\{ Css, Display };
-    use LFW\Framework\FileSystem\{ Directory, Json };
+    use LFW\Framework\FileSystem\Directory;
 
     /**
      * Class GenerationDoc
@@ -13,10 +13,7 @@
          * @param string $output
          * @param array $class
          */
-		public static function work(string $output, array $class){
-            $json = (array) Json::importConfig();
-            $prefix = (string) ($json['prefix'] == '/') ? '' : $json['prefix'];
-
+		public static function work(string $output, array $class, string $pwd){
             DirExist::verif($output);
             Directory::create($output.'/src', 0770);
             DirsClass::work($class);
@@ -34,7 +31,7 @@
                 $prot_ob = $rc->getProperties(\ReflectionProperty::IS_PROTECTED);
                 $priv_ob = $rc->getProperties(\ReflectionProperty::IS_PRIVATE);
 
-                Display::work($output, $name, $class, $c, $prefix, $rc, $pub_ob, $prot_ob, $priv_ob);
+                Display::work($output, $name, $class, $c, $pwd, $rc, $pub_ob, $prot_ob, $priv_ob);
             }
 		}
 	}

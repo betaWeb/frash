@@ -13,9 +13,9 @@
 		 * @return string
 		 */
 		public static function work(string $output, array $class, string $prefix): string{
-			$code = '';
+			$code = (string) '';
             foreach($class as $c){
-                $path = str_replace('\\', '/', $c);
+                $path = (string) str_replace('\\', '/', $c);
                 $code .= '                  <a href="'.$prefix.'/'.$output.'/'.$path.'.html">'.$path.'</a><br>'."\n";
             }
 

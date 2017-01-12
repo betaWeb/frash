@@ -8,17 +8,21 @@
      * @package LFW\Console\Bundle
      */
     class GenerateController implements CommandInterface{
+        /**
+         * GenerateController constructor.
+         * @param array $argv
+         */
         public function __construct(array $argv){}
 
         public function work(){
             fwrite(STDOUT, 'Nom du controller : ');
-            $name = trim(fgets(STDIN));
+            $name = (string) trim(fgets(STDIN));
 
             fwrite(STDOUT, 'Nom du bundle : ');
-            $bundle = trim(fgets(STDIN));
+            $bundle = (string) trim(fgets(STDIN));
 
             fwrite(STDOUT, 'Des actions ? (Séparez les noms par /) ');
-            $action = trim(fgets(STDIN));
+            $action = (string) trim(fgets(STDIN));
 
             $list = explode('/', $action);
 
@@ -39,7 +43,6 @@
             $code .= '	}';
 
             File::create('Bundles/'.$bundle.'/Controllers/'.ucfirst($name).'.php', $code);
-
             echo 'Le controller '.ucfirst($name).' a bien été créé.'.PHP_EOL;
         }
     }

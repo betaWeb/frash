@@ -11,9 +11,9 @@
          * @return array
          */
         public static function generation(string $path): array{
-            $array = [];
-
+            $array = (array) [];
             $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+
             foreach($iterator as $file){
                 $array[] = self::removePath($path, $file);
             }

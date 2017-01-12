@@ -11,8 +11,15 @@
         const CHMOD = 0770;
         const PREFIX = 'Bundles/';
 
+        /**
+         * @var string
+         */
         private $name = '';
 
+        /**
+         * GenerateBundle constructor.
+         * @param array $argv
+         */
         public function __construct(array $argv){
             $this->name = $argv[2];
         }
@@ -31,6 +38,6 @@
             Directory::create(self::PREFIX.$this->name.'/Ressources', self::CHMOD);
             Directory::create(self::PREFIX.$this->name.'/Views', self::CHMOD);
 
-            echo 'Bundle généré !'.PHP_EOL;
+            echo 'Bundle '.$this->name.' généré !'.PHP_EOL;
         }
     }

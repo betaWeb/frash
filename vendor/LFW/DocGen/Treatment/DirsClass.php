@@ -12,9 +12,9 @@
          */
 		public static function work(array $class){
 			foreach($class as $c){
-                $expl = explode('/', str_replace('\\', '/', $c));
-                $dir = 'output/src';
-                $count = count($expl) - 1;
+                $expl = (array) explode('/', str_replace('\\', '/', $c));
+                $dir = (string) 'output/src';
+                $count = (int) count($expl) - 1;
 
                 for($i = 0; $i < $count; $i++){
                     DirExist::verif($dir.'/'.$expl[ $i ]);

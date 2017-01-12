@@ -11,7 +11,7 @@
 		 * @param string $output
 		 */
 		public static function work(string $output){
-			$code = "#corps{
+			$code = (string) "#corps{
 	margin-top:40px;
 	padding-left:10px;
 	padding-right:10px;

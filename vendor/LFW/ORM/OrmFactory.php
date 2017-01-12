@@ -24,11 +24,6 @@
         private $dic;
 
         /**
-         * @var Orm
-         */
-        private $orm;
-
-        /**
          * @var string
          */
         private $system;
@@ -40,10 +35,9 @@
         public function __construct(Dic $dic){
             $this->bundle = $dic->load('get')->get('bundle');
             $this->dic = $dic;
-
-            $this->orm = new Orm($this->bundle);
-            $this->connexion = $this->orm->getConnexion();
-            $this->system = $this->orm->getSystem();
+            $orm = new Orm($this->bundle);
+            $this->connexion = $orm->getConnexion();
+            $this->system = $orm->getSystem();
         }
 
         /**
@@ -51,13 +45,6 @@
          */
         public function getConnexion(){
             return $this->connexion;
-        }
-
-        /**
-         * @return int
-         */
-        public function getCountReq(): int{
-            return $this->orm->getCountReq();
         }
 
         /**

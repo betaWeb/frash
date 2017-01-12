@@ -1,13 +1,13 @@
 <?php
-    namespace LFW\Framework\Controller;
+	namespace LFW\Framework\Controller;
     use LFW\Framework\DIC\Dic;
-    use LFW\Template\Loader;
+	use LFW\Template\Loader;
 
     /**
      * Class Templating
      * @package LFW\Framework\Controller
      */
-    class Templating{
+	class Templating{
         /**
          * @var Dic
          */
@@ -32,9 +32,9 @@
          * Templating constructor.
          * @param Dic $dic
          */
-        public function __construct(Dic $dic){
+		public function __construct(Dic $dic){
             $this->dic = $dic;
-        }
+		}
 
         /**
          * @param string $name
@@ -74,12 +74,12 @@
          * @param array $param
          * @return bool
          */
-        public function view(string $file, array $param = []): bool{
+		public function view(string $file, array $param = []): bool{
             $loader = new Loader($file, $this->getInternalParam($param), $this->dic, $this->extensions);
             $loader->view($this->no_cache);
 
             return true;
-        }
+		}
 
         /**
          * @param string $type
@@ -94,4 +94,4 @@
 
             return true;
         }
-    }
+	}
