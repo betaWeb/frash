@@ -6,7 +6,7 @@ Light FrameWork
  - <kbd>DocGen</kbd> : 0.2.1
  - <kbd>Framework</kbd> : 1.0.2
  - <kbd>ORM</kbd> : 0.11.1
- - <kbd>Template</kbd> : 1.1.0
+ - <kbd>Template</kbd> : 1.1.1
  - <kbd>UnitTest</kbd> : 0.0.0
 
 Installation

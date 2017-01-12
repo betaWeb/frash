@@ -52,6 +52,14 @@
 
         /**
          * @param string $name
+         * @return mixed
+         */
+        public function getParam(string $name){
+            return $this->params[ $name ];
+        }
+
+        /**
+         * @param string $name
          * @param mixed $param
          */
 		public function setParam(string $name, $param){
