@@ -1,17 +1,22 @@
 <?php
-	namespace LFW\Framework\Controller;
+    namespace LFW\Framework\Controller;
     use LFW\Framework\DIC\Dic;
-	use LFW\Template\Loader;
+    use LFW\Template\Loader;
 
     /**
      * Class Templating
      * @package LFW\Framework\Controller
      */
-	class Templating{
+    class Templating{
         /**
          * @var Dic
          */
         private $dic;
+
+        /**
+         * @var array
+         */
+        private $dump = [];
 
         /**
          * @var array
@@ -27,9 +32,17 @@
          * Templating constructor.
          * @param Dic $dic
          */
-		public function __construct(Dic $dic){
+        public function __construct(Dic $dic){
             $this->dic = $dic;
-		}
+        }
+
+        /**
+         * @param string $name
+         * @param mixed $dump
+         */
+        public function setDump(string $name, $dump){
+            $this->dump[ $name ] = $dump;
+        }
 
         /**
          * @param string $regex
@@ -49,7 +62,11 @@
          */
         public function getInternalParam(array $params): array{
             $gets = $this->dic->load('get');
-            return array_merge([ 'internal_prefix' => $gets->get('prefix'), 'internal_prefix_lang' => $gets->get('prefix_lang') ], $params);
+            return array_merge([
+                'dump' => $this->dump,
+                'internal_prefix' => $gets->get('prefix'),
+                'internal_prefix_lang' => $gets->get('prefix_lang')
+            ], $params);
         }
 
         /**
@@ -57,12 +74,12 @@
          * @param array $param
          * @return bool
          */
-		public function view(string $file, array $param = []): bool{
+        public function view(string $file, array $param = []): bool{
             $loader = new Loader($file, $this->getInternalParam($param), $this->dic, $this->extensions);
             $loader->view($this->no_cache);
 
             return true;
-		}
+        }
 
         /**
          * @param string $type
@@ -77,4 +94,4 @@
 
             return true;
         }
-	}
+    }
