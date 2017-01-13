@@ -17,6 +17,7 @@
 			'Escape' => self::EXTENSIONS.'.Escape',
 			'Foreach' => self::EXTENSIONS.'.ForeachParse',
 			'FormatVar' => self::EXTENSIONS.'.FormatVar',
+            'Func' => self::EXTENSIONS.'.Functions',
 			'Part' => self::EXTENSIONS.'.Part',
 			'Route' => self::EXTENSIONS.'.Route',
 			'ShowVar' => self::EXTENSIONS.'.ShowVar'

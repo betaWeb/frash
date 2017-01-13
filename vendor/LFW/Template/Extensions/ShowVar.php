@@ -115,4 +115,44 @@
 
 			return '\'.'.$new_var.'.\'';
 		}
+
+        /**
+         * @param string $variable
+         * @return string
+         */
+		public function parseFunction(string $variable): string{
+			$array = [];
+			$param = '';
+
+			if(strstr($variable, '.')){
+				$expl = explode('.', $variable);
+
+				foreach($expl as $k => $v){
+					if($k == 0){
+						$array = (!empty($this->params[ $v ])) ? $this->params[ $v ] : [];
+						$param = $v;
+					}
+					else{
+						if(empty($array)){
+							$param .= '[\''.$v.'\']';
+						}
+						elseif(gettype($array) == 'array'){
+							$array = $array[ $v ];
+							$param .= '[\''.$v.'\']';
+						}
+						elseif(gettype($array) == 'object'){
+							$method = 'get'.ucfirst($v);
+
+							$array = $array->$method();
+							$param .= '->'.$method.'()';
+						}
+					}
+				}
+			}
+			else{
+				$param = $variable;
+			}
+
+			return '\'.$'.$param.'.\'';
+		}
 	}

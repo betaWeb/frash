@@ -33,8 +33,9 @@
 			'parent' => '/\[parent (\w+)\]/',
 			'parts' => '/\[part (\w+)\]/',
 			'route' => '/\[route (.*)]/',
-			'set_func' => '/\[func (\w+)\]/',
+			'set_func' => '/\[func (\w+)\((.*)\)\]/',
 			'set_var' => '/\[define (\w+)\]/',
+			'show_func' => '/\[_(\w+)\((.*)\)\]/',
 			'show_var' => '/\[@(.*)\]/',
 			'show_var_for' => '/\[!(.*)\]/',
 			'traduction' => '/\[traduction (.*)\]/'
