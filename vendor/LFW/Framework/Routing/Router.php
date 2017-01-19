@@ -1,10 +1,11 @@
 <?php
     namespace LFW\Framework\Routing;
-    use LFW\Framework\CreateLog\CreateHTTPLog;
     use LFW\Framework\DIC\Dic;
     use LFW\Framework\Exception\Exception;
     use LFW\Framework\FileSystem\Json;
-    use LFW\Framework\Globals\Server;
+    use LFW\Framework\Globals\Server\Server;
+    use LFW\Framework\Log\CreateLog;
+    use LFW\Framework\Routing\Gets\GetRoute;
 
     /**
      * Class Router
@@ -30,38 +31,32 @@
          */
         public function routing(string $url){
             $conf = Json::importConfig();
-            $gets = $this->dic->load('get');
-            new CreateHTTPLog($url);
+            CreateLog::access($url);
 
             $path = explode('/', $url);
 
-            $gets->set('uri', $url);
-            $gets->set('cache_tpl', $conf['cache']['tpl']);
-            $gets->set('env', $conf['env']);
-            $gets->set('analyzer', $conf['analyzer']);
-
-            $prefix = $gets->get('prefix');
+            $this->dic->set('uri', $url);
+            $this->dic->set('cache_tpl', $conf['cache']['tpl']);
+            $this->dic->set('env', $conf['env']);
+            $this->dic->set('analyzer', $conf['analyzer']);
 
             if(in_array($path[0], $conf['traduction']['available'])){
-                $gets->set('lang', $path[0]);
+                $this->dic->set('lang', $path[0]);
                 unset($path[0]);
             }
             else{
-                $gets->set('lang', $conf['traduction']['default']);
+                $this->dic->set('lang', $conf['traduction']['default']);
             }
 
-            $gets->set('prefix_lang', $prefix.$gets->get('lang'));
+            $this->dic->set('prefix_lang', $this->dic->get('prefix').$this->dic->get('lang'));
 
             array_unshift($path, 0);
             array_shift($path);
 
             if($conf['analyzer'] == 'yes'){
-                $gets->set('url_analyzer', implode('/', $path));
+                $this->dic->set('url_analyzer', implode('/', $path));
                 $this->dic->load('analyzer')->getRegistry()->setConfigPHP();
             }
-
-            $racine = 0;
-            $routarr = Json::importRouting($conf['routing']['file']);
 
             if(!empty($path[0]) && $path[0][0].$path[0][1] == '__'){
                 if($path[0] == '__analyzer'){
@@ -70,64 +65,88 @@
                 }
             }
             else{
+                $racine = false;
+                $routarr = Json::importRouting();
                 $lien = '';
                 $nb_expl = 0;
                 $route = '';
+                $api = false;
+                $array_get = [];
 
                 if(empty($path[0]) && !empty($conf['racine']['path'])){
-                    $nb_expl = 1;
                     $lien = '/';
                     $route = $conf['racine']['path'];
+                    $racine = true;
 
-                    $racine = 1;
+                    if(!empty($conf['racine']['api']) && $conf['racine']['api'] == 'true'){
+                        $api = true;
+                    }
                 }
                 elseif(count($path) == 2 && in_array($path[0], $routarr)){
                     $nb_expl = 1;
                     $lien = $path[0];
                     $route = $routarr[ $lien ]['path'];
+
+                    if(!empty($routarr[ $lien ]['api']) && $routarr[ $lien ]['api'] == 'true'){
+                        $api = true;
+                    }
                 }
                 else{
                     foreach($routarr as $key => $precision){
-                        if(strstr($url, $key)){
+                        if($key[0] == ':'){}
+                        else{
                             $expl_key = explode('/', $key);
-                            $lien_array = [];
-                            $count_for = count($expl_key) - 1;
 
-                            for($i = 0; $i <= $count_for; $i++){
-                                if(!empty($path[ $i ]) && $path[ $i ] == $expl_key[ $i ]){
-                                    $lien_array[] = $expl_key[ $i ];
+                            if($path[0] == $expl_key[0]){
+                                $lien_array = [];
+                                $count_for = count($expl_key) - 1;
+
+                                for($i = 0; $i <= $count_for; $i++){
+                                    if(!empty($path[ $i ]) && $path[ $i ] == $expl_key[ $i ]){
+                                        $lien_array[ 'part_'.$i ] = $expl_key[ $i ];
+                                    }
+                                    elseif($expl_key[ $i ][0] == ':'){
+                                        $sub_get = substr($expl_key[ $i ], 1);
+
+                                        if(!empty($path[ $i ]) && GetRoute::define($path[ $i ], $precision['get'][ $sub_get ]) === true){
+                                            $array_get[ $sub_get ] = $path[ $i ];
+                                            $lien_array[ $sub_get ] = $expl_key[ $i ];
+                                        }
+                                        else{
+                                            break;
+                                        }
+                                    }
+                                    else{
+                                        break;
+                                    }
                                 }
-                            }
 
-                            if(count($lien_array) > $nb_expl){
-                                $nb_expl = count($lien_array);
-                                $lien = implode('/', $lien_array);
-                                $route = $precision['path'];
+                                if(count($lien_array) > $nb_expl){
+                                    $nb_expl = count($lien_array);
+                                    $lien = implode('/', $lien_array);
+                                    $route = $precision['path'];
+                                    $api = (!empty($precision['api']) && $precision['api'] == 'true') ? true : false;
+                                }
                             }
                         }
                     }
                 }
 
-                if($nb_expl > 0 && $lien != '' && $route != ''){
+                if($api === true){}
+                elseif(($nb_expl > 0 || $racine === true) && $lien != '' && $route != '' && $api === false){
                     if(!empty($routarr[ $lien ]['type']) && $routarr[ $lien ]['type'] != Server::getRequestMethod()){
                         return new Exception('Request Method not correct');
                     }
 
-                    $list = explode('/', str_replace($lien.'/', '', implode('/', $path)));
-
-                    $conf_get = (!empty($conf['racine']['get'])) ? $conf['racine']['get'] : [];
-                    $rout_get = (!empty($routarr[ $lien ]['get'])) ? $routarr[ $lien ]['get'] : [];
-                    $routarr_get = ($racine == 0) ? $rout_get : $conf_get;
-
-                    if(!empty($routarr_get)){
-                        $gets->set('get', DefineGet::defineNormal($routarr_get, $list, $racine));
+                    if(!empty($array_get)){
+                        $this->dic->set('get', $array_get);
                     }
 
                     list($bundle, $controller, $action) = explode(':', $route);
                     $routing = 'Bundles\\'.$bundle.'\\Controllers\\'.$controller;
 
                     if(method_exists($routing, $action)){
-                        $gets->set('bundle', $bundle);
+                        $this->dic->set('bundle', $bundle);
 
                         if($conf['analyzer'] == 'yes'){
                             $this->dic->load('analyzer')->getRegistry()->setRoute(str_replace('/', '.', $lien));

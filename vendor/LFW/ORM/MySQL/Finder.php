@@ -1,9 +1,7 @@
 <?php
     namespace LFW\ORM\MySQL;
-    use LFW\Framework\CreateLog\CreateErrorLog;
-    use LFW\Framework\CreateLog\CreateRequestLog;
-    use LFW\ORM\Hydrator;
-    use LFW\ORM\PDO\PDO;
+    use LFW\Framework\Log\CreateLog;
+    use LFW\ORM\{ Hydrator, PDO };
 
     /**
      * Class Finder
@@ -43,7 +41,7 @@
                 $this->pdo->request($request, $arguments);
                 $res = $this->pdo->fetchAllObj();
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request);
 
                 $count = count($res) - 1;
                 $array_obj = [];
@@ -55,7 +53,7 @@
                 return $array_obj;
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                CreateLog::error($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -73,12 +71,12 @@
                 $this->pdo->request($request, $arguments);
                 $res = $this->pdo->fetchObj();
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request);
 
                 return Hydrator::hydration($res, 'Bundles\\'.$this->bundle.'\Entity\\'.$entity);
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                CreateLog::error($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }

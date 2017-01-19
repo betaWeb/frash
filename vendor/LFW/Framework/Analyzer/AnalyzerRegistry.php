@@ -1,6 +1,6 @@
 <?php
 	namespace LFW\Framework\Analyzer;
-    use LFW\Framework\Globals\Server;
+    use LFW\Framework\Globals\Server\Server;
 
     /**
      * Class AnalyzerRegistry

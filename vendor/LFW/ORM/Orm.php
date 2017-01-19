@@ -2,7 +2,7 @@
     namespace LFW\ORM;
     use LFW\Framework\Exception\Exception;
     use LFW\Framework\FileSystem\Json;
-    use LFW\ORM\PDO\PDO;
+    use LFW\ORM\PDO;
 
     /**
      * Class Orm
@@ -10,7 +10,7 @@
      */
     class Orm{
         /**
-         * @var PDO
+         * @var \PDO
          */
         private $connexion;
 
@@ -25,16 +25,16 @@
          * @return Exception
          */
         public function __construct(string $bundle){
-            $json = Json::importDatabaseObject()->$bundle;
-            $this->system = $json->system;
+            $json = Json::importDatabase()[ $bundle ];
+            $this->system = $json['system'];
 
             try{
-                switch($json->system){
+                switch($json['system']){
                     case 'MySQL':
-                        $this->connexion = new PDO('mysql:host='.$json->host.';dbname='. $json->dbname.';charset=UTF8;', $json->username, $json->password, []);
+                        $this->connexion = new \PDO('mysql:host='.$json['host'].';dbname='. $json['dbname'].';charset=UTF8;', $json['username'], $json['password'], []);
                         break;
                     case 'PGSQL':
-                        $this->connexion = new PDO('pgsql:dbname='.$json->dbname.';port='.$json->port.';host='.$json->host, $json->username, $json->password);
+                        $this->connexion = new \PDO('pgsql:dbname='.$json['dbname'].';port='.$json['port'].';host='.$json['host'], $json['username'], $json['password']);
                         $this->connexion->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
                         break;
                     default:
@@ -47,17 +47,10 @@
         }
 
         /**
-         * @return PDO
+         * @return \PDO
          */
-        public function getConnexion(): PDO{
+        public function getConnexion(): \PDO{
             return $this->connexion;
-        }
-
-        /**
-         * @return int
-         */
-        public function getCountReq(): int{
-            return $this->connexion->getCountReq();
         }
 
         /**

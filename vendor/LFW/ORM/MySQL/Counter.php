@@ -1,8 +1,7 @@
 <?php
     namespace LFW\ORM\MySQL;
-    use LFW\Framework\CreateLog\CreateErrorLog;
-    use LFW\Framework\CreateLog\CreateRequestLog;
-    use LFW\ORM\PDO\PDO;
+    use LFW\Framework\Log\CreateLog;
+    use LFW\ORM\PDO;
 
     /**
      * Class Counter
@@ -31,13 +30,13 @@
         private function count(string $entity, string $where, array $arguments): int{
             try{
                 $request = 'SELECT * FROM '.lcfirst($entity).' '.$where;
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request);
 
                 $this->pdo->request($request, $arguments);
                 return $this->pdo->rowCount();
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage(), false);
+                CreateLog::error($e->getMessage(), false);
                 die('Il y a eu une erreur.');
             }
         }

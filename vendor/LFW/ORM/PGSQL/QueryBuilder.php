@@ -1,8 +1,7 @@
 <?php
     namespace LFW\ORM\PGSQL;
-    use LFW\Framework\CreateLog\{ CreateErrorLog, CreateRequestLog };
+    use LFW\Framework\Log\CreateLog;
     use LFW\ORM\{ Hydrator, RequestInterface };
-    use LFW\ORM\PDO\PDO;
 
     /**
      * Class QueryBuilder
@@ -15,16 +14,16 @@
         protected $bundle = '';
 
         /**
-         * @var PDO
+         * @var \PDO
          */
         protected $conn;
 
         /**
          * QueryBuilder constructor.
-         * @param PDO $conn
+         * @param \PDO $conn
          * @param string $bundle
          */
-        public function __construct(PDO $conn, string $bundle){
+        public function __construct(\PDO $conn, string $bundle){
             $this->bundle = $bundle;
             $this->conn = $conn;
         }
@@ -35,57 +34,75 @@
          */
         public function insert(RequestInterface $request): int{
             try{
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
-                $this->conn->request($request->getRequest(), $request->getExecute());
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
+
+                $req = $this->conn->prepare($request->getRequest());
+                $req->execute($request->getExecute());
+
                 return $this->conn->lastInsertId(str_replace('"', '', $request->getTable()).'_id_seq');
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                CreateLog::error($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
 
         /**
          * @param RequestInterface $select
+         * @param string $hydrat
          * @return object
          */
-        public function selectOne(RequestInterface $select){
+        public function selectOne(RequestInterface $select, string $hydrat = 'without'){
             try{
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
 
-                $this->conn->request($select->getRequest(), $select->getExecute());
-                $res = $this->conn->fetchObj();
+                $request = $this->conn->prepare($select->getRequest());
+                $request->execute($select->getExecute());
+                $res = $request->fetch(\PDO::FETCH_OBJ);
 
-                return $this->hydration($res, 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity());
+                if($hydrat == 'without'){
+                    return $res;
+                }
+                elseif($hydrat == 'with'){
+                    return $this->hydration($res, 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity());
+                }
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                CreateLog::error($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
 
         /**
          * @param RequestInterface $select
+         * @param string $hydrat
          * @return array
          */
-        public function selectMany(RequestInterface $select){
+        public function selectMany(RequestInterface $select, string $hydrat = 'without'){
             try{
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
 
-                $this->conn->request($select->getRequest(), $select->getExecute());
-                $res = $this->conn->fetchAllObj();
+                $request = $this->conn->prepare($select->getRequest());
+                $request->execute($select->getExecute());
+                $res = $request->fetchAll(\PDO::FETCH_OBJ);
 
-                $count = count($res) - 1;
-                $array_obj = [];
-
-                for($i = 0; $i <= $count; $i++){
-                    $array_obj[ $i ] = $this->hydration($res[ $i ], 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity());
+                if($hydrat == 'without'){
+                    return $res;
                 }
+                elseif($hydrat == 'with'){
+                    $count = count($res) - 1;
+                    $array_obj = [];
+                    $class = 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity();
 
-                return $array_obj;
+                    for($i = 0; $i <= $count; $i++){
+                        $array_obj[ $i ] = $this->hydration($res[ $i ], $class);
+                    }
+
+                    return $array_obj;
+                }
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                CreateLog::error($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -95,11 +112,13 @@
          */
         public function delete(RequestInterface $request){
             try{
-                $this->conn->request($request->getRequest(), $request->getExecute());
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
+                $req = $this->conn->prepare($request->getRequest());
+                $req->execute($request->getExecute());
+
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                CreateLog::error($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -109,11 +128,13 @@
          */
         public function update(RequestInterface $request){
             try{
-                $this->conn->request($request->getRequest(), $request->getExecute());
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
+                $req = $this->conn->prepare($request->getRequest());
+                $req->execute($request->getExecute());
+
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                CreateLog::error($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -124,12 +145,15 @@
          */
         public function custom(RequestInterface $request){
             try{
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
-                $this->conn->request($request->getRequest(), $request->getExecute());
-                return $this->conn->fetchAssoc();
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
+
+                $req = $this->conn->prepare($request->getRequest());
+                $req->execute($request->getExecute());
+
+                return $req->fetch(\PDO::FETCH_ASSOC);
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                CreateLog::error($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -140,12 +164,15 @@
          */
         public function customMany(RequestInterface $request){
             try{
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
-                $this->conn->request($request->getRequest(), $request->getExecute());
-                return $this->conn->fetchAllAssoc();
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
+
+                $req = $this->conn->prepare($request->getRequest());
+                $req->execute($request->getExecute());
+
+                return $req->fetchAll(\PDO::FETCH_ASSOC);
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                CreateLog::error($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }

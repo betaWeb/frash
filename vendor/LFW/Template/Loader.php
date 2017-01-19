@@ -53,21 +53,20 @@
          */
 		public function __construct(string $file, array $params, Dic $dic, array $extensions){
             $this->dic = $dic;
-            $gets = $this->dic->load('get');
 
-			$this->bundle = $gets->get('bundle');
-            $this->cache = $gets->get('cache_tpl');
-            $this->env = $gets->get('env');
+			$this->bundle = $this->dic->get('bundle');
+            $this->cache = $this->dic->get('cache_tpl');
+            $this->env = $this->dic->get('env');
 			$this->file = $file;
 			$this->params = $params;
 
             $this->dic_t = new DependTemplEngine;
             $this->dic_t->setParams([
                 'json' => Json::importConfig(),
-                'nurl' => explode('/', $gets->get('uri')),
+                'nurl' => explode('/', $this->dic->get('uri')),
                 'params' => $this->params,
-                'prefix' => $gets->get('prefix'),
-                'prefix_lang' => $gets->get('prefix_lang')
+                'prefix' => $this->dic->get('prefix'),
+                'prefix_lang' => $this->dic->get('prefix_lang')
             ]);
 		}
 

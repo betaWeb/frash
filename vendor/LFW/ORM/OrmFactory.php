@@ -33,7 +33,7 @@
          * @param Dic $dic
          */
         public function __construct(Dic $dic){
-            $this->bundle = $dic->load('get')->get('bundle');
+            $this->bundle = $dic->get('bundle');
             $this->dic = $dic;
             $orm = new Orm($this->bundle);
             $this->connexion = $orm->getConnexion();
@@ -48,15 +48,6 @@
         }
 
         /**
-         * @param string $request
-         * @return object
-         */
-        public function getRequest(string $request){
-            $class = 'Bundles\\'.$this->bundle.'\Requests\\'.$request.'Requests';
-            return new $class($this->connexion, $this->bundle);
-        }
-
-        /**
          * @return object
          */
         public function getCounter(){
@@ -67,8 +58,25 @@
         /**
          * @return object
          */
+        public function getEntity($entity){
+            $namespace = 'Bundles\\'.$this->bundle.'\Entity\\'.$entity;
+            return new $namespace;
+        }
+
+        /**
+         * @return object
+         */
         public function getFinder(){
             $namespace = 'LFW\ORM\\'.$this->system.'\Finder';
             return new $namespace($this->connexion, $this->bundle);
+        }
+
+        /**
+         * @param string $request
+         * @return object
+         */
+        public function getRequest(string $request){
+            $class = 'Bundles\\'.$this->bundle.'\Requests\\'.$request.'Requests';
+            return new $class($this->connexion, $this->bundle);
         }
     }

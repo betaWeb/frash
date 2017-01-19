@@ -2,7 +2,7 @@
 	namespace LFW\Framework;
 
     /**
-     * Class MathClass
+     * Class Collection
      * @package LFW\Framework
      */
 	class Collection{

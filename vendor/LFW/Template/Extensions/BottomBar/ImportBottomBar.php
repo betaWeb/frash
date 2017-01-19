@@ -31,9 +31,9 @@
          * @param DependTemplEngine $dic_t
          */
 		public function __construct(Dic $dic, DependTemplEngine $dic_t){
-			$dic->load('microtime')->setMicrotime('bottom_bar');
+			$dic->load('microtime')->set('bottom_bar');
 			$this->dic = $dic;
-            $this->prefix = $this->dic->load('get')->get('prefix');
+            $this->prefix = $this->dic->get('prefix');
 			$this->dic_t = $dic_t;
 		}
 
@@ -42,7 +42,7 @@
          */
 		public function parse(){
 			$microtime = $this->dic->load('microtime');
-            $analyzer = $this->dic->load('getUrl')->url('__analyzer/').$this->dic->load('get')->get('url_analyzer');
+            $analyzer = $this->dic->load('getUrl')->url('__analyzer/').$this->dic->get('url_analyzer');
             $dump = $this->dic_t->getParam('params')['dump'];
 
             $code = '       <link rel="stylesheet" media="screen" type="text/css" href="'.$this->prefix.'/'.self::PATH.'/bottom_bar.css">'."\n";

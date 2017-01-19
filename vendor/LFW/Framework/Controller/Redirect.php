@@ -1,18 +1,12 @@
 <?php
     namespace LFW\Framework\Controller;
     use LFW\Framework\DIC\Dic;
-    use LFW\Framework\FileSystem\Json;
 
     /**
      * Class Redirect
      * @package LFW\Framework\Controller
      */
     class Redirect{
-        /**
-         * @var array
-         */
-        private $nurl = [];
-
         /**
          * @var string
          */
@@ -23,10 +17,7 @@
          * @param Dic $dic
          */
         public function __construct(Dic $dic){
-            $gets = $dic->load('get');
-
-            $this->nurl = explode('/', $gets->get('uri'));
-            $this->prefix = (string) $gets->get('prefix_lang');
+            $this->prefix = (string) $dic->get('prefix_lang');
         }
 
         /**

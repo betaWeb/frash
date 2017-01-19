@@ -8,8 +8,10 @@
      */
 	class Json{
         const CONFIG = 'Configuration/config.json';
+        const CONSOLE = 'Configuration/console.json';
         const DATABASE = 'Configuration/database.json';
         const DEPEND = 'Configuration/dependencies.json';
+        const ROUTING = 'Configuration/routing.json';
         const TEST = 'Configuration/test_unit.json';
 
         /**
@@ -22,15 +24,15 @@
         /**
          * @return array
          */
-        public static function importDatabaseArray(): array{
-            return self::decode(File::read(self::DATABASE));
+        public static function importConsole(): array{
+            return self::decode(File::read(self::CONSOLE));
         }
 
         /**
-         * @return object
+         * @return array
          */
-        public static function importDatabaseObject(){
-            return self::decode(File::read(self::DATABASE), 'true');
+        public static function importDatabase(): array{
+            return self::decode(File::read(self::DATABASE));
         }
 
         /**
@@ -44,8 +46,8 @@
          * @param string $routing
          * @return array
          */
-        public static function importRouting(string $routing): array{
-            return self::decode(File::read('Configuration/'.$routing.'.json'));
+        public static function importRouting(): array{
+            return self::decode(File::read(self::ROUTING));
         }
 
         /**

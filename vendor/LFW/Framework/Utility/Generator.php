@@ -2,10 +2,10 @@
     namespace LFW\Framework\Utility;
 
     /**
-     * Class GenPass
+     * Class Generator
      * @package LFW\Framework\Utility
      */
-    class GenPass{
+    class Generator{
         /**
          * @param int $size
          * @param bool $number
@@ -14,7 +14,7 @@
          * @param bool $otca
          * @return string
          */
-        public static function getGenPass(int $size, bool $number, bool $min, bool $maj, bool $otca): string{
+        public static function get(int $size, bool $number, bool $min, bool $maj, bool $otca): string{
             $caract = '';
             $poss = 0;
             if($number === true){

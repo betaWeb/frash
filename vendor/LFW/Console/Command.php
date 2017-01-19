@@ -28,7 +28,7 @@
          */
 		public function __construct(array $argv){
 			$this->argv = $argv;
-			$this->conf = Json::importConfig();
+			$this->conf = Json::importConsole();
 
 			if($argv[1] == '--a'){
 	            $this->isCustom();
@@ -42,7 +42,7 @@
 		public function work(){
 			if($this->custom === true){}
 			else{
-				$path = str_replace('.', '\\', $this->conf['console']['default'][ $this->argv[1] ]);
+				$path = str_replace('.', '\\', $this->conf['default'][ $this->argv[1] ]);
 
 				$cmd = new $path($this->argv);
 				$cmd->work();

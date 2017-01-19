@@ -61,11 +61,10 @@
          * @return array
          */
         public function getInternalParam(array $params): array{
-            $gets = $this->dic->load('get');
             return array_merge([
                 'dump' => $this->dump,
-                'internal_prefix' => $gets->get('prefix'),
-                'internal_prefix_lang' => $gets->get('prefix_lang')
+                'internal_prefix' => $this->dic->get('prefix'),
+                'internal_prefix_lang' => $this->dic->get('prefix_lang')
             ], $params);
         }
 

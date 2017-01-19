@@ -1,7 +1,6 @@
 <?php
     namespace LFW\ORM\PGSQL;
-    use LFW\Framework\CreateLog\{ CreateErrorLog, CreateRequestLog };
-    use LFW\ORM\PDO\PDO;
+    use LFW\Framework\Log\CreateLog;
 
     /**
      * Class Counter
@@ -9,15 +8,15 @@
      */
     class Counter{
         /**
-         * @var PDO
+         * @var \PDO
          */
         private $pdo;
 
         /**
          * Finder constructor.
-         * @param PDO $pdo
+         * @param \PDO $pdo
          */
-        public function __construct(PDO $pdo){
+        public function __construct(\PDO $pdo){
             $this->pdo = $pdo;
         }
 
@@ -32,13 +31,15 @@
                 $table = lcfirst($entity);
                 $request = 'SELECT * FROM '."\"$table\"".' '.$where;
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request);
 
-                $this->pdo->request($request, $arguments);
-                return $this->pdo->rowCount();
+                $req = $this->pdo->prepare($request);
+                $req->execute($arguments);
+
+                return $req->rowCount();
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                CreateLog::error($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }

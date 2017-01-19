@@ -1,9 +1,9 @@
 <?php
-	namespace LFW\Framework;
+	namespace LFW\Framework\Utility;
 
     /**
      * Class Microtime
-     * @package LFW\Framework
+     * @package LFW\Framework\Utility
      */
 	class Microtime{
         /**
@@ -14,7 +14,7 @@
         /**
          * @param string $name
          */
-		public function setMicrotime(string $name){
+		public function set(string $name){
 			$this->microtime[ $name ] = microtime(true) * 1000;
 		}
 

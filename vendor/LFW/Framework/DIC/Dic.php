@@ -18,10 +18,28 @@
         private $open = [];
 
         /**
+         * @var array
+         */
+        private $params = [];
+
+        /**
          * Dic constructor.
          */
         public function __construct(){
             $this->dependencies = Json::importDependencies();
+        }
+
+        /**
+         * @param string $key
+         * @return mixed
+         */
+        public function get(string $key){
+            if(empty($this->params[ $key ])){
+                return [];
+            }
+            else{
+                return $this->params[ $key ];
+            }
         }
 
         /**
@@ -41,5 +59,13 @@
 
                 return $class;
             }
+        }
+
+        /**
+         * @param string $key
+         * @param mixed $value
+         */
+        public function set(string $key, $value){
+            $this->params[ $key ] = $value;
         }
     }

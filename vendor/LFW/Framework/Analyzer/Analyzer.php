@@ -3,7 +3,7 @@
 	use LFW\Framework\Analyzer\{ AnalyzerGeneration, AnalyzerRegistry };
     use LFW\Framework\DIC\Dic;
     use LFW\Framework\FileSystem\{ File, Json };
-    use LFW\Framework\Globals\Server;
+    use LFW\Framework\Globals\Server\Server;
 
     /**
      * Class Analyzer

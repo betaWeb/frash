@@ -57,8 +57,7 @@
 		public function __construct(string $path, array $params, Dic $dic, DependTemplEngine $dic_t, string $name_class){
 			$this->dic = $dic;
 
-			$gets = $this->dic->load('get');
-			$this->env = $gets->get('env');
+			$this->env = $this->dic->get('env');
 			$this->params = $params;
 			$this->tpl = str_replace("'", "\'", file_get_contents($path));
 			$this->name_class = $name_class;

@@ -1,8 +1,7 @@
 <?php
     namespace LFW\ORM\PGSQL;
-    use LFW\Framework\CreateLog\{ CreateErrorLog, CreateRequestLog };
+    use LFW\Framework\Log\CreateLog;
     use LFW\ORM\Hydrator;
-    use LFW\ORM\PDO\PDO;
 
     /**
      * Class Finder
@@ -15,16 +14,16 @@
         private $bundle;
 
         /**
-         * @var PDO
+         * @var \PDO
          */
         private $pdo;
 
         /**
          * Finder constructor.
-         * @param PDO $pdo
+         * @param \PDO $pdo
          * @param string $bundle
          */
-        public function __construct(PDO $pdo, string $bundle){
+        public function __construct(\PDO $pdo, string $bundle){
             $this->bundle = $bundle;
             $this->pdo = $pdo;
         }
@@ -40,10 +39,11 @@
                 $table = lcfirst($entity);
                 $request = 'SELECT * FROM '."\"$table\"".' '.$where;
 
-                $this->pdo->request($request, $arguments);
-                $res = $this->pdo->fetchAllObj();
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request);
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
+                $req = $this->pdo->prepare($request);
+                $req->execute($arguments);
+                $res = $req->fetchAll(\PDO::FETCH_OBJ);
 
                 $count = count($res) - 1;
                 $array_obj = [];
@@ -55,7 +55,7 @@
                 return $array_obj;
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                CreateLog::error($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -71,15 +71,16 @@
                 $table = lcfirst($entity);
                 $request = 'SELECT * FROM '."\"$table\"".' '.$where;
 
-                $this->pdo->request($request, $arguments);
-                $res = $this->pdo->fetchObj();
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request);
 
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
+                $req = $this->pdo->prepare($request);
+                $req->execute($arguments);
+                $res = $req->fetch(\PDO::FETCH_OBJ);
 
                 return $this->hydration($res, 'Bundles\\'.$this->bundle.'\Entity\\'.$entity);
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                CreateLog::error($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }

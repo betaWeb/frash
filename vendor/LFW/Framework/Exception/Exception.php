@@ -1,6 +1,6 @@
 <?php
     namespace LFW\Framework\Exception;
-    use LFW\Framework\CreateLog\CreateErrorLog;
+    use LFW\Framework\Log\CreateLog;
 
     /**
      * Class Exception
@@ -12,7 +12,7 @@
          * @param string $message
          */
         public function __construct(string $message){
-            new CreateErrorLog($message);
+            CreateLog::error($message);
 
             ob_start();
             debug_print_backtrace();

@@ -1,8 +1,7 @@
 <?php
     namespace LFW\ORM\MySQL;
-    use LFW\Framework\CreateLog\{ CreateErrorLog, CreateRequestLog };
-    use LFW\ORM\{ Hydrator, RequestInterface };
-    use LFW\ORM\PDO\PDO;
+    use LFW\Framework\Log\CreateLog;
+    use LFW\ORM\{ Hydrator, PDO, RequestInterface };
 
     /**
      * Class QueryBuilder
@@ -35,12 +34,12 @@
          */
         public function insert(RequestInterface $request): int{
             try{
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
                 $this->conn->request($request->getRequest(), $request->getExecute());
                 return $this->conn->lastInsertId();
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                CreateLog::error($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -51,14 +50,14 @@
          */
         public function selectOne(RequestInterface $select){
             try{
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
 
                 $this->conn->request($select->getRequest(), $select->getExecute());
                 $res = $this->conn->fetchObj();
                 return $this->hydration($res, 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity());
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                CreateLog::error($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -69,7 +68,7 @@
          */
         public function selectMany(RequestInterface $select): array{
             try{
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
                 $ent = 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity();
 
                 $this->conn->request($select->getRequest(), $select->getExecute());
@@ -85,7 +84,7 @@
                 return $array_obj;
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                CreateLog::error($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -96,10 +95,10 @@
         public function delete(RequestInterface $request){
             try{
                 $this->conn->request($request->getRequest(), $request->getExecute());
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                CreateLog::error($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -110,10 +109,10 @@
         public function update(RequestInterface $request){
             try{
                 $this->conn->request($request->getRequest(), $request->getExecute());
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                CreateLog::error($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
@@ -124,13 +123,13 @@
          */
         public function count(RequestInterface $request): int{
             try{
-                new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
+                CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
 
                 $this->conn->request($request->getRequest(), $request->getExecute());
                 return $req->rowCount();
             }
             catch(\Exception $e){
-                new CreateErrorLog($e->getMessage());
+                CreateLog::error($e->getMessage());
                 die('Il y a eu une erreur.');
             }
         }
