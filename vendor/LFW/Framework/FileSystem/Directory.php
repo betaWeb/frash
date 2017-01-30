@@ -1,54 +1,52 @@
 <?php
-	namespace LFW\Framework\FileSystem;
-    use LFW\Framework\FileSystem\File;
+namespace LFW\Framework\FileSystem;
+use LFW\Framework\FileSystem\File;
+
+/**
+ * Class Directory
+ * @package LFW\Framework\FileSystem
+ */
+class Directory{
+    /**
+     * @param string $path
+     * @param string $chmod
+     */
+	public static function create(string $path, string $chmod){
+		mkdir($path, $chmod);
+	}
 
     /**
-     * Class Directory
-     * @package LFW\Framework\FileSystem
+     * @param string $path
+     * @return bool
      */
-	class Directory{
-        /**
-         * @param string $path
-         * @param string $chmod
-         */
-		public static function create(string $path, string $chmod){
-			mkdir($path, $chmod);
-		}
+	public static function exist(string $path): bool{
+		if(file_exists($path)){
+            return true;
+        } else {
+        	return false;
+        }
+	}
 
-        /**
-         * @param string $path
-         * @return bool
-         */
-		public static function exist(string $path): bool{
-			if(file_exists($path)){
-                return true;
-            }
-            else{
-            	return false;
-            }
-		}
+    /**
+     * @param string $path
+     */
+    public static function delete(string $path){
+        $dir_content = scandir($path);
 
-        /**
-         * @param string $path
-         */
-        public static function delete(string $path){
-            $dir_content = scandir($path);
+        if($dir_content !== FALSE){
+            foreach($dir_content as $entry){
+                if(!in_array($entry, [ '.', '..' ])){
+                    $entry = $path.'/'.$entry;
 
-            if($dir_content !== FALSE){
-                foreach($dir_content as $entry){
-                    if(!in_array($entry, [ '.', '..' ])){
-                        $entry = $path.'/'.$entry;
-
-                        if(!is_dir($entry)){
-                            File::delete($entry);
-                        }
-                        else{
-                            self::delete($entry);
-                        }
+                    if(!is_dir($entry)){
+                        File::delete($entry);
+                    } else {
+                        self::delete($entry);
                     }
                 }
             }
-
-            rmdir($path);
         }
-	}
+
+        rmdir($path);
+    }
+}

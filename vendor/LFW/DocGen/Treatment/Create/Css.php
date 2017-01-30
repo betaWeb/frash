@@ -1,17 +1,17 @@
 <?php
-	namespace LFW\DocGen\Treatment\Create;
-    use LFW\Framework\FileSystem\File;
+namespace LFW\DocGen\Treatment\Create;
+use LFW\Framework\FileSystem\File;
 
-    /**
-     * Class Css
-     * @package LFW\DocGen\Treatment\Create
-     */
-	class Css{
-		/**
-		 * @param string $output
-		 */
-		public static function work(string $output){
-			$code = (string) "#corps{
+/**
+ * Class Css
+ * @package LFW\DocGen\Treatment\Create
+ */
+class Css{
+	/**
+	 * @param string $output
+	 */
+	public static function work(string $output){
+		$code = (string) "#corps{
 	margin-top:40px;
 	padding-left:10px;
 	padding-right:10px;
@@ -50,6 +50,6 @@ a:visited{
 	margin-left:20px;
 }";
 
-			File::create($output.'/design.css', $code);
-		}
+		File::create($output.'/design.css', $code);
 	}
+}

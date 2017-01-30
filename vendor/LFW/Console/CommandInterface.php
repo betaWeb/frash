@@ -1,11 +1,11 @@
 <?php
-	namespace LFW\Console;
+namespace LFW\Console;
 
-    /**
-     * Interface CommandInterface
-     * @package LFW\Console
-     */
-	interface CommandInterface{
-		public function __construct(array $argv);
-		public function work();
-	}
+/**
+ * Interface CommandInterface
+ * @package LFW\Console
+ */
+interface CommandInterface{
+	public function __construct(array $argv);
+	public function work();
+}

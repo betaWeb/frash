@@ -1,69 +1,66 @@
 <?php
-	namespace LFW\Template\Extensions;
-    use LFW\Template\DependTemplEngine;
+namespace LFW\Template\Extensions;
+use LFW\Template\DependTemplEngine;
+
+/**
+ * Class FormatVar
+ * @package LFW\Template\Extensions
+ */
+class FormatVar{
+    /**
+     * @var DependTemplEngine
+     */
+	private $dic_t;
 
     /**
-     * Class FormatVar
-     * @package LFW\Template\Extensions
+     * @var array
      */
-	class FormatVar{
-        /**
-         * @var DependTemplEngine
-         */
-		private $dic_t;
+	private $params = [];
 
-        /**
-         * @var array
-         */
-		private $params = [];
-
-        /**
-         * FormatVar constructor.
-         * @param DependTemplEngine $dic_t
-         * @param array $params
-         */
-		public function __construct(DependTemplEngine $dic_t, array $params){
-			$this->dic_t = $dic_t;
-			$this->params = $params['params'];
-		}
-
-        /**
-         * @param string $variable
-         * @return string
-         */
-		public function parse(string $variable): string{
-			$array = [];
-			$param = '';
-
-			if(strstr($variable, '.')){
-				$expl = explode('.', $variable);
-
-				foreach($expl as $k => $v){
-					if($k == 0){
-						$array = $this->params[ $v ];
-						$param = '[\''.$v.'\']';
-					}
-					else{
-						if(gettype($array) == 'object'){
-							$method = 'get'.ucfirst($v);
-
-							$array = $array->$method();
-							$param .= '->'.$method.'()';
-						}
-						elseif(gettype($array) == 'array'){
-							$array = $array[ $v ];
-							$param .= '[\''.$v.'\']';
-						}
-					}
-				}
-			}
-			else{
-				if(gettype($this->params[ $variable ]) == 'object'){}
-				else{
-					$param = '[\''.$variable.'\']';
-				}
-			}
-
-			return $param;
-		}
+    /**
+     * FormatVar constructor.
+     * @param DependTemplEngine $dic_t
+     * @param array $params
+     */
+	public function __construct(DependTemplEngine $dic_t, array $params){
+		$this->dic_t = $dic_t;
+		$this->params = $params['params'];
 	}
+
+    /**
+     * @param string $variable
+     * @return string
+     */
+	public function parse(string $variable): string{
+		$param = '';
+
+		if(strstr($variable, '.')){
+			$expl = explode('.', $variable);
+            $array = [];
+
+			foreach($expl as $k => $v){
+				if($k == 0){
+					$array = $this->params[ $v ];
+					$param = '[\''.$v.'\']';
+				} else {
+					if(gettype($array) == 'object'){
+						$method = 'get'.ucfirst($v);
+
+						$array = $array->$method();
+						$param .= '->'.$method.'()';
+					} elseif(gettype($array) == 'array') {
+						$array = $array[ $v ];
+						$param .= '[\''.$v.'\']';
+					}
+				}
+			}
+		} else {
+			if(gettype($this->params[ $variable ]) == 'object'){
+			} else {
+				$param = '[\''.$variable.'\']';
+			}
+		}
+
+		return $param;
+	}
+}

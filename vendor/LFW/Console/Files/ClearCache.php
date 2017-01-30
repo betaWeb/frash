@@ -1,30 +1,30 @@
 <?php
-	namespace LFW\Console\Files;
-    use LFW\Console\CommandInterface;
-	use LFW\Framework\FileSystem\File;
+namespace LFW\Console\Files;
+use LFW\Console\CommandInterface;
+use LFW\Framework\FileSystem\File;
+
+/**
+ * Class ClearCache
+ * @package LFW\Console\Files
+ */
+class ClearCache implements CommandInterface{
+    const PATH = 'Storage/Cache/Templating';
 
     /**
-     * Class ClearCache
-     * @package LFW\Console\Files
+     * ClearCache constructor.
+     * @param array $argv
      */
-	class ClearCache implements CommandInterface{
-        const PATH = 'Storage/Cache/Templating';
+    public function __construct(array $argv){}
 
-        /**
-         * ClearCache constructor.
-         * @param array $argv
-         */
-        public function __construct(array $argv){}
+	public function work(){
+		$dir_content = (array) scandir(self::PATH);
 
-		public function work(){
-			$dir_content = (array) scandir(self::PATH);
-
-            if($dir_content !== false){
-                foreach($dir_content as $entry){
-                    if(!in_array($entry, [ '.', '..' ])){
-                        File::delete(self::PATH.'/'.$entry);
-                    }
+        if($dir_content !== false){
+            foreach($dir_content as $entry){
+                if(!in_array($entry, [ '.', '..' ])){
+                    File::delete(self::PATH.'/'.$entry);
                 }
             }
-		}
+        }
 	}
+}

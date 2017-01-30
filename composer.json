@@ -1,6 +1,5 @@
 {
   "name": "alixsperoza/lfw",
-  "version": "1.4",
   "description": "PHP Framework - MVC",
   "keywords": [ "LFW", "Framework", "MVC" ],
   "license": "MIT",
@@ -9,11 +8,6 @@
     "twig/twig": "1.30.0"
   },
   "autoload": {
-    "classmap": [
-      ".htaccess", "console.php", "index.php", "Configuration/.htaccess", "Configuration/config.json", "Configuration/console.json",
-      "Configuration/database.json", "Configuration/dependencies.json", "Configuration/routing.json", "Storage/Logs/.htaccess", "Storage/Logs/access.log",
-      "Storage/Logs/error.log", "Storage/Logs/request.log"
-    ],
     "psr-4": {
       "Bundles\\": "Bundles/",
       "Traductions\\": "Traductions/",

@@ -1,51 +1,52 @@
 <?php
-	namespace LFW\Console;
-	use LFW\Framework\FileSystem\Json;
+namespace LFW\Console;
+use LFW\Framework\FileSystem\Json;
+
+/**
+ * Class Command
+ * @package LFW\Console
+ */
+class Command{
+	/**
+	 * @var array
+	 */
+	private $argv = [];
+
+	/**
+	 * @var array
+	 */
+	private $conf = [];
+
+	/**
+	 * @var boolean
+	 */
+	private $custom = false;
 
     /**
-     * Class Command
-     * @package LFW\Console
+     * Command constructor.
+     * @param array $argv
      */
-	class Command{
-		/**
-		 * @var array
-		 */
-		private $argv = [];
+	public function __construct(array $argv){
+		$this->argv = $argv;
+		$this->conf = Json::importConsole();
 
-		/**
-		 * @var array
-		 */
-		private $conf = [];
-
-		/**
-		 * @var boolean
-		 */
-		private $custom = false;
-
-        /**
-         * Command constructor.
-         * @param array $argv
-         */
-		public function __construct(array $argv){
-			$this->argv = $argv;
-			$this->conf = Json::importConsole();
-
-			if($argv[1] == '--a'){
-	            $this->isCustom();
-	        }
-		}
-
-		public function isCustom(){
-			$this->custom = true;
-		}
-
-		public function work(){
-			if($this->custom === true){}
-			else{
-				$path = str_replace('.', '\\', $this->conf['default'][ $this->argv[1] ]);
-
-				$cmd = new $path($this->argv);
-				$cmd->work();
-			}
-		}
+		if($argv[1] == '--a'){
+            $this->isCustom();
+        }
 	}
+
+	public function isCustom(){
+		$this->custom = true;
+	}
+
+	public function work(){
+		if($this->custom === true){
+			$path = str_replace('.', '\\', $this->conf['custom'][ $this->argv[1] ]);
+		} else {
+			$path = str_replace('.', '\\', $this->conf['default'][ $this->argv[1] ]);
+		}
+
+		$cmd = new $path($this->argv);
+		$cmd->work();
+	}
+}

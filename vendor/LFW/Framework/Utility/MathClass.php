@@ -1,25 +1,25 @@
 <?php
-	namespace LFW\Framework\Utility;
+namespace LFW\Framework\Utility;
+
+/**
+ * Class MathClass
+ * @package LFW\Framework\Utility
+ */
+class MathClass{
+    /**
+     * @param int $mult
+     * @param int $div
+     * @return int
+     */
+	public static function percentage(int $mult, int $div): int{
+		return $mult * 100 / $div;
+	}
 
     /**
-     * Class MathClass
-     * @package LFW\Framework\Utility
+     * @param array $array
+     * @return int|double
      */
-	class MathClass{
-        /**
-         * @param int $mult
-         * @param int $div
-         * @return int
-         */
-		public static function percentage(int $mult, int $div): int{
-			return $mult * 100 / $div;
-		}
-
-        /**
-         * @param array $array
-         * @return int|double
-         */
-        public static function avg(array $array){
-            return array_sum($array) / count($array);
-        }
-	}
+    public static function avg(array $array){
+        return array_sum($array) / count($array);
+    }
+}

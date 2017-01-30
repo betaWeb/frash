@@ -1,28 +1,28 @@
 <?php
-    namespace LFW\Framework\Forms;
-    use LFW\Framework\DIC\Dic;
+namespace LFW\Framework\Forms;
+use LFW\Framework\DIC\Dic;
+
+/**
+ * Class CreateFormSql
+ * @package LFW\Framework\Forms
+ */
+class CreateFormSql{
+    /**
+     * @var string
+     */
+    private $path = '';
 
     /**
-     * Class CreateFormSql
-     * @package LFW\Framework\Forms
+     * CreateFormSql constructor.
+     * @param string $path
      */
-    class CreateFormSql{
-        /**
-         * @var string
-         */
-        private $path = '';
-
-        /**
-         * CreateFormSql constructor.
-         * @param string $path
-         */
-        public function __construct($path){
-            $this->path = $path;
-        }
-
-        /**
-         * @param Dic $dic
-         * @param array $spec
-         */
-        public function create(Dic $dic, $spec = []){}
+    public function __construct($path){
+        $this->path = $path;
     }
+
+    /**
+     * @param Dic $dic
+     * @param array $spec
+     */
+    public function create(Dic $dic, $spec = []){}
+}

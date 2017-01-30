@@ -1,16 +1,16 @@
 <?php
-	namespace LFW\Framework;
+namespace LFW\Framework;
 
+/**
+ * Class TraductionParent
+ * @package LFW\Framework
+ */
+class TraductionParent{
     /**
-     * Class TraductionParent
-     * @package LFW\Framework
+     * @param string $trad
+     * @return string
      */
-	class TraductionParent{
-        /**
-         * @param string $trad
-         * @return string
-         */
-		public function show(string $trad): string{
-            return $this->$trad;
-        }
-	}
+	public function show(string $trad): string{
+        return $this->$trad;
+    }
+}

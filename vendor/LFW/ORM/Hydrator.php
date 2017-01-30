@@ -1,23 +1,23 @@
 <?php
-    namespace LFW\ORM;
+namespace LFW\ORM;
 
+/**
+ * Class Hydrator
+ * @package LFW\ORM
+ */
+class Hydrator{
     /**
-     * Class Hydrator
-     * @package LFW\ORM
+     * @param object $object
+     * @param object $entity;
+     * @return object
      */
-    class Hydrator{
-        /**
-         * @param object $object
-         * @param object $entity;
-         * @return object
-         */
-        public function hydration($object, $entity){
-            $ent = new $entity;
+    public function hydration($object, $entity){
+        $ent = new $entity;
 
-            foreach($object as $col => $val){
-                $ent->$col = $val;
-            }
-
-            return $ent;
+        foreach($object as $col => $val){
+            $ent->$col = $val;
         }
+
+        return $ent;
     }
+}

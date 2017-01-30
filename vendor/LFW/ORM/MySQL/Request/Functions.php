@@ -1,22 +1,22 @@
 <?php
-    namespace LFW\ORM\MySQL\Request;
+namespace LFW\ORM\MySQL\Request;
 
+/**
+ * Class Functions
+ * @package LFW\ORM\MySQL\Request
+ */
+class Functions{
     /**
-     * Class Functions
-     * @package LFW\ORM\MySQL\Request
+     * @param array $array
+     * @return string
      */
-    class Functions{
-        /**
-         * @param array $array
-         * @return string
-         */
-        public static function concat(array $array): string{
-            $arr = [];
+    public static function concat(array $array): string{
+        $arr = [];
 
-            foreach($array as $v){
-                $arr[] = $v;
-            }
-
-            return 'CONCAT('.implode(', ', $arr).')';
+        foreach($array as $v){
+            $arr[] = $v;
         }
+
+        return 'CONCAT('.implode(', ', $arr).')';
     }
+}
