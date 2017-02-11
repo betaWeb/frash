@@ -10,7 +10,7 @@ class TreatmentList{
      * @var array
      */
     private static $exceptions = [
-        '.git', '.idea', 'README.md', '.htaccess', '.htpasswd', 'Storage', 'vendor/twig', 'console.php', 'index.php',
+        '.git', '.idea', 'Storage', 'vendor/twig', 'console.php', 'index.php', 'console.php',
         'vendor/autoload.php', 'vendor/composer', 'vendor/LFW/Console/listcommand.php'
     ];
 
@@ -55,10 +55,7 @@ class TreatmentList{
         $count_for = (int) count($except) - 1;
 
         for($i = 0; $i <= $count_for; $i++){
-            if(strstr($path, $except[ $i ]) !== false ||
-                substr($path, -2) == '..' || substr($path, -1) == '.' ||
-                substr($path, -4) != '.php'
-            ){
+            if(strstr($path, $except[ $i ]) !== false || substr($path, -2) == '..' || substr($path, -1) == '.' || substr($path, -4) != '.php'){
                 unset(self::$list[ $current ]);
                 break;
             }

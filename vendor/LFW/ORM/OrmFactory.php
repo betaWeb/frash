@@ -48,6 +48,13 @@ class OrmFactory{
     }
 
     /**
+     * @return string
+     */
+    public function getSystem(){
+        return $this->system;
+    }
+
+    /**
      * @return object
      */
     public function getCounter(){

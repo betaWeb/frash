@@ -3,6 +3,7 @@ namespace LFW\DocGen\Treatment\Create;
 use LFW\DocGen\Treatment\Comments\CommentClass;
 use LFW\DocGen\Treatment\Create\Summary;
 use LFW\Framework\FileSystem\File;
+use LFW\Framework\Globals\Server\Console;
 
 /**
  * Class Display
@@ -10,26 +11,25 @@ use LFW\Framework\FileSystem\File;
  */
 class Display{
     /**
-     * @param string $output
      * @param string $name
-     * @param mixed $class
+     * @param array $class
      * @param string $c
-     * @param string $prefix
+     * @param string $rc
      * @param \ReflectionClass $pub_ob
      * @param \ReflectionClass $prot_ob
      * @param \ReflectionClass $priv_ob
      */
-	public static function work(string $output, string $name, $class, string $c, string $prefix, $rc, $pub_ob, $prot_ob, $priv_ob){
+	public static function work(string $name, array $class, string $c, $rc, $pub_ob, $prot_ob, $priv_ob){
 		$code = '<html>'."\n";
         $code .= '  <head>'."\n";
         $code .= '      <meta charset="UTF-8">'."\n";
         $code .= '      <title>'.$name.'</title>'."\n";
-        $code .= '      <link rel="stylesheet" media="screen" type="text/css" href="/'.$output.'/design.css">'."\n";
+        $code .= '      <link rel="stylesheet" media="screen" type="text/css" href="/Storage/output/design.css">'."\n";
         $code .= '  </head>'."\n";
         $code .= '  <body>'."\n";
         $code .= '      <div id="corps">'."\n";
         $code .= '          <div id="summary">'."\n";
-        $code .= Summary::work($output.'/src', $class, $prefix);
+        $code .= Summary::work($class, Console::pwd());
         $code .= '          </div>'."\n";
         $code .= '          <div id="contenu">'."\n";
         $code .= '              <h2 id="title_class">'.$c.'</h2>'."\n";
@@ -58,6 +58,6 @@ class Display{
         $code .= '  </body>'."\n";
         $code .= '</html>';
 
-        File::create($output.'/src/'.$name.'.html', $code);
+        File::create('Storage/output/src/'.$name.'.html', $code);
 	}
 }

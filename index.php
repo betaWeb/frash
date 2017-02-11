@@ -16,4 +16,4 @@
     	$dic->load('memcached')->server();
     }
 
-    $dic->load('route')->routing(substr(Server::getRequestUri(), strlen($dic->get('prefix'))));
+    $dic->load('route')->route(substr(Server::getRequestUri(), strlen($dic->get('prefix'))));

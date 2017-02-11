@@ -7,16 +7,15 @@ namespace LFW\DocGen\Treatment\Create;
  */
 class Summary{
 	/**
-	 * @param string $output
 	 * @param array $class
 	 * @param string $prefix
 	 * @return string
 	 */
-	public static function work(string $output, array $class, string $prefix): string{
+	public static function work(array $class, string $prefix): string{
 		$code = (string) '';
         foreach($class as $c){
             $path = (string) str_replace('\\', '/', $c);
-            $code .= '                  <a href="'.$prefix.'/'.$output.'/'.$path.'.html">'.$path.'</a><br>'."\n";
+            $code .= '                  <a href="'.$prefix.'/Storage/output/src/'.$path.'.html">'.$path.'</a><br>'."\n";
         }
 
         return $code;

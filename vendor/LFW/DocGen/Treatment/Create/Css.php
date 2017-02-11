@@ -7,10 +7,7 @@ use LFW\Framework\FileSystem\File;
  * @package LFW\DocGen\Treatment\Create
  */
 class Css{
-	/**
-	 * @param string $output
-	 */
-	public static function work(string $output){
+	public static function work(){
 		$code = (string) "#corps{
 	margin-top:40px;
 	padding-left:10px;
@@ -50,6 +47,6 @@ a:visited{
 	margin-left:20px;
 }";
 
-		File::create($output.'/design.css', $code);
+		File::create('Storage/output/design.css', $code);
 	}
 }

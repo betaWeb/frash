@@ -7,9 +7,10 @@ use LFW\Framework\FileSystem\Json;
  * Class RunTest
  * @package LFW\UnitTest
  */
-class RunTest implements CommandInterface{
+class RunTest implements CommandInterface
+{
 	/**
-	 * @var string
+	 * @var array
 	 */
 	private $class = '';
 
@@ -18,20 +19,28 @@ class RunTest implements CommandInterface{
 	 */
 	private $flag = '';
 
-    /**
-     * RunTest constructor.
-     * @param array $argv
-     * @param string $pwd
-     */
-	public function __construct(array $argv){
+	/**
+	 * RunTest constructor.
+	 * @param array $argv
+	 */
+	public function __construct(array $argv)
+	{
+		$this->dir_test('Storage/');
+		$this->dir_test('Storage/rapports/');
+
 		$this->flag = $argv[2];
 
 		if($this->flag == '--one'){
-			$this->class = $argv[3];
+			$this->class = [ $argv[3] ];
+		} elseif($this->flag == '--dir') {
+			$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+
+			foreach($iterator as $file){}
 		}
 	}
 
-	public function work(){
+	public function work()
+	{
 		if($this->flag == '--all'){
 			$list = Json::importTestUnit();
 
@@ -49,4 +58,11 @@ class RunTest implements CommandInterface{
 	 * @param object $class
 	 */
 	private function run($class){}
+
+	private function dir_test(string $dir)
+	{
+		if(Directory::exist($dir) === false){
+			Directory::create($dir, 0770);
+		}
+	}
 }

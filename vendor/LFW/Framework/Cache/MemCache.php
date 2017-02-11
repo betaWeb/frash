@@ -22,7 +22,7 @@ class MemCache{
 	}
 
 	public function server(){
-		$liste = Json::importConfig()['memcached'];
+		$liste = Json::importConfig()['cache']['memcached'];
 
 		foreach($liste as $name => $port){
 			try{
