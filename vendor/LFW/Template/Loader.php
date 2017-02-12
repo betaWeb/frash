@@ -60,10 +60,19 @@ class Loader{
 		$this->file = $file;
 		$this->params = $params;
 
+        $uri = $this->dic->get('uri');
+        if(empty($uri)){
+            $nurl = '';
+        } elseif(strstr($uri, '/')){
+            $nurl = explode('/', $uri);
+        } else {
+            $nurl = $uri;
+        }
+
         $this->dic_t = new DependTemplEngine;
         $this->dic_t->setParams([
             'json' => Json::importConfig(),
-            'nurl' => explode('/', $this->dic->get('uri')),
+            'nurl' => $nurl,
             'params' => $this->params,
             'prefix' => $this->dic->get('prefix'),
             'prefix_lang' => $this->dic->get('prefix_lang')

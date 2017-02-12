@@ -34,6 +34,11 @@ class ParseTplParent extends ParseArray{
 	private $parts_in_escape = [];
 
     /**
+     * @var string
+     */
+    private $display = '';
+
+    /**
      * ParseTplParent constructor.
      * @param object $trad
      * @param string $bundle
@@ -68,7 +73,7 @@ class ParseTplParent extends ParseArray{
 							$this->display = str_replace($res_split[ $key ][0], $this->trad->show($res_split[ $key ][4]), $this->display);
 							break;
 						case preg_match($this->parsing['show_var'], $tag[0]):
-							if($level_foreach == 0 && $level_for_simple == 0 && $level_for_index == 0 && $level_condition == 0 && $level_for_itvl == 0){
+							if($level_foreach == 0 && $level_for_simple == 0 && $level_for_index == 0 && $level_condition == 0 && $level_itvl == 0){
 								$this->display = str_replace($res_split[ $key ][0], $this->dic_t->load('ShowVar')->parse($res_split[ $key ][4]), $this->display);
 							}
 

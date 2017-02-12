@@ -2,8 +2,14 @@
 namespace LFW\Console\Framework;
 use LFW\Console\CommandInterface;
 use LFW\Console\Bundle\CreateBundle;
-use LFW\Console\Framework\Install;
+use LFW\Console\Framework\Configuration;
+use LFW\Console\Framework\Storage;
+use LFW\Framework\FileSystem\Directory;
 
+/**
+ * Class Init
+ * @package LFW\Console\Framework
+ */
 class Init implements CommandInterface
 {
 	/**
@@ -44,7 +50,16 @@ class Init implements CommandInterface
         CreateBundle::verifDirExist();
         CreateBundle::createDir($bundle);
 
-        Install::config($format_routing, $analyzer, $cache, $default_lang, $dispo_lang, $access_log, $error_log, $request_log);
-        Install::database($bundle);
+        Configuration::preinstall();
+        Configuration::htaccess();
+        Configuration::config($format_routing, $analyzer, $cache, $default_lang, $dispo_lang, $access_log, $error_log, $request_log);
+        Configuration::database($bundle);
+        Configuration::dependencies();
+        Configuration::routing();
+        Configuration::console();
+
+        Storage::preinstall();
+        Storage::cache();
+        Storage::logs();
     }
 }

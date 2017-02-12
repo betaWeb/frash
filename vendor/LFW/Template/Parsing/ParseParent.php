@@ -21,11 +21,6 @@ class ParseParent extends ParseArray{
     /**
      * @var string
      */
-	private $tpl = '';
-
-    /**
-     * @var string
-     */
 	private $trad = '';
 
     /**
@@ -38,7 +33,6 @@ class ParseParent extends ParseArray{
 	public function __construct($trad, string $bundle, string $tpl, DependTemplEngine $dic_t){
 		$this->bundle = $bundle;
 		$this->dic_t = $dic_t;
-		$this->tpl = $tpl;
 		$this->trad = $trad;
 	}
 
@@ -95,13 +89,16 @@ class ParseParent extends ParseArray{
 							}
 
 							break;
+                        case preg_match($this->parsing['traduction'], $tag[0]):
+                            $value = str_replace($res_split[ $key ][0], str_replace('\'', "\'", $this->trad->show($res_split[ $key ][4])), $value);
+                            break;
 					}
 
 					break;
 			}
 		}
 
-		$complement = '		public function parent'.ucfirst($name).'(){'."\n";
+		$complement = '	public function parent'.ucfirst($name).'(){'."\n";
 		$complement .= '		return \''.trim($value).'\';'."\n";
 		$complement .= '	}'."\n\n";
 

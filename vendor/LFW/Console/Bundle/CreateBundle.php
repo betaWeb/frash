@@ -18,7 +18,7 @@ class CreateBundle{
         Directory::create(self::PREFIX.$name.'/Controllers', self::CHMOD);
         Directory::create(self::PREFIX.$name.'/Entity', self::CHMOD);
         Directory::create(self::PREFIX.$name.'/Entity/Mapping', self::CHMOD);
-        Directory::create(self::PREFIX.$name.'/Middleware', self::CHMOD);
+        Directory::create(self::PREFIX.$name.'/Service', self::CHMOD);
         Directory::create(self::PREFIX.$name.'/Requests', self::CHMOD);
         Directory::create(self::PREFIX.$name.'/Ressources', self::CHMOD);
         Directory::create(self::PREFIX.$name.'/Views', self::CHMOD);

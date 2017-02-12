@@ -42,8 +42,14 @@ class ImportBottomBar{
      */
 	public function parse(): string{
 		$microtime = $this->dic->load('microtime');
-        $analyzer = $this->dic->load('getUrl')->url('__analyzer/').$this->dic->get('url_analyzer');
         $dump = $this->dic_t->getParam('params')['dump'];
+
+        $url_analyzer = $this->dic->get('url_analyzer');
+        if(!empty($url_analyzer)){
+            $analyzer = $this->dic->load('getUrl')->url('__analyzer/').$this->dic->get('url_analyzer');
+        } else {
+            $analyzer = $this->dic->load('getUrl')->url('__analyzer/');
+        }
 
         $code = '       <link rel="stylesheet" media="screen" type="text/css" href="'.$this->prefix.'/'.self::PATH.'/bottom_bar.css">'."\n";
 		$code .= '      <div id="tpl_bottom_bar">'."\n";
