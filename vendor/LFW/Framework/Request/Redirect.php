@@ -1,10 +1,10 @@
 <?php
-namespace LFW\Framework\Controller;
+namespace LFW\Framework\Request;
 use LFW\Framework\DIC\Dic;
 
 /**
  * Class Redirect
- * @package LFW\Framework\Controller
+ * @package LFW\Framework\Request
  */
 class Redirect{
     /**

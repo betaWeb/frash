@@ -1,6 +1,6 @@
 <?php
 namespace LFW\Framework\DIC;
-use LFW\Framework\FileSystem\Json;
+use LFW\Framework\FileSystem\InternalJson;
 
 /**
  * Class Dic
@@ -26,7 +26,7 @@ class Dic{
      * Dic constructor.
      */
     public function __construct(){
-        $this->dependencies = Json::importDependencies();
+        $this->dependencies = InternalJson::importDependencies();
     }
 
     /**

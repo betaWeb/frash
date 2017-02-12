@@ -1,6 +1,6 @@
 <?php
 namespace LFW\Framework\Analyzer;
-use LFW\Framework\Globals\Server\Server;
+use LFW\Framework\Request\Server\Server;
 
 /**
  * Class AnalyzerRegistry
@@ -47,7 +47,7 @@ class AnalyzerRegistry{
 	}
 
 	public function setConfigPHP(){
-		$this->config['user'] = Server::getUser();
+		$this->config['user'] = Server::user();
 	}
 
 	/**

@@ -1,9 +1,9 @@
 <?php
-namespace LFW\Framework\Globals;
+namespace LFW\Framework\Request;
 
 /**
  * Class Session
- * @package LFW\Framework\Globals
+ * @package LFW\Framework\Request
  */
 class Session{
     /**

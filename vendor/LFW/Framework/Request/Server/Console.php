@@ -1,9 +1,9 @@
 <?php
-namespace LFW\Framework\Globals\Server;
+namespace LFW\Framework\Request\Server;
 
 /**
  * Class Console
- * @package LFW\Framework\Globals\Server
+ * @package LFW\Framework\Request\Server
  */
 class Console{
     /**

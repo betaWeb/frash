@@ -1,7 +1,7 @@
 <?php
 namespace LFW\Framework\Cache;
 use LFW\Framework\DIC\Dic;
-use LFW\Framework\FileSystem\Json;
+use LFW\Framework\FileSystem\InternalJson;
 use LFW\Framework\Log\CreateLog;
 
 class MemCache{
@@ -22,7 +22,7 @@ class MemCache{
 	}
 
 	public function server(){
-		$liste = Json::importConfig()['cache']['memcached'];
+		$liste = InternalJson::importConfig()['cache']['memcached'];
 
 		foreach($liste as $name => $port){
 			try{

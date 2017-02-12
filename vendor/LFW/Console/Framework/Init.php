@@ -57,6 +57,7 @@ class Init implements CommandInterface
         Configuration::dependencies();
         Configuration::routing();
         Configuration::console();
+        Configuration::service();
 
         Storage::preinstall();
         Storage::cache();

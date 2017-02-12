@@ -2,7 +2,7 @@
 namespace LFW\Template;
 use LFW\Framework\DIC\Dic;
 use LFW\Framework\Exception\Exception;
-use LFW\Framework\FileSystem\{ Directory, File, Json };
+use LFW\Framework\FileSystem\{ Directory, File, InternalJson };
 use LFW\Template\{ DependTemplEngine, Parser };
 
 /**
@@ -71,7 +71,7 @@ class Loader{
 
         $this->dic_t = new DependTemplEngine;
         $this->dic_t->setParams([
-            'json' => Json::importConfig(),
+            'json' => InternalJson::importConfig(),
             'nurl' => $nurl,
             'params' => $this->params,
             'prefix' => $this->dic->get('prefix'),

@@ -2,8 +2,8 @@
 namespace LFW\Framework\Forms\Type;
 use LFW\Framework\DIC\Dic;
 use LFW\Framework\Forms\FormTypeInterface;
-use LFW\Framework\Globals\Session;
 use LFW\Framework\Forms\Type\Csrf;
+use LFW\Framework\Request\Session;
 
 /**
  * Class StartForm

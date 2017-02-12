@@ -1,6 +1,6 @@
 <?php
 namespace LFW\Console;
-use LFW\Framework\FileSystem\Json;
+use LFW\Framework\FileSystem\InternalJson;
 
 /**
  * Class Command
@@ -28,7 +28,7 @@ class Command{
      */
 	public function __construct(array $argv){
 		$this->argv = $argv;
-		$this->conf = Json::importConsole();
+		$this->conf = InternalJson::importConsole();
 
 		if($argv[1] == '--a'){
             $this->isCustom();
@@ -41,7 +41,7 @@ class Command{
 
 	public function work(){
 		if($this->custom === true){
-			$path = str_replace('.', '\\', $this->conf['custom'][ $this->argv[1] ]);
+			$path = str_replace('.', '\\', $this->conf['custom'][ $this->argv[2] ]);
 		} else {
 			$path = str_replace('.', '\\', $this->conf['default'][ $this->argv[1] ]);
 		}

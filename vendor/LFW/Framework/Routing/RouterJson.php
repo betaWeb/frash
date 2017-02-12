@@ -2,7 +2,7 @@
 namespace LFW\Framework\Routing;
 use LFW\Framework\DIC\Dic;
 use LFW\Framework\Exception\Exception;
-use LFW\Framework\FileSystem\Json;
+use LFW\Framework\FileSystem\InternalJson;
 use LFW\Framework\Globals\Server\Server;
 use LFW\Framework\Log\CreateLog;
 use LFW\Framework\Routing\Gets\GetRoute;
@@ -55,7 +55,9 @@ class RouterJson
         array_shift($path);
 
         if($conf['analyzer'] == 'yes'){
-            $this->dic->set('url_analyzer', implode('/', $path));
+            $url_analyzer = (empty($path[0])) ? $conf['racine']['route'].'/' : implode('/', $path);
+
+            $this->dic->set('url_analyzer', $url_analyzer);
             $this->dic->load('analyzer')->getRegistry()->setConfigPHP();
         }
 
@@ -66,7 +68,7 @@ class RouterJson
             }
         } else {
             $racine = false;
-            $routarr = Json::importRouting();
+            $routarr = InternalJson::importRouting();
             $lien = '';
             $nb_expl = 0;
             $route = '';

@@ -7,62 +7,16 @@ use LFW\Framework\FileSystem\File;
  * @package LFW\Framework\FileSystem
  */
 class Json{
-    const CONFIG = 'Configuration/config.json';
-    const CONSOLE = 'Configuration/console.json';
-    const DATABASE = 'Configuration/database.json';
-    const DEPEND = 'Configuration/dependencies.json';
-    const ROUTING = 'Configuration/routing.json';
-    const TEST = 'Configuration/test_unit.json';
-
-    /**
-     * @return array
-     */
-	public static function importConfig(): array{
-		return self::decode(File::read(self::CONFIG));
-	}
-
-    /**
-     * @return array
-     */
-    public static function importConsole(): array{
-        return self::decode(File::read(self::CONSOLE));
-    }
-
-    /**
-     * @return array
-     */
-    public static function importDatabase(): array{
-        return self::decode(File::read(self::DATABASE));
-    }
-
-    /**
-     * @return array
-     */
-    public static function importDependencies(): array{
-        return self::decode(File::read(self::DEPEND));
-    }
-
-    /**
-     * @param string $routing
-     * @return array
-     */
-    public static function importRouting(): array{
-        return self::decode(File::read(self::ROUTING));
-    }
-
-    /**
-     * @return array
-     */
-    public static function importTestUnit(): array{
-        return self::decode(File::read(self::TEST));
-    }
-
     /**
      * @param mixed $json
      * @return string
      */
-    public static function encode($json): string{
-        return json_encode($json);
+    public static function encode($json, string $type = ''): string{
+        if($type == ''){
+            return json_encode($json);
+        } elseif($type == 'JSON_PRETTY_PRINT') {
+            return json_encode($json, JSON_PRETTY_PRINT);
+        }
     }
 
     /**

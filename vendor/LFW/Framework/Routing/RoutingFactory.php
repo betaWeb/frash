@@ -1,8 +1,8 @@
 <?php
 namespace LFW\Framework\Routing;
 use LFW\Framework\DIC\Dic;
-use LFW\Framework\FileSystem\Json;
-use LFW\Framework\Routing\{ RouterJson, RouterPhp };
+use LFW\Framework\FileSystem\InternalJson;
+use LFW\Framework\Routing\{ RouterJson };
 
 class RoutingFactory{
 	private $conf;
@@ -11,7 +11,7 @@ class RoutingFactory{
 	public function __construct(Dic $dic)
 	{
 		$this->dic = $dic;
-		$this->conf = Json::importConfig();
+		$this->conf = InternalJson::importConfig();
 	}
 
 	public function route(string $url)

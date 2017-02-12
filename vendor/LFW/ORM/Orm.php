@@ -1,7 +1,7 @@
 <?php
 namespace LFW\ORM;
 use LFW\Framework\Exception\Exception;
-use LFW\Framework\FileSystem\Json;
+use LFW\Framework\FileSystem\InternalJson;
 use LFW\ORM\PDO;
 
 /**
@@ -25,7 +25,7 @@ class Orm{
      * @return Exception
      */
     public function __construct(string $bundle){
-        $json = Json::importDatabase()[ $bundle ];
+        $json = InternalJson::importDatabase()[ $bundle ];
         $this->system = $json['system'];
 
         try{
