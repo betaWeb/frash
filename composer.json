@@ -3,6 +3,7 @@
   "description": "PHP Framework - MVC",
   "keywords": [ "LFW", "Framework", "MVC" ],
   "license": "MIT",
+  "version": "1.4.2",
   "minimum-stability": "dev",
   "require": {
     "twig/twig": "1.30.0"
@@ -10,6 +11,7 @@
   "autoload": {
     "psr-4": {
       "Bundles\\": "Bundles/",
+      "Configuration\\": "Configuration/",
       "Traductions\\": "Traductions/",
       "LFW\\": "vendor/LFW/",
       "Storage\\": "Storage/"
