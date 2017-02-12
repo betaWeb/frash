@@ -3,7 +3,7 @@ namespace LFW\Framework\Routing;
 use LFW\Framework\DIC\Dic;
 use LFW\Framework\Exception\Exception;
 use LFW\Framework\FileSystem\InternalJson;
-use LFW\Framework\Globals\Server\Server;
+use LFW\Framework\Request\Server\Server;
 use LFW\Framework\Log\CreateLog;
 use LFW\Framework\Routing\Gets\GetRoute;
 
@@ -128,7 +128,7 @@ class RouterJson
 
             if($api === true){
             } elseif(($nb_expl > 0 || $racine === true) && $lien != '' && $route != '' && $api === false) {
-                if(!empty($routarr[ $lien ]['type']) && $routarr[ $lien ]['type'] != Server::getRequestMethod()){
+                if(!empty($routarr[ $lien ]['type']) && $routarr[ $lien ]['type'] != Server::requestMethod()){
                     return new Exception('Request Method not correct');
                 }
 
