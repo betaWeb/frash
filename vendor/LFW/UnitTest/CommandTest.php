@@ -2,6 +2,7 @@
 namespace LFW\UnitTest;
 use LFW\Console\CommandInterface;
 use LFW\Framework\FileSystem\{ Directory, Json };
+use LFW\Framework\Utility\Microtime;
 use LFW\UnitTest\{ Flag, Run };
 
 /**
@@ -23,10 +24,18 @@ class CommandTest implements CommandInterface
 	private $flag = [];
 
 	/**
+	 * @var object
+	 */
+	private $microtime;
+
+	/**
 	 * CommandTest constructor.
 	 * @param array $argv
 	 */
 	public function __construct(array $argv){
+		$this->microtime = new Microtime;
+		$this->microtime->set('start_unit_test');
+
 		$this->dir_test('Storage/');
 		$this->dir_test('Storage/rapports/');
 
@@ -65,6 +74,9 @@ class CommandTest implements CommandInterface
 	private function run($class){
 		$run = new Run($class);
 		$run->launch();
+
+		$this->microtime->set('end_unit_test');
+		echo 'Temps d\'exécution : '.$this->microtime->getTiming('start_unit_test', 'end_unit_test').PHP_EOL;
 	}
 
 	private function dir_test(string $dir){

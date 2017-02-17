@@ -27,7 +27,7 @@ class Run{
 	}
 
 	public function launch(){
-		foreach($this->methods as $m){
+		foreach($this->methods as $m => $c){
 			$this->class->$m();
 		}
 
