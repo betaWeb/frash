@@ -19,6 +19,7 @@ class DependTemplEngine{
 		'FormatVar' => self::EXTENSIONS.'.FormatVar',
         'Func' => self::EXTENSIONS.'.Functions',
 		'Part' => self::EXTENSIONS.'.Part',
+        'Public' => self::EXTENSIONS.'.Public',
 		'Route' => self::EXTENSIONS.'.Route',
 		'ShowVar' => self::EXTENSIONS.'.ShowVar'
 	];

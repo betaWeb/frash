@@ -13,6 +13,16 @@ class Redirect{
     private $prefix = '';
 
     /**
+     * @var string
+     */
+    private $url = '';
+
+    /**
+     * @var integer
+     */
+    private $code = 200;
+
+    /**
      * Redirect constructor.
      * @param Dic $dic
      */
@@ -21,20 +31,37 @@ class Redirect{
     }
 
     /**
-     * @param string $url
-     * @return bool
+     * @param int $code
+     * @return object
      */
-    public function route(string $url): bool{
-        header('Location:'.$this->prefix.'/'.$url);
-        return true;
+    public function code(int $code){
+        $this->code = $code;
+        return $this;
     }
 
     /**
      * @param string $url
+     * @return object
+     */
+    public function route(string $url){
+        $this->url = $this->prefix.'/'.$url;
+        return $this;
+    }
+
+    /**
+     * @param string $url
+     * @return object
+     */
+    public function url(string $url){
+        $this->url = $url;
+        return $this;
+    }
+
+    /**
      * @return bool
      */
-    public function url(string $url): bool{
-        header('Location:'.$url);
+    public function go(): bool{
+        header('Location:'.$this->url, true, $this->code);
         return true;
     }
 }

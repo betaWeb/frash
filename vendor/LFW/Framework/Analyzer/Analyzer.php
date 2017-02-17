@@ -47,11 +47,11 @@ class Analyzer{
 	public function display(string $route, string $file){
 		$prefix = (string) $this->dic->load('get')->get('prefix');
 
-		$port = Server::getServerPort();
+		$port = Server::serverPort();
 		if($port == 80){
-			$prefix_array = (string) 'http://'.Server::getServerName().$prefix.'Storage/Cache/Analyzer/'.$file.'.json';
+			$prefix_array = (string) 'http://'.Server::serverName().$prefix.'Storage/Cache/Analyzer/'.$file.'.json';
 		} else {
-			$prefix_array = (string) 'http://'.Server::getServerName().':'.$port.$prefix.'Storage/Cache/Analyzer/'.$file.'.json';
+			$prefix_array = (string) 'http://'.Server::serverName().':'.$port.$prefix.'Storage/Cache/Analyzer/'.$file.'.json';
 		}
 
 		$params = (array) array_merge([ 'true_route' => $route ], Json::decode(File::read($prefix_array)));

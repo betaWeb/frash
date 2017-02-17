@@ -29,10 +29,10 @@ class Session{
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      * @param mixed $value
      */
-    public function setSession($name, $value){
+    public function setSession(string $name, $value){
         if(!array_key_exists($name, $this->session_value)){
             $this->session_name[] = $name;
         }
@@ -44,10 +44,10 @@ class Session{
     }
 
     /**
-     * @param mixed $session
+     * @param string $session
      * @return bool|mixed
      */
-    public function getSession($session){
+    public function getSession(string $session){
         if(in_array($session, $this->session_name)){
             return $this->session_value[ $session ];
         } else {
@@ -58,7 +58,7 @@ class Session{
     /**
      * @param string $session
      */
-    public function unsetSession($session){
+    public function unsetSession(string $session){
         $key = array_search($session, $this->session_name);
         unset($this->session_name[ $key ]);
         unset($this->session_value[ $key ]);

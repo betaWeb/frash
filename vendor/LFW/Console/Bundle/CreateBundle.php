@@ -7,7 +7,7 @@ class CreateBundle{
 	const PREFIX = 'Bundles/';
 
 	public static function verifDirExist(){
-		if(!file_exists(self::PREFIX)){
+		if(!Directory::exist(self::PREFIX)){
             Directory::create('Bundles', self::CHMOD);
             echo 'Dossier Bundles généré !'.PHP_EOL;
         }

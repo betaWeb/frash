@@ -8,12 +8,12 @@ use LFW\Framework\FileSystem\{ Directory, File, Json };
  */
 class AnalyzerGeneration{
 	/**
-     * Loader constructor.
+     * AnalyzerGeneration constructor.
 	 * @param array $registry
 	 * @param string $route
 	 */
 	public function __construct(array $registry, string $route){
-		if(Directory::exist('Storage/Cache/Analyzer') === false){
+		if(!Directory::exist('Storage/Cache/Analyzer')){
         	Directory::create('Storage/Cache/Analyzer', 0770);
 		}
 

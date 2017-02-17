@@ -192,7 +192,9 @@ class ParseWithExtend extends ParseArray{
                             $this->class_cache .= $pp->parse($match_all[ $key ][4], $match[1]);
 
                             $this->incl_parent[$match_all[ $key ][4]] = '\'.$this->parent'.ucfirst($match_all[ $key ][4]).'().\'';
-
+                            break;
+                        case preg_match($this->parsing['public'], $tag[0]):
+                            $this->tpl = str_replace($match_all[ $key ][0], $this->dic_t->load('Public')->parse($match_all[ $key ][4]), $this->tpl);
                             break;
                         case preg_match($this->parsing['route'], $tag[0]):
                             if($level_foreach == 0 && $level_for == 0 && $level_index == 0 && $level_itvl == 0){
@@ -209,7 +211,7 @@ class ParseWithExtend extends ParseArray{
                             break;
                         case preg_match($this->parsing['set_var'], $tag[0]):
                             if($level_foreach == 0 && $level_for == 0 && $level_index == 0 && $level_itvl == 0){
-                                preg_match('/\[\@(\w+)\](.*)\[\/var]/', $this->tpl, $set_var);
+                                preg_match('/\[define (\w+)\](.*)\[\/var\]/', $this->tpl, $set_var);
                                 $this->params[$set_var[1]] = $set_var[2];
                             }
 

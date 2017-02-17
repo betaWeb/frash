@@ -7,9 +7,27 @@ namespace LFW\Framework\Request\Server;
  */
 class Server{
     /**
+     * @return bool
+     */
+    public static function refresh(): bool{
+        if(isset($_SERVER['HTTP_CACHE_CONTROL']) && ($_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0' || $_SERVER['HTTP_CACHE_CONTROL'] == 'no-cache')){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * @return string
      */
-    public function user(): string{
+    public static function gatewayInterface(): string{
+        return $_SERVER['GATEWAY_INTERFACE'];
+    }
+
+    /**
+     * @return string
+     */
+    public static function user(): string{
         return $_SERVER['USER'];
     }
 
@@ -18,13 +36,6 @@ class Server{
      */
     public static function phpSelf(): string{
         return $_SERVER['PHP_SELF'];
-    }
-
-    /**
-     * @return string
-     */
-    public static function gatewayInterface(): string{
-        return $_SERVER['GATEWAY_INTERFACE'];
     }
 
     /**

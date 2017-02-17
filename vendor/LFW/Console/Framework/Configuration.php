@@ -31,7 +31,7 @@ class Configuration
      * @param string $error_log
      * @param string $request_log
      */
-	public static function config($format_routing, $analyzer, $cache, $default_lang, $dispo_lang, $access_log, $error_log, $request_log)
+	public static function config($format_routing, $analyzer, $cache, $default_lang, $dispo_lang, $access_log, $ajax_log, $error_log, $request_log)
     {
 		$array = [
 			'env' => 'local',
@@ -44,7 +44,7 @@ class Configuration
 				'default' => $default_lang,
 				'available' => explode('/', $dispo_lang)
 			],
-			'log' => [ 'access' => $access_log, 'error' => $error_log, 'request' => $request_log ]
+			'log' => [ 'access' => $access_log, 'ajax' => $ajax_log, 'error' => $error_log, 'request' => $request_log ]
 		];
 
 		File::create('Configuration/config.json', Json::encode($array, 'JSON_PRETTY_PRINT'));
@@ -96,6 +96,11 @@ class Configuration
         File::create('Configuration/service.json', '{'."\n".'   '."\n".'}');
     }
 
+    public static function testunit()
+    {
+        File::create('Configuration/test_unit.json', '{'."\n".'   '."\n".'}');
+    }
+
     public static function console()
     {
         $array = [
@@ -107,7 +112,7 @@ class Configuration
                 'Framework:init' => 'LFW.Console.Framework.Init',
                 'ORM:addentity' => 'LFW.Console.ORM.Addentity',
                 'ORM:createdb' => 'LFW.Console.ORM.Createdb',
-                'Test:Unit:run' => 'LFW.UnitTest.RunTest'
+                'Test:Unit:run' => 'LFW.UnitTest.CommandTest'
             ],
             'custom' => []
         ];

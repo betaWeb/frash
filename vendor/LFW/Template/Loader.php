@@ -3,6 +3,7 @@ namespace LFW\Template;
 use LFW\Framework\DIC\Dic;
 use LFW\Framework\Exception\Exception;
 use LFW\Framework\FileSystem\{ Directory, File, InternalJson };
+use LFW\Framework\Request\Server\Server;
 use LFW\Template\{ DependTemplEngine, Parser };
 
 /**
@@ -92,7 +93,12 @@ class Loader{
         }
 
         $name_file = 'TemplateOf'.md5('Bundles/'.$this->bundle.'/Views/'.$this->file);
-        if(File::exist('Storage/Cache/Templating/'.$name_file.'.php') === false){
+
+        if(Server::refresh() && File::exist('Storage/Cache/Templating/'.$name_file.'.php')){
+            File::delete('Storage/Cache/Templating/'.$name_file.'.php');
+        }
+
+        if(!File::exist('Storage/Cache/Templating/'.$name_file.'.php')){
             $parser = new Parser('Bundles/'.$this->bundle.'/Views/'.$this->file, $this->params, $this->dic, $this->dic_t, $name_file);
             $parser->parse();
         }

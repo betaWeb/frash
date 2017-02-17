@@ -38,6 +38,9 @@ class Init implements CommandInterface
         fwrite(STDOUT, 'Log d\'access (yes/no) : ');
         $access_log = (string) trim(fgets(STDIN));
 
+        fwrite(STDOUT, 'Log pour l\'ajax (yes/no) : ');
+        $ajax_log = (string) trim(fgets(STDIN));
+
         fwrite(STDOUT, 'Log d\'error (yes/no) : ');
         $error_log = (string) trim(fgets(STDIN));
 
@@ -50,14 +53,19 @@ class Init implements CommandInterface
         CreateBundle::verifDirExist();
         CreateBundle::createDir($bundle);
 
+        if(!Directory::exist('public/')){
+            Directory::create('public', 0770);
+        }
+
         Configuration::preinstall();
         Configuration::htaccess();
-        Configuration::config($format_routing, $analyzer, $cache, $default_lang, $dispo_lang, $access_log, $error_log, $request_log);
+        Configuration::config($format_routing, $analyzer, $cache, $default_lang, $dispo_lang, $access_log, $ajax_log, $error_log, $request_log);
         Configuration::database($bundle);
         Configuration::dependencies();
         Configuration::routing();
         Configuration::console();
         Configuration::service();
+        Configuration::testunit();
 
         Storage::preinstall();
         Storage::cache();
