@@ -1,5 +1,4 @@
-# LFW
-Light FrameWork
+# Frash
 
  - <kbd>LFW</kbd> : 1.4.3
  - <kbd>Console</kbd> : 1.0.5
