@@ -3,6 +3,10 @@
   "description": "PHP Framework - MVC",
   "keywords": [ "Frash", "Framework", "MVC" ],
   "license": "MIT",
-  "version": "1.4.4",
-  "minimum-stability": "dev"
+  "minimum-stability": "dev",
+  "autoload": {
+  	"psr-4": {
+  		"Frash\\": "src/"
+  	}
+  }
 }
