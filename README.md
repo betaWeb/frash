@@ -12,7 +12,7 @@ Light FrameWork
 Installation
 ----------
 
-> - php composer.phar create-project alixsperoza/lfw DIRECTORY
+> - php composer.phar create-project alixsperoza/frash-install DIRECTORY
 
 ----------
 
