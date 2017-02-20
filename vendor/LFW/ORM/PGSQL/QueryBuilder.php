@@ -42,7 +42,7 @@ class QueryBuilder extends Hydrator{
      */
     public function insert(RequestInterface $request): int{
         try{
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
+            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest(), $this->dic->get('conf')['config']['log']);
 
             $req = $this->conn->prepare($request->getRequest());
             $req->execute($request->getExecute());
@@ -62,7 +62,7 @@ class QueryBuilder extends Hydrator{
      */
     public function selectOne(RequestInterface $select, string $hydrat = 'without'){
         try{
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
+            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest(), $this->dic->get('conf')['config']['log']);
 
             $request = $this->conn->prepare($select->getRequest());
             $request->execute($select->getExecute());
@@ -88,7 +88,7 @@ class QueryBuilder extends Hydrator{
      */
     public function selectMany(RequestInterface $select, string $hydrat = 'without'){
         try{
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest());
+            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest(), $this->dic->get('conf')['config']['log']);
 
             $request = $this->conn->prepare($select->getRequest());
             $request->execute($select->getExecute());
@@ -123,7 +123,7 @@ class QueryBuilder extends Hydrator{
             $req = $this->conn->prepare($request->getRequest());
             $req->execute($request->getExecute());
 
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
+            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest(), $this->dic->get('conf')['config']['log']);
         }
         catch(\Exception $e){
             CreateLog::error($e->getMessage());
@@ -139,7 +139,7 @@ class QueryBuilder extends Hydrator{
             $req = $this->conn->prepare($request->getRequest());
             $req->execute($request->getExecute());
 
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
+            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest(), $this->dic->get('conf')['config']['log']);
         }
         catch(\Exception $e){
             CreateLog::error($e->getMessage());
@@ -148,12 +148,12 @@ class QueryBuilder extends Hydrator{
     }
 
     /**
-     * @param Custom $request
+     * @param RequestInterface $request
      * @return array
      */
     public function custom(RequestInterface $request){
         try{
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
+            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest(), $this->dic->get('conf')['config']['log']);
 
             $req = $this->conn->prepare($request->getRequest());
             $req->execute($request->getExecute());
@@ -167,12 +167,12 @@ class QueryBuilder extends Hydrator{
     }
 
     /**
-     * @param Custom $request
+     * @param RequestInterface $request
      * @return array
      */
     public function customMany(RequestInterface $request){
         try{
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest());
+            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest(), $this->dic->get('conf')['config']['log']);
 
             $req = $this->conn->prepare($request->getRequest());
             $req->execute($request->getExecute());

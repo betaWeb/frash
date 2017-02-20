@@ -20,6 +20,14 @@ class Collection{
 	}
 
 	/**
+	 * @return mixed
+	 */
+	public function first(){
+		$array = $this->array;
+		return array_shift($array);
+	}
+
+	/**
 	 * @param array $array
 	 * @param string $interval
 	 * @return array
@@ -30,15 +38,15 @@ class Collection{
 		if($interval[0] == ':'){
 			$start = 0;
 		} else {
-			preg_match('/^(\d+);/', $interval, $match);
-			$start = $match;
+			preg_match('/^(\d+)\:/', $interval, $match);
+			$start = $match[1];
 		}
 
 		if(substr($interval, -1) == ':'){
-			$end = count($this->array);
+			$end = count($this->array) - 1;
 		} else {
-			preg_match('/;(\d+)$/', $interval, $match);
-			$end = $match;
+			preg_match('/\:(\d+)$/', $interval, $match);
+			$end = $match[1];
 		}
 
 		for($i = $start; $i <= $end; $i++){
@@ -52,6 +60,7 @@ class Collection{
 	 * @return mixed
 	 */
 	public function last(){
-		return array_pop($this->array);
+		$array = $this->array;
+		return array_pop($array);
 	}
 }

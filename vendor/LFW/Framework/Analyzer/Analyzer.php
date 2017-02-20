@@ -3,7 +3,6 @@ namespace LFW\Framework\Analyzer;
 use LFW\Framework\Analyzer\{ AnalyzerGeneration, AnalyzerRegistry };
 use LFW\Framework\DIC\Dic;
 use LFW\Framework\FileSystem\{ File, Json };
-use LFW\Framework\Globals\Server\Server;
 
 /**
  * Class Analyzer
@@ -45,16 +44,7 @@ class Analyzer{
 	 * @param string $file
 	 */
 	public function display(string $route, string $file){
-		$prefix = (string) $this->dic->load('get')->get('prefix');
-
-		$port = Server::serverPort();
-		if($port == 80){
-			$prefix_array = (string) 'http://'.Server::serverName().$prefix.'Storage/Cache/Analyzer/'.$file.'.json';
-		} else {
-			$prefix_array = (string) 'http://'.Server::serverName().':'.$port.$prefix.'Storage/Cache/Analyzer/'.$file.'.json';
-		}
-
-		$params = (array) array_merge([ 'true_route' => $route ], Json::decode(File::read($prefix_array)));
+		$params = (array) array_merge([ 'true_route' => $route ], Json::decode(File::read('Storage/Cache/Analyzer/'.$file.'.json')));
 		return $this->dic->load('tel')->internal('Analyzer', 'vendor/LFW/Framework/Analyzer/display.tpl', $file, $params);
 	}
 }

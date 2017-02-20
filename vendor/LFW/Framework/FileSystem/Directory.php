@@ -28,6 +28,15 @@ class Directory{
 	}
 
     /**
+     * @param string $dir
+     */
+    public static function notExistAndCreate(string $dir){
+        if(!self::exist($dir)){
+            self::create($dir, 0770);
+        }
+    }
+
+    /**
      * @param string $path
      */
     public static function delete(string $path){

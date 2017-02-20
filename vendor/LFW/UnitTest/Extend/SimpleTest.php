@@ -1,5 +1,6 @@
 <?php
 namespace LFW\UnitTest\Extend;
+use LFW\Framework\DIC\Dic;
 
 /**
  * Class SimpleTest
@@ -24,8 +25,8 @@ abstract class SimpleTest{
 	/**
 	 * @param string $variable
 	 */
-	abstract private function increment(string $variable){
-		$this->$variable += 1;
+	private function increment(string $variable){
+		$this->$variable++;
 	}
 
 	/**
@@ -37,6 +38,29 @@ abstract class SimpleTest{
 			'success' => $this->success,
 			'nb_test' => $this->nb_test
 		];
+	}
+
+	/**
+	 * @return Dic
+	 */
+	public function dic(){
+		return new Dic();
+	}
+
+	/**
+	 * @param mixed $value
+	 * @return bool
+	 */
+	protected function checkEmpty($value){
+		$this->increment('nb_test');
+
+		if(empty($value)){
+			$this->increment('success');
+			return true;
+		} else {
+			$this->increment('failure');
+			return false;
+		}
 	}
 
 	/**

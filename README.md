@@ -1,6 +1,6 @@
 # Frash
 
- - <kbd>LFW</kbd> : 1.4.3
+ - <kbd>Frash</kbd> : 1.4.3
  - <kbd>Console</kbd> : 1.0.5
  - <kbd>DocGen</kbd> : 0.2.3
  - <kbd>Framework</kbd> : 1.2.5

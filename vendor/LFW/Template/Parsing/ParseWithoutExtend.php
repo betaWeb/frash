@@ -47,11 +47,10 @@ class ParseWithoutExtend extends ParseArray{
      * @param DependTemplEngine $dic_t
      */
     public function __construct(string $tpl, Dic $dic, array $params, DependTemplEngine $dic_t){
-        $gets = $dic->load('get');
-        $this->bundle = $gets->get('bundle');
+        $this->bundle = $dic->get('bundle');
         $this->dic_t = $dic_t;
 
-        $class_trad = 'Traductions\\Trad'.ucfirst($gets->get('lang'));
+        $class_trad = 'Traductions\\Trad'.ucfirst($dic->get('lang'));
         $this->trad = new $class_trad;
 
         $this->params = $params;

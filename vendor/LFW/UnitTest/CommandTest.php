@@ -19,6 +19,11 @@ class CommandTest implements CommandInterface
 	private $class = '';
 
 	/**
+	 * @var string
+	 */
+	private $dir = '';
+
+	/**
 	 * @var array
 	 */
 	private $flag = [];
@@ -36,17 +41,22 @@ class CommandTest implements CommandInterface
 		$this->microtime = new Microtime;
 		$this->microtime->set('start_unit_test');
 
-		$this->dir_test('Storage/');
-		$this->dir_test('Storage/rapports/');
+		Directory::notExistAndCreate('Storage/');
+		Directory::notExistAndCreate('Storage/rapports/');
 
 		$this->flag = Flag::define($argv[2]);
 
 		if($this->flag['option'] == '--one' && isset($argv[3])){
-			$this->class = [ $argv[3] ];
-		} elseif($this->flag['option'] == '--dir' && isset($argv[3])) {
-			$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(self::PREFIX.$argv[3]));
+			if(substr($argv[3], -4) == '.php'){
+				$class = str_replace('/', '\\', $file);
+				$class = str_replace('.php', '', $class);
 
-			foreach($iterator as $file){}
+				$this->class = 'Storage\tests\\'.$class;
+			} else {
+				$this->class = 'Storage\tests\\'.$argv[3];
+			}
+		} elseif($this->flag['option'] == '--dir' && isset($argv[3])) {
+			$this->dir = $argv[3];
 		}
 	}
 
@@ -63,9 +73,19 @@ class CommandTest implements CommandInterface
 				}
 			}
 		} elseif($this->flag['option'] == '--one') {
-			$class = str_replace('.', '\\', $this->class);
-			$this->run(new $class);
-		} elseif($this->flag['option'] == '--dir') {}
+			$this->run(new $this->class);
+		} elseif($this->flag['option'] == '--dir') {
+			$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(self::PREFIX.'/'.$this->dir));
+
+			foreach($iterator as $file){
+				if(substr($file, -2) != '..' && substr($file, -1) != '.'){
+					$class = str_replace('/', '\\', $file);
+					$class = str_replace('.php', '', $class);
+
+					$this->run(new $class);
+				}
+			}
+		}
 	}
 
 	/**
@@ -77,11 +97,5 @@ class CommandTest implements CommandInterface
 
 		$this->microtime->set('end_unit_test');
 		echo 'Temps d\'exécution : '.$this->microtime->getTiming('start_unit_test', 'end_unit_test').PHP_EOL;
-	}
-
-	private function dir_test(string $dir){
-		if(!Directory::exist($dir)){
-			Directory::create($dir, 0770);
-		}
 	}
 }

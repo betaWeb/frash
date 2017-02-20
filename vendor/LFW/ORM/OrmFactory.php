@@ -35,7 +35,7 @@ class OrmFactory{
     public function __construct(Dic $dic){
         $this->bundle = $dic->get('bundle');
         $this->dic = $dic;
-        $orm = new Orm($this->bundle);
+        $orm = new Orm($this->bundle, $this->dic);
         $this->connexion = $orm->getConnexion();
         $this->system = $orm->getSystem();
     }

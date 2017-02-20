@@ -1,6 +1,5 @@
 <?php
 namespace LFW\Framework\Log;
-use LFW\Framework\FileSystem\InternalJson;
 use LFW\Framework\Request\Response;
 use LFW\Framework\Request\Server\Server;
 
@@ -11,10 +10,9 @@ use LFW\Framework\Request\Server\Server;
 class CreateLog{
 	/**
 	 * @param string $url
+	 * @param array $conf
 	 */
-	public static function access(string $url){
-		$conf = InternalJson::importConfig()['log'];
-
+	public static function access(string $url, $conf){
 		if(Response::xmlHttpRequest()){
 			if($conf['ajax'] == 'yes' && $conf['access'] == 'yes'){
 				$file = fopen('Storage/Logs/access.log', 'a');
@@ -32,10 +30,9 @@ class CreateLog{
 
 	/**
 	 * @param string $error
+	 * @param array $conf
 	 */
-	public static function error(string $error){
-		$conf = InternalJson::importConfig()['log'];
-
+	public static function error(string $error, $conf){
 		if(Response::xmlHttpRequest()){
 			if($conf['ajax'] == 'yes' && $conf['error'] == 'yes'){
 				$file = fopen('Storage/Logs/error.log', 'a');
@@ -53,10 +50,9 @@ class CreateLog{
 
 	/**
 	 * @param string $request
+	 * @param array $conf
 	 */
-	public static function request(string $request){
-		$conf = InternalJson::importConfig()['log'];
-
+	public static function request(string $request, $conf){
 		if(Response::xmlHttpRequest()){
 			if($conf['ajax'] == 'yes' && $conf['request'] == 'yes'){
 				$file = fopen('Storage/Logs/request.log', 'a');

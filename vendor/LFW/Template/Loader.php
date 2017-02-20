@@ -2,7 +2,7 @@
 namespace LFW\Template;
 use LFW\Framework\DIC\Dic;
 use LFW\Framework\Exception\Exception;
-use LFW\Framework\FileSystem\{ Directory, File, InternalJson };
+use LFW\Framework\FileSystem\{ Directory, File };
 use LFW\Framework\Request\Server\Server;
 use LFW\Template\{ DependTemplEngine, Parser };
 
@@ -72,7 +72,7 @@ class Loader{
 
         $this->dic_t = new DependTemplEngine;
         $this->dic_t->setParams([
-            'json' => InternalJson::importConfig(),
+            'json' => $dic->get('conf')['config'],
             'nurl' => $nurl,
             'params' => $this->params,
             'prefix' => $this->dic->get('prefix'),
@@ -81,12 +81,33 @@ class Loader{
 	}
 
     /**
+     * @param string $type
+     * @param string $file
+     */
+    public function internal(string $type, string $file, bool $no_cache){
+        $this->no_cache = $no_cache;
+        Directory::notExistAndCreate('Storage/Cache/Templating');
+
+        $name_file = 'Display'.$type;
+        if(File::exist('Storage/Cache/Templating/Display.php') === false){
+            $parser = new Parser($this->file, $this->params, $this->dic, $this->dic_t, $name_file);
+            $parser->parse($type);
+        }
+
+        $path_class = 'Storage\Cache\Templating\\'.$name_file;
+        $tpl_class = new $path_class($this->dic, $this->dic_t, $this->params, $this->env);
+        echo $tpl_class->display();
+
+        $this->ifNoCache('Display'.$type);
+    }
+
+    /**
      * @param bool $no_cache
      * @return Exception
      */
-	public function view(bool $no_cache){
+    public function view(bool $no_cache){
         $this->no_cache = $no_cache;
-        $this->dirTemplatingExist();
+        Directory::notExistAndCreate('Storage/Cache/Templating');
 
         if(File::exist('Bundles/'.$this->bundle.'/Views/'.$this->file) === false){
             return new Exception('Template '.$this->file.' not found.');
@@ -108,32 +129,6 @@ class Loader{
         echo $tpl_class->display();
 
         $this->ifNoCache($name_file);
-	}
-
-    /**
-     * @param string $type
-     * @param string $file
-     */
-    public function internal(string $type, string $file){
-        $this->dirTemplatingExist();
-
-        $name_file = 'Display'.$type;
-        if(File::exist('Storage/Cache/Templating/Display.php') === false){
-            $parser = new Parser($this->file, $this->params, $this->dic, $this->dic_t, $name_file);
-            $parser->parse($type);
-        }
-
-        $path_class = 'Storage\Cache\Templating\\'.$name_file;
-        $tpl_class = new $path_class($this->dic, $this->dic_t, $this->params, $this->env);
-        echo $tpl_class->display();
-
-        $this->ifNoCache('Display'.$type);
-    }
-
-    private function dirTemplatingExist(){
-        if(Directory::exist('Storage/Cache/Templating') === false){
-            Directory::create('Storage/Cache/Templating', 0775);
-        }
     }
 
     /**

@@ -2,35 +2,32 @@
 namespace LFW\Framework\Routing;
 use LFW\Framework\DIC\Dic;
 use LFW\Framework\Exception\Exception;
-use LFW\Framework\FileSystem\InternalJson;
 use LFW\Framework\Request\Server\Server;
-use LFW\Framework\Log\CreateLog;
 use LFW\Framework\Routing\Gets\GetRoute;
 
 /**
- * Class RouterJson
+ * Class RouterPhp
  * @package LFW\Framework\Routing
  */
-class RouterJson
-{
+class RouterPhp{
     /**
      * @var Dic
      */
     private $dic;
 
     /**
-     * RouterJson constructor.
+     * RouterPhp constructor.
      * @param Dic $dic
      */
-    public function __construct(Dic $dic)
-    {
-        $this->dic = $dic;
-    }
+	public function __construct(Dic $dic)
+	{
+		$this->dic = $dic;
+	}
 
-    /**
-     * @param string $url
-     * @return object
-     */
+	/**
+	 * @param string $url
+	 * @return object
+	 */
     public function routing(string $url, array $conf)
     {
         $path = explode('/', $url);
@@ -60,8 +57,15 @@ class RouterJson
                 $this->dic->load('analyzer')->display(implode('/', $path), rtrim(implode('.', $path), '.'));
             }
         } else {
+        	$request_method = Server::requestMethod();
+
+        	if($request_method == 'GET'){
+        		$routarr = $this->dic->get('conf')['routing']->list('get');
+        	} elseif($request_method == 'POST') {
+        		$routarr = $this->dic->get('conf')['routing']->list('post');
+        	}
+
             $racine = false;
-            $routarr = InternalJson::importRouting();
             $lien = '';
             $nb_expl = 0;
             $route = '';
@@ -98,7 +102,7 @@ class RouterJson
                             } elseif($expl_key[ $i ][0] == ':') {
                                 $sub_get = substr($expl_key[ $i ], 1);
 
-                                if(!empty($path[ $i ]) && GetRoute::define($path[ $i ], $precision['get'][ $sub_get ]) === true){
+                                if(!empty($path[ $i ]) && GetRoute::define($path[ $i ], $precision['params']['get'][ $sub_get ]) === true){
                                     $array_get[ $sub_get ] = $path[ $i ];
                                     $lien_array[ $sub_get ] = $expl_key[ $i ];
                                 } else {

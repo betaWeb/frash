@@ -1,8 +1,7 @@
 <?php
 namespace LFW\ORM;
+use LFW\Framework\DIC\Dic;
 use LFW\Framework\Exception\Exception;
-use LFW\Framework\FileSystem\InternalJson;
-use LFW\ORM\PDO;
 
 /**
  * Class Orm
@@ -24,17 +23,17 @@ class Orm{
      * @param string $bundle
      * @return Exception
      */
-    public function __construct(string $bundle){
-        $json = InternalJson::importDatabase()[ $bundle ];
-        $this->system = $json['system'];
+    public function __construct(string $bundle, Dic $dic){
+        $conf = $dic->get('conf')['database'][ $bundle ];
+        $this->system = $conf['system'];
 
         try{
-            switch($json['system']){
+            switch($conf['system']){
                 case 'MySQL':
-                    $this->connexion = new \PDO('mysql:host='.$json['host'].';dbname='. $json['dbname'].';charset=UTF8;', $json['username'], $json['password'], []);
+                    $this->connexion = new \PDO('mysql:host='.$conf['host'].';dbname='. $conf['dbname'].';charset=UTF8;', $conf['username'], $conf['password'], []);
                     break;
                 case 'PGSQL':
-                    $this->connexion = new \PDO('pgsql:dbname='.$json['dbname'].';port='.$json['port'].';host='.$json['host'], $json['username'], $json['password']);
+                    $this->connexion = new \PDO('pgsql:dbname='.$conf['dbname'].';port='.$conf['port'].';host='.$conf['host'], $conf['username'], $conf['password']);
                     $this->connexion->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
                     break;
                 default:
@@ -42,7 +41,7 @@ class Orm{
             }
         }
         catch(\Exception $e){
-            return new Exception($e->getMessage());
+            return new Exception($e->getMessage(), $dic->get('conf')['config']['log']);
         }
     }
 

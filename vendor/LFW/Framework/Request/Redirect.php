@@ -61,7 +61,12 @@ class Redirect{
      * @return bool
      */
     public function go(): bool{
-        header('Location:'.$this->url, true, $this->code);
+        if($this->code == 200){
+            header('Location:'.$this->url);
+        } else {
+            header('Location:'.$this->url, true, $this->code);
+        }
+
         return true;
     }
 }

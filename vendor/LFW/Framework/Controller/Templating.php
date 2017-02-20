@@ -1,7 +1,7 @@
 <?php
 namespace LFW\Framework\Controller;
 use LFW\Framework\DIC\Dic;
-use LFW\Template\Loader;
+use LFW\Template\{ Loader, LoaderForSimple };
 
 /**
  * Class Templating
@@ -60,7 +60,7 @@ class Templating{
      * @param array $params
      * @return array
      */
-    public function getInternalParam(array $params): array{
+    private function internalParam(array $params = []): array{
         return array_merge([
             'dump' => $this->dump,
             'internal_prefix' => $this->dic->get('prefix'),
@@ -69,12 +69,23 @@ class Templating{
     }
 
     /**
+     * @param string $string
+     * @return bool
+     */
+    public function simple(string $string): bool{
+        $loader = new LoaderForSimple($string, $this->internalParam(), $this->dic, $this->extensions);
+        $loader->parse();
+
+        return true;
+    }
+
+    /**
      * @param string $file
      * @param array $param
      * @return bool
      */
 	public function view(string $file, array $param = []): bool{
-        $loader = new Loader($file, $this->getInternalParam($param), $this->dic, $this->extensions);
+        $loader = new Loader($file, $this->internalParam($param), $this->dic, $this->extensions);
         $loader->view($this->no_cache);
 
         return true;
@@ -89,7 +100,7 @@ class Templating{
      */
     public function internal(string $type, string $link, string $file, array $param = []): bool{
         $loader = new Loader($link, $this->getInternalParam($param), $this->dic, $this->extensions);
-        $loader->internal($type, $file);
+        $loader->internal($type, $file, $this->no_cache);
 
         return true;
     }
