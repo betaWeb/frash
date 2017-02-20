@@ -1,8 +1,0 @@
-{
-  "name": "alixsperoza/frash",
-  "description": "PHP Framework - MVC",
-  "keywords": [ "Frash", "Framework", "MVC" ],
-  "license": "MIT",
-  "version": "1.4.3",
-  "minimum-stability": "dev"
-}
