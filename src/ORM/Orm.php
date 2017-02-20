@@ -1,11 +1,11 @@
 <?php
-namespace LFW\ORM;
-use LFW\Framework\DIC\Dic;
-use LFW\Framework\Exception\Exception;
+namespace Frash\ORM;
+use Frash\Framework\DIC\Dic;
+use Frash\Framework\Exception\Exception;
 
 /**
  * Class Orm
- * @package LFW\ORM
+ * @package Frash\ORM
  */
 class Orm{
     /**

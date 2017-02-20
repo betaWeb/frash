@@ -122,7 +122,7 @@ class RouterJson
             if($api === true){
             } elseif(($nb_expl > 0 || $racine === true) && $lien != '' && $route != '' && $api === false) {
                 if(!empty($routarr[ $lien ]['type']) && $routarr[ $lien ]['type'] != Server::requestMethod()){
-                    return new Exception('Request Method not correct');
+                    return new Exception('Request Method not correct', $this->dic->get('conf')['config']['log']);
                 }
 
                 if(!empty($array_get)){
@@ -145,13 +145,13 @@ class RouterJson
                         $this->dic->load('controller')->call($routing)->$action($this->dic);
                     }
                 } elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')) {
-                    return new Exception('Controller '.$controller.' not found');
+                    return new Exception('Controller '.$controller.' not found', $this->dic->get('conf')['config']['log']);
                 } elseif(!method_exists($routing, $action)) {
-                    return new Exception('Action '.$action.' not found');
+                    return new Exception('Action '.$action.' not found', $this->dic->get('conf')['config']['log']);
                 }
             } else {
                 $route = (empty($path)) ? '' : implode('/', $path);
-                return new Exception('Route '.$route.' not found');
+                return new Exception('Route '.$route.' not found', $this->dic->get('conf')['config']['log']);
             }
         }
     }

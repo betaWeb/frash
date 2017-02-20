@@ -1,9 +1,9 @@
 <?php
-namespace LFW\Template\Extensions;
+namespace Frash\Template\Extensions;
 
 /**
  * Class Part
- * @package LFW\Template\Extensions
+ * @package Frash\Template\Extensions
  */
 class Part{
     /**

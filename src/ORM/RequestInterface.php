@@ -1,9 +1,9 @@
 <?php
-namespace LFW\ORM;
+namespace Frash\ORM;
 
 /**
  * Interface RequestInterface
- * @package LFW\ORM
+ * @package Frash\ORM
  */
 interface RequestInterface{
     public function getExecute();

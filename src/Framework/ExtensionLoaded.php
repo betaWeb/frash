@@ -1,9 +1,9 @@
 <?php
-namespace LFW\Framework;
+namespace Frash\Framework;
 
 /**
  * Class ExtensionLoaded
- * @package LFW\Framework
+ * @package Frash\Framework
  */
 class ExtensionLoaded{
 	/**

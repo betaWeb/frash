@@ -1,12 +1,12 @@
 <?php
-namespace LFW\Template;
+namespace Frash\Template;
 
 /**
  * Class DependTemplEngine
- * @package LFW\Template
+ * @package Frash\Template
  */
 class DependTemplEngine{
-    const EXTENSIONS = 'LFW.Template.Extensions';
+    const EXTENSIONS = 'Frash.Template.Extensions';
 
     /**
      * @var array

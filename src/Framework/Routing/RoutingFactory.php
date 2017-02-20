@@ -1,8 +1,8 @@
 <?php
-namespace LFW\Framework\Routing;
-use LFW\Framework\Log\CreateLog;
-use LFW\Framework\DIC\Dic;
-use LFW\Framework\Routing\{ RouterJson, RouterPhp };
+namespace Frash\Framework\Routing;
+use Frash\Framework\Log\CreateLog;
+use Frash\Framework\DIC\Dic;
+use Frash\Framework\Routing\{ RouterJson, RouterPhp };
 
 class RoutingFactory{
 	private $conf;

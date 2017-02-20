@@ -15,6 +15,11 @@ class View{
     private $bundle = '';
 
     /**
+     * @var Dic
+     */
+    private $dic;
+
+    /**
      * @var object
      */
     private $gets;
@@ -39,7 +44,8 @@ class View{
      * @param Dic $dic
      */
     public function __construct(Dic $dic){
-        $this->gets = $dic->load('get');
+        $this->dic = $dic;
+        $this->gets = $this->dic->load('get');
         $this->bundle = $this->gets->get('bundle');
         $this->nurl = explode('/', $this->gets->get('uri'));
         $this->prefix = $this->gets->get('prefix');
@@ -60,7 +66,7 @@ class View{
         }
 
         if(!file_exists('Bundles/'.$this->bundle.'/Views/'.$templ)){
-            return new Exception('TWIG : Template '.$templ.' not found');
+            return new Exception('TWIG : Template '.$templ.' not found', $this->dic->get('conf')['config']['log']);
         }
 
         $this->json = (array) Json::importConfig();

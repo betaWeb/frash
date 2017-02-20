@@ -1,8 +1,12 @@
 <?php
-namespace LFW\Framework\Cache;
-use LFW\Framework\DIC\Dic;
-use LFW\Framework\Log\CreateLog;
+namespace Frash\Framework\Cache;
+use Frash\Framework\DIC\Dic;
+use Frash\Framework\Log\CreateLog;
 
+/**
+ * Class MemCache
+ * @package Frash\Framework\MemCache
+ */
 class MemCache{
 	/**
 	 * @var Dic

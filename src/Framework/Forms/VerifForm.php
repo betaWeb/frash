@@ -1,10 +1,10 @@
 <?php
-namespace LFW\Framework\Forms;
-use LFW\Framework\Globals\Session;
+namespace Frash\Framework\Forms;
+use Frash\Framework\Request\Session;
 
 /**
  * Class VerifForm
- * @package LFW\Framework\Forms
+ * @package Frash\Framework\Forms
  */
 class VerifForm{
     /**

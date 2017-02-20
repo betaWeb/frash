@@ -1,14 +1,14 @@
 <?php
-namespace LFW\Template;
-use LFW\Framework\DIC\Dic;
-use LFW\Framework\FileSystem\File;
-use LFW\Template\DependTemplEngine;
-use LFW\Template\Cache\CreateClassCache;
-use LFW\Template\Parsing\{ ParseWithExtend, ParseWithoutExtend };
+namespace Frash\Template;
+use Frash\Framework\DIC\Dic;
+use Frash\Framework\FileSystem\File;
+use Frash\Template\DependTemplEngine;
+use Frash\Template\Cache\CreateClassCache;
+use Frash\Template\Parsing\{ ParseWithExtend, ParseWithoutExtend };
 
 /**
  * Class Parser
- * @package LFW\Template
+ * @package Frash\Template
  */
 class Parser{
     /**

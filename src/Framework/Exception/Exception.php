@@ -1,18 +1,19 @@
 <?php
-namespace LFW\Framework\Exception;
-use LFW\Framework\Log\CreateLog;
+namespace Frash\Framework\Exception;
+use Frash\Framework\Log\CreateLog;
 
 /**
  * Class Exception
- * @package LFW\Framework\Exception
+ * @package Frash\Framework\Exception
  */
 class Exception{
     /**
      * Exception constructor.
      * @param string $message
+     * @param Dic $dic
      */
-    public function __construct(string $message){
-        CreateLog::error($message);
+    public function __construct(string $message, array $conf){
+        CreateLog::error($message, $conf);
 
         ob_start();
         debug_print_backtrace();

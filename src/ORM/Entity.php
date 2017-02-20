@@ -1,10 +1,10 @@
 <?php
-namespace LFW\ORM;
-use LFW\Framework\DIC\Dic;
+namespace Frash\ORM;
+use Frash\Framework\DIC\Dic;
 
 /**
  * Class Entity
- * @package LFW\ORM
+ * @package Frash\ORM
  */
 abstract class Entity{
 	/**
@@ -23,7 +23,7 @@ abstract class Entity{
 	 */
 	private function pathClass(string $system)
 	{
-		return 'LFW\ORM\\'.$system;
+		return 'Frash\ORM\\'.$system;
 	}
 
 	/**

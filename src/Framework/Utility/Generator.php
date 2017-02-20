@@ -1,9 +1,9 @@
 <?php
-namespace LFW\Framework\Utility;
+namespace Frash\Framework\Utility;
 
 /**
  * Class Generator
- * @package LFW\Framework\Utility
+ * @package Frash\Framework\Utility
  */
 class Generator{
     /**

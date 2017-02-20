@@ -1,9 +1,9 @@
 <?php
-namespace LFW\Template\Parsing;
+namespace Frash\Template\Parsing;
 
 /**
  * Class ParseArray
- * @package LFW\Template\Parsing
+ * @package Frash\Template\Parsing
  */
 class ParseArray{
     /**

@@ -1,10 +1,10 @@
 <?php
-namespace LFW\Framework\FileSystem;
-use LFW\Framework\FileSystem\File;
+namespace Frash\Framework\FileSystem;
+use Frash\Framework\FileSystem\File;
 
 /**
  * Class Directory
- * @package LFW\Framework\FileSystem
+ * @package Frash\Framework\FileSystem
  */
 class Directory{
     /**

@@ -1,11 +1,11 @@
 <?php
-namespace LFW\Framework\Controller;
-use LFW\Framework\DIC\Dic;
-use LFW\Template\{ Loader, LoaderForSimple };
+namespace Frash\Framework\Controller;
+use Frash\Framework\DIC\Dic;
+use Frash\Template\{ Loader, LoaderForSimple };
 
 /**
  * Class Templating
- * @package LFW\Framework\Controller
+ * @package Frash\Framework\Controller
  */
 class Templating{
     /**

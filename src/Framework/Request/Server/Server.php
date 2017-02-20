@@ -1,9 +1,9 @@
 <?php
-namespace LFW\Framework\Request\Server;
+namespace Frash\Framework\Request\Server;
 
 /**
  * Class Server
- * @package LFW\Framework\Request\Server
+ * @package Frash\Framework\Request\Server
  */
 class Server{
     /**

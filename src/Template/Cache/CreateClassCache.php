@@ -1,9 +1,9 @@
 <?php
-namespace LFW\Template\Cache;
+namespace Frash\Template\Cache;
 
 /**
  * Class CreateClassCache
- * @package LFW\Template\Cache
+ * @package Frash\Template\Cache
  */
 class CreateClassCache{
     /**
@@ -13,8 +13,8 @@ class CreateClassCache{
 	public static function create(string $name_class): string{
 		$class_cache = '<?php'."\n";
 		$class_cache .= 'namespace Storage\Cache\Templating;'."\n";
-		$class_cache .= 'use LFW\Template\DependTemplEngine;'."\n";
-		$class_cache .= 'use LFW\Template\Extensions\BottomBar\ImportBottomBar;'."\n\n";
+		$class_cache .= 'use Frash\Template\DependTemplEngine;'."\n";
+		$class_cache .= 'use Frash\Template\Extensions\BottomBar\ImportBottomBar;'."\n\n";
 		$class_cache .= 'class '.$name_class.'{'."\n";
 		$class_cache .= '	private $bott_bar = \'\';'."\n";
 		$class_cache .= '	private $dic_t;'."\n";

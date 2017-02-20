@@ -1,12 +1,12 @@
 <?php
-namespace LFW\Template\Parsing;
-use LFW\Framework\DIC\Dic;
-use LFW\Template\DependTemplEngine;
-use LFW\Template\Parsing\{ ParseArray, ParseParent, ParseTplParent };
+namespace Frash\Template\Parsing;
+use Frash\Framework\DIC\Dic;
+use Frash\Template\DependTemplEngine;
+use Frash\Template\Parsing\{ ParseArray, ParseParent, ParseTplParent };
 
 /**
  * Class ParseWithExtend
- * @package LFW\Template\Parsing
+ * @package Frash\Template\Parsing
  */
 class ParseWithExtend extends ParseArray{
     /**

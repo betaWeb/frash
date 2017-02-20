@@ -1,10 +1,10 @@
 <?php
-namespace LFW\Framework\Request;
-use LFW\Framework\DIC\Dic;
+namespace Frash\Framework\Request;
+use Frash\Framework\DIC\Dic;
 
 /**
  * Class Redirect
- * @package LFW\Framework\Request
+ * @package Frash\Framework\Request
  */
 class Redirect{
     /**

@@ -1,11 +1,11 @@
 <?php
-namespace LFW\ORM;
-use LFW\Framework\DIC\Dic;
-use LFW\ORM\Orm;
+namespace Frash\ORM;
+use Frash\Framework\DIC\Dic;
+use Frash\ORM\Orm;
 
 /**
  * Class OrmFactory
- * @package LFW\ORM
+ * @package Frash\ORM
  */
 class OrmFactory{
     /**
@@ -58,8 +58,8 @@ class OrmFactory{
      * @return object
      */
     public function getCounter(){
-        $namespace = 'LFW\ORM\\'.$this->system.'\Counter';
-        return new $namespace($this->connexion);
+        $namespace = 'Frash\ORM\\'.$this->system.'\Counter';
+        return new $namespace($this->dic, $this->connexion);
     }
 
     /**
@@ -74,8 +74,8 @@ class OrmFactory{
      * @return object
      */
     public function getFinder(){
-        $namespace = 'LFW\ORM\\'.$this->system.'\Finder';
-        return new $namespace($this->connexion, $this->bundle);
+        $namespace = 'Frash\ORM\\'.$this->system.'\Finder';
+        return new $namespace($this->dic, $this->connexion, $this->bundle);
     }
 
     /**

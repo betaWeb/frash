@@ -1,9 +1,9 @@
 <?php
-namespace LFW\Framework\Routing;
+namespace Frash\Framework\Routing;
 
 /**
  * Class Prefix
- * @package LFW\Framework\Routing
+ * @package Frash\Framework\Routing
  */
 class Prefix{
 	/**

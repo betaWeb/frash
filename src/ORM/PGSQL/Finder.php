@@ -1,17 +1,23 @@
 <?php
-namespace LFW\ORM\PGSQL;
-use LFW\Framework\Log\CreateLog;
-use LFW\ORM\Hydrator;
+namespace Frash\ORM\PGSQL;
+use Frash\Framework\DIC\Dic;
+use Frash\Framework\Log\CreateLog;
+use Frash\ORM\Hydrator;
 
 /**
  * Class Finder
- * @package Composants\ORM\PGSQL
+ * @package Frash\ORM\PGSQL
  */
 class Finder extends Hydrator{
     /**
      * @var string
      */
     private $bundle;
+
+    /**
+     * @var Dic
+     */
+    private $dic;
 
     /**
      * @var \PDO
@@ -23,8 +29,9 @@ class Finder extends Hydrator{
      * @param \PDO $pdo
      * @param string $bundle
      */
-    public function __construct(\PDO $pdo, string $bundle){
+    public function __construct(Dic $dic, \PDO $pdo, string $bundle){
         $this->bundle = $bundle;
+        $this->dic = $dic;
         $this->pdo = $pdo;
     }
 
@@ -39,7 +46,7 @@ class Finder extends Hydrator{
             $table = lcfirst($entity);
             $request = 'SELECT * FROM '."\"$table\"".' '.$where;
 
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request);
+            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request, $this->dic->get('conf')['config']['log']);
 
             $req = $this->pdo->prepare($request);
             $req->execute($arguments);
@@ -71,7 +78,7 @@ class Finder extends Hydrator{
             $table = lcfirst($entity);
             $request = 'SELECT * FROM '."\"$table\"".' '.$where;
 
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request);
+            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request, $this->dic->get('conf')['config']['log']);
 
             $req = $this->pdo->prepare($request);
             $req->execute($arguments);

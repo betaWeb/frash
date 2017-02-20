@@ -1,10 +1,10 @@
 <?php
-namespace LFW\Framework\Forms\Type;
-use LFW\Framework\Forms\FormTypeInterface;
+namespace Frash\Framework\Forms\Type;
+use Frash\Framework\Forms\FormTypeInterface;
 
 /**
  * Class Select
- * @package LFW\Framework\Forms\Type
+ * @package Frash\Framework\Forms\Type
  */
 class Select implements FormTypeInterface {
     /**
@@ -17,8 +17,8 @@ class Select implements FormTypeInterface {
      * @param array $spec
      */
     public function __construct($spec){
-        $arr_select = $spec['0'];
-        $arr_option = $spec['1'];
+        $arr_select = $spec[0];
+        $arr_option = $spec[1];
 
         $this->input = '<select';
 

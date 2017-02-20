@@ -1,14 +1,14 @@
 <?php
-namespace LFW\Template;
-use LFW\Framework\DIC\Dic;
-use LFW\Framework\Exception\Exception;
-use LFW\Framework\FileSystem\{ Directory, File };
-use LFW\Framework\Request\Server\Server;
-use LFW\Template\{ DependTemplEngine, Parser };
+namespace Frash\Template;
+use Frash\Framework\DIC\Dic;
+use Frash\Framework\Exception\Exception;
+use Frash\Framework\FileSystem\{ Directory, File };
+use Frash\Framework\Request\Server\Server;
+use Frash\Template\{ DependTemplEngine, Parser };
 
 /**
  * Class Loader
- * @package LFW\Template
+ * @package Frash\Template
  */
 class Loader{
     /**

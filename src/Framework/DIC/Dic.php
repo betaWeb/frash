@@ -1,10 +1,10 @@
 <?php
-namespace LFW\Framework\DIC;
-use LFW\Framework\FileSystem\InternalJson;
+namespace Frash\Framework\DIC;
+use Frash\Framework\FileSystem\InternalJson;
 
 /**
  * Class Dic
- * @package LFW\Framework\DIC
+ * @package Frash\Framework\DIC
  */
 class Dic{
     /**
@@ -26,7 +26,11 @@ class Dic{
      * Dic constructor.
      */
     public function __construct(){
-        $this->dependencies = InternalJson::importDependencies();
+        $this->params['conf']['config'] = \Configuration\Config::get();
+        $this->params['conf']['console'] = \Configuration\Console::get();
+        $this->params['conf']['database'] = \Configuration\Database::get();
+        $this->dependencies = \Configuration\Dependencies::get();
+        $this->params['conf']['routing'] = ($this->params['conf']['config']['routing'] == 'php') ? new \Configuration\Routing() : [];
     }
 
     /**

@@ -1,9 +1,9 @@
 <?php
-namespace LFW\Framework;
+namespace Frash\Framework;
 
 /**
  * Class TraductionParent
- * @package LFW\Framework
+ * @package Frash\Framework
  */
 class TraductionParent{
     /**

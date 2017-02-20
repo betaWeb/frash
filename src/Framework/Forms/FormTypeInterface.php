@@ -1,9 +1,9 @@
 <?php
-namespace LFW\Framework\Forms;
+namespace Frash\Framework\Forms;
 
 /**
  * Interface FormTypeInterface
- * @package LFW\Framework\Forms
+ * @package Frash\Framework\Forms
  */
 interface FormTypeInterface{
     public function __construct($spec);

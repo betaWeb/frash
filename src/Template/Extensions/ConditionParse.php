@@ -1,10 +1,10 @@
 <?php
-namespace LFW\Template\Extensions;
-use LFW\Template\DependTemplEngine;
+namespace Frash\Template\Extensions;
+use Frash\Template\DependTemplEngine;
 
 /**
  * Class ConditionParse
- * @package LFW\Template\Extensions
+ * @package Frash\Template\Extensions
  */
 class ConditionParse{
     /**

@@ -36,7 +36,7 @@ class Counter{
             return $this->pdo->rowCount();
         }
         catch(\Exception $e){
-            CreateLog::error($e->getMessage(), false);
+            CreateLog::error($e->getMessage());
             die('Il y a eu une erreur.');
         }
     }

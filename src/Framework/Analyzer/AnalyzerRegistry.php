@@ -1,10 +1,10 @@
 <?php
-namespace LFW\Framework\Analyzer;
-use LFW\Framework\Request\Server\Server;
+namespace Frash\Framework\Analyzer;
+use Frash\Framework\Request\Server\Server;
 
 /**
  * Class AnalyzerRegistry
- * @package LFW\Framework\Analyzer
+ * @package Frash\Framework\Analyzer
  */
 class AnalyzerRegistry{
 	/**

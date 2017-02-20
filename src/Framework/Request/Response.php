@@ -1,7 +1,11 @@
 <?php
-namespace LFW\Framework\Request;
-use LFW\Framework\FileSystem\Json;
+namespace Frash\Framework\Request;
+use Frash\Framework\FileSystem\Json;
 
+/**
+ * Class Response
+ * @package Frash\Framework\Request
+ */
 class Response{
 	/**
 	 * @param string|array

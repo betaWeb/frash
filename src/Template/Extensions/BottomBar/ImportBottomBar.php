@@ -1,14 +1,14 @@
 <?php
-namespace LFW\Template\Extensions\BottomBar;
-use LFW\Framework\DIC\Dic;
-use LFW\Template\DependTemplEngine;
+namespace Frash\Template\Extensions\BottomBar;
+use Frash\Framework\DIC\Dic;
+use Frash\Template\DependTemplEngine;
 
 /**
  * Class ImportBottomBar
- * @package LFW\Template\Extensions\BottomBar
+ * @package Frash\Template\Extensions\BottomBar
  */
 class ImportBottomBar{
-    const PATH = 'vendor/LFW/Template/Extensions/BottomBar';
+    const PATH = 'vendor/alixsperoza/frash/src/Template/Extensions/BottomBar';
 
     /**
      * @var Dic

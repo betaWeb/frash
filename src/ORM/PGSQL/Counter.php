@@ -1,12 +1,18 @@
 <?php
-namespace LFW\ORM\PGSQL;
-use LFW\Framework\Log\CreateLog;
+namespace Frash\ORM\PGSQL;
+use Frash\Framework\DIC\Dic;
+use Frash\Framework\Log\CreateLog;
 
 /**
  * Class Counter
- * @package Composants\ORM\PGSQL
+ * @package Frash\ORM\PGSQL
  */
 class Counter{
+    /**
+     * @var Dic
+     */
+    private $dic;
+
     /**
      * @var \PDO
      */
@@ -16,7 +22,8 @@ class Counter{
      * Finder constructor.
      * @param \PDO $pdo
      */
-    public function __construct(\PDO $pdo){
+    public function __construct(Dic $dic, \PDO $pdo){
+        $this->dic = $dic;
         $this->pdo = $pdo;
     }
 
@@ -31,7 +38,7 @@ class Counter{
             $table = lcfirst($entity);
             $request = 'SELECT * FROM '."\"$table\"".' '.$where;
 
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request);
+            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request, $this->dic->get('conf')['config']['log']);
 
             $req = $this->pdo->prepare($request);
             $req->execute($arguments);

@@ -1,11 +1,11 @@
 <?php
-namespace LFW\Template\Extensions;
-use LFW\Template\DependTemplEngine;
-use LFW\Template\Parsing\ParseArray;
+namespace Frash\Template\Extensions;
+use Frash\Template\DependTemplEngine;
+use Frash\Template\Parsing\ParseArray;
 
 /**
  * Class ForeachParse
- * @package LFW\Template\Extensions
+ * @package Frash\Template\Extensions
  */
 class ForeachParse extends ParseArray{
     /**

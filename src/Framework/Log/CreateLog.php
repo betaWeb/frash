@@ -1,11 +1,11 @@
 <?php
-namespace LFW\Framework\Log;
-use LFW\Framework\Request\Response;
-use LFW\Framework\Request\Server\Server;
+namespace Frash\Framework\Log;
+use Frash\Framework\Request\Response;
+use Frash\Framework\Request\Server\Server;
 
 /**
  * Class CreateLog
- * @package LFW\Framework\Log
+ * @package Frash\Framework\Log
  */
 class CreateLog{
 	/**

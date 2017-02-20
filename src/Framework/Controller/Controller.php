@@ -1,10 +1,10 @@
 <?php
-namespace LFW\Framework\Controller;
-use LFW\Framework\DIC\Dic;
+namespace Frash\Framework\Controller;
+use Frash\Framework\DIC\Dic;
 
 /**
  * Class Controller
- * @package LFW\Framework\Controller
+ * @package Frash\Framework\Controller
  */
 class Controller{
     /**

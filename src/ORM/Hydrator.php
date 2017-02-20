@@ -1,9 +1,9 @@
 <?php
-namespace LFW\ORM;
+namespace Frash\ORM;
 
 /**
  * Class Hydrator
- * @package LFW\ORM
+ * @package Frash\ORM
  */
 class Hydrator{
     /**

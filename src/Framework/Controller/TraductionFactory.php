@@ -1,9 +1,9 @@
 <?php
-namespace LFW\Framework\Controller;
+namespace Frash\Framework\Controller;
 
 /**
  * Class TraductionFactory
- * @package LFW\Framework\Controller
+ * @package Frash\Framework\Controller
  */
 class TraductionFactory{
     /**

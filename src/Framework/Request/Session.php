@@ -1,9 +1,9 @@
 <?php
-namespace LFW\Framework\Request;
+namespace Frash\Framework\Request;
 
 /**
  * Class Session
- * @package LFW\Framework\Request
+ * @package Frash\Framework\Request
  */
 class Session{
     /**

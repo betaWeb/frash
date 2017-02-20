@@ -1,11 +1,11 @@
 <?php
-namespace LFW\ORM\PGSQL\Request;
-use LFW\Framework\Utility\Generator;
-use LFW\ORM\RequestInterface;
+namespace Frash\ORM\PGSQL\Request;
+use Frash\Framework\Utility\Generator;
+use Frash\ORM\RequestInterface;
 
 /**
  * Class Select
- * @package LFW\ORM\PGSQL\Request
+ * @package Frash\ORM\PGSQL\Request
  */
 class Select implements RequestInterface{
     /**

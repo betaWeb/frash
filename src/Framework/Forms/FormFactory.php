@@ -1,16 +1,14 @@
 <?php
-namespace LFW\Framework\Forms;
-use LFW\Framework\DIC\Dic;
-use LFW\Framework\Forms\VerifForm;
-use LFW\Framework\Forms\CreateForm;
-use LFW\Framework\Forms\CreateFormSql;
+namespace Frash\Framework\Forms;
+use Frash\Framework\DIC\Dic;
+use Frash\Framework\Forms\{ CreateForm, CreateFormSql, VerifForm };
 
 /**
  * Class FormFactory
- * @package LFW\Framework\Forms
+ * @package Frash\Framework\Forms
  */
 class FormFactory{
-    const PATH = 'LFW\\Framework\\Forms\\Type\\';
+    const PATH = 'Frash\\Framework\\Forms\\Type\\';
 
     /**
      * @var Dic
@@ -26,21 +24,21 @@ class FormFactory{
     }
 
     /**
-     * @return \LFW\Framework\Forms\VerifForm
+     * @return \Frash\Framework\Forms\VerifForm
      */
     public function verif(){
         return new VerifForm;
     }
 
     /**
-     * @return \LFW\Framework\Forms\CreateForm
+     * @return \Frash\Framework\Forms\CreateForm
      */
     public function create(){
         return new CreateForm(self::PATH, $this->dic);
     }
 
     /**
-     * @return \LFW\Framework\Forms\CreateFormSql
+     * @return \Frash\Framework\Forms\CreateFormSql
      */
     public function createSql(){
         return new CreateFormSql(self::PATH, $this->dic);

@@ -1,12 +1,30 @@
 <?php
-namespace LFW\Framework\Routing;
+namespace Frash\Framework\Routing;
 
+/**
+ * Class TreatmentPhp
+ * @package Frash\Framework\Routing
+ */
 class TreatmentPhp{
+	/**
+	 * @var array
+	 */
 	private $get = [];
+
+	/**
+	 * @var array
+	 */
 	private $post = [];
 
+	/**
+	 * @var array
+	 */
 	private $waiting = [];
 
+	/**
+	 * @param array $params
+	 * @param callable $function
+	 */
 	protected function group(array $params, callable $function){
 		$this->waiting['middleware'][] = $params['middleware'];
 
@@ -15,6 +33,11 @@ class TreatmentPhp{
 		array_pop($this->waiting['middleware']);
 	}
 
+	/**
+	 * @param string $route
+	 * @param string $path
+	 * @param array $params
+	 */
 	protected function get(string $route, string $path, array $params = []){
 		if(!empty($this->waiting['middleware'])){
 			$middlewares = [];
@@ -29,6 +52,11 @@ class TreatmentPhp{
 		}
 	}
 
+	/**
+	 * @param string $route
+	 * @param string $path
+	 * @param array $params
+	 */
 	protected function post(string $route, string $path, array $params = []){
 		if(!empty($this->waiting['middleware'])){
 			$middlewares = [];
@@ -43,7 +71,11 @@ class TreatmentPhp{
 		}
 	}
 
-	public function list(string $list){
+	/**
+	 * @param string $list
+	 * @return array
+	 */
+	public function list(string $list): array{
 		return $this->$list;
 	}
 }

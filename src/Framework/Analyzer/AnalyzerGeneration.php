@@ -1,10 +1,10 @@
 <?php
-namespace LFW\Framework\Analyzer;
-use LFW\Framework\FileSystem\{ Directory, File, Json };
+namespace Frash\Framework\Analyzer;
+use Frash\Framework\FileSystem\{ Directory, File, Json };
 
 /**
  * Class AnalyzerGeneration
- * @package LFW\Framework\Analyzer
+ * @package Frash\Framework\Analyzer
  */
 class AnalyzerGeneration{
 	/**

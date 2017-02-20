@@ -1,11 +1,11 @@
 <?php
-namespace LFW\Template\Parsing;
-use LFW\Template\DependTemplEngine;
-use LFW\Template\Parsing\ParseArray;
+namespace Frash\Template\Parsing;
+use Frash\Template\DependTemplEngine;
+use Frash\Template\Parsing\ParseArray;
 
 /**
  * Class ParseParent
- * @package LFW\Template\Parsing
+ * @package Frash\Template\Parsing
  */
 class ParseParent extends ParseArray{
     /**

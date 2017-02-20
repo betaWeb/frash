@@ -1,13 +1,13 @@
 <?php
-namespace LFW\Framework\Forms\Type;
-use LFW\Framework\DIC\Dic;
-use LFW\Framework\Forms\FormTypeInterface;
-use LFW\Framework\Forms\Type\Csrf;
-use LFW\Framework\Request\Session;
+namespace Frash\Framework\Forms\Type;
+use Frash\Framework\DIC\Dic;
+use Frash\Framework\Forms\FormTypeInterface;
+use Frash\Framework\Forms\Type\Csrf;
+use Frash\Framework\Request\Session;
 
 /**
  * Class StartForm
- * @package LFW\Framework\Forms\Type
+ * @package Frash\Framework\Forms\Type
  */
 class StartForm{
     /**
