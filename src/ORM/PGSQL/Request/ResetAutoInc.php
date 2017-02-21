@@ -1,7 +1,6 @@
 <?php
-namespace LFW\ORM\PGSQL\Request;
-use LFW\Framework\CreateLog\CreateErrorLog;
-use LFW\Framework\CreateLog\CreateRequestLog;
+namespace Frash\ORM\PGSQL\Request;
+use Frash\Framework\Log\CreateLog;
 
 /**
  * Class ResetAutoInc
@@ -21,10 +20,10 @@ class ResetAutoInc{
             $req = $conn->prepare($request);
             $req->execute();
 
-            new CreateRequestLog(date('d/m/Y à H:i:s').' - Requête : '.$request);
+            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request);
         }
         catch(\Exception $e){
-            new CreateErrorLog($e->getMessage());
+            CreateLog::error($e->getMessage());
             die('Il y a eu une erreur.');
         }
     }

@@ -1,9 +1,9 @@
 <?php
-namespace LFW\DocGen\Treatment\Create;
+namespace Frash\DocGen\Treatment\Create;
 
 /**
  * Class Summary
- * @package LFW\DocGen\Treatment\Create
+ * @package Frash\DocGen\Treatment\Create
  */
 class Summary{
 	/**

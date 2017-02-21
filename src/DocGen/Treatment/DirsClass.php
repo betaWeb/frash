@@ -1,10 +1,10 @@
 <?php
-namespace LFW\DocGen\Treatment;
-use LFW\DocGen\Treatment\DirExist;
+namespace Frash\DocGen\Treatment;
+use Frash\DocGen\Treatment\DirExist;
 
 /**
  * Class DirsClass
- * @package LFW\DocGen\Treatment
+ * @package Frash\DocGen\Treatment
  */
 class DirsClass{
     /**

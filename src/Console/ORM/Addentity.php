@@ -1,11 +1,11 @@
 <?php
-namespace LFW\Console\ORM;
-use LFW\Console\CommandInterface;
-use LFW\Framework\FileSystem\File;
+namespace Frash\Console\ORM;
+use Frash\Console\CommandInterface;
+use Frash\Framework\FileSystem\File;
 
 /**
  * Class Addentity
- * @package LFW\Console\ORM
+ * @package Frash\Console\ORM
  */
 class Addentity implements CommandInterface{
     /**
@@ -38,7 +38,7 @@ class Addentity implements CommandInterface{
 
         $code = "<?php\n";
         $code .= 'namespace Bundles\\'.$this->bundle.'\\Entity;'."\n";
-        $code .= 'use LFW\\ORM\\Entity;'."\n\n";
+        $code .= 'use Frash\\ORM\\Entity;'."\n\n";
         $code .= 'class '.ucfirst($this->table).' extends Entity{'."\n";
 
         foreach($champs as $l){

@@ -1,14 +1,13 @@
 <?php
-namespace LFW\Console\Framework;
-use LFW\Console\CommandInterface;
-use LFW\Console\Bundle\CreateBundle;
-use LFW\Console\Framework\Configuration;
-use LFW\Console\Framework\Storage;
-use LFW\Framework\FileSystem\Directory;
+namespace Frash\Console\Framework;
+use Frash\Console\CommandInterface;
+use Frash\Console\Bundle\CreateBundle;
+use Frash\Console\Framework\{ Configuration, Storage };
+use Frash\Framework\FileSystem\Directory;
 
 /**
  * Class Init
- * @package LFW\Console\Framework
+ * @package Frash\Console\Framework
  */
 class Init implements CommandInterface
 {
@@ -53,9 +52,7 @@ class Init implements CommandInterface
         CreateBundle::verifDirExist();
         CreateBundle::createDir($bundle);
 
-        if(!Directory::exist('public/')){
-            Directory::create('public', 0770);
-        }
+        Directory::notExistAndCreate('public/');
 
         Configuration::preinstall();
         Configuration::htaccess();

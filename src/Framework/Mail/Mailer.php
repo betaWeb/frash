@@ -1,11 +1,11 @@
 <?php
-namespace LFW\Framework\Mail;
-use LFW\Framework\DIC\Dic;
-use LFW\Framework\Exception\Exception;
+namespace Frash\Framework\Mail;
+use Frash\Framework\DIC\Dic;
+use Frash\Framework\Exception\Exception;
 
 /**
  * Class Mailer
- * @package LFW\Framework\Mail
+ * @package Frash\Framework\Mail
  */
 class Mailer{
     /**

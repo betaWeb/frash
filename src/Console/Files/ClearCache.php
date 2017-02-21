@@ -1,11 +1,11 @@
 <?php
-namespace LFW\Console\Files;
-use LFW\Console\CommandInterface;
-use LFW\Framework\FileSystem\File;
+namespace Frash\Console\Files;
+use Frash\Console\CommandInterface;
+use Frash\Framework\FileSystem\File;
 
 /**
  * Class ClearCache
- * @package LFW\Console\Files
+ * @package Frash\Console\Files
  */
 class ClearCache implements CommandInterface{
     const PATH = 'Storage/Cache/Templating';

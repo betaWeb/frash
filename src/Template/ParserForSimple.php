@@ -1,5 +1,5 @@
 <?php
-namespace LFW\Template;
+namespace Frash\Template;
 
 class ParseForSimple{
 	/**

@@ -1,9 +1,9 @@
 <?php
-namespace LFW\Framework\Exception;
+namespace Frash\Framework\Exception;
 
 /**
  * Class Debug
- * @package LFW\Framework\Exception
+ * @package Frash\Framework\Exception
  */
 class Debug{
 	public static function dump($array){

@@ -1,13 +1,13 @@
 <?php
-namespace LFW\DocGen\Treatment\Create;
-use LFW\DocGen\Treatment\Comments\CommentClass;
-use LFW\DocGen\Treatment\Create\Summary;
-use LFW\Framework\FileSystem\File;
-use LFW\Framework\Globals\Server\Console;
+namespace Frash\DocGen\Treatment\Create;
+use Frash\DocGen\Treatment\Comments\CommentClass;
+use Frash\DocGen\Treatment\Create\Summary;
+use Frash\Framework\FileSystem\File;
+use Frash\Framework\Request\Server\Console;
 
 /**
  * Class Display
- * @package LFW\DocGen\Treatment\Create
+ * @package Frash\DocGen\Treatment\Create
  */
 class Display{
     /**

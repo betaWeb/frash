@@ -1,15 +1,15 @@
 <?php
-namespace LFW\Framework\Routing;
-use LFW\Framework\DIC\Dic;
-use LFW\Framework\Exception\Exception;
-use LFW\Framework\FileSystem\InternalJson;
-use LFW\Framework\Request\Server\Server;
-use LFW\Framework\Log\CreateLog;
-use LFW\Framework\Routing\Gets\GetRoute;
+namespace Frash\Framework\Routing;
+use Frash\Framework\DIC\Dic;
+use Frash\Framework\Exception\Exception;
+use Frash\Framework\FileSystem\InternalJson;
+use Frash\Framework\Log\CreateLog;
+use Frash\Framework\Request\Server\Server;
+use Frash\Framework\Routing\Gets\GetRoute;
 
 /**
  * Class RouterJson
- * @package LFW\Framework\Routing
+ * @package Frash\Framework\Routing
  */
 class RouterJson
 {

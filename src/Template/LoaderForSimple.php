@@ -1,7 +1,7 @@
 <?php
-namespace LFW\Template;
-use LFW\Framework\FileSystem\{ File, InternalJson };
-use LFW\Template\Parsing\ParseForSimple;
+namespace Frash\Template;
+use Frash\Framework\FileSystem\{ File, InternalJson };
+use Frash\Template\Parsing\ParseForSimple;
 
 class LoaderForSimple{
 	private $dic;

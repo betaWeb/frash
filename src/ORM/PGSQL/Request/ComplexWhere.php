@@ -1,9 +1,9 @@
 <?php
-namespace LFW\ORM\PGSQL\Request;
+namespace Frash\ORM\PGSQL\Request;
 
 /**
  * Class ComplexWhere
- * @package LFW\ORM\PGSQL\Request
+ * @package Frash\ORM\PGSQL\Request
  */
 class ComplexWhere{
     /**

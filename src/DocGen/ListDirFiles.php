@@ -1,9 +1,9 @@
 <?php
-namespace LFW\DocGen;
+namespace Frash\DocGen;
 
 /**
  * Class ListDirFiles
- * @package LFW\DocGen
+ * @package Frash\DocGen
  */
 class ListDirFiles{
     /**

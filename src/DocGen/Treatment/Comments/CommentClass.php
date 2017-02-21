@@ -1,9 +1,9 @@
 <?php
-namespace LFW\DocGen\Treatment\Comments;
+namespace Frash\DocGen\Treatment\Comments;
 
 /**
  * Class CommentClass
- * @package LFW\DocGen\Treatment\Comments
+ * @package Frash\DocGen\Treatment\Comments
  */
 class CommentClass{
 	/**

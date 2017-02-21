@@ -1,9 +1,9 @@
 <?php
-namespace LFW\Template\Extensions;
+namespace Frash\Template\Extensions;
 
 /**
  * Class Escape
- * @package LFW\Template\Extensions
+ * @package Frash\Template\Extensions
  */
 class Escape{
     /**

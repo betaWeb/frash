@@ -1,9 +1,9 @@
 <?php
-namespace LFW\DocGen;
+namespace Frash\DocGen;
 
 /**
  * Class TreatmentList
- * @package LFW\DocGen
+ * @package Frash\DocGen
  */
 class TreatmentList{
     /**
@@ -11,7 +11,7 @@ class TreatmentList{
      */
     private static $exceptions = [
         '.git', '.idea', 'Storage', 'vendor/twig', 'console.php', 'index.php', 'console.php',
-        'vendor/autoload.php', 'vendor/composer', 'vendor/LFW/Console/listcommand.php'
+        'vendor/autoload.php', 'vendor/composer', 'vendor/alixsperoza/frash/src/Console/listcommand.php'
     ];
 
     /**

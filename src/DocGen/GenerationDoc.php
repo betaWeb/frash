@@ -1,12 +1,12 @@
 <?php
-namespace LFW\DocGen;
-use LFW\DocGen\Treatment\{ DirExist, DirsClass };
-use LFW\DocGen\Treatment\Create\{ Css, Display };
-use LFW\Framework\FileSystem\Directory;
+namespace Frash\DocGen;
+use Frash\DocGen\Treatment\{ DirExist, DirsClass };
+use Frash\DocGen\Treatment\Create\{ Css, Display };
+use Frash\Framework\FileSystem\Directory;
 
 /**
  * Class GenerationDoc
- * @package LFW\DocGen
+ * @package Frash\DocGen
  */
 class GenerationDoc
 {

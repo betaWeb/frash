@@ -1,10 +1,10 @@
 <?php
-namespace LFW\Framework\Forms\Type;
-use LFW\Framework\Forms\FormTypeInterface;
+namespace Frash\Framework\Forms\Type;
+use Frash\Framework\Forms\FormTypeInterface;
 
 /**
  * Class Range
- * @package LFW\Framework\Forms\Type
+ * @package Frash\Framework\Forms\Type
  */
 class Range implements FormTypeInterface {
     /**

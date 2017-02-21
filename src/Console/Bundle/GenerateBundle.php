@@ -1,11 +1,11 @@
 <?php
-namespace LFW\Console\Bundle;
-use LFW\Console\CommandInterface;
-use LFW\Console\Bundle\CreateBundle;
+namespace Frash\Console\Bundle;
+use Frash\Console\CommandInterface;
+use Frash\Console\Bundle\CreateBundle;
 
 /**
  * Class GenerateBundle
- * @package LFW\Console\Bundle
+ * @package Frash\Console\Bundle
  */
 class GenerateBundle implements CommandInterface
 {

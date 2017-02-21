@@ -1,10 +1,11 @@
 <?php
-namespace LFW\Console;
-use LFW\Framework\FileSystem\InternalJson;
+namespace Frash\Console;
+use Frash\Framework\DIC\Dic;
+use Frash\Framework\FileSystem\InternalJson;
 
 /**
  * Class Command
- * @package LFW\Console
+ * @package Frash\Console
  */
 class Command{
 	/**
@@ -28,7 +29,9 @@ class Command{
      */
 	public function __construct(array $argv){
 		$this->argv = $argv;
-		$this->conf = InternalJson::importConsole();
+
+		$dic = new Dic();
+		$this->conf = $dic->get('conf')['console'];
 
 		if($argv[1] == '--a'){
             $this->isCustom();

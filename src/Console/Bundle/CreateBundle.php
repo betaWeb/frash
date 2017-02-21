@@ -1,7 +1,11 @@
 <?php
-namespace LFW\Console\Bundle;
-use LFW\Framework\FileSystem\Directory;
+namespace Frash\Console\Bundle;
+use Frash\Framework\FileSystem\Directory;
 
+/**
+ * Class CreateBundle
+ * @package Frash\Console\Bundle
+ */
 class CreateBundle{
 	const CHMOD = 0770;
 	const PREFIX = 'Bundles/';

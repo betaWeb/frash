@@ -1,12 +1,12 @@
 <?php
-namespace LFW\Framework\Controller;
-use LFW\Framework\DIC\Dic;
-use LFW\Framework\Exception\Exception;
-use LFW\Framework\FileSystem\Json;
+namespace Frash\Framework\Controller;
+use Frash\Framework\DIC\Dic;
+use Frash\Framework\Exception\Exception;
+use Frash\Framework\FileSystem\Json;
 
 /**
  * Class View
- * @package LFW\Framework\Controller
+ * @package Frash\Framework\Controller
  */
 class View{
     /**
@@ -71,7 +71,7 @@ class View{
 
         $this->json = (array) Json::importConfig();
         $tlf = new \Twig_Loader_Filesystem('Bundles/'.$this->bundle.'/Views');
-        $twig = ($this->gets->get('cache_tpl') == 'yes') ? new \Twig_Environment($tlf, [ 'cache' => 'vendor/LFW/Cache/TWIG' ]) : new \Twig_Environment($tlf);
+        $twig = ($this->gets->get('cache_tpl') == 'yes') ? new \Twig_Environment($tlf, [ 'cache' => 'Storage/Cache/Templating' ]) : new \Twig_Environment($tlf);
 
         $url = new \Twig_SimpleFunction('url', function($url, $trad = ''){
             if('/'.$this->nurl[0] == $this->prefix && $this->prefix != '/'){

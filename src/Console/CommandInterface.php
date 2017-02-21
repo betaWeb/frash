@@ -1,9 +1,9 @@
 <?php
-namespace LFW\Console;
+namespace Frash\Console;
 
 /**
  * Interface CommandInterface
- * @package LFW\Console
+ * @package Frash\Console
  */
 interface CommandInterface{
 	public function __construct(array $argv);

@@ -1,12 +1,12 @@
 <?php
-namespace LFW\Console\ORM;
-use LFW\Console\CommandInterface;
-use LFW\Framework\CreateLog\{ CreateErrorLog, CreateRequestLog };
-use LFW\Framework\FileSystem\Json;
+namespace Frash\Console\ORM;
+use Frash\Console\CommandInterface;
+use Frash\Framework\CreateLog\{ CreateErrorLog, CreateRequestLog };
+use Frash\Framework\FileSystem\Json;
 
 /**
  * Class Createdb
- * @package LFW\Console\ORM
+ * @package Frash\Console\ORM
  */
 class Createdb implements CommandInterface{
     /**

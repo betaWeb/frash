@@ -1,11 +1,11 @@
 <?php
-namespace LFW\Console\Documentation;
-use LFW\Console\CommandInterface;
-use LFW\DocGen\{ GenerationDoc, ListDirFiles, TreatmentClass, TreatmentList };
+namespace Frash\Console\Documentation;
+use Frash\Console\CommandInterface;
+use Frash\DocGen\{ GenerationDoc, ListDirFiles, TreatmentClass, TreatmentList };
 
 /**
  * Class DocGen
- * @package LFW\Console\Documentation
+ * @package Frash\Console\Documentation
  */
 class DocGen implements CommandInterface{
     /**

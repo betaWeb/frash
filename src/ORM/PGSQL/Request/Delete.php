@@ -1,10 +1,10 @@
 <?php
-namespace LFW\ORM\PGSQL\Request;
-use LFW\ORM\RequestInterface;
+namespace Frash\ORM\PGSQL\Request;
+use Frash\ORM\RequestInterface;
 
 /**
  * Class Delete
- * @package LFW\ORM\PGSQL\Request
+ * @package Frash\ORM\PGSQL\Request
  */
 class Delete implements RequestInterface{
     /**

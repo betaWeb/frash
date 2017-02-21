@@ -1,9 +1,9 @@
 <?php
-namespace LFW\Framework;
+namespace Frash\Framework;
 
 /**
  * Class Collection
- * @package LFW\Framework
+ * @package Frash\Framework
  */
 class Collection{
 	/**

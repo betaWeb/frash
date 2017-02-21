@@ -1,11 +1,11 @@
 <?php
-namespace LFW\Framework\Request;
-use LFW\Framework\DIC\Dic;
-use LFW\Framework\FileSystem\InternalJson;
+namespace Frash\Framework\Request;
+use Frash\Framework\DIC\Dic;
+use Frash\Framework\FileSystem\InternalJson;
 
 /**
  * Class Service
- * @package LFW\Framework\Request
+ * @package Frash\Framework\Request
  */
 class Service{
 	/**
@@ -22,7 +22,7 @@ class Service{
 	 * @param Dic $dic
 	 */
 	public function __construct(Dic $dic){
-		$this->services = InternalJson::importService();
+		$this->services = $dic->get('conf')['service'];
 	}
 
 	/**

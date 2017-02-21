@@ -1,10 +1,10 @@
 <?php
-namespace LFW\DocGen\Treatment\Create;
-use LFW\Framework\FileSystem\File;
+namespace Frash\DocGen\Treatment\Create;
+use Frash\Framework\FileSystem\File;
 
 /**
  * Class Css
- * @package LFW\DocGen\Treatment\Create
+ * @package Frash\DocGen\Treatment\Create
  */
 class Css{
 	public static function work(){

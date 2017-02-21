@@ -1,9 +1,9 @@
 <?php
-namespace LFW\DocGen;
+namespace Frash\DocGen;
 
 /**
  * Class TreatmentClass
- * @package LFW\DocGen
+ * @package Frash\DocGen
  */
 class TreatmentClass{
     /**

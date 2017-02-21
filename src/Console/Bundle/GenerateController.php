@@ -1,11 +1,11 @@
 <?php
-namespace LFW\Console\Bundle;
-use LFW\Console\CommandInterface;
-use LFW\Framework\FileSystem\File;
+namespace Frash\Console\Bundle;
+use Frash\Console\CommandInterface;
+use Frash\Framework\FileSystem\File;
 
 /**
  * Class GenerateController
- * @package LFW\Console\Bundle
+ * @package Frash\Console\Bundle
  */
 class GenerateController implements CommandInterface{
     /**
@@ -28,7 +28,7 @@ class GenerateController implements CommandInterface{
 
         $code = "<?php\n";
         $code .= 'namespace Bundles\\'.$bundle.'\\Controllers;'."\n";
-        $code .= 'use LFW\\Framework\\DIC\\Dic;'."\n\n";
+        $code .= 'use Frash\\Framework\\DIC\\Dic;'."\n\n";
         $code .= 'class '.ucfirst($name).'{'."\n";
         $code .= '  public function __construct(Dic $dic){'."\n";
         $code .= '      '."\n";

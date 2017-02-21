@@ -1,9 +1,9 @@
 <?php
-namespace LFW\Framework\FileSystem;
+namespace Frash\Framework\FileSystem;
 
 /**
  * Class Rights
- * @package LFW\Framework\FileSystem
+ * @package Frash\Framework\FileSystem
  */
 class Rights{
     /**

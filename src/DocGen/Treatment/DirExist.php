@@ -1,18 +1,16 @@
 <?php
-namespace LFW\DocGen\Treatment;
-use LFW\Framework\FileSystem\Directory;
+namespace Frash\DocGen\Treatment;
+use Frash\Framework\FileSystem\Directory;
 
 /**
  * Class DirExist
- * @package LFW\DocGen\Treatment
+ * @package Frash\DocGen\Treatment
  */
 class DirExist{
 	/**
 	 * @param string $path
 	 */
 	public static function verif(string $path){
-		if(Directory::exist($path) === false){
-            Directory::create($path, 0775);
-        }
+        Directory::notExistAndCreate($path);
 	}
 }
