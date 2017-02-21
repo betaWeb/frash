@@ -1,6 +1,6 @@
 <?php
 namespace Frash\Framework\Forms;
-use Frash\Framework\Request\Session;
+use Frash\Framework\DIC\Dic;
 
 /**
  * Class VerifForm
@@ -8,14 +8,26 @@ use Frash\Framework\Request\Session;
  */
 class VerifForm{
     /**
+     * @var Dic
+     */
+    private $dic;
+
+    /**
+     * VerifForm constructor.
+     * @param Dic $dic
+     */
+    public function __construct(Dic $dic){
+        $this->dic = $dic;
+    }
+
+    /**
      * @param string $csrf
      * @param string $name
      * @return bool
      */
-    public function csrf($csrf, $name){
+    public function csrf($csrf, string $name){
         if($csrf != ''){
-            $session = new Session;
-            return ($session->getSession($name) == $csrf) ? true : false;
+            return ($this->dic->get($name) == $csrf) ? true : false;
         }
     }
 

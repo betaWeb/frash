@@ -14,7 +14,7 @@ class Csrf implements FormTypeInterface {
 
     /**
      * Csrf constructor.
-     * @param string $spec
+     * @param array $spec
      */
     public function __construct($spec){
         $this->input = '<input type="hidden" name="'.$spec['name'].'" value="'.$spec['session'].'">';

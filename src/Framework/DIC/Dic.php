@@ -6,6 +6,7 @@ use Configuration\Database;
 use Configuration\Dependencies;
 use Configuration\Routing;
 use Frash\Framework\FileSystem\InternalJson;
+use Frash\Framework\Request\Session;
 
 /**
  * Class Dic
@@ -36,6 +37,13 @@ class Dic{
         $this->params['conf']['database'] = Database::get();
         $this->dependencies = Dependencies::get();
         $this->params['conf']['routing'] = ($this->params['conf']['config']['routing'] == 'php') ? new Routing() : [];
+
+        $sess = new Session();
+        $flashbags = $sess->list_flashbag();
+
+        foreach($flashbags as $flash => $value){
+            $this->params[ $flash ] = $value;
+        }
     }
 
     /**
@@ -44,7 +52,7 @@ class Dic{
      */
     public function get(string $key){
         if(empty($this->params[ $key ])){
-            return [];
+            return '';
         } else {
             return $this->params[ $key ];
         }

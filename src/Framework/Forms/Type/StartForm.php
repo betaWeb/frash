@@ -57,7 +57,7 @@ class StartForm{
             $name = (!empty($spec['csrf_name'])) ? $spec['csrf_name'] : 'token';
 
             $sess = new Session();
-            $csrf = new Csrf([ 'session' => $sess->setSession($name, uniqid(rand(), true)), 'name' => $name ]);
+            $csrf = new Csrf([ 'session' => $sess->flashbag($name, uniqid(rand(), true)), 'name' => $name ]);
 
             $this->input .= $csrf->getInput();
         }

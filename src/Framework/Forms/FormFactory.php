@@ -27,7 +27,7 @@ class FormFactory{
      * @return \Frash\Framework\Forms\VerifForm
      */
     public function verif(){
-        return new VerifForm;
+        return new VerifForm($this->dic);
     }
 
     /**
