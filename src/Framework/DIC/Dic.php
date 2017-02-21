@@ -1,5 +1,10 @@
 <?php
 namespace Frash\Framework\DIC;
+use Configuration\Config;
+use Configuration\Console;
+use Configuration\Database;
+use Configuration\Dependencies;
+use Configuration\Routing;
 use Frash\Framework\FileSystem\InternalJson;
 
 /**
@@ -26,11 +31,11 @@ class Dic{
      * Dic constructor.
      */
     public function __construct(){
-        $this->params['conf']['config'] = \Configuration\Config::get();
-        $this->params['conf']['console'] = \Configuration\Console::get();
-        $this->params['conf']['database'] = \Configuration\Database::get();
-        $this->dependencies = \Configuration\Dependencies::get();
-        $this->params['conf']['routing'] = ($this->params['conf']['config']['routing'] == 'php') ? new \Configuration\Routing() : [];
+        $this->params['conf']['config'] = Config::get();
+        $this->params['conf']['console'] = Console::get();
+        $this->params['conf']['database'] = Database::get();
+        $this->dependencies = Dependencies::get();
+        $this->params['conf']['routing'] = ($this->params['conf']['config']['routing'] == 'php') ? new Routing() : [];
     }
 
     /**

@@ -28,7 +28,7 @@ class Configuration{
      */
 	public static function config(string $format_routing, string $analyzer, string $cache, string $default_lang, string $dispo_lang, string $access_log, string $ajax_log, string $error_log, string $request_log)
     {
-		File::create('Configuration/Config.php', Conf::file($format_routing, $analyzer, $cache, $default_lang, $dispo_lang, $access_log, $ajax_log, $error_log, $request_log)));
+		File::create('Configuration/Config.php', Conf::file($format_routing, $analyzer, $cache, $default_lang, $dispo_lang, $access_log, $ajax_log, $error_log, $request_log));
 	}
 
     /**

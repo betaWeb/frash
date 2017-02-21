@@ -11,15 +11,22 @@ class Configuration{
 	 * @param string $analyzer
 	 * @param string $cache
 	 * @param string $default_lang
-	 * @param array $dispo_lang
+	 * @param string $dispo_lang
 	 * @param string $access_log
 	 * @param string $ajax_log
 	 * @param string $error_log
 	 * @param string $request_log
 	 * @return string                
 	 */
-	public static function file(string $format_routing, string $analyzer, string $cache, string $default_lang, array $dispo_lang, string $access_log, string $ajax_log, string $error_log, string $request_log): string{
-		$trad_av = implode(', ', explode('/', $dispo_lang));
+	public static function file(string $format_routing, string $analyzer, string $cache, string $default_lang, string $dispo_lang, string $access_log, string $ajax_log, string $error_log, string $request_log): string{
+		$expl = explode('/', $dispo_lang);
+		$array_lang = [];
+
+		foreach($expl as $e){
+			$array_lang[] = '\''.$e.'\'';
+		}
+
+		$trad_av = implode(', ', $array_lang);
 
 		$content = '<?php'."\n";
 		$content .= 'namespace Configuration;'."\n\n";
@@ -28,7 +35,7 @@ class Configuration{
 		$content .= '		\'env\' => \'local\','."\n";
 		$content .= '		\'routing\' => \''.$format_routing.'\','."\n";
 		$content .= '		\'stock_route\' => \'yes\','."\n";
-		$content .= '		\''.$analyzer.'\' => \''.$analyzer.'\','."\n";
+		$content .= '		\'analyzer\' => \''.$analyzer.'\','."\n";
 		$content .= '		\'racine\' => ['."\n";
 		$content .= '			\'route\' => \'\','."\n";
 		$content .= '			\'path\' => \'\','."\n";

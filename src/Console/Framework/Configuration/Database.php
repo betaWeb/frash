@@ -11,8 +11,6 @@ class Database{
 	 * @return string                
 	 */
 	public static function file(string $bundle): string{
-		$trad_av = implode(', ', explode('/', $dispo_lang));
-
 		$content = '<?php'."\n";
 		$content .= 'namespace Configuration;'."\n\n";
 		$content .= 'class Database{'."\n";
