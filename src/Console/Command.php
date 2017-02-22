@@ -30,7 +30,7 @@ class Command{
 	public function __construct(array $argv){
 		$this->argv = $argv;
 
-		$dic = new Dic();
+		$dic = new Dic('console');
 		$this->conf = $dic->get('conf')['console'];
 
 		if($argv[1] == '--a'){

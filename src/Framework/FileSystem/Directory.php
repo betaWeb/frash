@@ -58,4 +58,19 @@ class Directory{
 
         rmdir($path);
     }
+
+    /**
+     * @param string $path
+     * @return array
+     */
+    public static function listFiles(string $path): array{
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+        $files = [];
+
+        foreach($iterator as $file){
+            $files[] = $file;
+        }
+
+        return $files;
+    }
 }

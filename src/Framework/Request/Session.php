@@ -1,5 +1,6 @@
 <?php
 namespace Frash\Framework\Request;
+use Frash\Framework\DIC\Dic;
 
 /**
  * Class Session
@@ -13,8 +14,9 @@ class Session{
 
     /**
      * Session constructor.
+     * @param string $env
      */
-    public function __construct(){
+    public function __construct(Dic $dic){
         if(empty($this->session) && empty($this->flashbag)){
             foreach($_SESSION as $session => $val){
                 if($session == 'flashbag'){

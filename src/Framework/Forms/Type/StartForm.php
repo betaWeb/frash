@@ -55,10 +55,7 @@ class StartForm{
 
         if(!empty($spec['csrf']) && $spec['csrf'] == 'yes'){
             $name = (!empty($spec['csrf_name'])) ? $spec['csrf_name'] : 'token';
-
-            $sess = new Session();
-            $csrf = new Csrf([ 'session' => $sess->flashbag($name, uniqid(rand(), true)), 'name' => $name ]);
-
+            $csrf = new Csrf([ 'session' => $dic->load('session')->flashbag($name, uniqid(rand(), true)), 'name' => $name ]);
             $this->input .= $csrf->getInput();
         }
     }

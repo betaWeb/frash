@@ -5,6 +5,7 @@ use Configuration\Console;
 use Configuration\Database;
 use Configuration\Dependencies;
 use Configuration\Routing;
+use Frash\Framework\ExtensionLoaded;
 use Frash\Framework\FileSystem\InternalJson;
 use Frash\Framework\Request\Session;
 
@@ -30,19 +31,25 @@ class Dic{
 
     /**
      * Dic constructor.
+     * @param string $env
      */
-    public function __construct(){
+    public function __construct(string $env = 'navigator'){
         $this->params['conf']['config'] = Config::get();
         $this->params['conf']['console'] = Console::get();
         $this->params['conf']['database'] = Database::get();
         $this->dependencies = Dependencies::get();
-        $this->params['conf']['routing'] = ($this->params['conf']['config']['routing'] == 'php') ? new Routing() : [];
 
-        $sess = new Session();
-        $flashbags = $sess->list_flashbag();
+        $this->set('memcached', ExtensionLoaded::memcached());
+        if($this->get('memcached') === true){
+            $this->load('memcached')->server();
+        }
 
-        foreach($flashbags as $flash => $value){
-            $this->params[ $flash ] = $value;
+        if($env == 'navigator'){
+            $flashbags = $this->load('session')->list_flashbag();
+
+            foreach($flashbags as $flash => $value){
+                $this->params[ $flash ] = $value;
+            }
         }
     }
 
@@ -72,16 +79,15 @@ class Dic{
 
     /**
      * @param string $key
-     * @param mixed $param
      * @return object
      */
-    public function load($key, $param = ''){
+    public function load(string $key){
         if(array_key_exists($key, $this->open)){
             return $this->open[ $key ];
         } elseif(array_key_exists($key, $this->dependencies)) {
             $path = str_replace('.', '\\', $this->dependencies[ $key ]);
 
-            $class = new $path($this, $param);
+            $class = new $path($this);
             $this->open[ $key ] = $class;
 
             return $class;

@@ -12,16 +12,19 @@ class DependTemplEngine{
      * @var array
      */
 	private $dependencies = [
-		'Bundle' => self::EXTENSIONS.'.Bundle',
-		'Condition' => self::EXTENSIONS.'.ConditionParse',
-		'Escape' => self::EXTENSIONS.'.Escape',
-		'Foreach' => self::EXTENSIONS.'.ForeachParse',
-		'FormatVar' => self::EXTENSIONS.'.FormatVar',
-        'Func' => self::EXTENSIONS.'.Functions',
-		'Part' => self::EXTENSIONS.'.Part',
-        'Public' => self::EXTENSIONS.'.Public',
-		'Route' => self::EXTENSIONS.'.Route',
-		'ShowVar' => self::EXTENSIONS.'.ShowVar'
+        'default' => [
+    		'Bundle' => self::EXTENSIONS.'.Bundle',
+    		'Condition' => self::EXTENSIONS.'.ConditionParse',
+    		'Escape' => self::EXTENSIONS.'.Escape',
+    		'Foreach' => self::EXTENSIONS.'.ForeachParse',
+    		'FormatVar' => self::EXTENSIONS.'.FormatVar',
+            'Func' => self::EXTENSIONS.'.Functions',
+    		'Part' => self::EXTENSIONS.'.Part',
+            'Public' => self::EXTENSIONS.'.Public',
+    		'Route' => self::EXTENSIONS.'.Route',
+    		'ShowVar' => self::EXTENSIONS.'.ShowVar'
+        ],
+        'custom' => []
 	];
 
     /**
@@ -50,6 +53,8 @@ class DependTemplEngine{
             return $class;
         }
 	}
+
+    public function add(string $key, string $path)
 
     /**
      * @param string $name

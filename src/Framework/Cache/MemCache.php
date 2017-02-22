@@ -50,12 +50,21 @@ class MemCache{
 
 	/**
 	 * @param string $key
-	 * @return mixed
+	 * @return mixed|bool
 	 */
 	public function get(string $key){
-		return $this->memcache->get($key);
+		if(!empty($this->memcache->get($key))){
+			return $this->memcache->get($key);
+		} else {
+			return false;
+		}
 	}
 
+	/**
+	 * @param string $key
+	 * @param mixed $value
+	 * @param integer $time
+	 */
 	public function set(string $key, $value, $time = 3600){
 		if(is_array($value)){
 			$std = (object) $value;

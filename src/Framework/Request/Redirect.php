@@ -1,6 +1,7 @@
 <?php
 namespace Frash\Framework\Request;
 use Frash\Framework\DIC\Dic;
+use Frash\Framework\Request\Session;
 
 /**
  * Class Redirect
@@ -8,9 +9,24 @@ use Frash\Framework\DIC\Dic;
  */
 class Redirect{
     /**
+     * @var integer
+     */
+    private $code = 200;
+
+    /**
+     * @var Dic
+     */
+    private $dic;
+
+    /**
      * @var string
      */
     private $prefix = '';
+
+    /**
+     * @var Session
+     */
+    private $session;
 
     /**
      * @var string
@@ -18,16 +34,12 @@ class Redirect{
     private $url = '';
 
     /**
-     * @var integer
-     */
-    private $code = 200;
-
-    /**
      * Redirect constructor.
      * @param Dic $dic
      */
     public function __construct(Dic $dic){
-        $this->prefix = (string) $dic->get('prefix_lang');
+        $this->dic = $dic;
+        $this->prefix = (string) $this->dic->get('prefix_lang');
     }
 
     /**
@@ -54,6 +66,20 @@ class Redirect{
      */
     public function url(string $url){
         $this->url = $url;
+        return $this;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @return object
+     */
+    public function with(string $key, $value){
+        if(empty($this->session)){
+            $this->session = $this->dic->load('session');
+        }
+
+        $this->session->flashbag($key, $value);
         return $this;
     }
 
