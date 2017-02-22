@@ -72,9 +72,9 @@ class ParseWithExtend extends ParseArray{
         $this->params = $params;
         $this->tpl = $tpl;
 
-        $this->display = '		public function display(){'."\n";
-        $this->display .= '			return \''.file_get_contents($this->determinatePathExtend($extend[1])).'\';'."\n";
-        $this->display .= '		}'."\n\n";
+        $this->display = '	public function display(){'."\n";
+        $this->display .= '		return \''.file_get_contents($this->determinatePathExtend($extend[1])).'\';'."\n";
+        $this->display .= '	}'."\n\n";
     }
 
     /**
@@ -82,7 +82,8 @@ class ParseWithExtend extends ParseArray{
      */
     public function parse(): string{
         $level_condition = 0;
-        $level_escape = 0;
+        $level_escape_html = 0;
+        $level_escape_tpl = 0;
         $level_for = 0;
         $level_foreach = 0;
         $level_index = 0;
@@ -99,25 +100,25 @@ class ParseWithExtend extends ParseArray{
         preg_match_all('/\[(\/?)(([a-zA-Z_]*)?\s?([a-zA-Z0-9\/@_!=:;+",<>\(\)\-\.\s]*))\]/', $this->tpl, $match_all, PREG_SET_ORDER);
         foreach($match_all as $key => $tag){
             switch(true){
-                case (preg_match($this->parsing['escape'], $tag[0])):
-                    $level_escape++;
+                case (preg_match($this->parsing['escape_tpl'], $tag[0])):
+                    $level_escape_tpl++;
                     break;
-                case (preg_match($this->parsing['end_escape'], $tag[0])):
-                    preg_match('/\[escape\](.*)\[\/escape\]/Us', $this->tpl, $match);
+                case (preg_match($this->parsing['end_escape_tpl'], $tag[0])):
+                    preg_match('/\[escape_tpl\](.*)\[\/escape_tpl\]/Us', $this->tpl, $match);
                     $this->class_cache .= $this->dic_t->load('Escape')->parse($match);
                     $this->tpl = str_replace($match[0], '\'.$this->escape'.md5($match[1]).'().\'', $this->tpl);
-                    $level_escape--;
+                    $level_escape_tpl--;
                     break;
                 case preg_match($this->parsing['end_parts'], $tag[0]):
                     $name = $parts[ $level_part ]['name'];
 
-                    if($level_escape == 0){
+                    if($level_escape_tpl == 0){
                         preg_match('/\[part '.$name.'\](.*)\[\/part '.$name.'\]/Us', $this->tpl, $part_child);
                         preg_match('/\[part '.$name.'\](.*)\[\/part '.$name.'\]/Us', $this->display, $part_parent);
 
                         $this->display = str_replace($part_parent[0], '\'.$this->part'.ucfirst($name).'().\'', $this->display);
                         $this->class_cache .= $this->dic_t->load('Part')->parse($part_child[1], $name, $this->incl_parent);
-                    } elseif($level_escape > 0) {
+                    } elseif($level_escape_tpl > 0) {
                         $this->parts_in_escape[] = $name;
                     }
 
@@ -127,10 +128,10 @@ class ParseWithExtend extends ParseArray{
                     $level_part++;
                     $parts[ $level_part ] = [ 'name' => $match_all[ $key ][4], 'value' => '' ];
                     break;
-                case $level_escape == 0:
+                case $level_escape_tpl == 0:
                     switch(true){
                         case preg_match($this->parsing['bundle'], $tag[0]):
-                            if($level_foreach == 0 && $level_for == 0 && $level_index == 0 && $level_itvl == 0){
+                            if($level_foreach == 0){
                                 $this->tpl = str_replace($match_all[ $key ][0], $this->dic_t->load('Bundle')->parse($match_all[ $key ][4], $this->bundle), $this->tpl);
                             }
 
@@ -197,7 +198,7 @@ class ParseWithExtend extends ParseArray{
                             $this->tpl = str_replace($match_all[ $key ][0], $this->dic_t->load('Public')->parse($match_all[ $key ][4]), $this->tpl);
                             break;
                         case preg_match($this->parsing['route'], $tag[0]):
-                            if($level_foreach == 0 && $level_for == 0 && $level_index == 0 && $level_itvl == 0){
+                            if($level_foreach == 0){
                                 $this->tpl = str_replace($match_all[ $key ][0], $this->dic_t->load('Route')->parse($match_all[ $key ][4]), $this->tpl);
                             }
 
@@ -210,24 +211,18 @@ class ParseWithExtend extends ParseArray{
 
                             break;
                         case preg_match($this->parsing['set_var'], $tag[0]):
-                            if($level_foreach == 0 && $level_for == 0 && $level_index == 0 && $level_itvl == 0){
-                                preg_match('/\[define (\w+)\](.*)\[\/var\]/', $this->tpl, $set_var);
-                                $this->params[$set_var[1]] = $set_var[2];
-                            }
+                            preg_match('/\[define (\w+)\](.*)\[\/var\]/', $this->tpl, $set_var);
+                            $this->params[$set_var[1]] = $set_var[2];
 
                             break;
                         case preg_match($this->parsing['show_var'], $tag[0]):
-                            if($level_foreach == 0 && $level_for == 0 && $level_index == 0 && $level_itvl == 0){
-                                $variable = $this->dic_t->load('ShowVar')->parse(ltrim($match_all[ $key ][4], '@'));
-                                $this->tpl = str_replace($match_all[ $key ][0], $variable, $this->tpl);
-                            }
+                            $variable = $this->dic_t->load('ShowVar')->parse(ltrim($match_all[ $key ][4], '@'));
+                            $this->tpl = str_replace($match_all[ $key ][0], $variable, $this->tpl);
 
                             break;
                         case preg_match($this->parsing['show_func'], $tag[0]):
-                            if($level_foreach == 0 && $level_for == 0 && $level_index == 0 && $level_itvl == 0){
-                                preg_match('/\[_(\w+)\((.*)\)\]/', $tag[0], $match);
-                                $this->tpl = str_replace($tag[0], '\'.$this->'.$match[1].'('.$match[2].').\'', $this->tpl);
-                            }
+                            preg_match('/\[_(\w+)\((.*)\)\]/', $tag[0], $match);
+                            $this->tpl = str_replace($tag[0], '\'.$this->'.$match[1].'('.$match[2].').\'', $this->tpl);
 
                             break;
                         case preg_match($this->parsing['traduction'], $tag[0]):

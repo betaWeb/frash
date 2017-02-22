@@ -83,7 +83,7 @@ class ConditionParse{
 			}
 		}
 
-		$treatment .= "\n".'			return \'\';';
+		$treatment .= "\n".'		return \'\';';
 		$implode[] = '[/condition]';
 
 		$code = '	public function condition'.md5($name_condition).'(){'."\n";

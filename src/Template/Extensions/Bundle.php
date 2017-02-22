@@ -34,7 +34,7 @@ class Bundle{
 		}
 
         $prefix = ($this->params['prefix'] == '/') ? '' : $this->params['prefix'];
-        return $prefix.'/Bundles/'.$bundle.'/Ressources/'.$file;
+        return $prefix.'Bundles/'.$bundle.'/Ressources/'.$file;
 	}
 
     /**

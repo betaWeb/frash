@@ -1,10 +1,10 @@
 <?php
-namespace LFW\UnitTest\Extend;
-use LFW\Framework\DIC\Dic;
+namespace Frash\UnitTest\Extend;
+use Frash\Framework\DIC\Dic;
 
 /**
  * Class SimpleTest
- * @package LFW\UnitTest\Extend
+ * @package Frash\UnitTest\Extend
  */
 abstract class SimpleTest{
 	/**
@@ -72,6 +72,23 @@ abstract class SimpleTest{
 		$this->increment('nb_test');
 
 		if($value == $function){
+			$this->increment('success');
+			return true;
+		} else {
+			$this->increment('failure');
+			return false;
+		}
+	}
+
+	/**
+	 * @param mixed $value
+	 * @param mixed $function
+	 * @return bool
+	 */
+	protected function checkNotEmpty($value, $function){
+		$this->increment('nb_test');
+
+		if(!empty($value)){
 			$this->increment('success');
 			return true;
 		} else {

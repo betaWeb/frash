@@ -62,44 +62,12 @@ class ShowVar{
 
     /**
      * @param string $variable
-     * @return string
-     */
-	public function parseCondition(string $variable): string{
-		$param = '';
-
-		if(strstr($variable, '.')){
-			$expl = explode('.', $variable);
-
-			foreach($expl as $k => $v){
-				if($k == 0){
-					$param = $this->params[ $v ];
-				} else {
-					if(gettype($param) == 'object'){
-						$meth = 'get'.ucfirst($v);
-						$param = $param->$meth();
-					} elseif(gettype($param) == 'array') {
-						$param = $param[ $v ];
-					}
-				}
-			}
-		} else {
-			if(gettype($this->params[ $variable ]) == 'object'){
-			} elseif(gettype($this->params[ $variable ]) == 'array') {
-				$param = $this->params[ $variable ];
-			}
-		}
-
-		return $param;
-	}
-
-    /**
-     * @param string $variable
      * @param string $prefix
      * @return string
      */
 	public function parseForeach(string $variable, string $prefix = ''): string{
 		$expl = explode('.', $variable);
-		$new_var = ($prefix == '') ? '$'.$expl[0] : '$'.$prefix;
+		$new_var = '$'.$expl[0];
 		unset($expl[0]);
 
 		foreach($expl as $v){

@@ -34,26 +34,29 @@ class ForeachParse extends ParseArray{
      * @return string
      */
 	public function parse(string $foreach, string $value): string{
-		$foreach_origine = $foreach;
-
 		list($array, $p) = explode(' :: ', $foreach);
 		list($k, $v) = explode(', ', $p);
-		$treatment = 'foreach($this->params[\''.$array.'\'] as $'.$k.' => $'.$v.'){'."\n";
 
-		$level_escape = 0;
+		$level_escape_tpl = 0;
 
 		preg_match_all('/\[(\/?)(([a-zA-Z]*)?\s?([a-zA-Z\/@_!=:,\.\s]*))\]/', $value, $match_all, PREG_SET_ORDER);
 		foreach($match_all as $key => $tag){
 			switch(true){
-				case $level_escape == 0:
+				case $level_escape_tpl == 0:
 					switch(true){
 						case preg_match($this->parsing['route'], $tag[0]):
 							$value = str_replace($match_all[ $key ][0], $this->dic_t->load('Route')->parseForeach($match_all[ $key ][4], $k, $v), $value);
 							break;
 						case preg_match($this->parsing['show_var_for'], $tag[0]):
-							$value = str_replace($match_all[ $key ][0], $this->dic_t->load('ShowVar')->parseForeach(ltrim($match_all[ $key ][4], '!')), $value);
-							break;
-						case preg_match($this->parsing['show_var'], $tag[0]):
+							$ltrim = ltrim($match_all[ $key ][4], '!');
+
+							if(substr($ltrim, 0, strlen($k)) == $k){
+		                        $prefix = $k;
+		                    } elseif(substr($ltrim, 0, strlen($v)) == $v) {
+		                        $prefix = $v;
+		                    }
+
+							$value = str_replace($match_all[ $key ][0], $this->dic_t->load('ShowVar')->parseForeach($ltrim, $prefix), $value);
 							break;
 					}
 
@@ -61,10 +64,11 @@ class ForeachParse extends ParseArray{
 			}
 		}
 
-		$treatment .= '		$implode[] = \''.trim($value).'\';'."\n";
-		$treatment .= '	}'."\n\n";
+		$treatment = 'foreach($this->params[\''.$array.'\'] as $'.$k.' => $'.$v.'){'."\n";
+		$treatment .= '			$implode[] = \''.trim($value).'\';'."\n";
+		$treatment .= '		}'."\n\n";
 
-		$code = '	public function foreach'.md5($foreach_origine).'(){'."\n";
+		$code = '	public function foreach'.md5($foreach).'(){'."\n";
 		$code .= '		$implode = [];'."\n\n";
 		$code .= '		'.$treatment;
 		$code .= '		return implode(\'\', $implode);'."\n"; 

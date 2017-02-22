@@ -29,23 +29,41 @@ class Route{
 
     /**
      * @param string $route
+     * @param string $k
+     * @param string $v
      * @return string
      */
-    public function parse(string $route): string{
+    public function parse(string $route, string $k = '', string $v = ''): string{
         if(strstr($route, '/')){
             $road = explode('/', $route);
             foreach($road as $r){
                 if(!empty($r) && $r[0] == '@'){
                     $route = str_replace($r, $this->dic_t->load('ShowVar')->parse(ltrim($r, '@')), $route);
                 } elseif(!empty($r) && $r[0] == '!') {
-                    $route = str_replace($r, $this->dic_t->load('FormatVar')->parseRouteForeach(ltrim($r, '!')), $route);
+                    $ltrim = ltrim($r, '!');
+
+                    if(substr($ltrim, 0, strlen($k)) == $k){
+                        $prefix = $k;
+                    } elseif(substr($ltrim, 0, strlen($v)) == $v) {
+                        $prefix = $v;
+                    }
+
+                    $route = str_replace($r, $this->dic_t->load('ShowVar')->parseForeach($prefix, $ltrim), $route);
                 }
             }
         } else {
             if($route[0] == '@'){
                 $route = str_replace($route, $this->dic_t->load('ShowVar')->parse(ltrim($route, '@')), $route);
             } elseif($route[0] == '!') {
-                $route = str_replace($route, $this->dic_t->load('ShowVar')->parse(ltrim($route, '!')), $route);
+                $ltrim = ltrim($r, '!');
+
+                if(substr($ltrim, 0, strlen($k)) == $k){
+                    $prefix = $k;
+                } elseif(substr($ltrim, 0, strlen($v)) == $v) {
+                    $prefix = $v;
+                }
+
+                $route = str_replace($route, $this->dic_t->load('ShowVar')->parseForeach($prefix, $ltrim), $route);
             }
         }
 
@@ -66,13 +84,14 @@ class Route{
                     $route = str_replace($r, $this->dic_t->load('ShowVar')->parse(ltrim($r, '@')), $route);
                 } elseif(!empty($r) && $r[0] == '!') {
                     $ltrim = ltrim($r, '!');
+
                     if(substr($ltrim, 0, strlen($k)) == $k){
                         $prefix = $k;
                     } elseif(substr($ltrim, 0, strlen($v)) == $v) {
                         $prefix = $v;
                     }
 
-                    $route = str_replace($r, $this->dic_t->load('ShowVar')->parseForeach($r, $prefix), $route);
+                    $route = str_replace($r, $this->dic_t->load('ShowVar')->parseForeach($ltrim, $prefix), $route);
                 }
             }
         } else {
