@@ -1,12 +1,11 @@
 <?php
 namespace Frash\Framework\Forms\Type;
-use Frash\Framework\Forms\FormTypeInterface;
 
 /**
  * Class Csrf
  * @package Frash\Framework\Forms\Type
  */
-class Csrf implements FormTypeInterface {
+class Csrf{
     /**
      * @var string
      */

@@ -1,12 +1,11 @@
 <?php
 namespace Frash\Framework\Forms\Type;
-use Frash\Framework\Forms\FormTypeInterface;
 
 /**
  * Class Select
  * @package Frash\Framework\Forms\Type
  */
-class Select implements FormTypeInterface {
+class Select{
     /**
      * @var string
      */
@@ -56,7 +55,7 @@ class Select implements FormTypeInterface {
     /**
      * @return string
      */
-    public function getInput(){
+    public function get(){
         return $this->input;
     }
 }

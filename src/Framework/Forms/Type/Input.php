@@ -1,83 +1,85 @@
 <?php
 namespace Frash\Framework\Forms\Type;
-use Frash\Framework\Forms\FormTypeInterface;
 
 /**
  * Class Input
  * @package Frash\Framework\Forms\Type
  */
-class Input implements FormTypeInterface {
+class Input{
     /**
-     * @var string
-     */
-    private $input;
-
-    /**
-     * Input constructor.
-     * @param array $spec
-     */
-    public function __construct($spec){
-        $this->input = '<input';
-
-        if(!empty($spec['name'])){
-            $this->input .= ' name="'.$spec['name'].'"';
-        }
-
-        if(!empty($spec['type'])){
-            $this->input .= ' type="'.$spec['type'].'"';
-        }
-
-        if(!empty($spec['value'])){
-            $this->input .= ' value="'.$spec['value'].'"';
-        }
-
-        if(!empty($spec['placeholder'])){
-            $this->input .= ' placeholder="'.$spec['placeholder'].'"';
-        }
-
-        if(!empty($spec['maxlen'])){
-            $this->input .= ' maxlength="'.$spec['maxlen'].'"';
-        }
-
-        if(!empty($spec['size'])){
-            $this->input .= ' size="'.$spec['size'].'"';
-        }
-
-        if(!empty($spec['required']) && $spec['required'] === true){
-            $this->input .= ' required';
-        }
-
-        if(!empty($spec['autocomp']) && $spec['autocomp'] === false){
-            $this->input .= ' autocomplete="off"';
-        }
-
-        if(!empty($spec['disabled']) && $spec['disabled'] === true){
-            $this->input .= ' disabled';
-        }
-
-        if(!empty($spec['pattern'])){
-            $this->input .= ' pattern="'.$spec['pattern'].'"';
-        }
-
-        if(!empty($spec['id'])){
-            $this->input .= ' id="'.$spec['id'].'"';
-        }
-
-        if(!empty($spec['class'])){
-            $this->input .= ' class="'.$spec['class'].'"';
-        }
-
-        if(!empty($spec['autofocus'])){
-            $this->input .= ' autofocus';
-        }
-
-        $this->input .= '>';
-    }
-
-    /**
+     * @param string $type
+     * @param array $params
      * @return string
      */
-    public function getInput(){
-        return $this->input;
+    public function input(string $type, array $params){
+        $input = '<input type="'.$type.'"';
+
+        if(!empty($params['name'])){
+            $input .= ' name="'.$params['name'].'"';
+        }
+
+        if(!empty($params['value'])){
+            $input .= ' value="'.$params['value'].'"';
+        }
+
+        if(!empty($params['placeholder'])){
+            $input .= ' placeholder="'.$params['placeholder'].'"';
+        }
+
+        if(!empty($params['maxlen'])){
+            $input .= ' maxlength="'.$params['maxlen'].'"';
+        }
+
+        if(!empty($params['size'])){
+            $input .= ' size="'.$params['size'].'"';
+        }
+
+        if(!empty($params['required']) && $params['required'] === true){
+            $input .= ' required';
+        }
+
+        if(!empty($params['autocomp']) && $params['autocomp'] === false){
+            $input .= ' autocomplete="off"';
+        }
+
+        if(!empty($params['disabled']) && $params['disabled'] === true){
+            $input .= ' disabled';
+        }
+
+        if(!empty($params['pattern'])){
+            $input .= ' pattern="'.$params['pattern'].'"';
+        }
+
+        if(!empty($params['id'])){
+            $input .= ' id="'.$params['id'].'"';
+        }
+
+        if(!empty($params['class'])){
+            $input .= ' class="'.$params['class'].'"';
+        }
+
+        if(!empty($params['autofocus'])){
+            $input .= ' autofocus';
+        }
+
+        if(!empty($params['min'])){
+            $input .= ' min="'.$params['min'].'"';
+        }
+
+        if(!empty($params['max'])){
+            $input .= ' max="'.$params['max'].'"';
+        }
+
+        if(!empty($params['step'])){
+            $input .= ' step="'.$params['step'].'"';
+        }
+
+        if(!empty($params['multiple'])){
+            $input .= ' multiple';
+        }
+
+        $input .= '>';
+
+        return $input;
     }
 }
