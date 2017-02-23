@@ -2,41 +2,55 @@
 namespace Frash\Framework\Routing;
 use Frash\Framework\DIC\Dic;
 use Frash\Framework\Exception\Exception;
+use Frash\Framework\Log\CreateLog;
 use Frash\Framework\Request\Server\Server;
 use Frash\Framework\Routing\Gets\GetRoute;
 
 /**
- * Class RouterPhp
+ * Class Router
  * @package Frash\Framework\Routing
  */
-class RouterPhp{
+class Router{
+    /**
+     * @var array
+     */
+    private $conf = [];
+
     /**
      * @var Dic
      */
     private $dic;
 
     /**
-     * RouterPhp constructor.
+     * Router constructor.
      * @param Dic $dic
      */
 	public function __construct(Dic $dic)
 	{
 		$this->dic = $dic;
+        $this->conf = $this->dic->get('conf')['config'];
 	}
 
 	/**
 	 * @param string $url
 	 * @return object
 	 */
-    public function routing(string $url, array $conf)
+    public function route(string $url)
     {
+        CreateLog::access($url, $this->conf['log']);
+
+        $this->dic->set('uri', $url);
+        $this->dic->set('cache_tpl', $this->conf['cache']['tpl']);
+        $this->dic->set('env', $this->conf['env']);
+        $this->dic->set('analyzer', $this->conf['analyzer']);
+
         $path = explode('/', $url);
 
-        if(in_array($path[0], $conf['traduction']['available'])){
+        if(in_array($path[0], $this->conf['traduction']['available'])){
             $this->dic->set('lang', $path[0]);
             unset($path[0]);
         } else {
-            $this->dic->set('lang', $conf['traduction']['default']);
+            $this->dic->set('lang', $this->conf['traduction']['default']);
         }
 
         $this->dic->set('prefix_lang', $this->dic->get('prefix').$this->dic->get('lang'));
@@ -44,8 +58,8 @@ class RouterPhp{
         array_unshift($path, 0);
         array_shift($path);
 
-        if($conf['analyzer'] == 'yes'){
-            $url_analyzer = (empty($path[0])) ? $conf['racine']['route'].'/' : implode('/', $path);
+        if($this->conf['analyzer'] == 'yes'){
+            $url_analyzer = (empty($path[0])) ? $this->conf['racine']['route'].'/' : implode('/', $path);
 
             $this->dic->set('url_analyzer', $url_analyzer);
             $this->dic->load('analyzer')->getRegistry()->setConfigPHP();
@@ -57,13 +71,8 @@ class RouterPhp{
                 $this->dic->load('analyzer')->display(implode('/', $path), rtrim(implode('.', $path), '.'));
             }
         } else {
-        	$request_method = Server::requestMethod();
-
-        	if($request_method == 'GET'){
-        		$routarr = $this->dic->get('conf')['routing']->list('get');
-        	} elseif($request_method == 'POST') {
-        		$routarr = $this->dic->get('conf')['routing']->list('post');
-        	}
+        	$routarr = $this->dic->get('conf')['routing']->list(strtolower(Server::requestMethod()));
+            //echo '<pre>'; print_r($routarr); echo '</pre>';
 
             $racine = false;
             $lien = '';
@@ -72,12 +81,12 @@ class RouterPhp{
             $api = false;
             $array_get = [];
 
-            if(empty($path[0]) && !empty($conf['racine']['path'])){
+            if(empty($path[0]) && !empty($this->conf['racine']['path'])){
                 $lien = '/';
-                $route = $conf['racine']['path'];
+                $route = $this->conf['racine']['path'];
                 $racine = true;
 
-                if(!empty($conf['racine']['api']) && $conf['racine']['api'] == 'true'){
+                if(!empty($this->conf['racine']['api']) && $this->conf['racine']['api'] == 'true'){
                     $api = true;
                 }
             } elseif(count($path) == 2 && in_array($path[0], $routarr)) {
@@ -126,7 +135,7 @@ class RouterPhp{
             if($api === true){
             } elseif(($nb_expl > 0 || $racine === true) && $lien != '' && $route != '' && $api === false) {
                 if(!empty($routarr[ $lien ]['type']) && $routarr[ $lien ]['type'] != Server::requestMethod()){
-                    return new Exception('Request Method not correct', $this->dic->get('conf')['config']['log']);
+                    return new Exception('Request Method not correct', $this->conf['log']);
                 }
 
                 if(!empty($array_get)){
@@ -139,7 +148,7 @@ class RouterPhp{
                 if(method_exists($routing, $action)){
                     $this->dic->set('bundle', $bundle);
 
-                    if($conf['analyzer'] == 'yes'){
+                    if($this->conf['analyzer'] == 'yes'){
                         $this->dic->load('analyzer')->getRegistry()->setRoute(str_replace('/', '.', $lien));
 
                         $controller = $this->dic->load('controller');
@@ -149,13 +158,13 @@ class RouterPhp{
                         $this->dic->load('controller')->call($routing)->$action($this->dic);
                     }
                 } elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')) {
-                    return new Exception('Controller '.$controller.' not found', $this->dic->get('conf')['config']['log']);
+                    return new Exception('Controller '.$controller.' not found', $this->conf['log']);
                 } elseif(!method_exists($routing, $action)) {
-                    return new Exception('Action '.$action.' not found', $this->dic->get('conf')['config']['log']);
+                    return new Exception('Action '.$action.' not found', $this->conf['log']);
                 }
             } else {
                 $route = (empty($path)) ? '' : implode('/', $path);
-                return new Exception('Route '.$route.' not found', $this->dic->get('conf')['config']['log']);
+                return new Exception('Route '.$route.' not found', $this->conf['log']);
             }
         }
     }

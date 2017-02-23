@@ -1,6 +1,7 @@
 <?php
 namespace Frash\Framework\Forms;
 use Frash\Framework\DIC\Dic;
+use Frash\Framework\Forms\Type\{ Input, Select, StartForm, Textarea };
 
 /**
  * Class CreateForm
@@ -29,18 +30,28 @@ class CreateForm{
 
     /**
      * @param string $type_form
-     * @param array $spec
+     * @param array $params
      * @return string
      */
-    public function create(string $type_form, array $spec): string{
-        $routing = $this->path.$type_form;
-
-        if($type_form == 'StartForm'){
-            $type = new $routing($spec, $this->dic);
+    public function __call(string $type_form, array $params): string{
+        if($type_form == 'textarea'){
+            $type = new Textarea($params[0]);
+            return $type->get();
+        } elseif($type_form == 'select') {
+            $type = new Select($params[0]);
+            return $type->get();
         } else {
-            $type = new $routing($spec);
+            $type = new Input;
+            return $type->input($type_form, $params[0]);
         }
+    }
 
-        return $type->getInput();
+    /**
+     * @param array $params
+     * @return string
+     */
+    public function init(array $params): string{
+        $start = new StartForm($params, $this->dic);
+        return $start->get();
     }
 }

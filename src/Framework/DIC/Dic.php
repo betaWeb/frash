@@ -6,7 +6,6 @@ use Configuration\Database;
 use Configuration\Dependencies;
 use Configuration\Routing;
 use Frash\Framework\ExtensionLoaded;
-use Frash\Framework\FileSystem\InternalJson;
 use Frash\Framework\Request\Session;
 
 /**
@@ -37,6 +36,7 @@ class Dic{
         $this->params['conf']['config'] = Config::get();
         $this->params['conf']['console'] = Console::get();
         $this->params['conf']['database'] = Database::get();
+        $this->params['conf']['routing'] = new Routing();
         $this->dependencies = Dependencies::get();
 
         $this->set('memcached', ExtensionLoaded::memcached());

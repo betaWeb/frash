@@ -24,7 +24,7 @@ class Dependencies{
 		$content .= '		\'orm\' => \'Frash.ORM.OrmFactory\','."\n";
 		$content .= '		\'redirect\' => \'Frash.Framework.Request.Redirect\','."\n";
 		$content .= '		\'response\' => \'Frash.Framework.Request.Response\','."\n";
-		$content .= '		\'route\' => \'Frash.Framework.Routing.RoutingFactory\','."\n";
+		$content .= '		\'route\' => \'Frash.Framework.Routing.Router\','."\n";
 		$content .= '		\'service\' => \'Frash.Framework.Request.Service\','."\n";
 		$content .= '		\'session\' => \'Frash.Framework.Request.Session\','."\n";
 		$content .= '		\'trad\' => \'Frash.Framework.Controller.TraductionFactory\','."\n";
