@@ -26,11 +26,23 @@ class TreatmentPhp{
 	 * @param callable $function
 	 */
 	protected function group(array $params, callable $function){
-		$this->waiting['middleware'][] = $params['middleware'];
+		if(!empty($params['middleware'])){
+			$this->waiting['middleware'][] = $params['middleware'];
+		}
+
+		if(!empty($params['bundle'])){
+			$this->waiting['bundle'] = $params['bundle'];
+		}
 
 		$function();
 
-		array_pop($this->waiting['middleware']);
+		if(!empty($params['middleware'])){
+			array_pop($this->waiting['middleware']);
+		}
+
+		if(!empty($params['bundle'])){
+			unset($this->waiting['bundle']);
+		}
 	}
 
 	/**
@@ -39,14 +51,15 @@ class TreatmentPhp{
 	 * @param array $params
 	 */
 	protected function get(string $route, string $path, array $params = []){
-		if(!empty($this->waiting['middleware'])){
+		if(!empty($this->waiting['middleware']) || !empty($this->waiting['bundle'])){
 			$middlewares = [];
 
 			foreach($this->waiting['middleware'] as $m){
 				$middlewares[] = $m;
 			}
 
-			$this->get[ $route ] = [ 'path' => $path, 'params' => $params, 'middleware' => $middlewares ];
+			$new_path = (!empty($this->waiting['bundle'])) ? $this->waiting['bundle'].':'.$path : $path;
+			$this->get[ $route ] = [ 'path' => $new_path, 'params' => $params, 'middleware' => $middlewares ];
 		} else {
 			$this->get[ $route ] = [ 'path' => $path, 'params' => $params ];
 		}
@@ -58,14 +71,15 @@ class TreatmentPhp{
 	 * @param array $params
 	 */
 	protected function post(string $route, string $path, array $params = []){
-		if(!empty($this->waiting['middleware'])){
+		if(!empty($this->waiting['middleware']) || !empty($this->waiting['bundle'])){
 			$middlewares = [];
 
 			foreach($this->waiting['middleware'] as $m){
 				$middlewares[] = $m;
 			}
 
-			$this->post[ $route ] = [ 'path' => $path, 'params' => $params, 'middleware' => $middlewares ];
+			$new_path = (!empty($this->waiting['bundle'])) ? $this->waiting['bundle'].':'.$path : $path;
+			$this->post[ $route ] = [ 'path' => $new_path, 'params' => $params, 'middleware' => $middlewares ];
 		} else {
 			$this->post[ $route ] = [ 'path' => $path, 'params' => $params ];
 		}

@@ -1,7 +1,6 @@
 <?php
 namespace Frash\Framework\Forms\Type;
 use Frash\Framework\DIC\Dic;
-use Frash\Framework\Forms\FormTypeInterface;
 use Frash\Framework\Forms\Type\Csrf;
 use Frash\Framework\Request\Session;
 
@@ -63,7 +62,7 @@ class StartForm{
     /**
      * @return string
      */
-    public function getInput(){
+    public function get(){
         return $this->input;
     }
 }

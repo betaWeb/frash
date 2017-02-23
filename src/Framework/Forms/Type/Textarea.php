@@ -1,12 +1,11 @@
 <?php
 namespace Frash\Framework\Forms\Type;
-use Frash\Framework\Forms\FormTypeInterface;
 
 /**
  * Class Textarea
  * @package Frash\Framework\Forms\Type
  */
-class Textarea implements FormTypeInterface {
+class Textarea{
     /**
      * @var string
      */
@@ -59,7 +58,7 @@ class Textarea implements FormTypeInterface {
     /**
      * @return string
      */
-    public function getInput(){
+    public function get(){
         return $this->input;
     }
 }
