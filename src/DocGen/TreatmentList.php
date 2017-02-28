@@ -10,8 +10,7 @@ class TreatmentList{
      * @var array
      */
     private static $exceptions = [
-        '.git', '.idea', 'Storage', 'vendor/twig', 'console.php', 'index.php', 'console.php',
-        'vendor/autoload.php', 'vendor/composer', 'vendor/alixsperoza/frash/src/Console/listcommand.php'
+        '.git', '.idea', 'Storage', 'vendor/twig', 'console.php', 'index.php', 'vendor/autoload.php', 'vendor/composer', 'vendor/alixsperoza/frash/src/Console/listcommand.php'
     ];
 
     /**

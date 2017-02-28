@@ -54,9 +54,11 @@ class TreatmentPhp{
 		if(!empty($this->waiting['middleware']) || !empty($this->waiting['bundle'])){
 			$middlewares = [];
 
-			foreach($this->waiting['middleware'] as $m){
-				$middlewares[] = $m;
-			}
+			if(!empty($this->waiting['middleware'])){
+                foreach($this->waiting['middleware'] as $m){
+                    $middlewares[] = $m;
+                }
+            }
 
 			$new_path = (!empty($this->waiting['bundle'])) ? $this->waiting['bundle'].':'.$path : $path;
 			$this->get[ $route ] = [ 'path' => $new_path, 'params' => $params, 'middleware' => $middlewares ];
@@ -74,9 +76,11 @@ class TreatmentPhp{
 		if(!empty($this->waiting['middleware']) || !empty($this->waiting['bundle'])){
 			$middlewares = [];
 
-			foreach($this->waiting['middleware'] as $m){
-				$middlewares[] = $m;
-			}
+			if(!empty($this->waiting['middleware'])){
+                foreach($this->waiting['middleware'] as $m){
+                    $middlewares[] = $m;
+                }
+            }
 
 			$new_path = (!empty($this->waiting['bundle'])) ? $this->waiting['bundle'].':'.$path : $path;
 			$this->post[ $route ] = [ 'path' => $new_path, 'params' => $params, 'middleware' => $middlewares ];

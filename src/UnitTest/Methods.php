@@ -1,9 +1,9 @@
 <?php
-namespace LFW\UnitTest;
+namespace Frash\UnitTest;
 
 /**
  * Class Methods
- * @package LFW\UnitTest
+ * @package Frash\UnitTest
  */
 class Methods{
 	/**

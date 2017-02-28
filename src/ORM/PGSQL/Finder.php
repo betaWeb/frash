@@ -52,10 +52,10 @@ class Finder extends Hydrator{
             $req->execute($arguments);
             $res = $req->fetchAll(\PDO::FETCH_OBJ);
 
-            $count = count($res) - 1;
+            $count = count($res);
             $array_obj = [];
 
-            for($i = 0; $i <= $count; $i++){
+            for($i = 0; $i < $count; $i++){
                 $array_obj[ $i ] = Hydrator::hydration($res[ $i ], 'Bundles\\'.$this->bundle.'\Entity\\'.$entity);
             }
 

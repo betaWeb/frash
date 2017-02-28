@@ -44,8 +44,8 @@ class DependTemplEngine{
 	public function load(string $key){
 		if(array_key_exists($key, $this->open)){
             return $this->open[ $key ];
-        } elseif(array_key_exists($key, $this->dependencies)) {
-            $path = str_replace('.', '\\', $this->dependencies[ $key ]);
+        } elseif(array_key_exists($key, $this->dependencies['default'])) {
+            $path = str_replace('.', '\\', $this->dependencies['default'][ $key ]);
 
             $class = new $path($this, $this->params);
             $this->open[ $key ] = $class;
@@ -53,8 +53,6 @@ class DependTemplEngine{
             return $class;
         }
 	}
-
-    public function add(string $key, string $path)
 
     /**
      * @param string $name

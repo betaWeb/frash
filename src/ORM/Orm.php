@@ -21,6 +21,7 @@ class Orm{
     /**
      * Orm constructor.
      * @param string $bundle
+     * @param Dic $dic
      * @return Exception
      */
     public function __construct(string $bundle, Dic $dic){

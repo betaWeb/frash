@@ -1,13 +1,13 @@
 <?php
-namespace LFW\UnitTest;
-use LFW\Console\CommandInterface;
-use LFW\Framework\FileSystem\{ Directory, Json };
-use LFW\Framework\Utility\Microtime;
-use LFW\UnitTest\{ Flag, Run };
+namespace Frash\UnitTest;
+use Frash\Console\CommandInterface;
+use Frash\Framework\FileSystem\{ Directory, Json };
+use Frash\Framework\Utility\Microtime;
+use Frash\UnitTest\{ Flag, Run };
 
 /**
  * Class CommandTest
- * @package LFW\UnitTest
+ * @package Frash\UnitTest
  */
 class CommandTest implements CommandInterface
 {

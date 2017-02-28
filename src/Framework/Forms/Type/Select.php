@@ -25,6 +25,10 @@ class Select{
             $this->input .= ' name="'.$arr_select['name'].'"';
         }
 
+        if(!empty($arr_select['title'])){
+            $this->input .= ' title="'.$arr_select['title'].'"';
+        }
+
         if(!empty($arr_select['multiple']) && $arr_select['multiple'] === true){
             $this->input .= ' multiple';
         }

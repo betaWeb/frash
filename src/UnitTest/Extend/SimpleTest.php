@@ -48,6 +48,31 @@ abstract class SimpleTest{
 	}
 
 	/**
+	 * @param string $increment
+	 * @param bool $return
+	 * @return bool
+	 */
+	private function conclusion(string $increment, bool $return): bool{
+		$this->increment($increment);
+		return $return;
+	}
+
+	/**
+	 * @param bool $bool
+	 * @param mixed $function
+	 * @return bool
+	 */
+	public function checkBoolean(bool $bool, $function): bool{
+		$this->increment('nb_test');
+
+		if($function === $bool){
+			return $this->conclusion('success', true);
+		} else {
+			return $this->conclusion('failure', false);
+		}
+	}
+
+	/**
 	 * @param mixed $value
 	 * @return bool
 	 */
@@ -55,11 +80,9 @@ abstract class SimpleTest{
 		$this->increment('nb_test');
 
 		if(empty($value)){
-			$this->increment('success');
-			return true;
+			return $this->conclusion('success', true);
 		} else {
-			$this->increment('failure');
-			return false;
+			return $this->conclusion('failure', false);
 		}
 	}
 
@@ -68,15 +91,13 @@ abstract class SimpleTest{
 	 * @param mixed $function
 	 * @return bool
 	 */
-	protected function checkEqual($value, $function){
+	protected function checkEqual($value, $function): bool{
 		$this->increment('nb_test');
 
 		if($value == $function){
-			$this->increment('success');
-			return true;
+			return $this->conclusion('success', true);
 		} else {
-			$this->increment('failure');
-			return false;
+			return $this->conclusion('failure', false);
 		}
 	}
 
@@ -85,15 +106,13 @@ abstract class SimpleTest{
 	 * @param mixed $function
 	 * @return bool
 	 */
-	protected function checkNotEmpty($value, $function){
+	protected function checkNotEmpty($value, $function): bool{
 		$this->increment('nb_test');
 
 		if(!empty($value)){
-			$this->increment('success');
-			return true;
+			return $this->conclusion('success', true);
 		} else {
-			$this->increment('failure');
-			return false;
+			return $this->conclusion('failure', false);
 		}
 	}
 }
