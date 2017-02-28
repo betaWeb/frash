@@ -57,7 +57,7 @@ class OrmFactory{
     /**
      * @return object
      */
-    public function getCounter(){
+    public function counter(){
         $namespace = 'Frash\ORM\\'.$this->system.'\Counter';
         return new $namespace($this->dic, $this->connexion);
     }
@@ -65,7 +65,7 @@ class OrmFactory{
     /**
      * @return object
      */
-    public function getEntity($entity){
+    public function entity(string $entity){
         $namespace = 'Bundles\\'.$this->bundle.'\Entity\\'.$entity;
         return new $namespace;
     }
@@ -73,7 +73,7 @@ class OrmFactory{
     /**
      * @return object
      */
-    public function getFinder(){
+    public function finder(){
         $namespace = 'Frash\ORM\\'.$this->system.'\Finder';
         return new $namespace($this->dic, $this->connexion, $this->bundle);
     }
@@ -82,7 +82,7 @@ class OrmFactory{
      * @param string $request
      * @return object
      */
-    public function getRequest(string $request){
+    public function request(string $request){
         $class = 'Bundles\\'.$this->bundle.'\Requests\\'.$request.'Requests';
         return new $class($this->dic, $this->connexion);
     }

@@ -18,6 +18,10 @@ class Input{
             $input .= ' name="'.$params['name'].'"';
         }
 
+        if(!empty($params['title'])){
+            $input .= ' title="'.$params['title'].'"';
+        }
+
         if(!empty($params['value'])){
             $input .= ' value="'.$params['value'].'"';
         }
@@ -74,7 +78,7 @@ class Input{
             $input .= ' step="'.$params['step'].'"';
         }
 
-        if(!empty($params['multiple'])){
+        if(!empty($params['multiple']) && $params['multiple'] === true){
             $input .= ' multiple';
         }
 

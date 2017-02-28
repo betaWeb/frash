@@ -95,7 +95,7 @@ class ParseWithExtend extends ParseArray{
         $function = [];
         $parts = [];
 
-        $pp = new ParseParent($this->trad, $this->bundle, $this->tpl, $this->dic_t);
+        $pp = new ParseParent($this->trad, $this->bundle, $this->dic_t);
 
         preg_match_all('/\[(\/?)(([a-zA-Z_]*)?\s?([a-zA-Z0-9\/@_!=:;+",<>\(\)\-\.\s]*))\]/', $this->tpl, $match_all, PREG_SET_ORDER);
         foreach($match_all as $key => $tag){

@@ -1,10 +1,10 @@
 <?php
-namespace LFW\UnitTest;
-use LFW\UnitTest\Methods;
+namespace Frash\UnitTest;
+use Frash\UnitTest\Methods;
 
 /**
  * Class Run
- * @package LFW\UnitTest
+ * @package Frash\UnitTest
  */
 class Run{
 	/**

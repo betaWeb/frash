@@ -7,7 +7,6 @@ namespace Frash\Console\Framework\Configuration;
  */
 class Configuration{
 	/**
-	 * @param string $format_routing
 	 * @param string $analyzer
 	 * @param string $cache
 	 * @param string $default_lang
@@ -18,7 +17,7 @@ class Configuration{
 	 * @param string $request_log
 	 * @return string                
 	 */
-	public static function file(string $format_routing, string $analyzer, string $cache, string $default_lang, string $dispo_lang, string $access_log, string $ajax_log, string $error_log, string $request_log): string{
+	public static function file(string $analyzer, string $cache, string $default_lang, string $dispo_lang, string $access_log, string $ajax_log, string $error_log, string $request_log): string{
 		$expl = explode('/', $dispo_lang);
 		$array_lang = [];
 
@@ -33,7 +32,6 @@ class Configuration{
 		$content .= 'class Config{'."\n";
 		$content .= '	private static $config = ['."\n";
 		$content .= '		\'env\' => \'local\','."\n";
-		$content .= '		\'routing\' => \''.$format_routing.'\','."\n";
 		$content .= '		\'stock_route\' => \'yes\','."\n";
 		$content .= '		\'analyzer\' => \''.$analyzer.'\','."\n";
 		$content .= '		\'racine\' => ['."\n";

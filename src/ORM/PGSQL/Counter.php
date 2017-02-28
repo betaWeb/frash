@@ -61,10 +61,9 @@ class Counter{
         array_shift($arg);
 
         if(substr($method, 0, 7) == 'countBy'){
-            $method = str_replace('countBy', '', $method);
-            $expl_method = explode('And', $method);
-
+            $expl_method = explode('And', str_replace('countBy', '', $method));
             $array_method = [];
+
             foreach($expl_method as $method){
                 $lc_method = lcfirst($method);
                 $array_method[] = "\"$lc_method\"".' = ?';

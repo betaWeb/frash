@@ -70,8 +70,7 @@ class QueryBuilder extends Hydrator{
 
             if($hydrat == 'without'){
                 return $res;
-            }
-            elseif($hydrat == 'with'){
+            } elseif($hydrat == 'with') {
                 return $this->hydration($res, 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity());
             }
         }
@@ -96,13 +95,12 @@ class QueryBuilder extends Hydrator{
 
             if($hydrat == 'without'){
                 return $res;
-            }
-            elseif($hydrat == 'with'){
-                $count = count($res) - 1;
+            } elseif($hydrat == 'with') {
+                $count = count($res);
                 $array_obj = [];
                 $class = 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity();
 
-                for($i = 0; $i <= $count; $i++){
+                for($i = 0; $i < $count; $i++){
                     $array_obj[ $i ] = $this->hydration($res[ $i ], $class);
                 }
 

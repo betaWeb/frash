@@ -19,9 +19,6 @@ class Init implements CommandInterface
 
     public function work()
     {
-    	fwrite(STDOUT, 'Format du routing (json/php) : ');
-        $format_routing = (string) trim(fgets(STDIN));
-
         fwrite(STDOUT, 'Activation de l\'analyzer (yes/no) : ');
         $analyzer = (string) trim(fgets(STDIN));
 
@@ -56,7 +53,7 @@ class Init implements CommandInterface
 
         Configuration::preinstall();
         Configuration::htaccess();
-        Configuration::config($format_routing, $analyzer, $cache, $default_lang, $dispo_lang, $access_log, $ajax_log, $error_log, $request_log);
+        Configuration::config($analyzer, $cache, $default_lang, $dispo_lang, $access_log, $ajax_log, $error_log, $request_log);
         Configuration::database($bundle);
         Configuration::dependencies();
         Configuration::routing();

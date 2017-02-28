@@ -27,10 +27,9 @@ class ParseParent extends ParseArray{
      * ParseParent constructor.
      * @param object $trad
      * @param string $bundle
-     * @param string $tpl
      * @param DependTemplEngine $dic_t
      */
-	public function __construct($trad, string $bundle, string $tpl, DependTemplEngine $dic_t){
+	public function __construct($trad, string $bundle, DependTemplEngine $dic_t){
 		$this->bundle = $bundle;
 		$this->dic_t = $dic_t;
 		$this->trad = $trad;
