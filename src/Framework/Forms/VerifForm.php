@@ -35,8 +35,17 @@ class VerifForm{
      * @param string $mail
      * @return bool
      */
-    public function isMail(string $mail){
+    public function isMail(string $mail): bool{
         return (filter_var($mail, FILTER_VALIDATE_EMAIL)) ? true : false;
+    }
+
+    /**
+     * @param mixed $content
+     * @param string $regex
+     * @return boolean
+     */
+    public function isRegex($content, string $regex): bool{
+        return (preg_match($regex, $content)) ? true : false;
     }
 
     /**

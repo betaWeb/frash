@@ -1,7 +1,7 @@
 <?php
 namespace Frash\Framework\Controller;
 use Frash\Framework\DIC\Dic;
-use Frash\Template\{ Loader, LoaderForSimple };
+use Frash\Template\Loader;
 
 /**
  * Class Templating
@@ -66,17 +66,6 @@ class Templating{
             'internal_prefix' => $this->dic->get('prefix'),
             'internal_prefix_lang' => $this->dic->get('prefix_lang')
         ], $params);
-    }
-
-    /**
-     * @param string $string
-     * @return bool
-     */
-    public function simple(string $string): bool{
-        $loader = new LoaderForSimple($string, $this->internalParam(), $this->dic, $this->extensions);
-        $loader->parse();
-
-        return true;
     }
 
     /**

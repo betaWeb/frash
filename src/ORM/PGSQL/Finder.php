@@ -26,6 +26,7 @@ class Finder extends Hydrator{
 
     /**
      * Finder constructor.
+     * @param Dic $dic
      * @param \PDO $pdo
      * @param string $bundle
      */
