@@ -19,7 +19,7 @@ class Counter{
     private $pdo;
 
     /**
-     * Finder constructor.
+     * Counter constructor.
      * @param \PDO $pdo
      */
     public function __construct(Dic $dic, \PDO $pdo){
@@ -36,14 +36,13 @@ class Counter{
     private function count(string $entity, string $where, array $arguments): int{
         try{
             $table = lcfirst($entity);
-            $request = 'SELECT * FROM '."\"$table\"".' '.$where;
+            $request = 'SELECT COUNT(*) as count FROM '."\"$table\"".' '.$where;
 
             CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request, $this->dic->get('conf')['config']['log']);
 
             $req = $this->pdo->prepare($request);
             $req->execute($arguments);
-
-            return $req->rowCount();
+            return $req->fetch(\PDO::FETCH_ASSOC)['count'];
         }
         catch(\Exception $e){
             CreateLog::error($e->getMessage());

@@ -62,10 +62,25 @@ abstract class SimpleTest{
 	 * @param mixed $function
 	 * @return bool
 	 */
-	public function checkBoolean(bool $bool, $function): bool{
+	protected function checkBoolean(bool $bool, $function): bool{
 		$this->increment('nb_test');
 
 		if($function === $bool){
+			return $this->conclusion('success', true);
+		} else {
+			return $this->conclusion('failure', false);
+		}
+	}
+
+	/**
+	 * @param int $len
+	 * @param array $array
+	 * @return bool
+	 */
+	protected function checkCount(int $len, array $array): bool{
+		$this->increment('nb_test');
+
+		if(count($array) == $len){
 			return $this->conclusion('success', true);
 		} else {
 			return $this->conclusion('failure', false);
@@ -110,6 +125,21 @@ abstract class SimpleTest{
 		$this->increment('nb_test');
 
 		if(!empty($value)){
+			return $this->conclusion('success', true);
+		} else {
+			return $this->conclusion('failure', false);
+		}
+	}
+
+	/**
+	 * @param mixed $value
+	 * @param mixed $function
+	 * @return bool
+	 */
+	protected function checkNotEqual($value, $function): bool{
+		$this->increment('nb_test');
+
+		if($value != $function){
 			return $this->conclusion('success', true);
 		} else {
 			return $this->conclusion('failure', false);

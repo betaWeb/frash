@@ -30,6 +30,18 @@ class Where{
 
     /**
      * @param string $where
+     * @param array $attributes
+     */
+    public function simple(string $where, array $attributes){
+        $this->where = ' '.$where;
+
+        foreach($attributes as $name){
+            $this->arrayWhere[] = $name;
+        }
+    }
+
+    /**
+     * @param string $where
      * @param string $sign
      * @param string $exec
      * @param string $prefix

@@ -43,6 +43,7 @@ class Configuration{
 		$content .= '			\'tpl\' => \''.$cache.'\''."\n";
 		$content .= '		],'."\n";
 		$content .= '		\'traduction\' => ['."\n";
+		$content .= '			\'geoloc\' => \'no\','."\n";
 		$content .= '			\'default\' => \''.$default_lang.'\','."\n";
 		$content .= '			\'available\' => [ '.$trad_av.' ]'."\n";
 		$content .= '		],'."\n";

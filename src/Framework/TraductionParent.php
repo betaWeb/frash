@@ -10,7 +10,7 @@ class TraductionParent{
      * @param string $trad
      * @return string
      */
-	public function show(string $trad): string{
+	public function __get(string $trad): string{
         return $this->$trad;
     }
 }

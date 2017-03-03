@@ -72,7 +72,6 @@ class Router{
             }
         } else {
         	$routarr = $this->dic->get('conf')['routing']->list(strtolower(Server::requestMethod()));
-            //echo '<pre>'; print_r($routarr); echo '</pre>';
 
             $racine = false;
             $lien = '';

@@ -10,9 +10,9 @@ class TraductionFactory{
      * @param string $lang
      * @return object
      */
-    public function trad($lang){
+    public function trad(string $lang){
         $class = (string) 'Traductions\\Trad'.ucfirst($lang);
-        return new $class();
+        return new $class;
     }
 
     /**
@@ -23,12 +23,12 @@ class TraductionFactory{
      */
     public function translate($string, $search, $lang){
         $class = (string) 'Traductions\\Trad'.ucfirst($lang);
-        $trad = new $class();
+        $trad = new $class;
 
         $str = (string) $string;
 
         foreach($search as $v){
-            str_replace('%'.$v.'%', $trad->show($v), $str);
+            str_replace('%'.$v.'%', $trad->$v, $str);
         }
 
         return $str;
@@ -40,13 +40,13 @@ class TraductionFactory{
      * @param string $spec
      * @return array|object
      */
-    public function multiple($lang, $array, $spec = 'object'){
+    public function multiple(string $lang, array $array, string $spec = 'object'){
         $path = 'Traductions\\Trad'.ucfirst($lang);
         $arr_translate = (array) [];
 
-        $class = new $path();
+        $class = new $path;
         foreach($array as $str){
-            $arr_translate[ $str ] = $class->show($str);
+            $arr_translate[ $str ] = $class->$str;
         }
 
         if($spec == 'array'){
