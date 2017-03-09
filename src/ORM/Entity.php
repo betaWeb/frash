@@ -69,9 +69,8 @@ abstract class Entity{
 		$query = new $qb($dic, $orm->getConnexion());
 		$sel = new $select([ 'table' => $table ]);
         $wh = new $where;
-        $wh->where($this->primary_key, '=', ':id');
-        $sel->setWhere($wh);
-        $sel->setExecute([ $this->$primary_key ]);
+        $wh->where($this->primary_key, ':id');
+        $sel->setWhere($wh)->setExecute([ $this->$primary_key ]);
         return $query->selectOne($sel);
 	}
 }

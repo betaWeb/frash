@@ -59,6 +59,8 @@ class Insert implements RequestInterface{
 
         $this->insertVal = implode(', ', $array);
         $this->insertExecute = $array;
+
+        return $this;
     }
 
     /**
@@ -66,6 +68,7 @@ class Insert implements RequestInterface{
      */
     public function setExecute(array $exec){
         $this->execute = array_combine($this->insertExecute, $exec);
+        return $this;
     }
 
     /**

@@ -9,14 +9,16 @@ use Frash\Template\Parsing\ParseArray;
  */
 class ParseTplParent extends ParseArray{
     /**
-     * @var string
+     * @var array
      */
-	private $bundle = '';
-
-    /**
-     * @var string
-     */
-	private $class_cache = '';
+    private $attributes = [
+        'bundle' => '',
+        'tpl' => '',
+        'level' => [ 'condition' => 0, 'escape_tpl' => 0, 'for' => 0, 'foreach' => 0, 'index' => 0, 'itvl' => 0 ],
+        'condition' => [],
+        'foreach' => [],
+        'function' => []
+    ];
 
     /**
      * @var DependTemplEngine
@@ -29,16 +31,6 @@ class ParseTplParent extends ParseArray{
 	private $trad = '';
 
     /**
-     * @var array
-     */
-	private $parts_in_escape = [];
-
-    /**
-     * @var string
-     */
-    private $display = '';
-
-    /**
      * ParseTplParent constructor.
      * @param object $trad
      * @param string $bundle
@@ -46,37 +38,49 @@ class ParseTplParent extends ParseArray{
      * @param DependTemplEngine $dic_t
      */
 	public function __construct($trad, string $bundle, string $display, DependTemplEngine $dic_t){
-		$this->bundle = $bundle;
-		$this->display = $display;
+		$this->attributes['bundle'] = $bundle;
+		$this->attributes['tpl'] = $display;
 		$this->dic_t = $dic_t;
 		$this->trad = $trad;
 	}
 
     /**
+     * @param object $return
+     */
+    private function returnExtension($return){
+        $infos = $return->getInfos();
+        $this->attributes['condition'] = $infos['condition'];
+        $this->attributes['foreach'] = $infos['foreach'];
+        $this->attributes['function'] = $infos['function'];
+        $this->attributes['level'] = $infos['level'];
+        $this->attributes['tpl'] = $infos['tpl'];
+    }
+
+    /**
      * @return string
      */
 	public function parse(): string{
-		$level_escape = 0;
-
-		preg_match_all('/\[(\/?)(([a-z]*)?\s?([a-z\/@_!=:,\.\s]*))\]/', $this->display, $res_split, PREG_SET_ORDER);
+		preg_match_all('/\[(\/?)(([a-z]*)?\s?([a-z\/@_!=:,\.\s]*))\]/', $this->attributes['tpl'], $res_split, PREG_SET_ORDER);
 		foreach($res_split as $key => $tag){
 			switch(true){
-				case $level_escape == 0:
+				case $this->attributes['level']['escape_tpl'] == 0:
 					switch(true){
-						case preg_match($this->parsing['bundle'], $tag[0]):
-							$this->display = str_replace($res_split[ $key ][0], $this->dic_t->load('Bundle')->parse($res_split[ $key ][4], $this->bundle), $this->display);
+						case preg_match($this->extension['default']['bundle'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parse('BundleTplParent', 'parse', $this->attributes, [ 'match' => $res_split[ $key ] ]);
+                            $this->returnExtension($ext);
 							break;
-						case preg_match($this->parsing['route'], $tag[0]):
-							$this->display = str_replace($res_split[ $key ][0], $this->dic_t->load('Route')->parse($res_split[ $key ][4]), $this->display);
+                        case preg_match($this->extension['default']['public'], $tag[0]):
+                            $this->display = str_replace($res_split[ $key ][0], $this->dic_t->extension('Public')->parse($res_split[ $key ][4]), $this->display);
+                            break;
+						case preg_match($this->extension['default']['route'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parseTplParent('RouteTplParent', 'parse', $this->attributes, [ 'match' => $res_split[ $key ] ]);
+                            $this->returnExtension($ext);
 							break;
-						case preg_match($this->parsing['traduction'], $tag[0]):
+						case preg_match($this->extension['default']['traduction'], $tag[0]):
 							$this->display = str_replace($res_split[ $key ][0], $this->trad->show($res_split[ $key ][4]), $this->display);
 							break;
-						case preg_match($this->parsing['show_var'], $tag[0]):
-							if($level_foreach == 0 && $level_for_simple == 0 && $level_for_index == 0 && $level_condition == 0 && $level_itvl == 0){
-								$this->display = str_replace($res_split[ $key ][0], $this->dic_t->load('ShowVar')->parse($res_split[ $key ][4]), $this->display);
-							}
-
+						case preg_match($this->extension['default']['show_var'], $tag[0]):
+                            $this->display = str_replace($res_split[ $key ][0], $this->dic_t->extension('ShowVar')->parse($res_split[ $key ][4]), $this->display);
 							break;
 					}
 
@@ -84,6 +88,6 @@ class ParseTplParent extends ParseArray{
 			}
 		}
 
-		return $this->display;
+		return $this->attributes['tpl'];
 	}
 }

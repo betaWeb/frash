@@ -12,9 +12,10 @@ class Database{
 	 */
 	public static function file(string $bundle): string{
 		$content = '<?php'."\n";
-		$content .= 'namespace Configuration;'."\n\n";
-		$content .= 'class Database{'."\n";
-		$content .= '	private static $database = ['."\n";
+		$content .= 'namespace Configuration;'."\n";
+		$content .= 'use Frash\Framework\FileSystem\LoadConfiguration;'."\n\n";
+		$content .= 'class Database extends LoadConfiguration{'."\n";
+		$content .= '	private static $configuration = ['."\n";
 		$content .= '		\''.$bundle.'\' => ['."\n";
 		$content .= '			\'host\' => \'\','."\n";
 		$content .= '			\'username\' => \'\','."\n";
@@ -23,10 +24,7 @@ class Database{
 		$content .= '			\'system\' => \'\','."\n";
 		$content .= '			\'port\' => \'\''."\n";
 		$content .= '		]'."\n";
-		$content .= '	];'."\n\n";
-		$content .= '	public static function get(){'."\n";
-		$content .= '		return self::$database;'."\n";
-		$content .= '	}'."\n";
+		$content .= '	];'."\n";
 		$content .= '}';
 
 		return $content;

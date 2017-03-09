@@ -59,7 +59,7 @@ class Router{
         array_shift($path);
 
         if($this->conf['analyzer'] == 'yes'){
-            $url_analyzer = (empty($path[0])) ? $this->conf['racine']['route'].'/' : implode('/', $path);
+            $url_analyzer = (empty($path[0])) ? $this->conf['racine'].'/' : implode('/', $path);
 
             $this->dic->set('url_analyzer', $url_analyzer);
             $this->dic->load('analyzer')->getRegistry()->setConfigPHP();
@@ -80,12 +80,12 @@ class Router{
             $api = false;
             $array_get = [];
 
-            if(empty($path[0]) && !empty($this->conf['racine']['path'])){
+            if(empty($path[0]) && !empty($this->conf['racine'])){
                 $lien = '/';
-                $route = $this->conf['racine']['path'];
+                $route = $routarr[ $this->conf['racine'] ]['path'];
                 $racine = true;
 
-                if(!empty($this->conf['racine']['api']) && $this->conf['racine']['api'] == 'true'){
+                if(!empty($routarr[ $this->conf['racine'] ]['api']) && $routarr[ $this->conf['racine'] ]['api'] == 'true'){
                     $api = true;
                 }
             } elseif(count($path) == 2 && in_array($path[0], $routarr)) {
@@ -108,13 +108,25 @@ class Router{
                             if(!empty($path[ $i ]) && $path[ $i ] == $expl_key[ $i ]){
                                 $lien_array[ 'part_'.$i ] = $expl_key[ $i ];
                             } elseif($expl_key[ $i ][0] == ':') {
-                                $sub_get = substr($expl_key[ $i ], 1);
+                                if(substr($expl_key[ $i ], -1) == '?'){
+                                    $sub_get = substr(str_replace('?', '', $expl_key[ $i ]), 1);
 
-                                if(!empty($path[ $i ]) && GetRoute::define($path[ $i ], $precision['params']['get'][ $sub_get ]) === true){
-                                    $array_get[ $sub_get ] = $path[ $i ];
-                                    $lien_array[ $sub_get ] = $expl_key[ $i ];
+                                    if(!empty($path[ $i ]) && GetRoute::define($path[ $i ], $precision['params']['get'][ $sub_get ])) {
+                                        $array_get[ $sub_get ] = $path[ $i ];
+                                        $lien_array[ $sub_get ] = $expl_key[ $i ];
+                                    } else {
+                                        $array_get[ $sub_get ] = '';
+                                        $lien_array[ $sub_get ] = $expl_key[ $i ];
+                                    }
                                 } else {
-                                    break;
+                                    $sub_get = substr($expl_key[ $i ], 1);
+
+                                    if(!empty($path[ $i ]) && GetRoute::define($path[ $i ], $precision['params']['get'][ $sub_get ])){
+                                        $array_get[ $sub_get ] = $path[ $i ];
+                                        $lien_array[ $sub_get ] = $expl_key[ $i ];
+                                    } else {
+                                        return new Exception('Get : Url incorrecte.', $this->dic->get('conf')['config']['log']);
+                                    }
                                 }
                             } else {
                                 break;

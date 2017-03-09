@@ -11,9 +11,10 @@ class Console{
 	 */
 	public static function file(): string{
 		$content = '<?php'."\n";
-		$content .= 'namespace Configuration;'."\n\n";
-		$content .= 'class Console{'."\n";
-		$content .= '	private static $console = ['."\n";
+		$content .= 'namespace Configuration;'."\n";
+		$content .= 'use Frash\Framework\FileSystem\LoadConfiguration;'."\n\n";
+		$content .= 'class Console extends LoadConfiguration{'."\n";
+		$content .= '	private static $configuration = ['."\n";
 		$content .= '		\'default\' => ['."\n";
 		$content .= '			\'Bundle:generate\' => \'Frash.Console.Bundle.GenerateBundle\','."\n";
 		$content .= '			\'Clear:Cache\' => \'Frash.Console.Files.ClearCache\','."\n";
@@ -25,10 +26,7 @@ class Console{
 		$content .= '			\'Test:Unit:run\' => \'Frash.UnitTest.CommandTest\''."\n";
 		$content .= '		],'."\n";
 		$content .= '		\'custom\' => []'."\n";
-		$content .= '	];'."\n\n";
-		$content .= '	public static function get(){'."\n";
-		$content .= '		return self::$console;'."\n";
-		$content .= '	}'."\n";
+		$content .= '	];'."\n";
 		$content .= '}';
 
 		return $content;

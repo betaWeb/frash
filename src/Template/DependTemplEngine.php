@@ -1,30 +1,42 @@
 <?php
 namespace Frash\Template;
+use Frash\Template\Extensions\CallExtension;
 
 /**
  * Class DependTemplEngine
  * @package Frash\Template
  */
 class DependTemplEngine{
-    const EXTENSIONS = 'Frash.Template.Extensions';
+    const EXTENSIONS = 'Frash.Template.Extensions.Extensions';
 
     /**
      * @var array
      */
 	private $dependencies = [
-        'default' => [
-    		'Bundle' => self::EXTENSIONS.'.Bundle',
-    		'Condition' => self::EXTENSIONS.'.ConditionParse',
-    		'Escape' => self::EXTENSIONS.'.Escape',
-    		'Foreach' => self::EXTENSIONS.'.ForeachParse',
-    		'FormatVar' => self::EXTENSIONS.'.FormatVar',
-            'Func' => self::EXTENSIONS.'.Functions',
-    		'Part' => self::EXTENSIONS.'.Part',
-            'Public' => self::EXTENSIONS.'.Public',
-    		'Route' => self::EXTENSIONS.'.Route',
-    		'ShowVar' => self::EXTENSIONS.'.ShowVar'
+	    'extensions' => [
+            'default' => [
+                'BundleParse' => self::EXTENSIONS.'.Bundle.BundleParse',
+                'BundleTplParent' => self::EXTENSIONS.'.Bundle.BundleTplParent',
+                'ConditionParse' => self::EXTENSIONS.'.Condition.ConditionParse',
+                'EscapeTpl' => self::EXTENSIONS.'.EscapeTpl',
+                'ForeachParse' => self::EXTENSIONS.'.Loop.ForeachLoop.ForeachParse',
+                'FormatVar' => self::EXTENSIONS.'.Variable.FormatVar',
+                'Func' => self::EXTENSIONS.'.Functions',
+                'Part' => self::EXTENSIONS.'.Part',
+                'Public' => self::EXTENSIONS.'.PublicDir',
+                'Route' => self::EXTENSIONS.'.Route.Route',
+                'RouteForeach' => self::EXTENSIONS.'.Route.RouteForeach',
+                'RouteParent' => self::EXTENSIONS.'.Route.RouteParent',
+                'RouteTplParent' => self::EXTENSIONS.'.Route.RouteTplParent',
+                'ShowVarParse' => self::EXTENSIONS.'.Variable.ShowParse',
+                'ShowVarParseForeach' => self::EXTENSIONS.'.Variable.ShowParseForeach'
+            ],
+            'custom' => []
         ],
-        'custom' => []
+        'filters' => [
+            'default' => [],
+            'custom' => []
+        ]
 	];
 
     /**
@@ -41,11 +53,11 @@ class DependTemplEngine{
      * @param string $key
      * @return object
      */
-	public function load(string $key){
+	public function extension(string $key){
 		if(array_key_exists($key, $this->open)){
             return $this->open[ $key ];
-        } elseif(array_key_exists($key, $this->dependencies['default'])) {
-            $path = str_replace('.', '\\', $this->dependencies['default'][ $key ]);
+        } elseif(array_key_exists($key, $this->dependencies['extensions']['default'])) {
+            $path = str_replace('.', '\\', $this->dependencies['extensions']['default'][ $key ]);
 
             $class = new $path($this, $this->params);
             $this->open[ $key ] = $class;
@@ -53,6 +65,26 @@ class DependTemplEngine{
             return $class;
         }
 	}
+
+    public function callExtension(){
+        return new CallExtension($this, $this->params);
+    }
+
+    /**
+     * @param string $name
+     * @param string $namespace
+     */
+	public function setCustomExtension(string $name, string $namespace){
+	    $this->dependencies['extensions']['custom'][ $name ] = $namespace;
+    }
+
+    /**
+     * @param string $name
+     * @param string $namespace
+     */
+	public function setCustomFilter(string $name, string $namespace){
+	    $this->dependencies['filters']['custom'][ $name ] = $namespace;
+    }
 
     /**
      * @param string $name

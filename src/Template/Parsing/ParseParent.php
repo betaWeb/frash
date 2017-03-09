@@ -9,9 +9,16 @@ use Frash\Template\Parsing\ParseArray;
  */
 class ParseParent extends ParseArray{
     /**
-     * @var string
+     * @var array
      */
-	private $bundle = '';
+    private $attributes = [
+        'bundle' => '',
+        'tpl' => '',
+        'level' => [ 'condition' => 0, 'escape_tpl' => 0, 'for' => 0, 'foreach' => 0, 'index' => 0, 'itvl' => 0 ],
+        'condition' => [],
+        'foreach' => [],
+        'function' => []
+    ];
 
 	/**
 	 * @var DependTemplEngine
@@ -30,10 +37,22 @@ class ParseParent extends ParseArray{
      * @param DependTemplEngine $dic_t
      */
 	public function __construct($trad, string $bundle, DependTemplEngine $dic_t){
-		$this->bundle = $bundle;
+		$this->attributes['bundle'] = $bundle;
 		$this->dic_t = $dic_t;
 		$this->trad = $trad;
 	}
+
+    /**
+     * @param object $return
+     */
+    private function returnExtension($return){
+        $infos = $return->getInfos();
+        $this->attributes['condition'] = $infos['condition'];
+        $this->attributes['foreach'] = $infos['foreach'];
+        $this->attributes['function'] = $infos['function'];
+        $this->attributes['level'] = $infos['level'];
+        $this->attributes['tpl'] = $infos['tpl'];
+    }
 
     /**
      * @param string $name
@@ -41,55 +60,48 @@ class ParseParent extends ParseArray{
      * @return string
      */
 	public function parse(string $name, string $value): string{
-		$condition = [];
-
-		$level_condition = 0;
-		$level_escape = 0;
-		$level_for_index = 0;
-		$level_for_itvl = 0;
-		$level_for_simple = 0;
-		$level_foreach = 0;
-
-		$treatment = '';
-		preg_match_all('/\[(\/?)(([a-z]*)?\s?([a-zA-Z0-9\/@_!=:",\.\s]*))\]/', $value, $res_split, PREG_SET_ORDER);
+		$this->attributes['tpl'] = $value;
+		preg_match_all('/\[(\/?)(([a-z]*)?\s?([a-zA-Z0-9\/@_!=:",\.\s]*))\]/', $this->attributes['tpl'], $res_split, PREG_SET_ORDER);
 		foreach($res_split as $key => $tag){
 			switch(true){
-				case $level_escape == 0:
+				case $this->attributes['level']['escape_tpl'] == 0:
 					switch(true){
-						case preg_match($this->parsing['else'], $tag[0]):
-							$condition[ $level_condition ][] = [ 'type' => 'else', 'condition' => 'else' ];
+						case preg_match($this->extension['default']['else'], $tag[0]):
+							$condition[ $this->attributes['level']['condition'] ][] = [ 'type' => 'else', 'condition' => 'else' ];
 							break;
-						case preg_match($this->parsing['elseif'], $tag[0]):
-							$condition[ $level_condition ][] = [ 'type' => 'elseif', 'condition' => $res_split[ $key ][2] ];
+						case preg_match($this->extension['default']['elseif'], $tag[0]):
+							$condition[ $this->attributes['level']['condition'] ][] = [ 'type' => 'elseif', 'condition' => $res_split[ $key ][2] ];
 							break;
-						case preg_match($this->parsing['end_condition'], $tag[0]):
-							$condition[ $level_condition ][] = [ 'type' => 'end', 'condition' => '/condition' ];
+						case preg_match($this->extension['default']['end_condition'], $tag[0]):
+							$condition[ $this->attributes['level']['condition'] ][] = [ 'type' => 'end', 'condition' => '/condition' ];
 
-							$cp = $this->dic_t->load('Condition')->parse($condition[ $level_condition ], $value);
-							$treatment .= $cp['code'];
+							$cp = $this->dic_t->extension('Condition')->parse($condition[ $this->attributes['level']['condition'] ], $value);
+							$this->attributes['tpl'] .= $cp['code'];
 							$value = str_replace($cp['replace'], '\'.$this->'.$cp['name'].'().\'', $value);
 
-							unset($condition[ $level_condition ]);
-							$level_condition--;
+							unset($condition[ $this->attributes['level']['condition'] ]);
+                            $this->attributes['level']['condition']--;
 							break;
-						case preg_match($this->parsing['if'], $tag[0]):
-							$level_condition++;
-							$condition[ $level_condition ][] = [ 'type' => 'if', 'condition' => $res_split[ $key ][2] ];
+						case preg_match($this->extension['default']['if'], $tag[0]):
+                            $this->attributes['level']['condition']++;
+							$condition[ $this->attributes['level']['condition'] ][] = [ 'type' => 'if', 'condition' => $res_split[ $key ][2] ];
 							break;
-						case preg_match($this->parsing['route'], $tag[0]):
-							if($level_foreach == 0 && $level_for_simple == 0 && $level_for_index == 0 && $level_for_itvl == 0){
-								$value = str_replace($res_split[ $key ][0], $this->dic_t->load('Route')->parse($res_split[ $key ][4]), $value);
+                        case preg_match($this->extension['default']['public'], $tag[0]):
+                            $value = str_replace($res_split[ $key ][0], $this->dic_t->extension('Public')->parse($res_split[ $key ][4]), $value);
+                            break;
+						case preg_match($this->extension['default']['route'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parseParent('RouteParent', 'parse', $this->attributes, [ 'match' => $res_split[ $key ] ]);
+                            $this->returnExtension($ext);
+							break;
+						case preg_match($this->extension['default']['show_var'], $tag[0]):
+							if($this->attributes['level']['foreach'] == 0 && $this->attributes['level']['for'] == 0 && $this->attributes['level']['index'] == 0 && $this->attributes['level']['itvl'] == 0){
+								$value = str_replace($res_split[ $key ][0], $this->dic_t->extension('ShowVar')->parse($res_split[ $key ][4]), $value);
 							}
 
 							break;
-						case preg_match($this->parsing['show_var'], $tag[0]):
-							if($level_foreach == 0 && $level_for_simple == 0 && $level_for_index == 0 && $level_for_itvl == 0){
-								$value = str_replace($res_split[ $key ][0], $this->dic_t->load('ShowVar')->parse($res_split[ $key ][4]), $value);
-							}
-
-							break;
-                        case preg_match($this->parsing['traduction'], $tag[0]):
-                            $value = str_replace($res_split[ $key ][0], str_replace('\'', "\'", $this->trad->show($res_split[ $key ][4])), $value);
+                        case preg_match($this->extension['default']['traduction'], $tag[0]):
+                            $value_trad = $res_split[ $key ][4];
+                            $value = str_replace($res_split[ $key ][0], str_replace('\'', "\'", $this->trad->$value_trad), $value);
                             break;
 					}
 
@@ -98,9 +110,9 @@ class ParseParent extends ParseArray{
 		}
 
 		$complement = '	public function parent'.ucfirst($name).'(){'."\n";
-		$complement .= '		return \''.trim($value).'\';'."\n";
+		$complement .= '		return \''.trim($this->attributes['tpl']).'\';'."\n";
 		$complement .= '	}'."\n\n";
 
-		return $complement.$treatment;
+		return $complement;
 	}
 }

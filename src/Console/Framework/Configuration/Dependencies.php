@@ -11,9 +11,10 @@ class Dependencies{
 	 */
 	public static function file(): string{
 		$content = '<?php'."\n";
-		$content .= 'namespace Configuration;'."\n\n";
-		$content .= 'class Dependencies{'."\n";
-		$content .= '	private static $dependencies = ['."\n";
+		$content .= 'namespace Configuration;'."\n";
+		$content .= 'use Frash\Framework\FileSystem\LoadConfiguration;'."\n\n";
+		$content .= 'class Dependencies extends LoadConfiguration{'."\n";
+		$content .= '	private static $configuration = ['."\n";
 		$content .= '		\'analyzer\' => \'Frash.Framework.Analyzer.Analyzer\','."\n";
 		$content .= '		\'controller\' => \'Frash.Framework.Controller.Controller\','."\n";
 		$content .= '		\'form\' => \'Frash.Framework.Forms.FormFactory\','."\n";
@@ -30,10 +31,7 @@ class Dependencies{
 		$content .= '		\'trad\' => \'Frash.Framework.Controller.TraductionFactory\','."\n";
 		$content .= '		\'twig\' => \'Frash.Framework.Controller.View\','."\n";
 		$content .= '		\'tel\' => \'Frash.Framework.Controller.Templating\''."\n";
-		$content .= '	];'."\n\n";
-		$content .= '	public static function get(){'."\n";
-		$content .= '		return self::$dependencies;'."\n";
-		$content .= '	}'."\n";
+		$content .= '	];'."\n";
 		$content .= '}';
 
 		return $content;

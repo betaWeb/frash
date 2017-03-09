@@ -22,11 +22,6 @@ class Parser{
 	private $dic_t;
 
     /**
-     * @var string
-     */
-	private $env = '';
-
-    /**
      * @var array
      */
 	private $params = [];
@@ -47,6 +42,11 @@ class Parser{
 	private $tpl = '';
 
     /**
+     * @var string
+     */
+    private $type = '';
+
+    /**
      * Parser constructor.
      * @param string $path
      * @param array $params
@@ -57,7 +57,6 @@ class Parser{
 	public function __construct(string $path, array $params, Dic $dic, DependTemplEngine $dic_t, string $name_class){
 		$this->dic = $dic;
 
-		$this->env = $this->dic->get('env');
 		$this->params = $params;
 		$this->tpl = str_replace("'", "\'", file_get_contents($path));
 		$this->name_class = $name_class;
@@ -67,16 +66,17 @@ class Parser{
 	}
 
 	public function parse(string $type = 'normal'){
+	    $this->type = $type;
+
     	preg_match('/\[extend (.*)\]/', $this->tpl, $extend);
 
 		if(!empty($extend)){
 			$parse = new ParseWithExtend(str_replace($extend[0], '', $this->tpl), $extend, $this->dic, $this->params, $this->dic_t);
-			$this->class_cache .= $parse->parse();
 		} else {
 			$parse = new ParseWithoutExtend($this->tpl, $this->dic, $this->params, $this->dic_t);
-			$this->class_cache .= $parse->parse();
 		}
 
+        $this->class_cache .= $parse->parse();
 		$this->importBottomBar();
 		$this->class_cache .= CreateClassCache::endClass();
 
@@ -88,7 +88,7 @@ class Parser{
 	}
 
 	private function importBottomBar(){
-		if($this->env == 'local'){
+		if($this->dic->get('env') == 'local' && $this->type == 'normal'){
 			$this->class_cache = str_replace('</body>', '	\'.$this->bott_bar->parse().\''."\n".'	</body>', $this->class_cache);
 		}
 	}

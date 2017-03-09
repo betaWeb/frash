@@ -1,6 +1,5 @@
 <?php
 namespace Frash\ORM\PGSQL\Request;
-use Frash\Framework\Utility\Generator;
 use Frash\ORM\RequestInterface;
 
 /**
@@ -59,20 +58,13 @@ class Select implements RequestInterface{
     private $groupBy = '';
 
     /**
-     * @var string
-     */
-    protected $token_cache = '';
-
-    /**
      * Select constructor.
      * @param array $array
      */
     public function __construct(array $array){
         $table = $array['table'];
         $this->table = "\"$table\"";
-
-        $this->setEntity($table);
-        $this->setTokenCache();
+        $this->entity = ucfirst($table);
 
         if(!empty($array['order'])){
             $this->order = 'ORDER BY '.$array['order'];
@@ -87,16 +79,14 @@ class Select implements RequestInterface{
         }
     }
 
-    public function setTokenCache(){
-        $this->token_cache = Generator::get(30, true, true, true, false);
-    }
-
     public function setCount(){
         if($this->colSel == '*'){
             $this->colSel = 'COUNT(*) AS number_result';
         } else {
-            $this->colSel = ', COUNT(*) AS number_result';
+            $this->colSel .= ', COUNT(*) AS number_result';
         }
+
+        return $this;
     }
 
     /**
@@ -105,6 +95,8 @@ class Select implements RequestInterface{
     public function setWhere(Where $where){
         $this->where = $where->getWhere();
         $this->arrayWhere = $where->getArrayWhere();
+
+        return $this;
     }
 
     /**
@@ -112,6 +104,8 @@ class Select implements RequestInterface{
      */
     public function setColSel(string $col){
         $this->colSel = $col;
+
+        return $this;
     }
 
     /**
@@ -119,6 +113,8 @@ class Select implements RequestInterface{
      */
     public function setAddExec(string $exec){
         $this->arrayWhere[] = $exec;
+
+        return $this;
     }
 
     /**
@@ -128,6 +124,8 @@ class Select implements RequestInterface{
     public function setGroupBy(string $col, string $having = ''){
         $this->groupBy = 'GROUP BY '.$col;
         $this->groupBy .= ($having == '') ? '' : ' HAVING '.$having;
+
+        return $this;
     }
 
     /**
@@ -137,6 +135,8 @@ class Select implements RequestInterface{
         if(count($exec) == count($this->arrayWhere)){
             $this->execute = array_combine($this->arrayWhere, $exec);
         }
+
+        return $this;
     }
 
     /**
@@ -174,19 +174,5 @@ class Select implements RequestInterface{
      */
     public function getEntity(): string{
         return $this->entity;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTokenCache(): string{
-        return $this->token_cache;
-    }
-
-    /**
-     * @param string $table
-     */
-    public function setEntity(string $table){
-        $this->entity = ucfirst($table);
     }
 }

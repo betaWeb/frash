@@ -1,19 +1,20 @@
 <?php
-namespace Frash\Template\Extensions;
+namespace Frash\Template\Extensions\Extensions\Variable;
 use Frash\Template\DependTemplEngine;
+use Frash\Template\Extensions\Extend\ExtensionParseSimple;
 
 /**
- * Class ShowVar
- * @package Frash\Template\Extensions
+ * Class ShowParse
+ * @package Frash\Template\Extensions\Extensions\Variable
  */
-class ShowVar{
+class ShowParse extends ExtensionParseSimple{
     /**
      * @var array
      */
 	private $params = [];
 
     /**
-     * ShowVar constructor.
+     * ShowParse constructor.
      * @param DependTemplEngine $dic_t
      * @param array $params
      */
@@ -21,11 +22,8 @@ class ShowVar{
 		$this->params = $params['params'];
 	}
 
-    /**
-     * @param string $variable
-     * @return string
-     */
-	public function parse(string $variable): string{
+	public function parse(){
+		$variable = $this->infos['params']['variable'];
 		$array = [];
 		$param = '';
 
@@ -57,24 +55,7 @@ class ShowVar{
 			}
 		}
 
-		return '\'.$this->params'.$param.'.\'';
-	}
-
-    /**
-     * @param string $variable
-     * @param string $prefix
-     * @return string
-     */
-	public function parseForeach(string $variable, string $prefix = ''): string{
-		$expl = explode('.', $variable);
-		$new_var = '$'.$expl[0];
-		unset($expl[0]);
-
-		foreach($expl as $v){
-			$new_var .= '[\''.$v.'\']';
-		}
-
-		return '\'.'.$new_var.'.\'';
+		$this->infos['tpl'] = str_replace($this->infos['params']['match'], '\'.$this->params'.$param.'.\'', $this->infos['tpl']);
 	}
 
     /**

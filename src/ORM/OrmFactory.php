@@ -83,7 +83,7 @@ class OrmFactory{
      * @return object
      */
     public function request(string $request){
-        $class = 'Bundles\\'.$this->bundle.'\Requests\\'.$request.'Requests';
+        $class = 'Bundles\\'.$this->bundle.'\Repository\\'.$request.'Repository';
         return new $class($this->dic, $this->connexion);
     }
 }

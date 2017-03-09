@@ -50,6 +50,7 @@ class Update implements RequestInterface{
      */
     public function setAddExec(string $exec){
         $this->updateExecute[] = $exec;
+        return $this;
     }
 
     /**
@@ -58,6 +59,8 @@ class Update implements RequestInterface{
     public function setWhere(Where $where){
         $this->where = $where->getWhere();
         $this->arrayWhere = $where->getArrayWhere();
+
+        return $this;
     }
 
     /**
@@ -89,14 +92,13 @@ class Update implements RequestInterface{
         }
 
         $this->update = implode(', ', $upd);
+        return $this;
     }
 
     /**
      * @param array $exec
      */
     public function setExecute(array $exec){
-        $arrayUpd = [];
-
         foreach($this->updateExecute as $v){
             $arrayUpd[] = $v;
         }
@@ -106,6 +108,8 @@ class Update implements RequestInterface{
         if(count($exec) == count($result)){
             $this->execute = array_combine($result, $exec);
         }
+
+        return $this;
     }
 
     /**

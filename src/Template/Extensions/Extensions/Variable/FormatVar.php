@@ -1,10 +1,10 @@
 <?php
-namespace Frash\Template\Extensions;
+namespace Frash\Template\Extensions\Extensions\Variable;
 use Frash\Template\DependTemplEngine;
 
 /**
  * Class FormatVar
- * @package Frash\Template\Extensions
+ * @package Frash\Template\Extensions\Extensions\Variable
  */
 class FormatVar{
     /**

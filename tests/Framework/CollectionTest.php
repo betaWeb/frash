@@ -1,5 +1,5 @@
 <?php
-namespace Storage\tests\Frash\Framework;
+namespace FrashTest\Framework;
 use Frash\Framework\Collection;
 use Frash\UnitTest\Extend\SimpleTest;
 

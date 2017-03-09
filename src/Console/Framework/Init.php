@@ -50,6 +50,7 @@ class Init implements CommandInterface
         CreateBundle::createDir($bundle);
 
         Directory::notExistAndCreate('public/');
+        Directory::notExistAndCreate('Traductions/');
 
         Configuration::preinstall();
         Configuration::htaccess();
