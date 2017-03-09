@@ -42,6 +42,8 @@ class Delete implements RequestInterface{
     public function setWhere(string $where, array $arrayWhere){
         $this->where = $where;
         $this->arrayWhere = $arrayWhere;
+
+        return $this;
     }
 
     /**
@@ -51,6 +53,8 @@ class Delete implements RequestInterface{
         if(count($exec) == count($this->arrayWhere)){
             $this->execute = $exec;
         }
+
+        return $this;
     }
 
     /**

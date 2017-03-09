@@ -28,9 +28,10 @@ class Configuration{
 		$trad_av = implode(', ', $array_lang);
 
 		$content = '<?php'."\n";
-		$content .= 'namespace Configuration;'."\n\n";
-		$content .= 'class Config{'."\n";
-		$content .= '	private static $config = ['."\n";
+		$content .= 'namespace Configuration;'."\n";
+		$content .= 'use Frash\Framework\FileSystem\LoadConfiguration;'."\n\n";
+		$content .= 'class Config extends LoadConfiguration{'."\n";
+		$content .= '	private static $configuration = ['."\n";
 		$content .= '		\'env\' => \'local\','."\n";
 		$content .= '		\'stock_route\' => \'yes\','."\n";
 		$content .= '		\'analyzer\' => \''.$analyzer.'\','."\n";
@@ -53,10 +54,7 @@ class Configuration{
 		$content .= '			\'error\' => \''.$error_log.'\','."\n";
 		$content .= '			\'request\' => \''.$request_log.'\','."\n";
 		$content .= '		]'."\n";
-		$content .= '	];'."\n\n";
-		$content .= '	public static function get(){'."\n";
-		$content .= '		return self::$config;'."\n";
-		$content .= '	}'."\n";
+		$content .= '	];'."\n";
 		$content .= '}';
 
 		return $content;

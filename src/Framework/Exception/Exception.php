@@ -10,7 +10,7 @@ class Exception{
     /**
      * Exception constructor.
      * @param string $message
-     * @param Dic $dic
+     * @param array $conf
      */
     public function __construct(string $message, array $conf){
         CreateLog::error($message, $conf);

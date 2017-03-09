@@ -10,34 +10,21 @@ use Frash\Template\Parsing\{ ParseArray, ParseParent, ParseTplParent };
  */
 class ParseWithExtend extends ParseArray{
     /**
-     * @var string
-     */
-    private $bundle = '';
-
-    /**
-     * @var string
-     */
-    private $class_cache = '';
-
-    /**
      * @var array
      */
-    private $params = [];
-
-    /**
-     * @var string
-     */
-    private $tpl = '';
-
-    /**
-     * @var array
-     */
-    private $incl_parent = [];
-
-    /**
-     * @var object
-     */
-    private $trad;
+    private $attributes = [
+        'bundle' => '',
+        'class_cache' => '',
+        'tpl' => '',
+        'incl_parent' => [],
+        'parts_in_escape' => [],
+        'display' => '',
+        'level' => [ 'condition' => 0, 'escape_tpl' => 0, 'for' => 0, 'foreach' => 0, 'index' => 0, 'itvl' => 0, 'part' => 0 ],
+        'condition' => [],
+        'foreach' => [],
+        'function' => [],
+        'parts' => []
+    ];
 
     /**
      * @var DependTemplEngine
@@ -47,12 +34,17 @@ class ParseWithExtend extends ParseArray{
     /**
      * @var array
      */
-    private $parts_in_escape = [];
+    private $params = [];
 
     /**
-     * @var string
+     * @var ParseParent
      */
-    private $display = '';
+    private $pp;
+
+    /**
+     * @var object
+     */
+    private $trad;
 
     /**
      * ParseWithExtend constructor.
@@ -63,170 +55,145 @@ class ParseWithExtend extends ParseArray{
      * @param DependTemplEngine $dic_t
      */
     public function __construct(string $tpl, array $extend, Dic $dic, array $params, DependTemplEngine $dic_t){
-        $this->bundle = $dic->get('bundle');
+        $this->attributes['bundle'] = $dic->get('bundle');
         $this->dic_t = $dic_t;
 
         $class_trad = 'Traductions\\Trad'.ucfirst($dic->get('lang'));
         $this->trad = new $class_trad;
 
         $this->params = $params;
-        $this->tpl = $tpl;
+        $this->pp = new ParseParent($this->trad, $this->attributes['bundle'], $this->dic_t);
+        $this->attributes['tpl'] = $tpl;
 
-        $this->display = '	public function display(){'."\n";
-        $this->display .= '		return \''.file_get_contents($this->determinatePathExtend($extend[1])).'\';'."\n";
-        $this->display .= '	}'."\n\n";
+        $this->attributes['display'] = '	public function display(){'."\n";
+        $this->attributes['display'] .= '		return \''.file_get_contents($this->determinatePathExtend($extend[1])).'\';'."\n";
+        $this->attributes['display'] .= '	}'."\n\n";
+    }
+
+    /**
+     * @param object $return
+     */
+    private function returnExtension($return){
+        $infos = $return->getInfos();
+        $this->attributes['class_cache'] = $infos['class_cache'];
+        $this->attributes['condition'] = $infos['condition'];
+        $this->attributes['display'] = $infos['display'];
+        $this->attributes['foreach'] = $infos['foreach'];
+        $this->attributes['function'] = $infos['function'];
+        $this->attributes['incl_parent'] = $infos['incl_parent'];
+        $this->attributes['level'] = $infos['level'];
+        $this->attributes['parts'] = $infos['parts'];
+        $this->attributes['parts_in_escape'] = $infos['parts_in_escape'];
+        $this->attributes['tpl'] = $infos['tpl'];
     }
 
     /**
      * @return string
      */
     public function parse(): string{
-        $level_condition = 0;
-        $level_escape_html = 0;
-        $level_escape_tpl = 0;
-        $level_for = 0;
-        $level_foreach = 0;
-        $level_index = 0;
-        $level_itvl = 0;
-        $level_part = 0;
-
-        $condition = [];
-        $foreach = [];
-        $function = [];
-        $parts = [];
-
-        $pp = new ParseParent($this->trad, $this->bundle, $this->dic_t);
-
-        preg_match_all('/\[(\/?)(([a-zA-Z_]*)?\s?([a-zA-Z0-9\/@_!=:;+",<>\(\)\-\.\s]*))\]/', $this->tpl, $match_all, PREG_SET_ORDER);
+        preg_match_all('/\[(\/?)(([a-zA-Z_]*)?\s?([a-zA-Z0-9\/@_!=:;+",<>\(\)\-\.\s]*))\]/', $this->attributes['tpl'], $match_all, PREG_SET_ORDER);
         foreach($match_all as $key => $tag){
             switch(true){
-                case (preg_match($this->parsing['escape_tpl'], $tag[0])):
-                    $level_escape_tpl++;
+                case (preg_match($this->extension['default']['escape_tpl'], $tag[0])):
+                    $ext = $this->dic_t->callExtension()->parse('EscapeTpl', 'open', $this->attributes, [ 'match_all' => $match_all[ $key ] ]);
+                    $this->returnExtension($ext);
                     break;
-                case (preg_match($this->parsing['end_escape_tpl'], $tag[0])):
-                    preg_match('/\[escape_tpl\](.*)\[\/escape_tpl\]/Us', $this->tpl, $match);
-                    $this->class_cache .= $this->dic_t->load('Escape')->parse($match);
-                    $this->tpl = str_replace($match[0], '\'.$this->escape'.md5($match[1]).'().\'', $this->tpl);
-                    $level_escape_tpl--;
+                case (preg_match($this->extension['default']['end_escape_tpl'], $tag[0])):
+                    $ext = $this->dic_t->callExtension()->parse('EscapeTpl', 'close', $this->attributes, [ 'match_all' => $match_all[ $key ] ]);
+                    $this->returnExtension($ext);
                     break;
-                case preg_match($this->parsing['end_parts'], $tag[0]):
-                    $name = $parts[ $level_part ]['name'];
-
-                    if($level_escape_tpl == 0){
-                        preg_match('/\[part '.$name.'\](.*)\[\/part '.$name.'\]/Us', $this->tpl, $part_child);
-                        preg_match('/\[part '.$name.'\](.*)\[\/part '.$name.'\]/Us', $this->display, $part_parent);
-
-                        $this->display = str_replace($part_parent[0], '\'.$this->part'.ucfirst($name).'().\'', $this->display);
-                        $this->class_cache .= $this->dic_t->load('Part')->parse($part_child[1], $name, $this->incl_parent);
-                    } elseif($level_escape_tpl > 0) {
-                        $this->parts_in_escape[] = $name;
-                    }
-
-                    $level_part--;
+                case preg_match($this->extension['default']['end_parts'], $tag[0]):
+                    $ext = $this->dic_t->callExtension()->parse('Part', 'close', $this->attributes, [ 'match' => $match_all[ $key ] ]);
+                    $this->returnExtension($ext);
                     break;
-                case preg_match($this->parsing['parts'], $tag[0]):
-                    $level_part++;
-                    $parts[ $level_part ] = [ 'name' => $match_all[ $key ][4], 'value' => '' ];
+                case preg_match($this->extension['default']['parts'], $tag[0]):
+                    $ext = $this->dic_t->callExtension()->parse('Part', 'open', $this->attributes, [ 'match' => $match_all[ $key ] ]);
+                    $this->returnExtension($ext);
                     break;
-                case $level_escape_tpl == 0:
+                case $this->attributes['level']['escape_tpl'] == 0:
                     switch(true){
-                        case preg_match($this->parsing['bundle'], $tag[0]):
-                            if($level_foreach == 0){
-                                $this->tpl = str_replace($match_all[ $key ][0], $this->dic_t->load('Bundle')->parse($match_all[ $key ][4], $this->bundle), $this->tpl);
-                            }
-
+                        case preg_match($this->extension['default']['bundle'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parse('BundleParse', 'parse', $this->attributes, [ 'match' => $match_all[ $key ] ]);
+                            $this->returnExtension($ext);
                             break;
-                        case preg_match($this->parsing['call'], $tag[0]):
+                        case preg_match($this->extension['default']['call'], $tag[0]):
                             break;
-                        case preg_match($this->parsing['else'], $tag[0]):
-                            $condition[ $level_condition ][] = [ 'type' => 'else', 'condition' => 'else' ];
+                        case preg_match($this->extension['default']['else'], $tag[0]):
+                            $condition[ $level['condition'] ][] = [ 'type' => 'else', 'condition' => 'else' ];
                             break;
-                        case preg_match($this->parsing['elseif'], $tag[0]):
-                            $condition[ $level_condition ][] = [ 'type' => 'elseif', 'condition' => $match_all[ $key ][2] ];
+                        case preg_match($this->extension['default']['elseif'], $tag[0]):
+                            $condition[ $level['condition'] ][] = [ 'type' => 'elseif', 'condition' => $match_all[ $key ][2] ];
                             break;
-                        case preg_match($this->parsing['end_condition'], $tag[0]):
-                            $condition[ $level_condition ][] = [ 'type' => 'end', 'condition' => '/condition' ];
-
-                            $cp = $this->dic_t->load('Condition')->parse($condition[ $level_condition ], $this->tpl);
-                            $this->class_cache .= $cp['code'];
-                            $this->tpl = str_replace($cp['replace'], '\'.$this->'.$cp['name'].'().\'', $this->tpl);
-
-                            unset($condition[ $level_condition ]);
-                            $level_condition--;
+                        case preg_match($this->extension['default']['end_condition'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parse('ConditionParse', 'typeEnd', $this->attributes, [ 'condition' => $match_all[ $key ][2] ]);
+                            $this->returnExtension($ext);
                             break;
-                        case preg_match($this->parsing['end_for'], $tag[0]):
+                        case preg_match($this->extension['default']['end_for'], $tag[0]):
                             break;
-                        case preg_match($this->parsing['end_foreach'], $tag[0]):
-                            preg_match('/\[foreach '.$foreach[ $level_foreach ]['param'].'\](.*)\[\/foreach\]/Us', $this->tpl, $match);
-                            $this->class_cache .= $this->dic_t->load('Foreach')->parse($foreach[ $level_foreach ]['param'], $match[1]);
-                            $this->tpl = str_replace($match[0], '\'.$this->foreach'.md5($foreach[ $level_foreach ]['param']).'().\'', $this->tpl);
-                            $level_foreach--;
+                        case preg_match($this->extension['default']['end_foreach'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parse('ForeachParse', 'close', $this->attributes, [ 'match' => $match_all[ $key ], 'parsing' => $this->extension ]);
+                            $this->returnExtension($ext);
                             break;
-                        case preg_match($this->parsing['end_func'], $tag[0]):
+                        case preg_match($this->extension['default']['end_func'], $tag[0]):
                             preg_match('/\[func '.$function[1].'\('.$function[2].'\)\](.*)\[\/func\]/Us', $this->tpl, $match);
-                            $this->class_cache .= $this->dic_t->load('Func')->parse($function[1], $function[2], $match[1]);
+                            $this->class_cache .= $this->dic_t->extension('Func')->parse($function[1], $function[2], $match[1]);
                             $this->tpl = str_replace($match[0], '', $this->tpl);
                             break;
-                        case preg_match($this->parsing['end_index'], $tag[0]):
+                        case preg_match($this->extension['default']['end_index'], $tag[0]):
                             break;
-                        case preg_match($this->parsing['end_itvl'], $tag[0]):
+                        case preg_match($this->extension['default']['end_itvl'], $tag[0]):
                             break;
-                        case preg_match($this->parsing['for'], $tag[0]):
+                        case preg_match($this->extension['default']['for'], $tag[0]):
                             break;
-                        case preg_match($this->parsing['foreach'], $tag[0]):
-                            $level_foreach++;
-                            $foreach[ $level_foreach ] = [ 'foreach' => $match_all[ $key ][0], 'param' => $match_all[ $key ][4] ];
+                        case preg_match($this->extension['default']['foreach'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parse('ForeachParse', 'open', $this->attributes, [ 'match' => $match_all[ $key ] ]);
+                            $this->returnExtension($ext);
                             break;
-                        case preg_match($this->parsing['if'], $tag[0]):
-                            $level_condition++;
-                            $condition[ $level_condition ][] = [ 'type' => 'if', 'condition' => $match_all[ $key ][2] ];
+                        case preg_match($this->extension['default']['if'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parse('ConditionParse', 'typeIf', $this->attributes, [ 'condition' => $match_all[ $key ][2] ]);
+                            $this->returnExtension($ext);
                             break;
-                        case preg_match($this->parsing['include'], $tag[0]):
+                        case preg_match($this->extension['default']['include'], $tag[0]):
                             break;
-                        case preg_match($this->parsing['index'], $tag[0]):
+                        case preg_match($this->extension['default']['index'], $tag[0]):
                             break;
-                        case preg_match($this->parsing['itvl'], $tag[0]):
+                        case preg_match($this->extension['default']['itvl'], $tag[0]):
                             break;
-                        case preg_match($this->parsing['parent'], $tag[0]):
-                            preg_match('/\[part '.$match_all[ $key ][4].'\](.*)\[\/part '.$match_all[ $key ][4].'\]/Us', $this->display, $match);
-                            $this->class_cache = str_replace($match[0], '\'.$this->parent'.ucfirst($match_all[ $key ][4]).'().\'', $this->class_cache);
-                            $this->class_cache .= $pp->parse($match_all[ $key ][4], $match[1]);
-
-                            $this->incl_parent[$match_all[ $key ][4]] = '\'.$this->parent'.ucfirst($match_all[ $key ][4]).'().\'';
+                        case preg_match($this->extension['default']['parent'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parse('Part', 'parent', $this->attributes, [ 'match' => $match_all[ $key ], 'pp' => $this->pp ]);
+                            $this->returnExtension($ext);
                             break;
-                        case preg_match($this->parsing['public'], $tag[0]):
-                            $this->tpl = str_replace($match_all[ $key ][0], $this->dic_t->load('Public')->parse($match_all[ $key ][4]), $this->tpl);
+                        case preg_match($this->extension['default']['public'], $tag[0]):
+                            $this->tpl = str_replace($match_all[ $key ][0], $this->dic_t->extension('Public')->parse($match_all[ $key ][4]), $this->tpl);
                             break;
-                        case preg_match($this->parsing['route'], $tag[0]):
-                            if($level_foreach == 0){
-                                $this->tpl = str_replace($match_all[ $key ][0], $this->dic_t->load('Route')->parse($match_all[ $key ][4]), $this->tpl);
-                            }
-
+                        case preg_match($this->extension['default']['route'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parse('Route', 'parse', $this->attributes, [ 'match' => $match_all[ $key ] ]);
+                            $this->returnExtension($ext);
                             break;
-                        case preg_match($this->parsing['set_func'], $tag[0]):
-                            if($level_part == 0){
+                        case preg_match($this->extension['default']['set_func'], $tag[0]):
+                            if($level['part'] == 0){
                                 preg_match('/\[func (\w+)\((.*)\)\]/', $tag[0], $match);
                                 $function = $match;
                             }
 
                             break;
-                        case preg_match($this->parsing['set_var'], $tag[0]):
+                        case preg_match($this->extension['default']['set_var'], $tag[0]):
                             preg_match('/\[define (\w+)\](.*)\[\/var\]/', $this->tpl, $set_var);
                             $this->params[$set_var[1]] = $set_var[2];
 
                             break;
-                        case preg_match($this->parsing['show_var'], $tag[0]):
-                            $variable = $this->dic_t->load('ShowVar')->parse(ltrim($match_all[ $key ][4], '@'));
-                            $this->tpl = str_replace($match_all[ $key ][0], $variable, $this->tpl);
-
+                        case preg_match($this->extension['default']['show_var'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parse('ShowVarParse', 'parse', $this->attributes, [ 'variable' => ltrim($match_all[ $key ][4], '@'), 'match' => $match_all[ $key ][0] ]);
+                            $this->returnExtension($ext);
                             break;
-                        case preg_match($this->parsing['show_func'], $tag[0]):
+                        case preg_match($this->extension['default']['show_func'], $tag[0]):
                             preg_match('/\[_(\w+)\((.*)\)\]/', $tag[0], $match);
                             $this->tpl = str_replace($tag[0], '\'.$this->'.$match[1].'('.$match[2].').\'', $this->tpl);
 
                             break;
-                        case preg_match($this->parsing['traduction'], $tag[0]):
-                            $this->tpl = str_replace($match_all[ $key ][0], str_replace('\'', "\'", $this->trad->show($match_all[ $key ][4])), $this->tpl);
+                        case preg_match($this->extension['default']['traduction'], $tag[0]):
+                            $key_trad = $match_all[ $key ][4];
+                            $this->attributes['tpl'] = str_replace($match_all[ $key ][0], str_replace('\'', "\'", $this->trad->$key_trad), $this->attributes['tpl']);
                             break;
                     }
 
@@ -234,13 +201,13 @@ class ParseWithExtend extends ParseArray{
             }
         }
 
-        $ptp = new ParseTplParent($this->trad, $this->bundle, $this->display, $this->dic_t);
-        $this->display = $ptp->parse();
+        $ptp = new ParseTplParent($this->trad, $this->attributes['bundle'], $this->attributes['display'], $this->dic_t);
+        $this->attributes['display'] = $ptp->parse();
 
-        $this->class_cache .= $this->display;
+        $this->attributes['class_cache'] .= $this->attributes['display'];
         $this->removeUnuseParts();
 
-        return $this->class_cache;
+        return $this->attributes['class_cache'];
     }
 
     /**
@@ -252,17 +219,17 @@ class ParseWithExtend extends ParseArray{
             list($bundle, $file) = explode('::', $extend);
         } else {
             $file = $extend;
-            $bundle = $this->bundle;
+            $bundle = $this->attributes['bundle'];
         }
 
         return 'Bundles/'.$bundle.'/Views/'.$file;
     }
 
     private function removeUnuseParts(){
-        preg_match_all('/\[part (\w+)\](.*)\[\/part (\w+)\]/Us', $this->class_cache, $unuse, PREG_SET_ORDER);
+        preg_match_all('/\[part (\w+)\](.*)\[\/part (\w+)\]/Us', $this->attributes['class_cache'], $unuse, PREG_SET_ORDER);
         foreach($unuse as $u){
-            if(!in_array($u[1], $this->parts_in_escape)){
-                $this->class_cache = str_replace($u[0], '', $this->class_cache);
+            if(!in_array($u[1], $this->attributes['parts_in_escape'])){
+                $this->attributes['class_cache'] = str_replace($u[0], '', $this->attributes['class_cache']);
             }
         }
     }

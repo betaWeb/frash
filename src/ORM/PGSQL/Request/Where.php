@@ -38,18 +38,8 @@ class Where{
         foreach($attributes as $name){
             $this->arrayWhere[] = $name;
         }
-    }
 
-    /**
-     * @param string $where
-     * @param string $sign
-     * @param string $exec
-     * @param string $prefix
-     * @param string $suffix
-     */
-    public function where(string $where, string $sign, string $exec, string $prefix = '', string $suffix = ''){
-        $this->where .= ' '.$prefix.$this->defineFunc($where).' '.$sign.' '.$exec.' '.$suffix;
-        $this->arrayWhere[] = substr($exec, 1);
+        return $this;
     }
 
     /**
@@ -57,9 +47,16 @@ class Where{
      * @param string $sign
      * @param string $exec
      */
-    public function andWhere(string $where, string $sign, string $exec){
-        $this->where .= ' AND '.$this->defineFunc($where).' '.$sign.' '.$exec;
-        $this->arrayWhere[] = substr($exec, 1);
+    public function where(string $where, string $sign = '', string $exec = ''){
+        if($exec == '' && strlen($sign) > 1){
+            $this->where .= ' '.$this->defineFunc($where).' = '.$sign;
+            $this->arrayWhere[] = substr($sign, 1);
+        } elseif($exec != ''){
+            $this->where .= ' '.$this->defineFunc($where).' '.$sign.' '.$exec;
+            $this->arrayWhere[] = substr($exec, 1);
+        }
+
+        return $this;
     }
 
     /**
@@ -67,9 +64,33 @@ class Where{
      * @param string $sign
      * @param string $exec
      */
-    public function orWhere(string $where, string $sign, string $exec){
-        $this->where .= ' OR '.$this->defineFunc($where).' '.$sign.' '.$exec;
-        $this->arrayWhere[] = substr($exec, 1);
+    public function andWhere(string $where, string $sign = '', string $exec = ''){
+        if($exec == '' && strlen($sign) > 1){
+            $this->where .= ' AND '.$this->defineFunc($where).' = '.$sign;
+            $this->arrayWhere[] = substr($sign, 1);
+        } elseif($exec != ''){
+            $this->where .= ' AND '.$this->defineFunc($where).' '.$sign.' '.$exec;
+            $this->arrayWhere[] = substr($exec, 1);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $where
+     * @param string $sign
+     * @param string $exec
+     */
+    public function orWhere(string $where, string $sign = '', string $exec = ''){
+        if($exec == '' && strlen($sign) > 1){
+            $this->where .= ' OR '.$this->defineFunc($where).' = '.$sign;
+            $this->arrayWhere[] = substr($sign, 1);
+        } elseif($exec != ''){
+            $this->where .= ' OR '.$this->defineFunc($where).' '.$sign.' '.$exec;
+            $this->arrayWhere[] = substr($exec, 1);
+        }
+
+        return $this;
     }
 
     /**
@@ -77,6 +98,7 @@ class Where{
      */
     public function isNullWhere(string $where){
         $this->where .= "\"$where\"".' IS NULL';
+        return $this;
     }
 
     /**
@@ -84,6 +106,7 @@ class Where{
      */
     public function isNotNullWhere(string $where){
         $this->where .= "\"$where\"".' IS NOT NULL';
+        return $this;
     }
 
     /**
@@ -93,6 +116,8 @@ class Where{
     public function inWhere(string $where, string $exec){
         $this->where .= "\"$where\"".' IN ('.$exec.')';
         $this->arrayWhere[] = substr($exec, 1);
+
+        return $this;
     }
 
     /**

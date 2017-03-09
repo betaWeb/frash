@@ -8,17 +8,13 @@ use Frash\Framework\Exception\Exception;
  */
 class GetRoute{
     /**
-     * @param mixed $content
+     * @param string $content
      * @param array $get_routing
      * @return bool
      */
-    public static function define($content, array $get_routing){
-        if($get_routing['fix'] == 'yes' && empty($content)){ return new Exception('Get : Url incorrecte.', $this->dic->get('conf')['config']['log']); }
-
-        if($get_routing['fix'] == 'yes' || ($get_routing['fix'] == 'no' && !empty($content))){
-            if($get_routing['type'] == 'integer' && !ctype_digit($content)){ return new Exception('Get : Url incorrecte.', $this->dic->get('conf')['config']['log']); }
-            if($get_routing['type'] == 'double' && !preg_match('/[^0-9(.{1})]/', $content)){ return new Exception('Get : Url incorrecte.', $this->dic->get('conf')['config']['log']); }
-        }
+    public static function define(string $content, array $get_routing): bool{
+        if($get_routing['type'] == 'integer' && !ctype_digit($content)){ return false; }
+        if($get_routing['type'] == 'double' && !preg_match('/[^0-9(.{1})]/', $content)){ return false; }
 
         return true;
     }

@@ -43,6 +43,8 @@ class TreatmentPhp{
 		if(!empty($params['bundle'])){
 			unset($this->waiting['bundle']);
 		}
+
+		return $this;
 	}
 
 	/**
@@ -65,6 +67,8 @@ class TreatmentPhp{
 		} else {
 			$this->get[ $route ] = [ 'path' => $path, 'params' => $params ];
 		}
+
+		return $this;
 	}
 
 	/**
@@ -87,6 +91,8 @@ class TreatmentPhp{
 		} else {
 			$this->post[ $route ] = [ 'path' => $path, 'params' => $params ];
 		}
+
+		return $this;
 	}
 
 	/**

@@ -1,5 +1,6 @@
 <?php
 namespace Frash\UnitTest;
+use Configuration\TestUnit;
 use Frash\Console\CommandInterface;
 use Frash\Framework\FileSystem\{ Directory, Json };
 use Frash\Framework\Utility\Microtime;
@@ -46,45 +47,20 @@ class CommandTest implements CommandInterface
 
 		$this->flag = Flag::define($argv[2]);
 
-		if($this->flag['option'] == '--one' && isset($argv[3])){
-			if(substr($argv[3], -4) == '.php'){
-				$class = str_replace('/', '\\', $file);
-				$class = str_replace('.php', '', $class);
-
-				$this->class = 'Storage\tests\\'.$class;
-			} else {
-				$this->class = 'Storage\tests\\'.$argv[3];
-			}
-		} elseif($this->flag['option'] == '--dir' && isset($argv[3])) {
-			$this->dir = $argv[3];
+		if($this->flag['option'] == '--one' && !empty($argv[3])){
+			$this->class = $argv[3];
 		}
 	}
 
 	public function work(){
 		if($this->flag['option'] == '--all'){
-			$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(self::PREFIX.'/'));
+			$testunit = TestUnit::get();
 
-			foreach($iterator as $file){
-				if(substr($file, -2) != '..' && substr($file, -1) != '.'){
-					$class = str_replace('/', '\\', $file);
-					$class = str_replace('.php', '', $class);
-
-					$this->run(new $class);
-				}
+			foreach($testunit as $class){
+				$this->run(new $class);
 			}
 		} elseif($this->flag['option'] == '--one') {
 			$this->run(new $this->class);
-		} elseif($this->flag['option'] == '--dir') {
-			$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(self::PREFIX.'/'.$this->dir));
-
-			foreach($iterator as $file){
-				if(substr($file, -2) != '..' && substr($file, -1) != '.'){
-					$class = str_replace('/', '\\', $file);
-					$class = str_replace('.php', '', $class);
-
-					$this->run(new $class);
-				}
-			}
 		}
 	}
 

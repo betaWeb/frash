@@ -1,7 +1,6 @@
 <?php
 namespace Frash\Console;
 use Frash\Framework\DIC\Dic;
-use Frash\Framework\FileSystem\InternalJson;
 
 /**
  * Class Command
@@ -18,11 +17,6 @@ class Command{
 	 */
 	private $conf = [];
 
-	/**
-	 * @var boolean
-	 */
-	private $custom = false;
-
     /**
      * Command constructor.
      * @param array $argv
@@ -32,18 +26,10 @@ class Command{
 
 		$dic = new Dic('console');
 		$this->conf = $dic->get('conf')['console'];
-
-		if($argv[1] == '--a'){
-            $this->isCustom();
-        }
-	}
-
-	public function isCustom(){
-		$this->custom = true;
 	}
 
 	public function work(){
-		if($this->custom === true){
+		if($this->argv[1] == '--a'){
 			$path = str_replace('.', '\\', $this->conf['custom'][ $this->argv[2] ]);
 		} else {
 			$path = str_replace('.', '\\', $this->conf['default'][ $this->argv[1] ]);

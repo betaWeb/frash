@@ -12,13 +12,11 @@ class Service{
 	public static function file(): string{
 		$content = '<?php'."\n";
 		$content .= 'namespace Configuration;'."\n\n";
-		$content .= 'class Service{'."\n";
-		$content .= '	private static $service = ['."\n";
+		$content .= 'use Frash\Framework\FileSystem\LoadConfiguration;'."\n\n";
+		$content .= 'class Service extends LoadConfiguration{'."\n";
+		$content .= '	private static $configuration = ['."\n";
 		$content .= '		'."\n";
-		$content .= '	];'."\n\n";
-		$content .= '	public static function get(){'."\n";
-		$content .= '		return self::$service;'."\n";
-		$content .= '	}'."\n";
+		$content .= '	];'."\n";
 		$content .= '}';
 
 		return $content;

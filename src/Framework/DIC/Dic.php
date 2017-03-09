@@ -1,10 +1,6 @@
 <?php
 namespace Frash\Framework\DIC;
-use Configuration\Config;
-use Configuration\Console;
-use Configuration\Database;
-use Configuration\Dependencies;
-use Configuration\Routing;
+use Configuration\{ Config, Console, Database, Dependencies, Routing };
 use Frash\Framework\ExtensionLoaded;
 use Frash\Framework\Request\Session;
 
