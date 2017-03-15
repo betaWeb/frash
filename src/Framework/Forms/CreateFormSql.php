@@ -1,10 +1,10 @@
 <?php
-namespace LFW\Framework\Forms;
-use LFW\Framework\DIC\Dic;
+namespace Frash\Framework\Forms;
+use Frash\Framework\DIC\Dic;
 
 /**
  * Class CreateFormSql
- * @package LFW\Framework\Forms
+ * @package Frash\Framework\Forms
  */
 class CreateFormSql{
     /**
