@@ -23,7 +23,7 @@ class ShowParseForeach extends ExtensionParseForeach{
 	}
 
 	public function parse(){
-		$ltrim = ltrim($this->infos['params']['match'][4], '!');
+		$ltrim = ltrim($this->infos['params']['match'][3], '!');
 		$k = $this->infos['params']['params_foreach']['k'];
 		$v = $this->infos['params']['params_foreach']['v'];
 

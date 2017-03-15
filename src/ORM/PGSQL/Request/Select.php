@@ -1,12 +1,13 @@
 <?php
 namespace Frash\ORM\PGSQL\Request;
 use Frash\ORM\RequestInterface;
+use Frash\ORM\PGSQL\Request\Where;
 
 /**
  * Class Select
  * @package Frash\ORM\PGSQL\Request
  */
-class Select implements RequestInterface{
+class Select extends Where implements RequestInterface{
     /**
      * @var string
      */
@@ -21,16 +22,6 @@ class Select implements RequestInterface{
      * @var string
      */
     private $colSel = '*';
-
-    /**
-     * @var string
-     */
-    private $where = '';
-
-    /**
-     * @var array
-     */
-    private $arrayWhere = [];
 
     /**
      * @var array
@@ -90,21 +81,10 @@ class Select implements RequestInterface{
     }
 
     /**
-     * @param Where $where
-     */
-    public function setWhere(Where $where){
-        $this->where = $where->getWhere();
-        $this->arrayWhere = $where->getArrayWhere();
-
-        return $this;
-    }
-
-    /**
      * @param string $col
      */
     public function setColSel(string $col){
         $this->colSel = $col;
-
         return $this;
     }
 
@@ -113,7 +93,6 @@ class Select implements RequestInterface{
      */
     public function setAddExec(string $exec){
         $this->arrayWhere[] = $exec;
-
         return $this;
     }
 
@@ -151,7 +130,8 @@ class Select implements RequestInterface{
      */
     public function getRequest(): string{
         if(!empty($this->table) && !empty($this->colSel)){
-            return 'SELECT '.$this->colSel.' FROM '.$this->table.' '.$this->where.' '.$this->groupBy.' '.$this->order.' '.$this->limit.' '.$this->offset;
+            $where = ($this->where == 'WHERE ') ? '' : $this->where;
+            return 'SELECT '.$this->colSel.' FROM '.$this->table.' '.$where.' '.$this->groupBy.' '.$this->order.' '.$this->limit.' '.$this->offset;
         }
     }
 
