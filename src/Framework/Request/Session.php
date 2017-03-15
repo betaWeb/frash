@@ -14,7 +14,7 @@ class Session{
 
     /**
      * Session constructor.
-     * @param string $env
+     * @param Dic $dic
      */
     public function __construct(Dic $dic){
         if(empty($this->session) && empty($this->flashbag)){
@@ -32,11 +32,21 @@ class Session{
 
     /**
      * @param string $session
-     * @return bool|mixed
+     * @return mixed
      */
     public function get(string $session){
         if(array_key_exists($session, $this->session)){
             return $this->session[ $session ];
+        }
+    }
+
+    /**
+     * @param string $session
+     * @return boolean
+     */
+    public function has(string $session): bool{
+        if(array_key_exists($session, $this->session)){
+            return true;
         } else {
             return false;
         }

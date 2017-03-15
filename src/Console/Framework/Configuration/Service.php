@@ -15,7 +15,8 @@ class Service{
 		$content .= 'use Frash\Framework\FileSystem\LoadConfiguration;'."\n\n";
 		$content .= 'class Service extends LoadConfiguration{'."\n";
 		$content .= '	private static $configuration = ['."\n";
-		$content .= '		'."\n";
+		$content .= '		\'middleware\' => [],'."\n";
+		$content .= '		\'templating\' => []'."\n";
 		$content .= '	];'."\n";
 		$content .= '}';
 

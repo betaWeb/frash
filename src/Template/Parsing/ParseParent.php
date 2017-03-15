@@ -61,7 +61,7 @@ class ParseParent extends ParseArray{
      */
 	public function parse(string $name, string $value): string{
 		$this->attributes['tpl'] = $value;
-		preg_match_all('/\[(\/?)(([a-z]*)?\s?([a-zA-Z0-9\/@_!=:",\.\s]*))\]/', $this->attributes['tpl'], $res_split, PREG_SET_ORDER);
+		preg_match_all('/\{\{ (([a-zA-Z_]*)?\s?([a-zA-Z0-9\/@_!=:;+",<>\(\)\-\.\s]*)) \}\}/', $this->attributes['tpl'], $res_split, PREG_SET_ORDER);
 		foreach($res_split as $key => $tag){
 			switch(true){
 				case $this->attributes['level']['escape_tpl'] == 0:

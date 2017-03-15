@@ -20,7 +20,7 @@ class Analyzer{
 	private $registry;
 
 	/**
-     * Loader constructor.
+     * Analyzer constructor.
 	 * @param Dic $dic
 	 */
 	public function __construct(Dic $dic){

@@ -35,25 +35,22 @@ class ConditionParse extends ExtensionParseSimple{
 
 	public function typeEnd(){
 		$level_condition = $this->infos['level']['condition'];
-
-        $this->infos['condition'][ $level_condition ][] = [ 'type' => 'end', 'condition' => '/condition' ];
+        $this->infos['condition'][ $level_condition ][] = [ 'type' => 'end', 'condition' => 'end_if' ];
 
 		$treatment = '';
+		$start = '{{ '.$this->infos['condition'][ $level_condition ][0]['condition'].' }}';
 		$name_condition = md5($this->infos['condition'][ $level_condition ][0]['condition']);
-		$implode = [];
 		$count = count($this->infos['condition']) - 1;
 
 		for($i = 0; $i <= $count; $i++){
 			if($this->infos['condition'][ $level_condition ][ $i ]['type'] != 'end' && $this->infos['condition'][ $level_condition ][ $i ]['type'] != 'else'){
 				if($this->infos['condition'][ $level_condition ][ $i + 1 ]['type'] == 'end'){
-					preg_match('/\['.$this->infos['condition'][ $level_condition ][ $i ]['condition'].'\](.*)\[\/condition\]/Us', $this->infos['tpl'], $value_cond);
+					preg_match('/\{\{ '.$this->infos['condition'][ $level_condition ][ $i ]['condition'].' \}\}(.*)\{\{ end_if \}\}/Us', $this->infos['tpl'], $value_cond);
 				} else {
-					preg_match('/\['.$this->infos['condition'][ $level_condition ][ $i ]['condition'].'\](.*)\['.$this->infos['condition'][ $level_condition ][ $i + 1 ]['condition'].'\]/Us', $this->infos['tpl'], $value_cond);
+					preg_match('/\{\{ '.$this->infos['condition'][ $level_condition ][ $i ]['condition'].' \}\}(.*)\{\{ '.$this->infos['condition'][ $level_condition ][ $i + 1 ]['condition'].' \}\}/Us', $this->infos['tpl'], $value_cond);
 				}
 
-				preg_match('/(.*) (.*) (.*) (.*)/', $this->infos['condition'][ $level_condition ][ $i ]['condition'], $split_cond);
-				$implode[] = '['.$this->infos['condition'][ $level_condition ][ $i ]['condition'].']';
-				$implode[] = $value_cond[1];
+				preg_match('/(\w+) (.*\S) (.*\S) (.*\S)/', $this->infos['condition'][ $level_condition ][ $i ]['condition'], $split_cond);
 
 				if($split_cond[2][0] == '@'){
 					$split_cond[2] = ltrim($split_cond[2], '@');
@@ -77,10 +74,7 @@ class ConditionParse extends ExtensionParseSimple{
 					$treatment .= '		}'."\n";
 				}
 			} elseif($condition[ $i ]['type'] == 'else') {
-				preg_match('/\[else\](.*)\[\/condition\]/Us', $tpl, $value_cond);
-
-				$implode[] = '[else]';
-				$implode[] = $value_cond[1];
+				preg_match('/\{\{ else \}\}(.*)\{\{ end_if \}\}/Us', $tpl, $value_cond);
 
 				$treatment .= 'else{'."\n";
 				$treatment .= '			return \''.trim($value_cond[1]).'\';'."\n";
@@ -89,14 +83,14 @@ class ConditionParse extends ExtensionParseSimple{
 		}
 
 		$treatment .= "\n".'		return \'\';';
-		$implode[] = '[/condition]';
 
 		$code = '	public function condition'.$name_condition.'(){'."\n";
 		$code .= '		'.$treatment."\n";
 		$code .= '	}'."\n\n";
 
+        preg_match('/'.$start.'(.*)\{\{ end_if \}\}/Us', $this->infos['tpl'], $match);
+        $this->infos['tpl'] = str_replace($match[0], '\'.$this->condition'.$name_condition.'().\'', $this->infos['tpl']);
         $this->infos['class_cache'] .= $code;
-        $this->infos['tpl'] = str_replace(implode('', $implode), '\'.$this->condition'.$name_condition.'().\'', $this->infos['tpl']);
 
         unset($this->infos['condition'][ $level_condition ]);
         $this->infos['level']['condition']--;

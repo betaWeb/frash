@@ -35,18 +35,18 @@ class ForeachParse extends ExtensionParseForeach{
 
 	public function open(){
 		$this->infos['level']['foreach']++;
-        $this->infos['foreach'][ $this->infos['level']['foreach'] ] = [ 'foreach' => $this->infos['params']['match'][0], 'param' => $this->infos['params']['match'][4] ];
+        $this->infos['foreach'][ $this->infos['level']['foreach'] ] = [ 'foreach' => $this->infos['params']['match'][0], 'param' => $this->infos['params']['match'][3] ];
 	}
 
 	public function close(){
 		$foreach = $this->infos['foreach'][ $this->infos['level']['foreach'] ]['param'];
-		preg_match('/\[foreach '.$foreach.'\](.*)\[\/foreach\]/Us', $this->infos['tpl'], $match);
+		preg_match('/\{\{ foreach '.$foreach.' \}\}(.*)\{\{ end_foreach \}\}/Us', $this->infos['tpl'], $match);
 		$this->content = $match[1];
 
 		list($array, $param) = explode(' :: ', $foreach);
 		list($k, $v) = explode(', ', $param);
 
-		preg_match_all('/\[(\/?)(([a-zA-Z]*)?\s?([a-zA-Z\/@_!=:,\.\s]*))\]/', $this->content, $match_all, PREG_SET_ORDER);
+		preg_match_all('/\{\{ (([a-zA-Z_]*)?\s?([a-zA-Z0-9\/@_!=:;+",<>\(\)\-\.\s]*)) \}\}/', $this->content, $match_all, PREG_SET_ORDER);
 		foreach($match_all as $key => $tag){
 			switch(true){
 				case $this->infos['level']['escape_tpl'] == 0:
