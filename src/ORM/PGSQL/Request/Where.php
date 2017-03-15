@@ -9,12 +9,12 @@ class Where{
     /**
      * @var string
      */
-    private $where = 'WHERE ';
+    protected $where = 'WHERE ';
 
     /**
      * @var array
      */
-    private $arrayWhere = [];
+    protected $arrayWhere = [];
 
     /**
      * @param string $where
@@ -118,19 +118,5 @@ class Where{
         $this->arrayWhere[] = substr($exec, 1);
 
         return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getArrayWhere(): array{
-        return $this->arrayWhere;
-    }
-
-    /**
-     * @return string
-     */
-    public function getWhere(): string{
-        return $this->where;
     }
 }

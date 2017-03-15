@@ -1,12 +1,13 @@
 <?php
 namespace Frash\ORM\PGSQL\Request;
 use Frash\ORM\RequestInterface;
+use Frash\ORM\PGSQL\Request\Where;
 
 /**
  * Class Update
  * @package Frash\ORM\PGSQL\Request
  */
-class Update implements RequestInterface{
+class Update extends Where implements RequestInterface{
     /**
      * @var string
      */
@@ -21,16 +22,6 @@ class Update implements RequestInterface{
      * @var array
      */
     private $updateExecute = [];
-
-    /**
-     * @var string
-     */
-    private $where = '';
-
-    /**
-     * @var array
-     */
-    private $arrayWhere = [];
 
     /**
      * @var array
@@ -50,16 +41,6 @@ class Update implements RequestInterface{
      */
     public function setAddExec(string $exec){
         $this->updateExecute[] = $exec;
-        return $this;
-    }
-
-    /**
-     * @param Where $where
-     */
-    public function setWhere(Where $where){
-        $this->where = $where->getWhere();
-        $this->arrayWhere = $where->getArrayWhere();
-
         return $this;
     }
 
@@ -125,7 +106,7 @@ class Update implements RequestInterface{
     public function getRequest(): string{
         if(!empty($this->table) && !empty($this->update)){
             $request = 'UPDATE '.$this->table.' SET '.$this->update.' ';
-            if($this->where != ''){ $request .= $this->where; }
+            if($this->where != 'WHERE '){ $request .= $this->where; }
             return $request;
         }
     }

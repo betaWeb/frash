@@ -29,7 +29,7 @@ class RouteForeach extends ExtensionParseForeach{
     }
 
     public function parse(){
-        $route = $this->infos['params']['match'][4];
+        $route = $this->infos['params']['match'][3];
         $road = explode('/', $route);
 
         foreach($road as $r){
