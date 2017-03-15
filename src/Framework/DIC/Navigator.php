@@ -1,6 +1,7 @@
 <?php
 namespace Frash\Framework\DIC;
 use Frash\Framework\DIC\Dic;
+use Frash\Framework\Request\Server\Server;
 
 /**
  * Class Navigator

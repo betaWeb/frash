@@ -3,7 +3,6 @@ namespace Frash\Framework\DIC;
 use Configuration\{ Config, Console, Database, Dependencies, Routing, Service };
 use Frash\Framework\ExtensionLoaded;
 use Frash\Framework\Request\Session;
-use Frash\Framework\Request\Server\Server;
 
 /**
  * Class Dic
