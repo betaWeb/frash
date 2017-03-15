@@ -5,7 +5,7 @@ use Frash\Template\Extensions\Extend\ExtensionParseSimple;
 
 /**
  * Class BundleParse
- * @package Frash\Template\Extensions
+ * @package Frash\Template\Extensions\Extensions\Bundle
  */
 class BundleParse extends ExtensionParseSimple{
     /**
@@ -24,15 +24,15 @@ class BundleParse extends ExtensionParseSimple{
 
     public function parse(){
         if($this->infos['level']['foreach'] == 0){
-            if(strstr($this->infos['params']['match'][4], '::')){
-                list($bundle, $file) = explode('::', $this->infos['params']['match'][4]);
+            if(strstr($this->infos['params']['match'][3], '::')){
+                list($bundle, $file) = explode('::', $this->infos['params']['match'][3]);
             } else {
                 $bundle = $this->infos['bundle'];
-                $file = $this->infos['params']['match'][4];
+                $file = $this->infos['params']['match'][3];
             }
 
             $prefix = ($this->params['prefix'] == '/') ? '' : $this->params['prefix'];
-            $this->infos['tpl'] = str_replace($this->infos['params']['match'][0], $prefix.'Bundles/'.$bundle.'/Ressources/'.$file, $this->infos['tpl']);
+            $this->infos['tpl'] = str_replace($this->infos['params']['match'][0], $prefix.'Bundles/'.$bundle.'/Ressources/'.rtrim($file), $this->infos['tpl']);
         }
     }
 }

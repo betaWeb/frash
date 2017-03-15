@@ -5,7 +5,7 @@ use Frash\Template\Extensions\Extend\ExtensionParseTplParent;
 
 /**
  * Class BundleTplParent
- * @package Frash\Template\Extensions
+ * @package Frash\Template\Extensions\Extensions\Bundle
  */
 class BundleTplParent extends ExtensionParseTplParent{
     /**
@@ -24,11 +24,11 @@ class BundleTplParent extends ExtensionParseTplParent{
 
     public function parse(){
         if($this->infos['level']['foreach'] == 0){
-            if(strstr($this->infos['params']['match'][4], '::')){
-                list($bundle, $file) = explode('::', $this->infos['params']['match'][4]);
+            if(strstr($this->infos['params']['match'][3], '::')){
+                list($bundle, $file) = explode('::', $this->infos['params']['match'][3]);
             } else {
                 $bundle = $this->infos['bundle'];
-                $file = $this->infos['params']['match'][4];
+                $file = $this->infos['params']['match'][3];
             }
 
             $prefix = ($this->params['prefix'] == '/') ? '' : $this->params['prefix'];

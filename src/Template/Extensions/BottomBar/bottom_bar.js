@@ -1,8 +1,7 @@
 $('#href_dump').click(function(){
 	if($('.div_dump').css('display') == 'none'){
 		$('.div_dump').show();
-	}
-	else{
+	} else {
 		$('.div_dump').hide();
 	}
 });
@@ -13,8 +12,7 @@ $('.name_dump').click(function(){
 	$('#names_dump').text().split('/').forEach(function(name){
 		if(dump == name){
 			$('#content_'+dump).show();
-		}
-		else{
+		} else {
 			$('#content_'+name).hide();
 		}
 	});

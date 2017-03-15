@@ -30,7 +30,7 @@ class RouteParent extends ExtensionParseParent{
 
     public function parse(){
         if($this->infos['level']['foreach'] == 0){
-            $route = $this->infos['params']['match'][4];
+            $route = rtrim($this->infos['params']['match'][3]);
             $road = explode('/', $route);
 
             foreach($road as $r){

@@ -23,7 +23,7 @@ class ShowParse extends ExtensionParseSimple{
 	}
 
 	public function parse(){
-		$variable = $this->infos['params']['variable'];
+		$variable = rtrim($this->infos['params']['variable']);
 		$array = [];
 		$param = '';
 
@@ -33,7 +33,7 @@ class ShowParse extends ExtensionParseSimple{
 			foreach($expl as $k => $v){
 				if($k == 0){
 					$array = (!empty($this->params[ $v ])) ? $this->params[ $v ] : [];
-					$param = '[\''.$v.'\']';
+					$param .= '[\''.$v.'\']';
 				} else {
 					if(empty($array)){
 						$param .= '[\''.$v.'\']';
@@ -41,17 +41,16 @@ class ShowParse extends ExtensionParseSimple{
 						$array = $array[ $v ];
 						$param .= '[\''.$v.'\']';
 					} elseif(gettype($array) == 'object') {
-						$method = 'get'.ucfirst($v);
-
-						$array = $array->$method();
-						$param .= '->'.$method.'()';
+						$array = (substr($v, -1) == ')') ? $array->$v() : $array->$v;
+						$param .= '->'.$v;
 					}
 				}
 			}
 		} else {
 			if(gettype($this->params[ $variable ]) == 'object'){
+				$param .= '->'.$variable;
 			} else {
-				$param = '[\''.$variable.'\']';
+				$param .= '[\''.$variable.'\']';
 			}
 		}
 

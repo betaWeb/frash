@@ -1,6 +1,6 @@
 <?php
 namespace Frash\Framework\DIC;
-use Configuration\{ Config, Console, Database, Dependencies, Routing };
+use Configuration\{ Config, Console, Database, Dependencies, Routing, Service };
 use Frash\Framework\ExtensionLoaded;
 use Frash\Framework\Request\Session;
 
@@ -29,19 +29,16 @@ class Dic{
      * @param string $env
      */
     public function __construct(string $env = 'navigator'){
-        $this->params['conf']['config'] = Config::get();
-        $this->params['conf']['console'] = Console::get();
-        $this->params['conf']['database'] = Database::get();
-        $this->params['conf']['routing'] = new Routing();
+        $this->params['conf'] = [ 'config' => Config::get(), 'console' => Console::get(), 'database' => Database::get(), 'routing' => new Routing(), 'service' => Service::get() ];
         $this->dependencies = Dependencies::get();
-
         $this->set('memcached', ExtensionLoaded::memcached());
+
         if($this->get('memcached') === true){
             $this->load('memcached')->server();
         }
 
         if($env == 'navigator'){
-            $flashbags = $this->load('session')->list_flashbag();
+            $flashbags = Navigator::define($this, $env, $this->params['conf']['config']['stock_route']);
 
             foreach($flashbags as $flash => $value){
                 $this->params[ $flash ] = $value;

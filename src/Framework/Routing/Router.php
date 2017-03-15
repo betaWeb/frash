@@ -4,7 +4,7 @@ use Frash\Framework\DIC\Dic;
 use Frash\Framework\Exception\Exception;
 use Frash\Framework\Log\CreateLog;
 use Frash\Framework\Request\Server\Server;
-use Frash\Framework\Routing\Gets\GetRoute;
+use Frash\Framework\Routing\Verification\{ GetRoute, Middleware };
 
 /**
  * Class Router
@@ -73,12 +73,13 @@ class Router{
         } else {
         	$routarr = $this->dic->get('conf')['routing']->list(strtolower(Server::requestMethod()));
 
-            $racine = false;
-            $lien = '';
-            $nb_expl = 0;
-            $route = '';
             $api = false;
             $array_get = [];
+            $lien = '';
+            $middleware = [];
+            $nb_expl = 0;
+            $racine = false;
+            $route = '';
 
             if(empty($path[0]) && !empty($this->conf['racine'])){
                 $lien = '/';
@@ -137,6 +138,7 @@ class Router{
                             $nb_expl = count($lien_array);
                             $lien = implode('/', $lien_array);
                             $route = $precision['path'];
+                            $middleware = $precision['middleware'];
                             $api = (!empty($precision['api']) && $precision['api'] == 'true') ? true : false;
                         }
                     }
@@ -145,12 +147,18 @@ class Router{
 
             if($api === true){
             } elseif(($nb_expl > 0 || $racine === true) && $lien != '' && $route != '' && $api === false) {
-                if(!empty($routarr[ $lien ]['type']) && $routarr[ $lien ]['type'] != Server::requestMethod()){
-                    return new Exception('Request Method not correct', $this->conf['log']);
-                }
-
                 if(!empty($array_get)){
                     $this->dic->set('get', $array_get);
+                }
+
+                try{
+                    $result = Middleware::define($this->dic, $middleware);
+
+                    if($result === false){
+                        return new Exception('Failed during test of middleware');
+                    }
+                } catch(Exception $e){
+                    CreateLog::error($e->getMessage(), $this->dic->get('conf')['config']['log']);
                 }
 
                 list($bundle, $controller, $action) = explode(':', $route);
@@ -161,12 +169,12 @@ class Router{
 
                     if($this->conf['analyzer'] == 'yes'){
                         $this->dic->load('analyzer')->getRegistry()->setRoute(str_replace('/', '.', $lien));
-
                         $controller = $this->dic->load('controller');
-                        $controller->call($routing)->$action($this->dic);
+
+                        $controller->call($routing)->$action();
                         $controller->generationAnalyzer();
                     } else {
-                        $this->dic->load('controller')->call($routing)->$action($this->dic);
+                        $this->dic->load('controller')->call($routing)->$action();
                     }
                 } elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')) {
                     return new Exception('Controller '.$controller.' not found', $this->conf['log']);
@@ -174,7 +182,6 @@ class Router{
                     return new Exception('Action '.$action.' not found', $this->conf['log']);
                 }
             } else {
-                $route = (empty($path)) ? '' : implode('/', $path);
                 return new Exception('Route '.$route.' not found', $this->conf['log']);
             }
         }
