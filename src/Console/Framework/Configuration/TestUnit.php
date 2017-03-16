@@ -3,7 +3,7 @@ namespace Frash\Console\Framework\Configuration;
 
 /**
  * Class TestUnit
- * @package Frash\Console\Framework\TestUnit
+ * @package Frash\Console\Framework\Configuration\TestUnit
  */
 class TestUnit{
 	/**
@@ -12,11 +12,12 @@ class TestUnit{
 	public static function file(): string{
 		$content = '<?php'."\n";
 		$content .= 'namespace Configuration;'."\n\n";
-		$content .= 'use Frash\Framework\FileSystem\LoadConfiguration;'."\n\n";
-		$content .= 'class TestUnit extends LoadConfiguration{'."\n";
-		$content .= '	private static $configuration = ['."\n";
-		$content .= '		\'Frash\tests\Frash\Framework\CollectionTest\''."\n";
-		$content .= '	];'."\n";
+		$content .= 'class TestUnit{'."\n";
+		$content .= '	public static function define(){'."\n";
+		$content .= '		return ['."\n";
+		$content .= '			\'Frash\tests\Frash\Framework\CollectionTest\''."\n";
+		$content .= '		];'."\n";
+		$content .= '	}'."\n";
 		$content .= '}';
 
 		return $content;

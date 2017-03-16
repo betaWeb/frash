@@ -29,8 +29,8 @@ class Dic{
      * @param string $env
      */
     public function __construct(string $env = 'navigator'){
-        $this->params['conf'] = [ 'config' => Config::get(), 'console' => Console::get(), 'database' => Database::get(), 'routing' => new Routing(), 'service' => Service::get() ];
-        $this->dependencies = Dependencies::get();
+        $this->params['conf'] = [ 'config' => Config::define(), 'console' => Console::define(), 'database' => Database::define(), 'routing' => new Routing(), 'service' => Service::define() ];
+        $this->dependencies = Dependencies::define();
         $this->set('memcached', ExtensionLoaded::memcached());
 
         if($this->get('memcached') === true){

@@ -54,7 +54,7 @@ class CommandTest implements CommandInterface
 
 	public function work(){
 		if($this->flag['option'] == '--all'){
-			$testunit = TestUnit::get();
+			$testunit = TestUnit::define();
 
 			foreach($testunit as $class){
 				$this->run(new $class);

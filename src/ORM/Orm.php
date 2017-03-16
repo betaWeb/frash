@@ -39,7 +39,7 @@ class Orm{
                         $this->connexion->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
                         break;
                     default:
-                        return new Exception('Le bundle '.$bundle.' n\'existe pas.');
+                        return new Exception('Connexion à l\'ORM impossible.', $dic->get('conf')['config']['log']);
                 }
             } catch(\Exception $e) {
                 return new Exception($e->getMessage(), $dic->get('conf')['config']['log']);
