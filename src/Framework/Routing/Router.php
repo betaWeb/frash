@@ -151,21 +151,21 @@ class Router{
                     $this->dic->set('get', $array_get);
                 }
 
-                try{
-                    $result = Middleware::define($this->dic, $middleware);
-
-                    if($result === false){
-                        return new Exception('Failed during test of middleware');
-                    }
-                } catch(Exception $e){
-                    CreateLog::error($e->getMessage(), $this->dic->get('conf')['config']['log']);
-                }
-
                 list($bundle, $controller, $action) = explode(':', $route);
                 $routing = 'Bundles\\'.$bundle.'\\Controllers\\'.$controller;
 
                 if(method_exists($routing, $action)){
                     $this->dic->set('bundle', $bundle);
+
+                    try{
+                        $result = Middleware::define($this->dic, $middleware);
+
+                        if($result === false){
+                            return new Exception('Failed during test of middleware');
+                        }
+                    } catch(Exception $e){
+                        CreateLog::error($e->getMessage(), $this->dic->get('conf')['config']['log']);
+                    }
 
                     if($this->conf['analyzer'] == 'yes'){
                         $this->dic->load('analyzer')->getRegistry()->setRoute(str_replace('/', '.', $lien));

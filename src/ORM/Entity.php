@@ -61,16 +61,13 @@ abstract class Entity{
 	{
 		$orm = $dic->load('orm');
 
-		$pathClass = $this->pathClass($orm->getSystem());
+		$pathClass = $this->pathClass($orm->system);
 		$select = $pathClass.'\Request\Select';
-		$where = $pathClass.'\Request\Where';
 		$qb = $pathClass.'\QueryBuilder';
 
-		$query = new $qb($dic, $orm->getConnexion());
+		$query = new $qb($dic, $orm->connexion);
 		$sel = new $select([ 'table' => $table ]);
-        $wh = new $where;
-        $wh->where($this->primary_key, ':id');
-        $sel->setWhere($wh)->setExecute([ $this->$primary_key ]);
+        $sel->where($this->primary_key, ':id')->setExecute([ $this->$primary_key ]);
         return $query->selectOne($sel);
 	}
 }
