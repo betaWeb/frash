@@ -3,7 +3,7 @@ namespace Frash\Console\Framework\Configuration;
 
 /**
  * Class Configuration
- * @package Frash\Console\Framework\Configuration
+ * @package Frash\Console\Framework\Configuration\Configuration
  */
 class Configuration{
 	/**
@@ -28,33 +28,31 @@ class Configuration{
 		$trad_av = implode(', ', $array_lang);
 
 		$content = '<?php'."\n";
-		$content .= 'namespace Configuration;'."\n";
-		$content .= 'use Frash\Framework\FileSystem\LoadConfiguration;'."\n\n";
-		$content .= 'class Config extends LoadConfiguration{'."\n";
-		$content .= '	private static $configuration = ['."\n";
-		$content .= '		\'env\' => \'local\','."\n";
-		$content .= '		\'stock_route\' => \'yes\','."\n";
-		$content .= '		\'analyzer\' => \''.$analyzer.'\','."\n";
-		$content .= '		\'racine\' => ['."\n";
-		$content .= '			\'route\' => \'\','."\n";
-		$content .= '			\'path\' => \'\','."\n";
-		$content .= '		],'."\n";
-		$content .= '		\'cache\' => ['."\n";
-		$content .= '			\'memcached\' => [],'."\n";
-		$content .= '			\'tpl\' => \''.$cache.'\''."\n";
-		$content .= '		],'."\n";
-		$content .= '		\'traduction\' => ['."\n";
-		$content .= '			\'geoloc\' => \'no\','."\n";
-		$content .= '			\'default\' => \''.$default_lang.'\','."\n";
-		$content .= '			\'available\' => [ '.$trad_av.' ]'."\n";
-		$content .= '		],'."\n";
-		$content .= '		\'log\' => ['."\n";
-		$content .= '			\'access\' => \''.$access_log.'\','."\n";
-		$content .= '			\'ajax\' => \''.$ajax_log.'\','."\n";
-		$content .= '			\'error\' => \''.$error_log.'\','."\n";
-		$content .= '			\'request\' => \''.$request_log.'\','."\n";
+		$content .= 'namespace Configuration;'."\n\n";
+		$content .= 'class Config{'."\n";
+		$content .= '	public static function define(){'."\n";
+		$content .= '		return ['."\n";
+		$content .= '			\'env\' => \'local\','."\n";
+		$content .= '			\'stock_route\' => \'yes\','."\n";
+		$content .= '			\'analyzer\' => \''.$analyzer.'\','."\n";
+		$content .= '			\'racine\' => \'\','."\n";
+		$content .= '			\'cache\' => ['."\n";
+		$content .= '				\'memcached\' => [],'."\n";
+		$content .= '				\'tpl\' => \''.$cache.'\''."\n";
+		$content .= '			],'."\n";
+		$content .= '			\'traduction\' => ['."\n";
+		$content .= '				\'geoloc\' => \'no\','."\n";
+		$content .= '				\'default\' => \''.$default_lang.'\','."\n";
+		$content .= '				\'available\' => [ '.$trad_av.' ]'."\n";
+		$content .= '			],'."\n";
+		$content .= '			\'log\' => ['."\n";
+		$content .= '				\'access\' => \''.$access_log.'\','."\n";
+		$content .= '				\'ajax\' => \''.$ajax_log.'\','."\n";
+		$content .= '				\'error\' => \''.$error_log.'\','."\n";
+		$content .= '				\'request\' => \''.$request_log.'\','."\n";
+		$content .= '			]'."\n";
 		$content .= '		]'."\n";
-		$content .= '	];'."\n";
+		$content .= '	};'."\n";
 		$content .= '}';
 
 		return $content;

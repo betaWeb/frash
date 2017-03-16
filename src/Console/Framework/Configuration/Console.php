@@ -3,7 +3,7 @@ namespace Frash\Console\Framework\Configuration;
 
 /**
  * Class Console
- * @package Frash\Console\Framework\Console
+ * @package Frash\Console\Framework\Configuration\Console
  */
 class Console{
 	/**
@@ -11,22 +11,23 @@ class Console{
 	 */
 	public static function file(): string{
 		$content = '<?php'."\n";
-		$content .= 'namespace Configuration;'."\n";
-		$content .= 'use Frash\Framework\FileSystem\LoadConfiguration;'."\n\n";
-		$content .= 'class Console extends LoadConfiguration{'."\n";
-		$content .= '	private static $configuration = ['."\n";
-		$content .= '		\'default\' => ['."\n";
-		$content .= '			\'Bundle:generate\' => \'Frash.Console.Bundle.GenerateBundle\','."\n";
-		$content .= '			\'Clear:Cache\' => \'Frash.Console.Files.ClearCache\','."\n";
-		$content .= '			\'Controller:generate\' => \'Frash.Console.Bundle.GenerateController\','."\n";
-		$content .= '			\'Documentation:create\' => \'Frash.Console.Documentation.DocGen\','."\n";
-		$content .= '			\'Framework:init\' => \'Frash.Console.Framework.Init\','."\n";
-		$content .= '			\'ORM:addentity\' => \'Frash.Console.ORM.Addentity\','."\n";
-		$content .= '			\'ORM:createdb\' => \'Frash.Console.ORM.Createdb\','."\n";
-		$content .= '			\'Test:Unit:run\' => \'Frash.UnitTest.CommandTest\''."\n";
-		$content .= '		],'."\n";
-		$content .= '		\'custom\' => []'."\n";
-		$content .= '	];'."\n";
+		$content .= 'namespace Configuration;'."\n\n";
+		$content .= 'class Console{'."\n";
+		$content .= '	public static function define(){'."\n";
+		$content .= '		return ['."\n";
+		$content .= '			\'default\' => ['."\n";
+		$content .= '				\'Bundle:generate\' => \'Frash.Console.Bundle.GenerateBundle\','."\n";
+		$content .= '				\'Clear:Cache\' => \'Frash.Console.Files.ClearCache\','."\n";
+		$content .= '				\'Controller:generate\' => \'Frash.Console.Bundle.GenerateController\','."\n";
+		$content .= '				\'Documentation:create\' => \'Frash.Console.Documentation.DocGen\','."\n";
+		$content .= '				\'Framework:init\' => \'Frash.Console.Framework.Init\','."\n";
+		$content .= '				\'ORM:addentity\' => \'Frash.Console.ORM.Addentity\','."\n";
+		$content .= '				\'ORM:createdb\' => \'Frash.Console.ORM.Createdb\','."\n";
+		$content .= '				\'Test:Unit:run\' => \'Frash.UnitTest.CommandTest\''."\n";
+		$content .= '			],'."\n";
+		$content .= '			\'custom\' => []'."\n";
+		$content .= '		];'."\n";
+		$content .= '	}'."\n";
 		$content .= '}';
 
 		return $content;

@@ -3,13 +3,13 @@
     <head>
         <meta charset="UTF-8">
         <title>Analyzer</title>
-        <link rel="stylesheet" media="screen" type="text/css" href="[internal vendor/LFW/Framework/Analyzer/css/design.css]">
+        <link rel="stylesheet" media="screen" type="text/css" href="{{ internal vendor/LFW/Framework/Analyzer/css/design.css }}">
         <link rel="stylesheet" media="screen" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     </head>
     <body>
         <div id="corps">
             <div class="well">
-                Route : <a href="[route @true_route]">[@true_route]</a>
+                Route : <a href="{{ route @true_route }}">{{ @true_route }}</a>
             </div>
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 <div class="panel panel-default">
@@ -18,7 +18,7 @@
                     </div>
                     <div id="info_php" class="panel-collapse collapse" role="tabpanel">
                         <div class="panel-body">
-                            User : [@config.user]
+                            User : {{ @config.user }}
                         </div>
                     </div>
                 </div>
