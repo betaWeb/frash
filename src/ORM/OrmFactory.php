@@ -40,18 +40,8 @@ class OrmFactory{
         $this->system = $orm->getSystem();
     }
 
-    /**
-     * @return \PDO
-     */
-    public function getConnexion(){
-        return $this->connexion;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSystem(){
-        return $this->system;
+    public function __get(string $prop){
+        return $this->$prop;
     }
 
     /**

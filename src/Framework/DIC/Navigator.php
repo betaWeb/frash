@@ -19,8 +19,11 @@ class Navigator{
 		if(!empty($stock_route) && $stock_route == 'yes'){
             if($session->has('frash_current_url')){
                 $session->set('frash_before_url', $session->get('frash_current_url'));
-                $session->set('frash_current_url', Server::requestUri());
+            } else {
+            	$session->set('frash_before_url', Server::httpReferer());
             }
+
+            $session->set('frash_current_url', Server::requestUri());
 		}
 
 		return $session->list_flashbag();

@@ -1,11 +1,10 @@
 <?php
-namespace Frash\Framework\Request;
+namespace Frash\Framework\Request\Service;
 use Frash\Framework\DIC\Dic;
-use Frash\Framework\FileSystem\InternalJson;
 
 /**
  * Class Service
- * @package Frash\Framework\Request
+ * @package Frash\Framework\Request\Service
  */
 class Service{
 	/**
