@@ -51,8 +51,8 @@ class Configuration{
 		$content .= '				\'error\' => \''.$error_log.'\','."\n";
 		$content .= '				\'request\' => \''.$request_log.'\','."\n";
 		$content .= '			]'."\n";
-		$content .= '		]'."\n";
-		$content .= '	};'."\n";
+		$content .= '		];'."\n";
+		$content .= '	}'."\n";
 		$content .= '}';
 
 		return $content;
