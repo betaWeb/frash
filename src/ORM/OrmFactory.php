@@ -33,7 +33,7 @@ class OrmFactory{
      * @param Dic $dic
      */
     public function __construct(Dic $dic){
-        $this->bundle = $dic->get('bundle');
+        $this->bundle = $dic->bundle;
         $this->dic = $dic;
         $orm = new Orm($this->bundle, $this->dic);
         $this->connexion = $orm->getConnexion();

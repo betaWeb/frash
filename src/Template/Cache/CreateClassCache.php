@@ -23,7 +23,7 @@ class CreateClassCache{
 		$class_cache .= '	public function __construct(Dic $dic, DependTemplEngine $dic_t, $params = []){'."\n";
 		$class_cache .= '		$this->dic_t = $dic_t;'."\n";
 		$class_cache .= '		$this->params = $params;'."\n\n";
-		$class_cache .= '		if($dic->get(\'env\') == \'local\'){'."\n";
+		$class_cache .= '		if($dic->env == \'local\'){'."\n";
 		$class_cache .= '			$this->bott_bar = new ImportBottomBar($dic, $this->dic_t);'."\n";
 		$class_cache .= '		}'."\n";
 		$class_cache .= '	}'."\n\n";

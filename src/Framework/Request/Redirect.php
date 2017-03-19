@@ -39,11 +39,11 @@ class Redirect{
      */
     public function __construct(Dic $dic){
         $this->dic = $dic;
-        $this->prefix = (string) $this->dic->get('prefix_lang');
+        $this->prefix = (string) $this->dic->prefix_lang;
     }
 
     public function back(){
-        $stock_route = $this->dic->get('conf')['config'];
+        $stock_route = $this->dic->conf['config'];
 
         if(!empty($stock_route['stock_route']) && $stock_route['stock_route'] == 'yes'){
             $this->url = $this->load('session')->get('frash_before_url');

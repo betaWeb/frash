@@ -28,7 +28,7 @@ class MemCache{
 	 */
 	public function __construct(Dic $dic){
 		$this->dic = $dic;
-		$this->liste = $dic->get('conf')['config']['cache']['memcached'];
+		$this->liste = $dic->conf['config']['cache']['memcached'];
 		$this->memcache = new \Memcached;
 	}
 
@@ -40,9 +40,8 @@ class MemCache{
 		foreach($this->liste as $name => $port){
 			try{
 				$this->memcache->addServer($name, $port);
-			}
-			catch(\MemcachedException $e){
-				CreateLog::error($e->getMessage(), $this->dic->get('conf')['config']['log']);
+			} catch(\MemcachedException $e) {
+				CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
             	die('Il y a eu une erreur avec un serveur Memcached.');
 			}
 		}

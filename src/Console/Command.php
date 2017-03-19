@@ -25,7 +25,7 @@ class Command{
 		$this->argv = $argv;
 
 		$dic = new Dic('console');
-		$this->conf = $dic->get('conf')['console'];
+		$this->conf = $dic->conf['console'];
 	}
 
 	public function work(){

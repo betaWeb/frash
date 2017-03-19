@@ -29,11 +29,12 @@ class Dic{
      * @param string $env
      */
     public function __construct(string $env = 'navigator'){
-        $this->params['conf'] = [ 'config' => Config::define(), 'console' => Console::define(), 'database' => Database::define(), 'routing' => new Routing(), 'service' => Service::define() ];
-        $this->dependencies = Dependencies::define();
-        $this->set('memcached', ExtensionLoaded::memcached());
+        $this->conf = [ 'config' => Config::define(), 'console' => Console::define(), 'database' => Database::define(), 'routing' => new Routing(), 'service' => Service::define() ];
 
-        if($this->get('memcached') === true){
+        $this->dependencies = Dependencies::define();
+        $this->memcached = ExtensionLoaded::memcached();
+
+        if($this->memcached === true){
             $this->load('memcached')->server();
         }
 
@@ -50,7 +51,7 @@ class Dic{
      * @param string $key
      * @return mixed
      */
-    public function get(string $key){
+    public function __get(string $key){
         if(empty($this->params[ $key ])){
             return '';
         } else {
@@ -59,15 +60,11 @@ class Dic{
     }
 
     /**
-     * @param array $keys
-     * @return array
+     * @param string $key
+     * @param mixed $value
      */
-    public function gets(array $keys){
-        foreach($keys as $k){
-            $array[ $k ] = $this->params[ $k ];
-        }
-
-        return $array;
+    public function __set(string $key, $value){
+        $this->params[ $key ] = $value;
     }
 
     /**
@@ -84,23 +81,6 @@ class Dic{
             $this->open[ $key ] = $class;
 
             return $class;
-        }
-    }
-
-    /**
-     * @param string $key
-     * @param mixed $value
-     */
-    public function set(string $key, $value){
-        $this->params[ $key ] = $value;
-    }
-
-    /**
-     * @param array $params
-     */
-    public function sets(array $params){
-        foreach($params as $k => $v){
-            $this->params[ $k ] = $v;
         }
     }
 }

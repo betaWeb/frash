@@ -50,11 +50,11 @@ class Loader{
 	public function __construct(string $file, array $params, Dic $dic, array $extensions){
         $this->dic = $dic;
 
-		$this->bundle = $this->dic->get('bundle');
+		$this->bundle = $this->dic->bundle;
 		$this->file = $file;
 		$this->params = $params;
 
-        $uri = $this->dic->get('uri');
+        $uri = $this->dic->uri;
         if(empty($uri)){
             $nurl = '';
         } elseif(strstr($uri, '/')){
@@ -65,11 +65,11 @@ class Loader{
 
         $this->dic_t = new DependTemplEngine;
         $this->dic_t->setParams([
-            'config' => $dic->get('conf')['config'],
+            'config' => $dic->conf['config'],
             'nurl' => $nurl,
             'params' => $this->params,
-            'prefix' => $this->dic->get('prefix'),
-            'prefix_lang' => $this->dic->get('prefix_lang')
+            'prefix' => $this->dic->prefix,
+            'prefix_lang' => $this->dic->prefix_lang
         ]);
 	}
 
@@ -88,7 +88,7 @@ class Loader{
         }
 
         $path_class = 'Storage\Cache\Templating\\'.$name_file;
-        $tpl_class = new $path_class($this->dic, $this->dic_t, $this->params, $this->dic->get('env'));
+        $tpl_class = new $path_class($this->dic, $this->dic_t, $this->params, $this->dic->env);
         echo $tpl_class->display();
 
         $this->ifNoCache('Display'.$type);
@@ -103,7 +103,7 @@ class Loader{
         Directory::notExistAndCreate('Storage/Cache/Templating');
 
         if(File::exist('Bundles/'.$this->bundle.'/Views/'.$this->file) === false){
-            return new Exception('Template '.$this->file.' not found.', $this->dic->get('conf')['config']['log']);
+            return new Exception('Template '.$this->file.' not found.', $this->dic->conf['config']['log']);
         }
 
         $name_file = 'TemplateOf'.md5('Bundles/'.$this->bundle.'/Views/'.$this->file);
@@ -118,7 +118,7 @@ class Loader{
         }
 
         $path_class = 'Storage\Cache\Templating\\'.$name_file;
-        $tpl_class = new $path_class($this->dic, $this->dic_t, $this->params, $this->dic->get('env'));
+        $tpl_class = new $path_class($this->dic, $this->dic_t, $this->params, $this->dic->env);
         echo $tpl_class->display();
 
         $this->ifNoCache($name_file);
@@ -128,7 +128,7 @@ class Loader{
      * @param string $file
      */
     private function ifNoCache(string $file){
-        if($this->dic->get('cache_tpl') != 'yes' || $this->no_cache === true){
+        if($this->dic->cache_tpl != 'yes' || $this->no_cache === true){
             File::delete('Storage/Cache/Templating/'.$file.'.php');
         }
     }

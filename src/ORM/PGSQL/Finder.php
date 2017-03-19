@@ -47,7 +47,7 @@ class Finder extends Hydrator{
             $table = lcfirst($entity);
             $request = 'SELECT * FROM '."\"$table\"".' '.$where;
 
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request, $this->dic->get('conf')['config']['log']);
+            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request, $this->dic->conf['config']['log']);
 
             $req = $this->pdo->prepare($request);
             $req->execute($arguments);
@@ -79,7 +79,7 @@ class Finder extends Hydrator{
             $table = lcfirst($entity);
             $request = 'SELECT * FROM '."\"$table\"".' '.$where;
 
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request, $this->dic->get('conf')['config']['log']);
+            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request, $this->dic->conf['config']['log']);
 
             $req = $this->pdo->prepare($request);
             $req->execute($arguments);

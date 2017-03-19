@@ -33,7 +33,7 @@ class ImportBottomBar{
 	public function __construct(Dic $dic, DependTemplEngine $dic_t){
         $this->dic = $dic;
 		$this->dic->load('microtime')->set('bottom_bar');
-        $this->prefix = $this->dic->get('prefix');
+        $this->prefix = $this->dic->prefix;
 		$this->dic_t = $dic_t;
 	}
 
@@ -44,9 +44,9 @@ class ImportBottomBar{
 		$microtime = $this->dic->load('microtime');
         $dump = $this->dic_t->getParam('params')['dump'];
 
-        $url_analyzer = $this->dic->get('url_analyzer');
+        $url_analyzer = $this->dic->url_analyzer;
         if(!empty($url_analyzer)){
-            $analyzer = $this->dic->load('getUrl')->url('__analyzer/').$this->dic->get('url_analyzer');
+            $analyzer = $this->dic->load('getUrl')->url('__analyzer/').$this->dic->url_analyzer;
         } else {
             $analyzer = $this->dic->load('getUrl')->url('__analyzer/');
         }

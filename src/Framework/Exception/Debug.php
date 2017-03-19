@@ -6,11 +6,17 @@ namespace Frash\Framework\Exception;
  * @package Frash\Framework\Exception
  */
 class Debug{
-	public static function dump($array){
-		print_r($array);
+	/**
+	 * @param mixed $value
+	 */
+	public static function dump($value){
+		print_r($value);
 	}
 
-	public static function predump($array){
-		echo '<pre>'; print_r($array); echo '</pre>';
+	/**
+	 * @param mixed $value
+	 */
+	public static function predump($value){
+		echo '<pre>'; print_r($value); echo '</pre>';
 	}
 }
