@@ -54,10 +54,10 @@ class ParseWithExtend extends ParseArray{
      * @param DependTemplEngine $dic_t
      */
     public function __construct(string $tpl, array $extend, Dic $dic, array $params, DependTemplEngine $dic_t){
-        $this->attributes['bundle'] = $dic->get('bundle');
+        $this->attributes['bundle'] = $dic->bundle;
         $this->dic_t = $dic_t;
 
-        $class_trad = 'Traductions\\Trad'.ucfirst($dic->get('lang'));
+        $class_trad = 'Traductions\\Trad'.ucfirst($dic->lang);
         $this->trad = new $class_trad;
 
         $this->params = $params;

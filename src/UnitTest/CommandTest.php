@@ -12,17 +12,10 @@ use Frash\UnitTest\{ Flag, Run };
  */
 class CommandTest implements CommandInterface
 {
-	const PREFIX = 'Storage/tests';
-
 	/**
 	 * @var array
 	 */
 	private $class = '';
-
-	/**
-	 * @var string
-	 */
-	private $dir = '';
 
 	/**
 	 * @var array
@@ -39,28 +32,33 @@ class CommandTest implements CommandInterface
 	 * @param array $argv
 	 */
 	public function __construct(array $argv){
-		$this->microtime = new Microtime;
-		$this->microtime->set('start_unit_test');
+		if(!empty($argv[2])){
+			$this->microtime = new Microtime;
+			$this->microtime->set('start_unit_test');
 
-		Directory::notExistAndCreate('Storage/');
-		Directory::notExistAndCreate('Storage/rapports/');
+			Directory::notExistAndCreate('Storage/');
+			Directory::notExistAndCreate('Storage/rapports/');
 
-		$this->flag = Flag::define($argv[2]);
+			$this->flag = Flag::define($argv[2]);
 
-		if($this->flag['option'] == '--one' && !empty($argv[3])){
-			$this->class = $argv[3];
+			if($this->flag['option'] == '--one' && !empty($argv[3])){
+				$this->class = $argv[3];
+			}
 		}
 	}
 
 	public function work(){
-		if($this->flag['option'] == '--all'){
-			$testunit = TestUnit::define();
+		if(!empty($this->flag)){
+			if($this->flag['option'] == '--all'){
+				$testunit = TestUnit::define();
 
-			foreach($testunit as $class){
+				foreach($testunit as $class){
+					$this->run(new $class);
+				}
+			} elseif($this->flag['option'] == '--one' && !empty($this->class)) {
+				$class = TestUnit::define()[ $this->class ];
 				$this->run(new $class);
 			}
-		} elseif($this->flag['option'] == '--one') {
-			$this->run(new $this->class);
 		}
 	}
 

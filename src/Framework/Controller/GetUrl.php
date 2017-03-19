@@ -13,7 +13,7 @@ class GetUrl{
      * @param Dic $dic
      */
     public function __construct(Dic $dic){
-        $this->prefix = $dic->get('prefix_lang');
+        $this->prefix = $dic->prefix_lang;
     }
 
     /**

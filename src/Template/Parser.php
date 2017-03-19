@@ -88,7 +88,7 @@ class Parser{
 	}
 
 	private function importBottomBar(){
-		if($this->dic->get('env') == 'local' && $this->type == 'normal'){
+		if($this->dic->env == 'local' && $this->type == 'normal'){
 			$this->class_cache = str_replace('</body>', '	\'.$this->bott_bar->parse().\''."\n".'	</body>', $this->class_cache);
 		}
 	}

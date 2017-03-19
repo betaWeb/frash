@@ -38,7 +38,7 @@ class Counter{
             $table = lcfirst($entity);
             $request = 'SELECT COUNT(*) as count FROM '."\"$table\"".' '.$where;
 
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request, $this->dic->get('conf')['config']['log']);
+            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request, $this->dic->conf['config']['log']);
 
             $req = $this->pdo->prepare($request);
             $req->execute($arguments);

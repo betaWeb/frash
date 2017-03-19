@@ -63,8 +63,8 @@ class Templating{
     private function internalParam(array $params = []): array{
         return array_merge([
             'dump' => $this->dump,
-            'internal_prefix' => $this->dic->get('prefix'),
-            'internal_prefix_lang' => $this->dic->get('prefix_lang')
+            'internal_prefix' => $this->dic->prefix,
+            'internal_prefix_lang' => $this->dic->prefix_lang
         ], $params);
     }
 

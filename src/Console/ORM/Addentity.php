@@ -55,7 +55,7 @@ class Addentity implements CommandInterface{
         $code .= '}';
 
         File::create('Bundles/'.$this->bundle.'/Entity/'.ucfirst($this->table).'.php', $code);
-        File::create('Bundles/'.$this->bundle.'/Entity/Mapping/'.ucfirst($this->table).'.json', json_encode($types));
+        File::create('Bundles/'.$this->bundle.'/Entity/Mapping/'.ucfirst($this->table).'.json', json_encode($types, JSON_PRETTY_PRINT));
 
         echo 'L\'entité '.ucfirst($this->table).' a bien été créée.'.PHP_EOL;
     }
