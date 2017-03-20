@@ -46,7 +46,11 @@ class Redirect{
         $stock_route = $this->dic->conf['config'];
 
         if(!empty($stock_route['stock_route']) && $stock_route['stock_route'] == 'yes'){
-            $this->url = $this->load('session')->get('frash_before_url');
+            if(empty($this->session)){
+                $this->session = $this->load('session');
+            }
+
+            $this->url = $this->session->get('frash_before_url');
         }
     }
 

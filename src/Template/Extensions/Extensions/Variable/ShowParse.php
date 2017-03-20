@@ -46,15 +46,27 @@ class ShowParse extends ExtensionParseSimple{
 					}
 				}
 			}
+
+			$return = '$this->params'.$param;
+		} elseif($variable[0] == '$') {
+			preg_match('/\$(\w+)/', $variable, $match);
+
+			if(!empty($match[1])){
+				$var = $variable;
+				$var = str_replace($match[1], 'this->params[\''.$match[1].'\']', $var);
+				$return = $var;
+			}
 		} else {
 			if(gettype($this->params[ $variable ]) == 'object'){
 				$param .= '->'.$variable;
 			} else {
 				$param .= '[\''.$variable.'\']';
 			}
+
+			$return = '$this->params'.$param;
 		}
 
-		$this->infos['tpl'] = str_replace($this->infos['params']['match'], '\'.$this->params'.$param.'.\'', $this->infos['tpl']);
+		$this->infos['tpl'] = str_replace($this->infos['params']['match'], '\'.'.$return.'.\'', $this->infos['tpl']);
 	}
 
     /**

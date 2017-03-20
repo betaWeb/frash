@@ -29,8 +29,7 @@ class Dependencies{
 		$content .= '			\'service\' => \'Frash.Framework.Request.Service\','."\n";
 		$content .= '			\'session\' => \'Frash.Framework.Request.Session\','."\n";
 		$content .= '			\'trad\' => \'Frash.Framework.Controller.TraductionFactory\','."\n";
-		$content .= '			\'twig\' => \'Frash.Framework.Controller.View\','."\n";
-		$content .= '			\'tel\' => \'Frash.Framework.Controller.Templating\''."\n";
+		$content .= '			\'tpl\' => \'Frash.Framework.Controller.Templating\''."\n";
 		$content .= '		];'."\n";
 		$content .= '	}'."\n";
 		$content .= '}';

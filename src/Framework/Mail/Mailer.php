@@ -37,9 +37,9 @@ class Mailer{
      * @return Exception
      */
     public function init($array){
-        if(empty($array['mail'])){ return new Exception('Mailer : L\'adresse mail n\'est pas indiquée.', $this->dic->get('conf')['config']['log']); }
-        if(empty($array['title'])){ return new Exception('Mailer : Le sujet du mail n\'est pas indiqué.', $this->dic->get('conf')['config']['log']); }
-        if(empty($array['body'])){ return new Exception('Mailer : Le corps du mail n\'est pas indiqué.', $this->dic->get('conf')['config']['log']); }
+        if(empty($array['mail'])){ return new Exception('Mailer : L\'adresse mail n\'est pas indiquée.', $this->dic->conf['config']['log']); }
+        if(empty($array['title'])){ return new Exception('Mailer : Le sujet du mail n\'est pas indiqué.', $this->dic->conf['config']['log']); }
+        if(empty($array['body'])){ return new Exception('Mailer : Le corps du mail n\'est pas indiqué.', $this->dic->conf['config']['log']); }
 
         $this->body = $array['body'];
         $this->mail = $array['mail'];

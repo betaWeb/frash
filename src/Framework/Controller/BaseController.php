@@ -35,7 +35,7 @@ class BaseController{
 	/**
 	 * @var object
 	 */
-	protected $tel;
+	protected $tpl;
 
     /**
      * BaseController constructor.
@@ -46,7 +46,7 @@ class BaseController{
 		$this->orm = $this->dic->load('orm');
 		$this->redirect = $this->dic->load('redirect');
 		$this->session = $this->dic->load('session');
-		$this->tel = $this->dic->load('tel');
+		$this->tpl = $this->dic->load('tpl');
 
 		$form = $this->dic->load('form');
 		$this->form = (object) [
