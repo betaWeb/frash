@@ -21,7 +21,7 @@ class Service{
 	 * @param Dic $dic
 	 */
 	public function __construct(Dic $dic){
-		$this->services = $dic->get('conf')['service'];
+		$this->services = $dic->conf['service'];
 	}
 
 	/**
