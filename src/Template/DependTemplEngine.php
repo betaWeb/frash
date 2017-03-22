@@ -29,7 +29,8 @@ class DependTemplEngine{
                 'RouteParent' => self::EXTENSIONS.'.Route.RouteParent',
                 'RouteTplParent' => self::EXTENSIONS.'.Route.RouteTplParent',
                 'ShowVarParse' => self::EXTENSIONS.'.Variable.ShowParse',
-                'ShowVarParseForeach' => self::EXTENSIONS.'.Variable.ShowParseForeach'
+                'ShowVarParseForeach' => self::EXTENSIONS.'.Variable.ShowParseForeach',
+                'ShowVarSimple' => self::EXTENSIONS.'.Variable.ShowSimple'
             ],
             'custom' => []
         ],

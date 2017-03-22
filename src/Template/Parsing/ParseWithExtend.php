@@ -19,6 +19,7 @@ class ParseWithExtend extends ParseArray{
         'parts_in_escape' => [],
         'display' => '',
         'level' => [ 'condition' => 0, 'escape_tpl' => 0, 'for' => 0, 'foreach' => 0, 'index' => 0, 'itvl' => 0, 'part' => 0 ],
+        'count' => [ 'condition' => 0, 'escape_tpl' => 0, 'for' => 0, 'foreach' => 0, 'index' => 0, 'itvl' => 0, 'part' => 0 ],
         'condition' => [],
         'foreach' => [],
         'function' => [],
@@ -80,6 +81,7 @@ class ParseWithExtend extends ParseArray{
         $this->attributes['foreach'] = $infos['foreach'];
         $this->attributes['function'] = $infos['function'];
         $this->attributes['level'] = $infos['level'];
+        $this->attributes['count'] = $infos['count'];
         $this->attributes['parts'] = $infos['parts'];
         $this->attributes['parts_in_escape'] = $infos['parts_in_escape'];
         $this->attributes['tpl'] = $infos['tpl'];

@@ -3,7 +3,7 @@ namespace Frash\Console\Framework\Configuration;
 
 /**
  * Class Routing
- * @package Frash\Console\Framework\Configuration\Routing
+ * @package Frash\Console\Framework\Configuration
  */
 class Routing{
 	/**

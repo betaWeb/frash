@@ -3,7 +3,7 @@ namespace Frash\Console\Framework\Configuration;
 
 /**
  * Class Console
- * @package Frash\Console\Framework\Configuration\Console
+ * @package Frash\Console\Framework\Configuration
  */
 class Console{
 	/**

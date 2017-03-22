@@ -39,7 +39,7 @@ class Update extends Where implements RequestInterface{
     /**
      * @param string $exec
      */
-    public function setAddExec(string $exec){
+    public function addExec(string $exec){
         $this->updateExecute[] = $exec;
         return $this;
     }
@@ -47,7 +47,7 @@ class Update extends Where implements RequestInterface{
     /**
      * @param array $update
      */
-    public function setUpdate(array $update = []){
+    public function update(array $update = []){
         $upd = [];
 
         foreach($update as $k => $v){
@@ -79,7 +79,7 @@ class Update extends Where implements RequestInterface{
     /**
      * @param array $exec
      */
-    public function setExecute(array $exec){
+    public function execute(array $exec){
         foreach($this->updateExecute as $v){
             $arrayUpd[] = $v;
         }

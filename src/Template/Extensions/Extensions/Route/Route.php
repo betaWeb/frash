@@ -35,7 +35,7 @@ class Route extends ExtensionParseSimple{
 
             foreach($road as $r){
                 if(!empty($r) && $r[0] == '@'){
-                    $route = str_replace($r, $this->dic_t->extension('ShowVar')->parse(ltrim($r, '@')), $route);
+                    $route = str_replace($r, $this->dic_t->extension('ShowVarSimple')->parse(ltrim($r, '@')), $route);
                 }
             }
 

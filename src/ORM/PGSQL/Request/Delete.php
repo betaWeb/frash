@@ -1,26 +1,17 @@
 <?php
 namespace Frash\ORM\PGSQL\Request;
 use Frash\ORM\RequestInterface;
+use Frash\ORM\PGSQL\Request\Where;
 
 /**
  * Class Delete
  * @package Frash\ORM\PGSQL\Request
  */
-class Delete implements RequestInterface{
+class Delete extends Where implements RequestInterface{
     /**
      * @var string
      */
     private $table = '';
-
-    /**
-     * @var string
-     */
-    private $where = '';
-
-    /**
-     * @var array
-     */
-    private $arrayWhere = [];
 
     /**
      * @var array
@@ -36,20 +27,9 @@ class Delete implements RequestInterface{
     }
 
     /**
-     * @param string $where
-     * @param array $arrayWhere
-     */
-    public function setWhere(string $where, array $arrayWhere){
-        $this->where = $where;
-        $this->arrayWhere = $arrayWhere;
-
-        return $this;
-    }
-
-    /**
      * @param array $exec
      */
-    public function setExecute(array $exec = []){
+    public function execute(array $exec = []){
         if(count($exec) == count($this->arrayWhere)){
             $this->execute = $exec;
         }
@@ -69,10 +49,8 @@ class Delete implements RequestInterface{
      */
     public function getRequest(): string{
         if(!empty($this->table)){
-            $request = 'DELETE FROM '.$this->table;
-            if($this->where != ''){ $request .= $this->where; }
-
-            return $request;
+            $where = ($this->where == 'WHERE ') ? '' : $this->where;
+            return 'DELETE FROM '.$this->table.' '.$where;
         }
     }
 }

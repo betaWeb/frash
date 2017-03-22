@@ -34,12 +34,13 @@ class ConditionParse extends ExtensionParseSimple{
 	}
 
 	public function typeEnd(){
+		$this->infos['count']['condition']++;
+
 		$level_condition = $this->infos['level']['condition'];
         $this->infos['condition'][ $level_condition ][] = [ 'type' => 'end', 'condition' => 'end_if' ];
 
 		$treatment = '';
 		$start = '{{ '.$this->infos['condition'][ $level_condition ][0]['condition'].' }}';
-		$name_condition = md5($this->infos['condition'][ $level_condition ][0]['condition']);
 		$count = count($this->infos['condition']) - 1;
 
 		for($i = 0; $i <= $count; $i++){
@@ -84,12 +85,12 @@ class ConditionParse extends ExtensionParseSimple{
 
 		$treatment .= "\n".'		return \'\';';
 
-		$code = '	public function condition'.$name_condition.'(){'."\n";
+		$code = '	public function condition'.$this->infos['count']['condition'].'(){'."\n";
 		$code .= '		'.$treatment."\n";
 		$code .= '	}'."\n\n";
 
         preg_match('/'.$start.'(.*)\{\{ end_if \}\}/Us', $this->infos['tpl'], $match);
-        $this->infos['tpl'] = str_replace($match[0], '\'.$this->condition'.$name_condition.'().\'', $this->infos['tpl']);
+        $this->infos['tpl'] = str_replace($match[0], '\'.$this->condition'.$this->infos['count']['condition'].'().\'', $this->infos['tpl']);
         $this->infos['class_cache'] .= $code;
 
         unset($this->infos['condition'][ $level_condition ]);

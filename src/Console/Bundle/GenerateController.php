@@ -28,8 +28,7 @@ class GenerateController implements CommandInterface{
 
         $code = "<?php\n";
         $code .= 'namespace Bundles\\'.$bundle.'\\Controllers;'."\n";
-        $code .= 'use Frash\\Framework\\Controller\\BaseController;'."\n";
-        $code .= 'use Frash\\Framework\\DIC\\Dic;'."\n\n";
+        $code .= 'use Frash\\Framework\\Controller\\BaseController;'."\n\n";
         $code .= 'class '.ucfirst($name).' extends BaseController{'."\n";
 
         foreach($list as $l){
