@@ -3,7 +3,7 @@ namespace Frash\Console\Framework\Configuration;
 
 /**
  * Class TestUnit
- * @package Frash\Console\Framework\Configuration\TestUnit
+ * @package Frash\Console\Framework\Configuration
  */
 class TestUnit{
 	/**

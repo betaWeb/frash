@@ -47,17 +47,7 @@ class Orm{
         }
     }
 
-    /**
-     * @return \PDO
-     */
-    public function getConnexion(): \PDO{
-        return $this->connexion;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSystem(): string{
-        return $this->system;
+    public function __get(string $prop){
+        return $this->$prop;
     }
 }

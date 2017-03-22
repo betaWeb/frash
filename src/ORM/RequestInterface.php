@@ -6,7 +6,7 @@ namespace Frash\ORM;
  * @package Frash\ORM
  */
 interface RequestInterface{
+    public function execute(array $exec);
     public function getExecute();
     public function getRequest();
-    public function setExecute(array $exec);
 }

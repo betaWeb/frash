@@ -43,7 +43,7 @@ class Insert implements RequestInterface{
     /**
      * @param array $val
      */
-    public function setInsert(array $val){
+    public function cols(array $val){
         $tableau = $val;
         $transf = [];
         foreach($tableau as $t){
@@ -66,7 +66,7 @@ class Insert implements RequestInterface{
     /**
      * @param array $exec
      */
-    public function setExecute(array $exec){
+    public function execute(array $exec){
         $this->execute = array_combine($this->insertExecute, $exec);
         return $this;
     }

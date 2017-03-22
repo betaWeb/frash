@@ -70,7 +70,7 @@ class Select extends Where implements RequestInterface{
         }
     }
 
-    public function setCount(){
+    public function count(){
         if($this->colSel == '*'){
             $this->colSel = 'COUNT(*) AS number_result';
         } else {
@@ -83,7 +83,7 @@ class Select extends Where implements RequestInterface{
     /**
      * @param string $col
      */
-    public function setColSel(string $col){
+    public function colSel(string $col){
         $this->colSel = $col;
         return $this;
     }
@@ -91,7 +91,7 @@ class Select extends Where implements RequestInterface{
     /**
      * @param string $exec
      */
-    public function setAddExec(string $exec){
+    public function addExec(string $exec){
         $this->arrayWhere[] = $exec;
         return $this;
     }
@@ -100,7 +100,7 @@ class Select extends Where implements RequestInterface{
      * @param string $col
      * @param string $having
      */
-    public function setGroupBy(string $col, string $having = ''){
+    public function groupBy(string $col, string $having = ''){
         $this->groupBy = 'GROUP BY '.$col;
         $this->groupBy .= ($having == '') ? '' : ' HAVING '.$having;
 
@@ -110,7 +110,7 @@ class Select extends Where implements RequestInterface{
     /**
      * @param array $exec
      */
-    public function setExecute(array $exec = []){
+    public function execute(array $exec = []){
         if(count($exec) == count($this->arrayWhere)){
             $this->execute = array_combine($this->arrayWhere, $exec);
         }

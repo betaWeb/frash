@@ -3,7 +3,7 @@ namespace Frash\Console\Framework\Configuration;
 
 /**
  * Class Dependencies
- * @package Frash\Console\Framework\Configuration\Dependencies
+ * @package Frash\Console\Framework\Configuration
  */
 class Dependencies{
 	/**

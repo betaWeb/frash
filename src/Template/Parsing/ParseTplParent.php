@@ -60,7 +60,7 @@ class ParseTplParent extends ParseArray{
      * @return string
      */
 	public function parse(): string{
-		preg_match_all('/\{\{ (([a-zA-Z_]*)?\s?([a-zA-Z0-9\/@_!=:;+",<>\(\)\-\.\s]*)) \}\}/', $this->attributes['tpl'], $res_split, PREG_SET_ORDER);
+        preg_match_all('/\{\{ (([a-zA-Z_]*)?\s?([a-zA-Z0-9\/@_!=:;+",<>\[\]\(\)\-\.\s]*)) \}\}/', $this->attributes['tpl'], $res_split, PREG_SET_ORDER);
 		foreach($res_split as $key => $tag){
 			switch(true){
 				case $this->attributes['level']['escape_tpl'] == 0:
@@ -77,7 +77,8 @@ class ParseTplParent extends ParseArray{
                             $this->returnExtension($ext);
 							break;
 						case preg_match($this->extension['default']['traduction'], $tag[0]):
-							$this->display = str_replace($res_split[ $key ][0], $this->trad->show($res_split[ $key ][4]), $this->display);
+                            $key_trad = $res_split[ $key ][3];
+                            $this->attributes['tpl'] = str_replace($res_split[ $key ][0], str_replace('\'', "\'", $this->trad->$key_trad), $this->attributes['tpl']);
 							break;
 						case preg_match($this->extension['default']['show_var'], $tag[0]):
                             $this->display = str_replace($res_split[ $key ][0], $this->dic_t->extension('ShowVar')->parse($res_split[ $key ][4]), $this->display);
