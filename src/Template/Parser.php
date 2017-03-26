@@ -65,6 +65,9 @@ class Parser{
 		$this->dic_t = $dic_t;
 	}
 
+	/**
+	 * @param string $type
+	 */
 	public function parse(string $type = 'normal'){
 	    $this->type = $type;
 
@@ -82,8 +85,8 @@ class Parser{
 
 		if($type == 'normal'){
 			File::create('Storage/Cache/Templating/'.$this->name_class.'.php', $this->class_cache);
-		} elseif($type == 'Analyzer') {
-			File::create('Storage/Cache/Templating/DisplayAnalyzer.php', $this->class_cache);
+		} else {
+			File::create('Storage/Cache/Templating/Display'.$type.'.php', $this->class_cache);
 		}
 	}
 

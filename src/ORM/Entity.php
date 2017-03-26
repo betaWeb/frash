@@ -1,6 +1,8 @@
 <?php
 namespace Frash\ORM;
+use Frash\Framework\Collection;
 use Frash\Framework\DIC\Dic;
+use Frash\ORM\{ OrmFactory, QueryBuilder };
 
 /**
  * Class Entity
@@ -18,16 +20,45 @@ abstract class Entity{
 	protected $primary_key = 'id';
 
 	/**
+	 * @var string
+	 */
+	protected $table = '';
+
+	/**
+	 * @var Dic
+	 */
+	private $dic;
+
+	/**
+	 * @var OrmFactory
+	 */
+	private $orm;
+
+	/**
+	 * Entity constructor.
+	 * @param OrmFactory $orm
+	 */
+	public function __construct(OrmFactory $orm, Dic $dic)
+	{
+		$this->dic = $dic;
+		$this->orm = $orm;
+
+		$coll = new Collection(explode('\\', get_called_class()));
+		$this->table = lcfirst($coll->last());
+	}
+
+	/**
 	 * @param string $system
 	 * @return string
 	 */
-	private function pathClass(string $system)
+	private function pathClass(string $system): string
 	{
 		return 'Frash\ORM\\'.$system;
 	}
 
 	/**
 	 * @param string $column
+	 * @return mixed
 	 */
 	public function __get(string $column)
 	{
@@ -44,30 +75,29 @@ abstract class Entity{
 	}
 
 	/**
-	 * @param int $pk
+	 * @param string $pk
 	 */
-	public function setPrimaryKey(int $pk)
+	public function primaryKey(string $pk)
 	{
 		$this->primary_key = $pk;
+		return $this;
 	}
 
 	/**
-	 * @param Dic $dic
-	 * @param string $table
-	 * @param int $id
 	 * @return object
 	 */
-	public function find(Dic $dic, string $table, int $id)
+	public function find()
 	{
-		$orm = $dic->load('orm');
+		$prim_key = $this->primary_key;
+		$select = $this->pathClass($this->orm->system).'\Request\Select';
 
-		$pathClass = $this->pathClass($orm->system);
-		$select = $pathClass.'\Request\Select';
-		$qb = $pathClass.'\QueryBuilder';
+		$query = new QueryBuilder($this->dic, $this->orm->connexion);
+		$sel = new $select([ 'table' => $this->table ]);
+        $sel->where($prim_key, ':id')->execute([ $this->$prim_key ]);
+        $res = $query->selectOne($sel);
 
-		$query = new $qb($dic, $orm->connexion);
-		$sel = new $select([ 'table' => $table ]);
-        $sel->where($this->primary_key, ':id')->setExecute([ $this->$primary_key ]);
-        return $query->selectOne($sel);
+        foreach($res as $col => $value){
+        	$this->$col = $value;
+        }
 	}
 }

@@ -110,7 +110,8 @@ class ParseParent extends ParseArray{
 		}
 
 		$complement = '	public function parent'.ucfirst($name).'(){'."\n";
-		$complement .= '		return \''.trim($this->attributes['tpl']).'\';'."\n";
+		$complement .= '		$content = \''.trim($this->attributes['tpl']).'\';'."\n\n";
+		$complement .= '		return $content;'."\n";
 		$complement .= '	}'."\n\n";
 
 		return $complement;

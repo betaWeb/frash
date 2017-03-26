@@ -1,25 +1,17 @@
 <?php
-namespace LFW\ORM\MySQL\Request;
+namespace Frash\ORM\MySQL\Request;
+use Frash\ORM\RequestInterface;
+use Frash\ORM\MySQL\Request\Where;
 
 /**
  * Class Delete
- * @package LFW\ORM\MySQL\Request
+ * @package Frash\ORM\MySQL\Request
  */
-class Delete{
+class Delete extends Where implements RequestInterface{
     /**
      * @var string
      */
     private $table = '';
-
-    /**
-     * @var string
-     */
-    private $where = '';
-
-    /**
-     * @var array
-     */
-    private $arrayWhere = [];
 
     /**
      * @var array
@@ -35,20 +27,11 @@ class Delete{
     }
 
     /**
-     * @param $where
-     * @param $arrayWhere
-     */
-    public function setWhere(string $where, string $arrayWhere){
-        $this->where = $where;
-        $this->arrayWhere = $arrayWhere;
-    }
-
-    /**
      * @param array $exec
      */
-    public function setExecute(array $exec = []){
+    public function execute(array $exec = []){
         if(count($exec) == count($this->arrayWhere)){
-            $this->execute = $exec;
+            $this->execute = array_combine($this->arrayWhere, $exec);
         }
     }
 
@@ -64,8 +47,8 @@ class Delete{
      */
     public function getRequest(): string{
         if(!empty($this->table)){
-            $request = 'DELETE FROM '.$this->table;
-            if($this->where != ''){ $request .= $this->where; }
+            $where = ($this->where == 'WHERE ') ? '' : $this->where;
+            $request = 'DELETE FROM '.$this->table.' '.$where;
 
             return $request;
         }

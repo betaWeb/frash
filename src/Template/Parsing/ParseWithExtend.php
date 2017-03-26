@@ -18,8 +18,8 @@ class ParseWithExtend extends ParseArray{
         'tpl' => '',
         'parts_in_escape' => [],
         'display' => '',
-        'level' => [ 'condition' => 0, 'escape_tpl' => 0, 'for' => 0, 'foreach' => 0, 'index' => 0, 'itvl' => 0, 'part' => 0 ],
-        'count' => [ 'condition' => 0, 'escape_tpl' => 0, 'for' => 0, 'foreach' => 0, 'index' => 0, 'itvl' => 0, 'part' => 0 ],
+        'level' => [ 'condition' => 0, 'esc_tpl' => 0, 'esc_html' => 0, 'for' => 0, 'foreach' => 0, 'index' => 0, 'itvl' => 0, 'part' => 0 ],
+        'count' => [ 'condition' => 0, 'esc_tpl' => 0, 'esc_html' => 0, 'for' => 0, 'foreach' => 0, 'index' => 0, 'itvl' => 0, 'part' => 0 ],
         'condition' => [],
         'foreach' => [],
         'function' => [],
@@ -66,8 +66,9 @@ class ParseWithExtend extends ParseArray{
         $this->attributes['tpl'] = $tpl;
 
         $this->attributes['display'] = '	public function display(){'."\n";
-        $this->attributes['display'] .= '		return \''.file_get_contents($this->determinatePathExtend(rtrim($extend[1]))).'\';'."\n";
-        $this->attributes['display'] .= '	}'."\n\n";
+        $this->attributes['display'] .= '       $content = \''.file_get_contents($this->determinatePathExtend(rtrim($extend[1]))).'\';'."\n\n";
+        $this->attributes['display'] .= '       return $content;'."\n";
+        $this->attributes['display'] .= '	}'."\n";
     }
 
     /**
@@ -102,7 +103,7 @@ class ParseWithExtend extends ParseArray{
                     $ext = $this->dic_t->callExtension()->parse('EscapeTpl', 'close', $this->attributes, [ 'match_all' => $match_all[ $key ] ]);
                     $this->returnExtension($ext);
                     break;
-                case $this->attributes['level']['escape_tpl'] == 0:
+                case $this->attributes['level']['esc_tpl'] == 0:
                     switch(true){
                         case preg_match($this->extension['default']['bundle'], $tag[0]):
                             $ext = $this->dic_t->callExtension()->parse('BundleParse', 'parse', $this->attributes, [ 'match' => $match_all[ $key ] ]);
@@ -111,13 +112,18 @@ class ParseWithExtend extends ParseArray{
                         case preg_match($this->extension['default']['call'], $tag[0]):
                             break;
                         case preg_match($this->extension['default']['else'], $tag[0]):
-                            $condition[ $level['condition'] ][] = [ 'type' => 'else', 'condition' => 'else' ];
+                            $ext = $this->dic_t->callExtension()->parse('ConditionParse', 'typeElse', $this->attributes, [ 'condition' => $match_all[ $key ][1] ]);
+                            $this->returnExtension($ext);
                             break;
                         case preg_match($this->extension['default']['elseif'], $tag[0]):
                             $condition[ $level['condition'] ][] = [ 'type' => 'elseif', 'condition' => $match_all[ $key ][2] ];
                             break;
                         case preg_match($this->extension['default']['end_condition'], $tag[0]):
                             $ext = $this->dic_t->callExtension()->parse('ConditionParse', 'typeEnd', $this->attributes, [ 'condition' => $match_all[ $key ][2] ]);
+                            $this->returnExtension($ext);
+                            break;
+                        case preg_match($this->extension['default']['end_escape_html'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parse('EscapeHtmlParse', 'close', $this->attributes);
                             $this->returnExtension($ext);
                             break;
                         case preg_match($this->extension['default']['end_for'], $tag[0]):
@@ -139,6 +145,10 @@ class ParseWithExtend extends ParseArray{
                             $ext = $this->dic_t->callExtension()->parse('Part', 'close', $this->attributes, [ 'match' => $match_all[ $key ] ]);
                             $this->returnExtension($ext);
                             break;
+                        case preg_match($this->extension['default']['escape_html'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parse('EscapeHtmlParse', 'open', $this->attributes);
+                            $this->returnExtension($ext);
+                            break;
                         case preg_match($this->extension['default']['for'], $tag[0]):
                             break;
                         case preg_match($this->extension['default']['foreach'], $tag[0]):
@@ -152,6 +162,10 @@ class ParseWithExtend extends ParseArray{
                         case preg_match($this->extension['default']['include'], $tag[0]):
                             break;
                         case preg_match($this->extension['default']['index'], $tag[0]):
+                            break;
+                        case preg_match($this->extension['default']['internal'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parse('BundleParse', 'internal', $this->attributes, [ 'match' => $match_all[ $key ] ]);
+                            $this->returnExtension($ext);
                             break;
                         case preg_match($this->extension['default']['itvl'], $tag[0]):
                             break;
@@ -201,7 +215,7 @@ class ParseWithExtend extends ParseArray{
             }
         }
 
-        $ptp = new ParseTplParent($this->trad, $this->attributes['bundle'], $this->attributes['display'], $this->dic_t);
+        $ptp = new ParseTplParent($this->trad, $this->attributes, $this->dic_t);
         $this->attributes['display'] = $ptp->parse();
         $this->attributes['class_cache'] .= $this->attributes['display'];
         $this->removeUnuseParts();

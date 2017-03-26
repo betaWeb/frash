@@ -1,23 +1,30 @@
 <?php
-namespace LFW\ORM\MySQL;
-use LFW\Framework\Log\CreateLog;
-use LFW\ORM\PDO;
+namespace Frash\ORM\MySQL;
+use Frash\Framework\DIC\Dic;
+use Frash\Framework\Log\CreateLog;
 
 /**
  * Class Counter
- * @package Composants\ORM\MySQL
+ * @package Frash\ORM\MySQL
  */
 class Counter{
+    /**
+     * @var Dic
+     */
+    private $dic;
+
     /**
      * @var PDO
      */
     private $pdo;
 
     /**
-     * Finder constructor.
+     * Counter constructor.
+     * @param Dic $dic
      * @param PDO $pdo
      */
-    public function __construct(PDO $pdo){
+    public function __construct(Dic $dic, \PDO $pdo){
+        $this->dic = $dic;
         $this->pdo = $pdo;
     }
 
@@ -29,15 +36,14 @@ class Counter{
      */
     private function count(string $entity, string $where, array $arguments): int{
         try{
-            $request = 'SELECT * FROM '.lcfirst($entity).' '.$where;
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request);
+            $request = 'SELECT COUNT(*) as count FROM '.lcfirst($entity).' '.$where;
+            CreateLog::request($request, $this->dic->conf['config']['log']);
 
-            $this->pdo->request($request, $arguments);
-            return $this->pdo->rowCount();
-        }
-        catch(\Exception $e){
-            CreateLog::error($e->getMessage());
-            die('Il y a eu une erreur.');
+            $req = $this->pdo->prepare($request);
+            $req->execute($arguments);
+            return $req->fetch(\PDO::FETCH_ASSOC)['count'];
+        } catch(\Exception $e) {
+            CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
         }
     }
 
@@ -51,10 +57,9 @@ class Counter{
         array_shift($arg);
 
         if(substr($method, 0, 7) == 'countBy'){
-            $method = str_replace('countBy', '', $method);
-            $expl_method = explode('And', $method);
-
+            $expl_method = explode('And', str_replace('countBy', '', $method));
             $array_method = [];
+
             foreach($expl_method as $method){
                 $array_method[] = lcfirst($method).' = ?';
             }

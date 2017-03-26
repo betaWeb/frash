@@ -17,6 +17,7 @@ class Dependencies{
 		$content .= '		return ['."\n";
 		$content .= '			\'analyzer\' => \'Frash.Framework.Analyzer.Analyzer\','."\n";
 		$content .= '			\'controller\' => \'Frash.Framework.Controller.Controller\','."\n";
+		$content .= '			\'exception\' => \'Frash.Framework.Exception.Exception\','."\n";
 		$content .= '			\'form\' => \'Frash.Framework.Forms.FormFactory\','."\n";
 		$content .= '			\'getUrl\' => \'Frash.Framework.Controller.GetUrl\','."\n";
 		$content .= '			\'mail\' => \'Frash.Framework.Mail.Mailer\','."\n";

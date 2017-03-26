@@ -45,6 +45,6 @@ class Analyzer{
 	 */
 	public function display(string $route, string $file){
 		$params = (array) array_merge([ 'true_route' => $route ], Json::decode(File::read('Storage/Cache/Analyzer/'.$file.'.json')));
-		return $this->dic->load('tpl')->internal('Analyzer', 'vendor/alixsperoza/frash/src/Framework/Analyzer/display.tpl', $file, $params);
+		return $this->dic->load('tpl')->internal('Analyzer', 'vendor/alixsperoza/frash/ressources/views/analyzer.tpl', $params);
 	}
 }

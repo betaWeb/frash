@@ -20,7 +20,7 @@ class Middleware{
 
 			foreach($middlewares as $midw){
 				if(!strstr($service[ $midw ], '@')){
-					throw new \Exception('Missing bundle before middleware '.$midw);
+					return $this->dic->load('exception')->publish('Missing bundle before middleware '.$midw);
 				} else {
 					list($bundle, $middleware) = explode('@', $service[ $midw ]);
 					$path = 'Bundles\\'.$bundle.'\Service\\'.$middleware;
@@ -29,7 +29,7 @@ class Middleware{
 						$class = new $path($dic);
 						return $class->define();
 					} else {
-						throw new \Exception('Middleware '.$middleware.' not found');
+						return $this->dic->load('exception')->publish('Middleware '.$middleware.' not found');
 					}
 				}
 			}

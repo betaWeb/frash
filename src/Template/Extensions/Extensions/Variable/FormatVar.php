@@ -63,4 +63,20 @@ class FormatVar{
 
 		return $param;
 	}
+
+	/**
+	 * @param string $variable
+	 * @return string
+	 */
+	public function parseForeach(string $variable): string{
+		$expl = explode('.', $variable);
+		$new_var = $expl[0];
+		unset($expl[0]);
+
+		foreach($expl as $v){
+			$new_var .= '[\''.$v.'\']';
+		}
+
+		return $new_var;
+	}
 }

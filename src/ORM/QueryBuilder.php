@@ -1,12 +1,12 @@
 <?php
-namespace Frash\ORM\PGSQL;
+namespace Frash\ORM;
 use Frash\Framework\DIC\Dic;
 use Frash\Framework\Log\CreateLog;
 use Frash\ORM\{ Hydrator, RequestInterface };
 
 /**
  * Class QueryBuilder
- * @package Frash\ORM\PGSQL
+ * @package Frash\ORM
  */
 class QueryBuilder extends Hydrator{
     /**
@@ -25,6 +25,11 @@ class QueryBuilder extends Hydrator{
     protected $dic;
 
     /**
+     * @var string
+     */
+    protected $system = '';
+
+    /**
      * QueryBuilder constructor.
      * @param Dic $dic
      * @param \PDO $conn
@@ -34,6 +39,7 @@ class QueryBuilder extends Hydrator{
 
         $this->bundle = $this->dic->bundle;
         $this->conn = $conn;
+        $this->system = $this->dic->load('orm')->system;
     }
 
     /**
@@ -42,16 +48,18 @@ class QueryBuilder extends Hydrator{
      */
     public function insert(RequestInterface $request): int{
         try{
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest(), $this->dic->conf['config']['log']);
+            CreateLog::request($request->getRequest(), $this->dic->conf['config']['log']);
 
             $req = $this->conn->prepare($request->getRequest());
             $req->execute($request->getExecute());
 
-            return $this->conn->lastInsertId(str_replace('"', '', $request->getTable()).'_id_seq');
-        }
-        catch(\Exception $e){
+            if($this->system == 'PGSQL'){
+                return $this->conn->lastInsertId(str_replace('"', '', $request->getTable()).'_id_seq');
+            } else {
+                return $this->conn->lastInsertId();
+            }
+        } catch(\Exception $e) {
             CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
-            die('Il y a eu une erreur.');
         }
     }
 
@@ -62,7 +70,7 @@ class QueryBuilder extends Hydrator{
      */
     public function selectOne(RequestInterface $select, string $hydrat = 'without'){
         try{
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest(), $this->dic->conf['config']['log']);
+            CreateLog::request($select->getRequest(), $this->dic->conf['config']['log']);
 
             $request = $this->conn->prepare($select->getRequest());
             $request->execute($select->getExecute());
@@ -73,10 +81,8 @@ class QueryBuilder extends Hydrator{
             } elseif($hydrat == 'with') {
                 return $this->hydration($res, 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity());
             }
-        }
-        catch(\Exception $e){
+        } catch(\Exception $e) {
             CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
-            die('Il y a eu une erreur.');
         }
     }
 
@@ -87,7 +93,7 @@ class QueryBuilder extends Hydrator{
      */
     public function selectMany(RequestInterface $select, string $hydrat = 'without'){
         try{
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$select->getRequest(), $this->dic->conf['config']['log']);
+            CreateLog::request($select->getRequest(), $this->dic->conf['config']['log']);
 
             $request = $this->conn->prepare($select->getRequest());
             $request->execute($select->getExecute());
@@ -106,10 +112,8 @@ class QueryBuilder extends Hydrator{
 
                 return $array_obj;
             }
-        }
-        catch(\Exception $e){
+        } catch(\Exception $e) {
             CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
-            die('Il y a eu une erreur.');
         }
     }
 
@@ -121,11 +125,9 @@ class QueryBuilder extends Hydrator{
             $req = $this->conn->prepare($request->getRequest());
             $req->execute($request->getExecute());
 
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest(), $this->dic->conf['config']['log']);
-        }
-        catch(\Exception $e){
+            CreateLog::request($request->getRequest(), $this->dic->conf['config']['log']);
+        } catch(\Exception $e) {
             CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
-            die('Il y a eu une erreur.');
         }
     }
 
@@ -137,11 +139,9 @@ class QueryBuilder extends Hydrator{
             $req = $this->conn->prepare($request->getRequest());
             $req->execute($request->getExecute());
 
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest(), $this->dic->conf['config']['log']);
-        }
-        catch(\Exception $e){
+            CreateLog::request($request->getRequest(), $this->dic->conf['config']['log']);
+        } catch(\Exception $e) {
             CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
-            die('Il y a eu une erreur.');
         }
     }
 
@@ -151,16 +151,14 @@ class QueryBuilder extends Hydrator{
      */
     public function custom(RequestInterface $request){
         try{
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest(), $this->dic->conf['config']['log']);
+            CreateLog::request($request->getRequest(), $this->dic->conf['config']['log']);
 
             $req = $this->conn->prepare($request->getRequest());
             $req->execute($request->getExecute());
 
             return $req->fetch(\PDO::FETCH_ASSOC);
-        }
-        catch(\Exception $e){
+        } catch(\Exception $e) {
             CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
-            die('Il y a eu une erreur.');
         }
     }
 
@@ -170,16 +168,14 @@ class QueryBuilder extends Hydrator{
      */
     public function customMany(RequestInterface $request){
         try{
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request->getRequest(), $this->dic->conf['config']['log']);
+            CreateLog::request($request->getRequest(), $this->dic->conf['config']['log']);
 
             $req = $this->conn->prepare($request->getRequest());
             $req->execute($request->getExecute());
 
             return $req->fetchAll(\PDO::FETCH_ASSOC);
-        }
-        catch(\Exception $e){
+        } catch(\Exception $e) {
             CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
-            die('Il y a eu une erreur.');
         }
     }
 }

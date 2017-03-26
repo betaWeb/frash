@@ -1,5 +1,6 @@
 <?php
 namespace Frash\Framework\Routing;
+use Frash\Framework\DIC\Dic;
 
 /**
  * Class TreatmentPhp
@@ -20,6 +21,16 @@ class TreatmentPhp{
 	 * @var array
 	 */
 	private $waiting = [];
+
+	/**
+	 * @var Dic
+	 */
+	private $dic;
+
+	public function __construct(Dic $dic)
+	{
+		$this->dic = $dic;
+	}
 
 	/**
 	 * @param array $params

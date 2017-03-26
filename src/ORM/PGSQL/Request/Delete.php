@@ -31,7 +31,7 @@ class Delete extends Where implements RequestInterface{
      */
     public function execute(array $exec = []){
         if(count($exec) == count($this->arrayWhere)){
-            $this->execute = $exec;
+            $this->execute = array_combine($this->arrayWhere, $exec);
         }
 
         return $this;
@@ -50,7 +50,9 @@ class Delete extends Where implements RequestInterface{
     public function getRequest(): string{
         if(!empty($this->table)){
             $where = ($this->where == 'WHERE ') ? '' : $this->where;
-            return 'DELETE FROM '.$this->table.' '.$where;
+            $request = 'DELETE FROM '.$this->table.' '.$where;
+
+            return $request;
         }
     }
 }
