@@ -11,6 +11,7 @@ class ParseArray{
      */
 	protected $extension = [
 	    'default' => [
+            'ajax' => '/\{\{ ajax \}\}/',
             'bundle' => '/\{\{ bundle (.*) \}\}/',
             'call' => '/\{\{ call (\w+) (.*) \}\}/',
             'else' => '/\{\{ else \}\}/',
@@ -31,6 +32,7 @@ class ParseArray{
             'if' => '/\{\{ if (.*) \}\}/',
             'include' => '/\{\{ include (\w+) (.*) \}\}/',
             'index' => '/\{\{ index (.*) \}\}/',
+            'internal' => '/\{\{ internal (.*) \}\}/',
             'itvl' => '/\{\{ itvl (.*) \}\}/',
             'parent' => '/\{\{ parent (\w+) \}\}/',
             'parts' => '/\{\{ part (\w+) \}\}/',

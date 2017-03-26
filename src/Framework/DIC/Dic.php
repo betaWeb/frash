@@ -29,7 +29,7 @@ class Dic{
      * @param string $env
      */
     public function __construct(string $env = 'navigator'){
-        $this->conf = [ 'config' => Config::define(), 'console' => Console::define(), 'database' => Database::define(), 'routing' => new Routing(), 'service' => Service::define() ];
+        $this->conf = [ 'config' => Config::define(), 'console' => Console::define(), 'database' => Database::define(), 'routing' => new Routing($this), 'service' => Service::define() ];
 
         $this->dependencies = Dependencies::define();
         $this->memcached = ExtensionLoaded::memcached();

@@ -71,26 +71,28 @@ class Templating{
     /**
      * @param string $file
      * @param array $param
-     * @return bool
+     * @return object
      */
-	public function view(string $file, array $param = []): bool{
-        $loader = new Loader($file, $this->internalParam($param), $this->dic, $this->extensions);
-        $loader->view($this->no_cache);
-
-        return true;
+	public function view(string $file, array $param = []){
+        return $this->load($file, $param)->view($this->no_cache);
 	}
 
     /**
      * @param string $type
      * @param string $link
-     * @param string $file
      * @param array $param
-     * @return bool
+     * @return object
      */
-    public function internal(string $type, string $link, string $file, array $param = []): bool{
-        $loader = new Loader($link, $this->getInternalParam($param), $this->dic, $this->extensions);
-        $loader->internal($type, $file, $this->no_cache);
+    public function internal(string $type, string $link, array $param = []){
+        return $this->load($link, $param)->internal($type, $this->no_cache);
+    }
 
-        return true;
+    /**
+     * @param string $file
+     * @param array $params
+     * @return Loader
+     */
+    private function load(string $file, array $params): Loader{
+        return new Loader($file, $this->internalParam($params), $this->dic, $this->extensions);
     }
 }

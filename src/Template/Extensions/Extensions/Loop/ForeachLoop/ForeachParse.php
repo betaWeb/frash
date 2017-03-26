@@ -49,7 +49,7 @@ class ForeachParse extends ExtensionParseForeach{
 		preg_match_all('/\{\{ (([a-zA-Z_]*)?\s?([a-zA-Z0-9\/@_!=:;+",<>\(\)\-\.\s]*)) \}\}/', $this->content, $match_all, PREG_SET_ORDER);
 		foreach($match_all as $key => $tag){
 			switch(true){
-				case $this->infos['level']['escape_tpl'] == 0:
+				case $this->infos['level']['esc_tpl'] == 0:
 					switch(true){
 						case preg_match($this->infos['params']['parsing']['default']['route'], $tag[0]):
                             $infos = $this->dic_t->callExtension()->parseForeach('RouteForeach', 'parse', $this->infos, [ 'match' => $match_all[ $key ], 'params_foreach' => [ 'k' => $k, 'v' => $v ] ])->getInfos();
@@ -65,16 +65,19 @@ class ForeachParse extends ExtensionParseForeach{
 			}
 		}
 
-		$code = '	public function foreach'.md5($foreach).'(){'."\n";
-		$code .= '		$implode = [];'."\n\n";
-		$code .= '		foreach($this->params[\''.$array.'\'] as $'.$k.' => $'.$v.'){'."\n";
-		$code .= '			$implode[] = \''.trim($this->content).'\';'."\n";
-		$code .= '		}'."\n\n";
-		$code .= '		return implode("\n", $implode);'."\n"; 
-		$code .= '	}'."\n\n";
+		if($array[0] != '!'){
+			$expr = '$this->params[\''.$array.'\']';
+		} else {
+			$expr = '$'.$this->dic_t->extension('FormatVar')->parseForeach(ltrim($array, '!'));
+		}
 
-        $this->infos['class_cache'] .= $code;
-        $this->infos['tpl'] = str_replace($match[0], '\'.$this->foreach'.md5($foreach).'().\'', $this->infos['tpl']);
+		$code = '\';'."\n\n";
+		$code .= '		foreach('.$expr.' as $'.$k.' => $'.$v.'){'."\n";
+		$code .= '			$content .= \''.trim($this->content).'\';'."\n";
+		$code .= '		}'."\n\n";
+		$code .= '		$content .= \'';
+        
+        $this->infos['tpl'] = str_replace($match[0], $code, $this->infos['tpl']);
         $this->infos['level']['foreach']--;
 	}
 }

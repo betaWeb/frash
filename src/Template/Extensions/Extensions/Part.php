@@ -15,9 +15,9 @@ class Part extends ExtensionParseSimple{
 	public function close(){
 		$name = $this->infos['parts'][ $this->infos['level']['part'] ]['name'];
 
-        if($this->infos['level']['escape_tpl'] == 0){
-            preg_match('/\{\{\s?part '.$name.'\s?\}\}(.*)\{\{\s?end_part '.$name.'\s?\}\}/Us', $this->infos['tpl'], $part_child);
-            preg_match('/\{\{\s?part '.$name.'\s?\}\}(.*)\{\{\s?end_part '.$name.'\s?\}\}/Us', $this->infos['display'], $part_parent);
+        if($this->infos['level']['esc_tpl'] == 0){
+            preg_match('/\{\{ part '.$name.' \}\}(.*)\{\{ end_part '.$name.' \}\}/Us', $this->infos['tpl'], $part_child);
+            preg_match('/\{\{ part '.$name.' \}\}(.*)\{\{ end_part '.$name.' \}\}/Us', $this->infos['display'], $part_parent);
 
             $this->infos['display'] = str_replace($part_parent[0], '\'.$this->part'.ucfirst($name).'().\'', $this->infos['display']);
 
@@ -29,7 +29,8 @@ class Part extends ExtensionParseSimple{
 			}
 
 			$code = '	public function part'.ucfirst($name).'(){'."\n";
-			$code .= '		return \''.trim($part_child[1]).'\';'."\n";
+			$code .= '		$content = \''.trim($part_child[1]).'\';'."\n\n";
+			$code .= '		return $content;'."\n";
 			$code .= '	}'."\n\n";
 
             $this->infos['class_cache'] .= $code;
@@ -43,7 +44,7 @@ class Part extends ExtensionParseSimple{
 	public function parent(){
 		$name = rtrim($this->infos['params']['match'][3]);
 
-		preg_match('/\{\{\s?part '.$name.'\s?\}\}(.*)\{\{\s?end_part '.$name.'\s?\}\}/Us', $this->infos['display'], $match);
+		preg_match('/\{\{ part '.$name.' \}\}(.*)\{\{ end_part '.$name.' \}\}/Us', $this->infos['display'], $match);
 
         $this->infos['tpl'] = str_replace('{{ parent '.$name.' }}', '\'.$this->parent'.ucfirst($name).'().\'', $this->infos['tpl']);
         $this->infos['class_cache'] .= $this->infos['params']['pp']->parse($name, $match[1]);

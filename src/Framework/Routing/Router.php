@@ -4,6 +4,7 @@ use Frash\Framework\DIC\Dic;
 use Frash\Framework\Exception\Exception;
 use Frash\Framework\Log\CreateLog;
 use Frash\Framework\Request\Server\Server;
+use Frash\Framework\Routing\HomePage;
 use Frash\Framework\Routing\Verification\{ GetRoute, Middleware };
 
 /**
@@ -11,11 +12,6 @@ use Frash\Framework\Routing\Verification\{ GetRoute, Middleware };
  * @package Frash\Framework\Routing
  */
 class Router{
-    /**
-     * @var array
-     */
-    private $conf = [];
-
     /**
      * @var Dic
      */
@@ -28,7 +24,6 @@ class Router{
 	public function __construct(Dic $dic)
 	{
 		$this->dic = $dic;
-        $this->conf = $this->dic->conf['config'];
 	}
 
 	/**
@@ -37,20 +32,21 @@ class Router{
 	 */
     public function route(string $url)
     {
-        CreateLog::access($url, $this->conf['log']);
+        $conf = $this->dic->conf['config'];
+        CreateLog::access($url, $conf['log']);
 
         $this->dic->uri = $url;
-        $this->dic->cache_tpl = $this->conf['cache']['tpl'];
-        $this->dic->env = $this->conf['env'];
-        $this->dic->analyzer = $this->conf['analyzer'];
+        $this->dic->cache_tpl = $conf['cache']['tpl'];
+        $this->dic->env = $conf['env'];
+        $this->dic->analyzer = $conf['analyzer'];
 
         $path = explode('/', $url);
 
-        if(in_array($path[0], $this->conf['traduction']['available'])){
+        if(in_array($path[0], $conf['traduction']['available'])){
             $this->dic->lang = $path[0];
             unset($path[0]);
         } else {
-            $this->dic->lang = $this->conf['traduction']['default'];
+            $this->dic->lang = $conf['traduction']['default'];
         }
 
         $this->dic->prefix_lang = $this->dic->prefix.$this->dic->lang;
@@ -58,8 +54,8 @@ class Router{
         array_unshift($path, 0);
         array_shift($path);
 
-        if($this->conf['analyzer'] == 'yes'){
-            $this->dic->url_analyzer = (empty($path[0])) ? $this->conf['racine'].'/' : implode('/', $path);
+        if($conf['analyzer'] == 'yes'){
+            $this->dic->url_analyzer = (empty($path[0])) ? $conf['racine'].'/' : implode('/', $path);
             $this->dic->load('analyzer')->getRegistry()->setConfigPHP();
         }
 
@@ -79,12 +75,15 @@ class Router{
             $racine = false;
             $route = '';
 
-            if(empty($path[0]) && !empty($this->conf['racine'])){
+            if(empty($path[0]) && empty($conf['racine'])){
+                $hp = new HomePage($this->dic);
+                return $hp->show();
+            } elseif(empty($path[0]) && !empty($conf['racine'])) {
                 $lien = '/';
-                $route = $routarr[ $this->conf['racine'] ]['path'];
+                $route = $routarr[ $conf['racine'] ]['path'];
                 $racine = true;
 
-                if(!empty($routarr[ $this->conf['racine'] ]['api']) && $routarr[ $this->conf['racine'] ]['api'] == 'true'){
+                if(!empty($routarr[ $conf['racine'] ]['api']) && $routarr[ $conf['racine'] ]['api'] == 'true'){
                     $api = true;
                 }
             } elseif(count($path) == 2 && in_array($path[0], $routarr)) {
@@ -124,7 +123,7 @@ class Router{
                                         $array_get[ $sub_get ] = $path[ $i ];
                                         $lien_array[ $sub_get ] = $expl_key[ $i ];
                                     } else {
-                                        return new Exception('Get : Url incorrecte.', $this->dic->conf['config']['log']);
+                                        return $this->dic->load('exception')->publish('Get : Url incorrecte.');
                                     }
                                 }
                             } else {
@@ -159,13 +158,13 @@ class Router{
                         $result = Middleware::define($this->dic, $middleware);
 
                         if($result === false){
-                            return new Exception('Failed during test of middleware');
+                            return $this->dic->load('exception')->publish('Failed during test of middleware');
                         }
                     } catch(Exception $e){
-                        CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
+                        return $this->dic->load('exception')->publish($e->getMessage());
                     }
 
-                    if($this->conf['analyzer'] == 'yes'){
+                    if($conf['analyzer'] == 'yes'){
                         $this->dic->load('analyzer')->getRegistry()->setRoute(str_replace('/', '.', $lien));
                         $controller = $this->dic->load('controller');
 
@@ -175,12 +174,12 @@ class Router{
                         $this->dic->load('controller')->call($routing)->$action();
                     }
                 } elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')) {
-                    return new Exception('Controller '.$controller.' not found', $this->conf['log']);
+                    return $this->dic->load('exception')->publish('Controller '.$controller.' not found');
                 } elseif(!method_exists($routing, $action)) {
-                    return new Exception('Action '.$action.' not found', $this->conf['log']);
+                    return $this->dic->load('exception')->publish('Action '.$action.' not found');
                 }
             } else {
-                return new Exception('Route '.$route.' not found', $this->conf['log']);
+                return $this->dic->load('exception')->publish('URL '.$url.' not found');
             }
         }
     }

@@ -33,6 +33,10 @@ class ConditionParse extends ExtensionParseSimple{
         $this->infos['condition'][ $this->infos['level']['condition'] ][] = [ 'type' => 'if', 'condition' => $this->infos['params']['condition'] ];
 	}
 
+	public function typeElse(){
+		$this->infos['condition'][ $this->infos['level']['condition'] ][] = [ 'type' => 'else', 'condition' => 'else' ];
+	}
+
 	public function typeEnd(){
 		$this->infos['count']['condition']++;
 
@@ -41,7 +45,7 @@ class ConditionParse extends ExtensionParseSimple{
 
 		$treatment = '';
 		$start = '{{ '.$this->infos['condition'][ $level_condition ][0]['condition'].' }}';
-		$count = count($this->infos['condition']) - 1;
+		$count = count($this->infos['condition'][ $level_condition ]) - 1;
 
 		for($i = 0; $i <= $count; $i++){
 			if($this->infos['condition'][ $level_condition ][ $i ]['type'] != 'end' && $this->infos['condition'][ $level_condition ][ $i ]['type'] != 'else'){
@@ -54,44 +58,43 @@ class ConditionParse extends ExtensionParseSimple{
 				preg_match('/(\w+) (.*\S) (.*\S) (.*\S)/', $this->infos['condition'][ $level_condition ][ $i ]['condition'], $split_cond);
 
 				if($split_cond[2][0] == '@'){
-					$split_cond[2] = ltrim($split_cond[2], '@');
+					$split_cond[2] = '$this->params'.$this->dic_t->extension('FormatVar')->parse(ltrim($split_cond[2], '@'));
+				} elseif($split_cond[2][0] == '!'){
+					$split_cond[2] = '$'.$this->dic_t->extension('FormatVar')->parseForeach(ltrim($split_cond[2], '!'));
 				}
 
 				if($split_cond[4] == '!empty'){
-					$treatment .= $split_cond[1].'(!empty($this->params'.$this->dic_t->extension('FormatVar')->parse($split_cond[2]).')){'."\n";
-					$treatment .= '			return \''.trim($value_cond[1]).'\';'."\n";
+					$treatment .= '	'.$split_cond[1].'(!empty('.$split_cond[2].')){'."\n";
+					$treatment .= '			$content .= \''.trim($value_cond[1]).'\';'."\n";
 					$treatment .= '		}'."\n";
 				} elseif($split_cond[4] == 'empty') {
-					$treatment .= $split_cond[1].'(empty($this->params'.$this->dic_t->extension('FormatVar')->parse($split_cond[2]).')){'."\n";
-					$treatment .= '			return \''.trim($value_cond[1]).'\';'."\n";
+					$treatment .= '	'.$split_cond[1].'(empty('.$split_cond[2].')){'."\n";
+					$treatment .= '			$content .= \''.trim($value_cond[1]).'\';'."\n";
 					$treatment .= '		}'."\n";
 				} elseif($split_cond[4][0] == '"' || preg_match('/(\d)/', $split_cond[4])) {
-					$treatment .= $split_cond[1].'($this->params'.$this->dic_t->extension('FormatVar')->parse($split_cond[2]).' '.$split_cond[3].' '.$split_cond[4].'){'."\n";
-					$treatment .= '			return \''.trim($value_cond[1]).'\';'."\n";
+					$treatment .= '	'.$split_cond[1].'('.$split_cond[2].' '.$split_cond[3].' '.$split_cond[4].'){'."\n";
+					$treatment .= '			$content .= \''.trim($value_cond[1]).'\';'."\n";
 					$treatment .= '		}'."\n";
 				} elseif($split_cond[4][0] == '@') {
-					$treatment .= $split_cond[1].'($this->params'.$this->dic_t->extension('FormatVar')->parse($split_cond[2]).' '.$split_cond[3].' $this->params'.$this->dic_t->extension('FormatVar')->parse($split_cond[4]).'){'."\n";
-					$treatment .= '			return \''.trim($value_cond[1]).'\';'."\n";
+					$treatment .= '	'.$split_cond[1].'('.$split_cond[2].' '.$split_cond[3].' $this->params'.$this->dic_t->extension('FormatVar')->parse($split_cond[4]).'){'."\n";
+					$treatment .= '			$content .= \''.trim($value_cond[1]).'\';'."\n";
 					$treatment .= '		}'."\n";
 				}
-			} elseif($condition[ $i ]['type'] == 'else') {
-				preg_match('/\{\{ else \}\}(.*)\{\{ end_if \}\}/Us', $tpl, $value_cond);
+			} elseif($this->infos['condition'][ $level_condition ][ $i ]['type'] == 'else') {
+				preg_match('/\{\{ else \}\}(.*)\{\{ end_if \}\}/Us', $this->infos['tpl'], $value_cond);
 
-				$treatment .= 'else{'."\n";
-				$treatment .= '			return \''.trim($value_cond[1]).'\';'."\n";
+				$treatment .= '		else{'."\n";
+				$treatment .= '			$content .= \''.trim($value_cond[1]).'\';'."\n";
 				$treatment .= '		}'."\n";
 			}
 		}
 
-		$treatment .= "\n".'		return \'\';';
-
-		$code = '	public function condition'.$this->infos['count']['condition'].'(){'."\n";
-		$code .= '		'.$treatment."\n";
-		$code .= '	}'."\n\n";
+		$code = '\';'."\n\n";
+		$code .= '	'.$treatment."\n";
+		$code .= '		$content .= \'';
 
         preg_match('/'.$start.'(.*)\{\{ end_if \}\}/Us', $this->infos['tpl'], $match);
-        $this->infos['tpl'] = str_replace($match[0], '\'.$this->condition'.$this->infos['count']['condition'].'().\'', $this->infos['tpl']);
-        $this->infos['class_cache'] .= $code;
+        $this->infos['tpl'] = str_replace($match[0], $code, $this->infos['tpl']);
 
         unset($this->infos['condition'][ $level_condition ]);
         $this->infos['level']['condition']--;

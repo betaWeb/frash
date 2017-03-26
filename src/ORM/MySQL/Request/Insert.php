@@ -1,11 +1,12 @@
 <?php
-namespace LFW\ORM\MySQL\Request;
+namespace Frash\ORM\MySQL\Request;
+use Frash\ORM\RequestInterface;
 
 /**
  * Class Insert
- * @package LFW\ORM\MySQL\Request
+ * @package Frash\ORM\MySQL\Request
  */
-class Insert{
+class Insert implements RequestInterface{
     /**
      * @var string
      */
@@ -24,7 +25,7 @@ class Insert{
     /**
      * @var array
      */
-    private $insertExecute = [];
+    private $insertExecute;
 
     /**
      * @var array
@@ -42,7 +43,7 @@ class Insert{
     /**
      * @param array $val
      */
-    public function setInsert(array $val){
+    public function cols(array $val){
         $this->insertCol = implode(', ', $val);
 
         $array = [];
@@ -52,13 +53,16 @@ class Insert{
 
         $this->insertVal = implode(', ', $array);
         $this->insertExecute = $array;
+
+        return $this;
     }
 
     /**
      * @param array $exec
      */
-    public function setExecute(array $exec){
+    public function execute(array $exec){
         $this->execute = array_combine($this->insertExecute, $exec);
+        return $this;
     }
 
     /**

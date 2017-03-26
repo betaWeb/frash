@@ -36,7 +36,7 @@ class OrmFactory{
         $this->bundle = $dic->bundle;
         $this->dic = $dic;
 
-        $orm = new Orm($this->bundle, $this->dic);
+        $orm = new Orm($this->dic);
         $this->connexion = $orm->connexion;
         $this->system = $orm->system;
     }
@@ -58,7 +58,7 @@ class OrmFactory{
      */
     public function entity(string $entity){
         $namespace = 'Bundles\\'.$this->bundle.'\Entity\\'.$entity;
-        return new $namespace;
+        return new $namespace($this, $this->dic);
     }
 
     /**
@@ -66,7 +66,7 @@ class OrmFactory{
      */
     public function finder(){
         $namespace = 'Frash\ORM\\'.$this->system.'\Finder';
-        return new $namespace($this->dic, $this->connexion, $this->bundle);
+        return new $namespace($this->dic, $this->connexion);
     }
 
     /**

@@ -44,6 +44,7 @@
 
 .analyzer a, .dump a{
 	color:white;
+	text-decoration:none;
 }
 
 .div_dump{

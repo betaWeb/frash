@@ -20,6 +20,7 @@ class Counter{
 
     /**
      * Counter constructor.
+     * @param Dic $dic
      * @param \PDO $pdo
      */
     public function __construct(Dic $dic, \PDO $pdo){
@@ -38,15 +39,13 @@ class Counter{
             $table = lcfirst($entity);
             $request = 'SELECT COUNT(*) as count FROM '."\"$table\"".' '.$where;
 
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request, $this->dic->conf['config']['log']);
+            CreateLog::request($request, $this->dic->conf['config']['log']);
 
             $req = $this->pdo->prepare($request);
             $req->execute($arguments);
             return $req->fetch(\PDO::FETCH_ASSOC)['count'];
-        }
-        catch(\Exception $e){
-            CreateLog::error($e->getMessage());
-            die('Il y a eu une erreur.');
+        } catch(\Exception $e) {
+            CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
         }
     }
 

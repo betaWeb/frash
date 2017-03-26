@@ -1,17 +1,18 @@
 <?php
-namespace LFW\ORM\MySQL;
-use LFW\Framework\Log\CreateLog;
-use LFW\ORM\{ Hydrator, PDO };
+namespace Frash\ORM\MySQL;
+use Frash\Framework\DIC\Dic;
+use Frash\Framework\Log\CreateLog;
+use Frash\ORM\Hydrator;
 
 /**
  * Class Finder
- * @package Composants\ORM\MySQL
+ * @package Frash\ORM\MySQL
  */
-class Finder{
+class Finder extends Hydrator{
     /**
-     * @var string
+     * @var Dic
      */
-    private $bundle;
+    private $dic;
 
     /**
      * @var PDO
@@ -20,11 +21,11 @@ class Finder{
 
     /**
      * Finder constructor.
-     * @param PDO $pdo
-     * @param string $bundle
+     * @param Dic $dic
+     * @param \PDO $pdo
      */
-    public function __construct(PDO $pdo, string $bundle){
-        $this->bundle = $bundle;
+    public function __construct(Dic $dic, \PDO $pdo){
+        $this->dic = $dic;
         $this->pdo = $pdo;
     }
 
@@ -38,23 +39,25 @@ class Finder{
         try{
             $request = 'SELECT * FROM '.lcfirst($entity).' '.$where;
 
-            $this->pdo->request($request, $arguments);
-            $res = $this->pdo->fetchAllObj();
+            $req = $this->pdo->prepare($request);
+            $req->execute($arguments);
+            $res = $req->fetchAll(\PDO::FETCH_OBJ);
 
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request);
+            CreateLog::request($request, $this->dic->conf['config']['log']);
 
-            $count = count($res) - 1;
+            $count = count($res);
             $array_obj = [];
+            $ent = ucfirst($entity);
 
-            for($i = 0; $i <= $count; $i++){
-                $array_obj[ $i ] = Hydrator::hydration($res[ $i ], 'Bundles\\'.$this->bundle.'\Entity\\'.$entity);
+            $this->preloadHydration($this->dic->load('orm'), $this->dic);
+
+            for($i = 0; $i < $count; $i++){
+                $array_obj[ $i ] = $this->hydration($res[ $i ], 'Bundles\\'.$this->dic->bundle.'\Entity\\'.$ent);
             }
 
             return $array_obj;
-        }
-        catch(\Exception $e){
-            CreateLog::error($e->getMessage());
-            die('Il y a eu une erreur.');
+        } catch(\Exception $e) {
+            return $this->dic->load('exception')->publish($e->getMessage());
         }
     }
 
@@ -68,16 +71,16 @@ class Finder{
         try{
             $request = 'SELECT * FROM '.lcfirst($entity).' '.$where;
 
-            $this->pdo->request($request, $arguments);
-            $res = $this->pdo->fetchObj();
+            $req = $this->pdo->prepare($request);
+            $req->execute($arguments);
+            $res = $req->fetch(\PDO::FETCH_OBJ);
 
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request);
+            CreateLog::request($request, $this->dic->conf['config']['log']);
 
-            return Hydrator::hydration($res, 'Bundles\\'.$this->bundle.'\Entity\\'.$entity);
-        }
-        catch(\Exception $e){
-            CreateLog::error($e->getMessage());
-            die('Il y a eu une erreur.');
+            $this->preloadHydration($this->dic->load('orm'), $this->dic);
+            return $this->hydration($res, 'Bundles\\'.$this->dic->bundle.'\Entity\\'.ucfirst($entity));
+        } catch(\Exception $e) {
+            return $this->dic->load('exception')->publish($e->getMessage());
         }
     }
 
@@ -100,8 +103,7 @@ class Finder{
 
             return $this->findBy($entity, 'WHERE '.implode(' AND ', $array_method), $arg);
         } elseif(substr($method, 0, 9) == 'findOneBy') {
-            $method = str_replace('findOneBy', '', $method);
-            $expl_method = explode('And', $method);
+            $expl_method = explode('And', str_replace('findOneBy', '', $method));
 
             $array_method = [];
             foreach($expl_method as $method){

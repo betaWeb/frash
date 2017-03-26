@@ -8,7 +8,7 @@ use Frash\Template\DependTemplEngine;
  * @package Frash\Template\Extensions\BottomBar
  */
 class ImportBottomBar{
-    const PATH = 'vendor/alixsperoza/frash/src/Template/Extensions/BottomBar';
+    const PATH = 'vendor/alixsperoza/frash/ressources';
 
     /**
      * @var Dic
@@ -44,14 +44,14 @@ class ImportBottomBar{
 		$microtime = $this->dic->load('microtime');
         $dump = $this->dic_t->getParam('params')['dump'];
 
+        $analyzer = $this->dic->load('getUrl')->url('__analyzer/');
         $url_analyzer = $this->dic->url_analyzer;
+
         if(!empty($url_analyzer)){
-            $analyzer = $this->dic->load('getUrl')->url('__analyzer/').$this->dic->url_analyzer;
-        } else {
-            $analyzer = $this->dic->load('getUrl')->url('__analyzer/');
+            $analyzer .= $url_analyzer;
         }
 
-        $code = '       <link rel="stylesheet" media="screen" type="text/css" href="'.$this->prefix.'/'.self::PATH.'/bottom_bar.css">'."\n";
+        $code = '       <link rel="stylesheet" media="screen" type="text/css" href="'.$this->prefix.'/'.self::PATH.'/css/bottom_bar.css">'."\n";
 		$code .= '      <div id="tpl_bottom_bar">'."\n";
         $code .= '          <div id="bottom_bar">'."\n";
 		$code .= '			    <div class="middle float_left time">Time : '.$microtime->getTiming('start', 'bottom_bar').'</div>'."\n";
@@ -85,7 +85,7 @@ class ImportBottomBar{
         }
 
 		$code .= '		</div>'."\n";
-        $code .= '      <script src="'.$this->prefix.'/'.self::PATH.'/bottom_bar.js"></script>'."\n";
+        $code .= '      <script src="'.$this->prefix.'/'.self::PATH.'/javascript/bottom_bar.js"></script>'."\n";
 
 		return $code;
 	}

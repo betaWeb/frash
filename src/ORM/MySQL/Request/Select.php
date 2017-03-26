@@ -1,12 +1,13 @@
 <?php
-namespace LFW\ORM\MySQL\Request;
-use LFW\ORM\RequestInterface;
+namespace Frash\ORM\MySQL\Request;
+use Frash\ORM\RequestInterface;
+use Frash\ORM\MySQL\Request\Where;
 
 /**
  * Class Select
- * @package LFW\ORM\MySQL\Request
+ * @package Frash\ORM\MySQL\Request
  */
-class Select implements RequestInterface{
+class Select extends Where implements RequestInterface{
     /**
      * @var string
      */
@@ -21,16 +22,6 @@ class Select implements RequestInterface{
      * @var string
      */
     private $colSel = '*';
-
-    /**
-     * @var string
-     */
-    private $where = '';
-
-    /**
-     * @var array
-     */
-    private $arrayWhere = [];
 
     /**
      * @var array
@@ -53,6 +44,11 @@ class Select implements RequestInterface{
     private $offset = '';
 
     /**
+     * @var string
+     */
+    private $groupBy = '';
+
+    /**
      * Select constructor.
      * @param array $array
      */
@@ -73,28 +69,52 @@ class Select implements RequestInterface{
         }
     }
 
-    /**
-     * @param Where $where
-     */
-    public function setWhere(Where $where){
-        $this->where = $where->getWhere();
-        $this->arrayWhere = $where->getArrayWhere();
+    public function count(){
+        if($this->colSel == '*'){
+            $this->colSel = 'COUNT(*) AS number_result';
+        } else {
+            $this->colSel .= ', COUNT(*) AS number_result';
+        }
+
+        return $this;
     }
 
     /**
      * @param string $col
      */
-    public function setColSel(string $col){
+    public function colSel(string $col){
         $this->colSel = $col;
+        return $this;
+    }
+
+    /**
+     * @param string $exec
+     */
+    public function addExec(string $exec){
+        $this->arrayWhere[] = $exec;
+        return $this;
+    }
+
+    /**
+     * @param string $col
+     * @param string $having
+     */
+    public function groupBy(string $col, string $having = ''){
+        $this->groupBy = 'GROUP BY '.$col;
+        $this->groupBy .= ($having == '') ? '' : ' HAVING '.$having;
+
+        return $this;
     }
 
     /**
      * @param array $exec
      */
-    public function setExecute(array $exec = []){
+    public function execute(array $exec = []){
         if(count($exec) == count($this->arrayWhere)){
             $this->execute = array_combine($this->arrayWhere, $exec);
         }
+
+        return $this;
     }
 
     /**
@@ -109,7 +129,8 @@ class Select implements RequestInterface{
      */
     public function getRequest(): string{
         if(!empty($this->table) && !empty($this->colSel)){
-            return 'SELECT '.$this->colSel.' FROM '.$this->table.' '.$this->where.' '.$this->order.' '.$this->limit.' '.$this->offset;
+            $where = ($this->where == 'WHERE ') ? '' : $this->where;
+            return 'SELECT '.$this->colSel.' FROM '.$this->table.' '.$where.' '.$this->groupBy.' '.$this->order.' '.$this->limit.' '.$this->offset;
         }
     }
 

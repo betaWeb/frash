@@ -75,14 +75,17 @@ class Loader{
 
     /**
      * @param string $type
-     * @param string $file
+     * @param bool $no_cache
      */
-    public function internal(string $type, string $file, bool $no_cache){
-        $this->no_cache = $no_cache;
+    public function internal(string $type, bool $no_cache){
         Directory::notExistAndCreate('Storage/Cache/Templating');
-
         $name_file = 'Display'.$type;
-        if(File::exist('Storage/Cache/Templating/Display.php') === false){
+
+        if(Server::refresh() && File::exist('Storage/Cache/Templating/'.$name_file.'.php')){
+            File::delete('Storage/Cache/Templating/'.$name_file.'.php');
+        }
+
+        if(!File::exist('Storage/Cache/Templating/'.$name_file.'.php')){
             $parser = new Parser($this->file, $this->params, $this->dic, $this->dic_t, $name_file);
             $parser->parse($type);
         }
@@ -103,7 +106,7 @@ class Loader{
         Directory::notExistAndCreate('Storage/Cache/Templating');
 
         if(File::exist('Bundles/'.$this->bundle.'/Views/'.$this->file) === false){
-            return new Exception('Template '.$this->file.' not found.', $this->dic->conf['config']['log']);
+            return $this->dic->load('exception')->publish('Template '.$this->file.' not found.');
         }
 
         $name_file = 'TemplateOf'.md5('Bundles/'.$this->bundle.'/Views/'.$this->file);

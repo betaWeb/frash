@@ -1,12 +1,13 @@
 <?php
-namespace LFW\ORM\MySQL\Request;
-use LFW\ORM\RequestInterface;
+namespace Frash\ORM\MySQL\Request;
+use Frash\ORM\RequestInterface;
+use Frash\ORM\MySQL\Request\Where;
 
 /**
  * Class Update
- * @package LFW\ORM\MySQL\Request
+ * @package Frash\ORM\MySQL\Request
  */
-class Update implements RequestInterface{
+class Update extends Where implements RequestInterface{
     /**
      * @var string
      */
@@ -21,16 +22,6 @@ class Update implements RequestInterface{
      * @var array
      */
     private $updateExecute = [];
-
-    /**
-     * @var string
-     */
-    private $where = '';
-
-    /**
-     * @var array
-     */
-    private $arrayWhere = [];
 
     /**
      * @var array
@@ -48,22 +39,15 @@ class Update implements RequestInterface{
     /**
      * @param string $exec
      */
-    public function setAddExec(string $exec){
+    public function addExec(string $exec){
         $this->updateExecute[] = $exec;
-    }
-
-    /**
-     * @param Where $where
-     */
-    public function setWhere(Where $where){
-        $this->where = $where->getWhere();
-        $this->arrayWhere = $where->getArrayWhere();
+        return $this;
     }
 
     /**
      * @param array $update
      */
-    public function setUpdate(array $update = []){
+    public function update(array $update = []){
         $upd = [];
 
         foreach($update as $k => $v){
@@ -89,23 +73,20 @@ class Update implements RequestInterface{
         }
 
         $this->update = implode(', ', $upd);
+        return $this;
     }
 
     /**
      * @param array $exec
      */
-    public function setExecute(array $exec){
-        $arrayUpd = [];
-
-        foreach($this->updateExecute as $v){
-            $arrayUpd[] = $v;
-        }
-
-        $result = array_merge($arrayUpd, $this->arrayWhere);
+    public function execute(array $exec){
+        $result = array_merge($this->updateExecute, $this->arrayWhere);
 
         if(count($exec) == count($result)){
             $this->execute = array_combine($result, $exec);
         }
+
+        return $this;
     }
 
     /**

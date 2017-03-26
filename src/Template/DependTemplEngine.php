@@ -15,9 +15,11 @@ class DependTemplEngine{
 	private $dependencies = [
 	    'extensions' => [
             'default' => [
+                'Ajax' => self::EXTENSIONS.'.AjaxParse',
                 'BundleParse' => self::EXTENSIONS.'.Bundle.BundleParse',
                 'BundleTplParent' => self::EXTENSIONS.'.Bundle.BundleTplParent',
                 'ConditionParse' => self::EXTENSIONS.'.Condition.ConditionParse',
+                'EscapeHtmlParse' => self::EXTENSIONS.'.Escape.Html.EscapeHtmlParse',
                 'EscapeTpl' => self::EXTENSIONS.'.EscapeTpl',
                 'ForeachParse' => self::EXTENSIONS.'.Loop.ForeachLoop.ForeachParse',
                 'FormatVar' => self::EXTENSIONS.'.Variable.FormatVar',

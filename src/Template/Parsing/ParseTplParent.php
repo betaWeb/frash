@@ -14,7 +14,8 @@ class ParseTplParent extends ParseArray{
     private $attributes = [
         'bundle' => '',
         'tpl' => '',
-        'level' => [ 'condition' => 0, 'escape_tpl' => 0, 'for' => 0, 'foreach' => 0, 'index' => 0, 'itvl' => 0 ],
+        'count' => [ 'condition' => 0, 'esc_tpl' => 0, 'esc_html' => 0, 'for' => 0, 'foreach' => 0, 'index' => 0, 'itvl' => 0 ],
+        'level' => [ 'condition' => 0, 'esc_tpl' => 0, 'esc_html' => 0, 'for' => 0, 'foreach' => 0, 'index' => 0, 'itvl' => 0 ],
         'condition' => [],
         'foreach' => [],
         'function' => []
@@ -33,13 +34,13 @@ class ParseTplParent extends ParseArray{
     /**
      * ParseTplParent constructor.
      * @param object $trad
-     * @param string $bundle
-     * @param string $display
+     * @param array $attributes
      * @param DependTemplEngine $dic_t
      */
-	public function __construct($trad, string $bundle, string $display, DependTemplEngine $dic_t){
-		$this->attributes['bundle'] = $bundle;
-		$this->attributes['tpl'] = $display;
+	public function __construct($trad, array $attributes, DependTemplEngine $dic_t){
+		$this->attributes['bundle'] = $attributes['bundle'];
+		$this->attributes['tpl'] = $attributes['display'];
+
 		$this->dic_t = $dic_t;
 		$this->trad = $trad;
 	}
@@ -49,6 +50,7 @@ class ParseTplParent extends ParseArray{
      */
     private function returnExtension($return){
         $infos = $return->getInfos();
+        $this->attributes['count'] = $infos['count'];
         $this->attributes['condition'] = $infos['condition'];
         $this->attributes['foreach'] = $infos['foreach'];
         $this->attributes['function'] = $infos['function'];
@@ -63,8 +65,10 @@ class ParseTplParent extends ParseArray{
         preg_match_all('/\{\{ (([a-zA-Z_]*)?\s?([a-zA-Z0-9\/@_!=:;+",<>\[\]\(\)\-\.\s]*)) \}\}/', $this->attributes['tpl'], $res_split, PREG_SET_ORDER);
 		foreach($res_split as $key => $tag){
 			switch(true){
-				case $this->attributes['level']['escape_tpl'] == 0:
+				case $this->attributes['level']['esc_tpl'] == 0:
 					switch(true){
+                        case preg_match($this->extension['default']['ajax'], $tag[0]):
+                            $this->returnExtension($this->dic_t->callExtension()->parseTplParent('Ajax', 'parse', $this->attributes));
 						case preg_match($this->extension['default']['bundle'], $tag[0]):
                             $ext = $this->dic_t->callExtension()->parse('BundleTplParent', 'parse', $this->attributes, [ 'match' => $res_split[ $key ] ]);
                             $this->returnExtension($ext);

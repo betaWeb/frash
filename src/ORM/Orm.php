@@ -20,14 +20,13 @@ class Orm{
 
     /**
      * Orm constructor.
-     * @param string $bundle
      * @param Dic $dic
      * @return Exception
      */
-    public function __construct(string $bundle, Dic $dic){
-        if(!empty($dic->conf['database']) && !empty($dic->conf['database'][ $bundle ])){
+    public function __construct(Dic $dic){
+        if(!empty($dic->conf['database']) && !empty($dic->conf['database'][ $dic->bundle ])){
             try{
-                $conf = $dic->conf['database'][ $bundle ];
+                $conf = $dic->conf['database'][ $dic->bundle ];
                 $this->system = $conf['system'];
 
                 switch($conf['system']){
@@ -39,10 +38,10 @@ class Orm{
                         $this->connexion->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
                         break;
                     default:
-                        return new Exception('Connexion à l\'ORM impossible.', $dic->conf['config']['log']);
+                        return $dic->load('exception')->publish('Connexion à l\'ORM impossible.');
                 }
             } catch(\Exception $e) {
-                return new Exception($e->getMessage(), $dic->conf['config']['log']);
+                return $dic->load('exception')->publish($e->getMessage());
             }
         }
     }

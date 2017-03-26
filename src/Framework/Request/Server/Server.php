@@ -265,7 +265,7 @@ class Server{
     /**
      * @return array
      */
-    public static function getAllRequest(): array{
+    public static function all(): array{
         return $_SERVER;
     }
 }

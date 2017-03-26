@@ -10,11 +10,6 @@ use Frash\ORM\Hydrator;
  */
 class Finder extends Hydrator{
     /**
-     * @var string
-     */
-    private $bundle;
-
-    /**
      * @var Dic
      */
     private $dic;
@@ -28,10 +23,8 @@ class Finder extends Hydrator{
      * Finder constructor.
      * @param Dic $dic
      * @param \PDO $pdo
-     * @param string $bundle
      */
-    public function __construct(Dic $dic, \PDO $pdo, string $bundle){
-        $this->bundle = $bundle;
+    public function __construct(Dic $dic, \PDO $pdo){
         $this->dic = $dic;
         $this->pdo = $pdo;
     }
@@ -47,7 +40,7 @@ class Finder extends Hydrator{
             $table = lcfirst($entity);
             $request = 'SELECT * FROM '."\"$table\"".' '.$where;
 
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request, $this->dic->conf['config']['log']);
+            CreateLog::request($request, $this->dic->conf['config']['log']);
 
             $req = $this->pdo->prepare($request);
             $req->execute($arguments);
@@ -55,16 +48,17 @@ class Finder extends Hydrator{
 
             $count = count($res);
             $array_obj = [];
+            $ent = ucfirst($entity);
+
+            $this->preloadHydration($this->dic->load('orm'), $this->dic);
 
             for($i = 0; $i < $count; $i++){
-                $array_obj[ $i ] = Hydrator::hydration($res[ $i ], 'Bundles\\'.$this->bundle.'\Entity\\'.$entity);
+                $array_obj[ $i ] = $this->hydration($res[ $i ], 'Bundles\\'.$this->dic->bundle.'\Entity\\'.$ent);
             }
 
             return $array_obj;
-        }
-        catch(\Exception $e){
-            CreateLog::error($e->getMessage());
-            die('Il y a eu une erreur.');
+        } catch(\Exception $e) {
+            return $this->dic->load('exception')->publish($e->getMessage());
         }
     }
 
@@ -79,17 +73,16 @@ class Finder extends Hydrator{
             $table = lcfirst($entity);
             $request = 'SELECT * FROM '."\"$table\"".' '.$where;
 
-            CreateLog::request(date('d/m/Y à H:i:s').' - Requête : '.$request, $this->dic->conf['config']['log']);
+            CreateLog::request($request, $this->dic->conf['config']['log']);
 
             $req = $this->pdo->prepare($request);
             $req->execute($arguments);
             $res = $req->fetch(\PDO::FETCH_OBJ);
 
-            return $this->hydration($res, 'Bundles\\'.$this->bundle.'\Entity\\'.$entity);
-        }
-        catch(\Exception $e){
-            CreateLog::error($e->getMessage());
-            die('Il y a eu une erreur.');
+            $this->preloadHydration($this->dic->load('orm'), $this->dic);
+            return $this->hydration($res, 'Bundles\\'.$this->dic->bundle.'\Entity\\'.ucfirst($entity));
+        } catch(\Exception $e) {
+            return $this->dic->load('exception')->publish($e->getMessage());
         }
     }
 
@@ -103,8 +96,7 @@ class Finder extends Hydrator{
         array_shift($arg);
 
         if(substr($method, 0, 6) == 'findBy'){
-            $method = str_replace('findBy', '', $method);
-            $expl_method = explode('And', $method);
+            $expl_method = explode('And', str_replace('findBy', '', $method));
 
             $array_method = [];
             foreach($expl_method as $method){
@@ -114,8 +106,7 @@ class Finder extends Hydrator{
 
             return $this->findBy($entity, 'WHERE '.implode(' AND ', $array_method), $arg);
         } elseif(substr($method, 0, 9) == 'findOneBy') {
-            $method = str_replace('findOneBy', '', $method);
-            $expl_method = explode('And', $method);
+            $expl_method = explode('And', str_replace('findOneBy', '', $method));
 
             $array_method = [];
             foreach($expl_method as $method){

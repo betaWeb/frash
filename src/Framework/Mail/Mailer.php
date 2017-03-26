@@ -28,6 +28,10 @@ class Mailer{
      */
     private $title;
 
+    /**
+     * Mailer constructor.
+     * @param Dic $dic
+     */
     public function __construct(Dic $dic){
         $this->dic = $dic;
     }
@@ -37,9 +41,9 @@ class Mailer{
      * @return Exception
      */
     public function init($array){
-        if(empty($array['mail'])){ return new Exception('Mailer : L\'adresse mail n\'est pas indiquée.', $this->dic->conf['config']['log']); }
-        if(empty($array['title'])){ return new Exception('Mailer : Le sujet du mail n\'est pas indiqué.', $this->dic->conf['config']['log']); }
-        if(empty($array['body'])){ return new Exception('Mailer : Le corps du mail n\'est pas indiqué.', $this->dic->conf['config']['log']); }
+        if(empty($array['mail'])){ return $this->dic->load('exception')->publish('Mailer : L\'adresse mail n\'est pas indiquée.'); }
+        if(empty($array['title'])){ return $this->dic->load('exception')->publish('Mailer : Le sujet du mail n\'est pas indiqué.'); }
+        if(empty($array['body'])){ return $this->dic->load('exception')->publish('Mailer : Le corps du mail n\'est pas indiqué.'); }
 
         $this->body = $array['body'];
         $this->mail = $array['mail'];
