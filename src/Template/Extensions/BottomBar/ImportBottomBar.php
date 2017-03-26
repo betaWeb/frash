@@ -43,10 +43,12 @@ class ImportBottomBar{
 	public function parse(): string{
 		$microtime = $this->dic->load('microtime');
         $dump = $this->dic_t->getParam('params')['dump'];
-        $analyzer = $this->dic->load('getUrl')->url('__analyzer/');
 
-        if(!empty($this->dic->url_analyzer)){
-            $analyzer .= $this->dic->url_analyzer;
+        $analyzer = $this->dic->load('getUrl')->url('__analyzer/');
+        $url_analyzer = $this->dic->url_analyzer;
+
+        if(!empty($url_analyzer)){
+            $analyzer .= $url_analyzer;
         }
 
         $code = '       <link rel="stylesheet" media="screen" type="text/css" href="'.$this->prefix.'/'.self::PATH.'/css/bottom_bar.css">'."\n";

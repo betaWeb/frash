@@ -49,8 +49,10 @@ class Finder extends Hydrator{
             $array_obj = [];
             $ent = ucfirst($entity);
 
+            $this->preloadHydration($this->dic->load('orm'), $this->dic);
+
             for($i = 0; $i < $count; $i++){
-                $array_obj[ $i ] = Hydrator::hydration($res[ $i ], 'Bundles\\'.$this->dic->bundle.'\Entity\\'.$ent);
+                $array_obj[ $i ] = $this->hydration($res[ $i ], 'Bundles\\'.$this->dic->bundle.'\Entity\\'.$ent);
             }
 
             return $array_obj;
@@ -75,6 +77,7 @@ class Finder extends Hydrator{
 
             CreateLog::request($request, $this->dic->conf['config']['log']);
 
+            $this->preloadHydration($this->dic->load('orm'), $this->dic);
             return $this->hydration($res, 'Bundles\\'.$this->dic->bundle.'\Entity\\'.ucfirst($entity));
         } catch(\Exception $e) {
             return $this->dic->load('exception')->publish($e->getMessage());
