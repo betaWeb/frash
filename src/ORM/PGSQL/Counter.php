@@ -45,7 +45,7 @@ class Counter{
             $req->execute($arguments);
             return $req->fetch(\PDO::FETCH_ASSOC)['count'];
         } catch(\Exception $e) {
-            CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
+            return $this->dic->load('exception')->publish($e->getMessage());
         }
     }
 

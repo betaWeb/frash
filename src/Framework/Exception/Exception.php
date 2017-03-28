@@ -29,45 +29,38 @@ class Exception{
      */
     public function publish(string $message)
     {
-        header('HTTP/1.0 404 Not Found', true, 404);
         CreateLog::error($message, $this->dic->conf['config']['log']);
 
         ob_start();
         debug_print_backtrace();
         $data = ob_get_clean();
 
-        $histo_stacktrace = explode("\n", $data);
-        $count = count($histo_stacktrace) - 1;
+        $histo = explode("\n", $data);
+        $count = count($histo) - 1;
 
-        unset($histo_stacktrace[ $count ]);
+        $histo_stacktrace = [];
 
         for($i = 0; $i < $count; $i++){
-            preg_match('/\A#(\d*) /', $histo_stacktrace[ $i ], $match);
-            $histo_stacktrace[ $i ] = str_replace($match[0].' ', '', $histo_stacktrace[ $i ]);
+            if(preg_match('/\A#(\d*) /', $histo[ $i ], $match)){
+                $histo_stacktrace[] = str_replace($match[0].' ', '', $histo[ $i ]);
+            }
         }
 
-        $path = str_replace('index.php', '', Server::scriptFilename());
-        $stacktrace = [];
-
         foreach($histo_stacktrace as $content){
-            preg_match('/\['.preg_quote($path, '/').'(.*)\]/', $content, $match);
-            list($file, $line) = explode(':', $match[1]);
-            $cf = $this->contentFile($file, $line);
+            preg_match_all('/\[(.*)\]/Us', $content, $matches, PREG_SET_ORDER);
 
-            if(strlen($content) > 180){
-                preg_match_all('/\[(.*)\]/Us', $content, $path_file);
-                $coll = new Collection($path_file[1]);
-                $content = $coll->last();
+            if(preg_match('/(.*):(\d+)/', array_pop($matches)[1], $match)){
+                $cf = $this->contentFile($match[1], $match[2]);
+
+                $stacktrace[] = [
+                    'file' => $match[1],
+                    'trace' => $content,
+                    'line' => $match[2],
+                    'code_before' => $cf->content_before,
+                    'code_line' => $cf->content_line,
+                    'code_after' => $cf->content_after
+                ];
             }
-
-            $stacktrace[] = [
-                'file' => $file,
-                'trace' => $content,
-                'line' => $line,
-                'code_before' => $cf->content_before,
-                'code_line' => $cf->content_line,
-                'code_after' => $cf->content_after
-            ];
         }
 
         $this->dic->load('tpl')->internal('Exception', 'vendor/alixsperoza/frash/ressources/views/exception.tpl', [ 'true_route' => $this->dic->uri, 'stacktrace' => $stacktrace ]);

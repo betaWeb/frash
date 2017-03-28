@@ -13,7 +13,7 @@ class ParseArray{
 	    'default' => [
             'ajax' => '/\{\{ ajax \}\}/',
             'bundle' => '/\{\{ bundle (.*) \}\}/',
-            'call' => '/\{\{ call (\w+) (.*) \}\}/',
+            'call' => '/\{\{ call (.*) \}\}/',
             'else' => '/\{\{ else \}\}/',
             'elseif' => '/\{\{ elseif (.*) \}\}/',
             'escape_html' => '/\{\{ esc_html \}\}/',

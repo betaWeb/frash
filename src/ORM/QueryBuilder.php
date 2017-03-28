@@ -59,7 +59,7 @@ class QueryBuilder extends Hydrator{
                 return $this->conn->lastInsertId();
             }
         } catch(\Exception $e) {
-            CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
+            return $this->dic->load('exception')->publish($e->getMessage());
         }
     }
 
@@ -82,7 +82,7 @@ class QueryBuilder extends Hydrator{
                 return $this->hydration($res, 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity());
             }
         } catch(\Exception $e) {
-            CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
+            return $this->dic->load('exception')->publish($e->getMessage());
         }
     }
 
@@ -113,7 +113,7 @@ class QueryBuilder extends Hydrator{
                 return $array_obj;
             }
         } catch(\Exception $e) {
-            CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
+            return $this->dic->load('exception')->publish($e->getMessage());
         }
     }
 
@@ -127,7 +127,7 @@ class QueryBuilder extends Hydrator{
 
             CreateLog::request($request->getRequest(), $this->dic->conf['config']['log']);
         } catch(\Exception $e) {
-            CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
+            return $this->dic->load('exception')->publish($e->getMessage());
         }
     }
 
@@ -141,7 +141,7 @@ class QueryBuilder extends Hydrator{
 
             CreateLog::request($request->getRequest(), $this->dic->conf['config']['log']);
         } catch(\Exception $e) {
-            CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
+            return $this->dic->load('exception')->publish($e->getMessage());
         }
     }
 
@@ -158,7 +158,7 @@ class QueryBuilder extends Hydrator{
 
             return $req->fetch(\PDO::FETCH_ASSOC);
         } catch(\Exception $e) {
-            CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
+            return $this->dic->load('exception')->publish($e->getMessage());
         }
     }
 
@@ -175,7 +175,7 @@ class QueryBuilder extends Hydrator{
 
             return $req->fetchAll(\PDO::FETCH_ASSOC);
         } catch(\Exception $e) {
-            CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
+            return $this->dic->load('exception')->publish($e->getMessage());
         }
     }
 }

@@ -19,7 +19,7 @@ class ParseWithExtend extends ParseArray{
         'parts_in_escape' => [],
         'display' => '',
         'level' => [ 'condition' => 0, 'esc_tpl' => 0, 'esc_html' => 0, 'for' => 0, 'foreach' => 0, 'index' => 0, 'itvl' => 0, 'part' => 0 ],
-        'count' => [ 'condition' => 0, 'esc_tpl' => 0, 'esc_html' => 0, 'for' => 0, 'foreach' => 0, 'index' => 0, 'itvl' => 0, 'part' => 0 ],
+        'count' => [ 'general' => 0, 'condition' => 0, 'esc_tpl' => 0, 'esc_html' => 0, 'for' => 0, 'foreach' => 0, 'index' => 0, 'itvl' => 0, 'part' => 0 ],
         'condition' => [],
         'foreach' => [],
         'function' => [],
@@ -55,10 +55,11 @@ class ParseWithExtend extends ParseArray{
      * @param DependTemplEngine $dic_t
      */
     public function __construct(string $tpl, array $extend, Dic $dic, array $params, DependTemplEngine $dic_t){
-        $this->attributes['bundle'] = $dic->bundle;
+        $this->dic = $dic;
+        $this->attributes['bundle'] = $this->dic->bundle;
         $this->dic_t = $dic_t;
 
-        $class_trad = 'Traductions\\Trad'.ucfirst($dic->lang);
+        $class_trad = 'Traductions\\Trad'.ucfirst($this->dic->lang);
         $this->trad = new $class_trad;
 
         $this->params = $params;
@@ -110,6 +111,8 @@ class ParseWithExtend extends ParseArray{
                             $this->returnExtension($ext);
                             break;
                         case preg_match($this->extension['default']['call'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parse('CallParse', 'parse', $this->attributes, [ 'match' => $match_all[ $key ], 'dic' => $this->dic ]);
+                            $this->returnExtension($ext);
                             break;
                         case preg_match($this->extension['default']['else'], $tag[0]):
                             $ext = $this->dic_t->callExtension()->parse('ConditionParse', 'typeElse', $this->attributes, [ 'condition' => $match_all[ $key ][1] ]);
