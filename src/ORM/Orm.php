@@ -1,7 +1,6 @@
 <?php
 namespace Frash\ORM;
 use Frash\Framework\DIC\Dic;
-use Frash\Framework\Exception\Exception;
 
 /**
  * Class Orm
