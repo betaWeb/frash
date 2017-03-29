@@ -46,6 +46,10 @@ class Orm{
         }
     }
 
+    /**
+     * @param string $prop
+     * @return mixed
+     */
     public function __get(string $prop){
         return $this->$prop;
     }

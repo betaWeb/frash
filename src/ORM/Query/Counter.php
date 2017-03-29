@@ -1,11 +1,11 @@
 <?php
-namespace Frash\ORM\MySQL;
+namespace Frash\ORM\Query;
 use Frash\Framework\DIC\Dic;
 use Frash\Framework\Log\CreateLog;
 
 /**
  * Class Counter
- * @package Frash\ORM\MySQL
+ * @package Frash\ORM\Query
  */
 class Counter{
     /**
@@ -36,7 +36,13 @@ class Counter{
      */
     private function count(string $entity, string $where, array $arguments): int{
         try{
-            $request = 'SELECT COUNT(*) as count FROM '.lcfirst($entity).' '.$where;
+            if($this->dic->load('orm')->system == 'PGSQL'){
+                $table = lcfirst($entity);
+                $request = 'SELECT COUNT(*) as count FROM '."\"$table\"".' '.$where;
+            } else {
+                $request = 'SELECT COUNT(*) as count FROM '.lcfirst($entity).' '.$where;
+            }
+            
             CreateLog::request($request, $this->dic->conf['config']['log']);
 
             $req = $this->pdo->prepare($request);
