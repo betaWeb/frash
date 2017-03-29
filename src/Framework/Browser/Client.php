@@ -58,6 +58,15 @@ class Client{
 		return $this->response_header;
 	}
 
+	/**
+	 * @return int
+	 */
+	public function getResponseCode(): int{
+		if(preg_match('/(.*) (\d*) (.*)/', $this->getResponseHeader()[0], $response_code)){
+			return $response_code[2];
+		}
+	}
+
 	public function go(){
 		$context = stream_context_create([
 			'http' => [

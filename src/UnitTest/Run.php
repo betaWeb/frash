@@ -32,8 +32,11 @@ class Run{
 		}
 
 		$results = $this->class->results();
-		echo 'Nombre de tests : '.$results->nb_test.PHP_EOL;
-		echo 'Succès : '.$results->success.PHP_EOL;
-		echo 'Fails : '.$results->failure.PHP_EOL.PHP_EOL;
+
+		return (object) [
+			'tests' => $results->nb_test,
+			'success' => $results->success,
+			'fails' => $results->failure
+		];
 	}
 }

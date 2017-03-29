@@ -34,7 +34,7 @@ class Generator{
 
         if($otca === true){
             $caract .= '&#{([-_@)]=}+$?';
-            $poss += 16;
+            $poss += 15;
         }
 
         $gener = '';

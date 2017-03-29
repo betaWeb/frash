@@ -15,7 +15,8 @@ class TestUnit{
 		$content .= 'class TestUnit{'."\n";
 		$content .= '	public static function define(){'."\n";
 		$content .= '		return ['."\n";
-		$content .= '			\'CollectionTest\' => \'FrashTest\Framework\CollectionTest\''."\n";
+		$content .= '			\'CollectionTest\' => \'FrashTest\Framework\CollectionTest\','."\n";
+		$content .= '			\'GeneratorTest\' => \'FrashTest\Framework\Utility\GeneratorTest\''."\n";
 		$content .= '		];'."\n";
 		$content .= '	}'."\n";
 		$content .= '}';
