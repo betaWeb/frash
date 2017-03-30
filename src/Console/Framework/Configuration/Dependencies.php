@@ -16,6 +16,7 @@ class Dependencies{
 		$content .= '	public static function define(){'."\n";
 		$content .= '		return ['."\n";
 		$content .= '			\'analyzer\' => \'Frash.Framework.Analyzer.Analyzer\','."\n";
+		$content .= '			\'browser\' => \'Frash.Framework.Browser.Client\','."\n";
 		$content .= '			\'controller\' => \'Frash.Framework.Controller.Controller\','."\n";
 		$content .= '			\'exception\' => \'Frash.Framework.Exception.Exception\','."\n";
 		$content .= '			\'form\' => \'Frash.Framework.Forms.FormFactory\','."\n";

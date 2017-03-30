@@ -71,9 +71,7 @@ class Parser{
 	public function parse(string $type = 'normal'){
 	    $this->type = $type;
 
-    	preg_match('/\{\{ extend (.*) \}\}/', $this->tpl, $extend);
-
-		if(!empty($extend)){
+		if(preg_match('/\{\{ extend (.*) \}\}/', $this->tpl, $extend)){
 			$parse = new ParseWithExtend(str_replace($extend[0], '', $this->tpl), $extend, $this->dic, $this->params, $this->dic_t);
 		} else {
 			$parse = new ParseWithoutExtend($this->tpl, $this->dic, $this->params, $this->dic_t);

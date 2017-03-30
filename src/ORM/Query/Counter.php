@@ -1,11 +1,11 @@
 <?php
-namespace Frash\ORM\PGSQL;
+namespace Frash\ORM\Query;
 use Frash\Framework\DIC\Dic;
 use Frash\Framework\Log\CreateLog;
 
 /**
  * Class Counter
- * @package Frash\ORM\PGSQL
+ * @package Frash\ORM\Query
  */
 class Counter{
     /**
@@ -14,14 +14,14 @@ class Counter{
     private $dic;
 
     /**
-     * @var \PDO
+     * @var PDO
      */
     private $pdo;
 
     /**
      * Counter constructor.
      * @param Dic $dic
-     * @param \PDO $pdo
+     * @param PDO $pdo
      */
     public function __construct(Dic $dic, \PDO $pdo){
         $this->dic = $dic;
@@ -36,16 +36,20 @@ class Counter{
      */
     private function count(string $entity, string $where, array $arguments): int{
         try{
-            $table = lcfirst($entity);
-            $request = 'SELECT COUNT(*) as count FROM '."\"$table\"".' '.$where;
-
+            if($this->dic->load('orm')->system == 'PGSQL'){
+                $table = lcfirst($entity);
+                $request = 'SELECT COUNT(*) as count FROM '."\"$table\"".' '.$where;
+            } else {
+                $request = 'SELECT COUNT(*) as count FROM '.lcfirst($entity).' '.$where;
+            }
+            
             CreateLog::request($request, $this->dic->conf['config']['log']);
 
             $req = $this->pdo->prepare($request);
             $req->execute($arguments);
             return $req->fetch(\PDO::FETCH_ASSOC)['count'];
         } catch(\Exception $e) {
-            CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
+            return $this->dic->load('exception')->publish($e->getMessage());
         }
     }
 
@@ -63,13 +67,12 @@ class Counter{
             $array_method = [];
 
             foreach($expl_method as $method){
-                $lc_method = lcfirst($method);
-                $array_method[] = "\"$lc_method\"".' = ?';
+                $array_method[] = lcfirst($method).' = ?';
             }
 
             return $this->count($entity, 'WHERE '.implode(' AND ', $array_method), $arg);
         } elseif($method == 'count') {
-            return $this->count($entity, "WHERE \"id\" = ?", $arg);
+            return $this->count($entity, "WHERE id = ?", $arg);
         }
     }
 }

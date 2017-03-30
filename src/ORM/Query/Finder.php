@@ -1,12 +1,12 @@
 <?php
-namespace Frash\ORM\PGSQL;
+namespace Frash\ORM\Query;
 use Frash\Framework\DIC\Dic;
 use Frash\Framework\Log\CreateLog;
 use Frash\ORM\Hydrator;
 
 /**
  * Class Finder
- * @package Frash\ORM\PGSQL
+ * @package Frash\ORM\Query
  */
 class Finder extends Hydrator{
     /**
@@ -15,9 +15,14 @@ class Finder extends Hydrator{
     private $dic;
 
     /**
-     * @var \PDO
+     * @var PDO
      */
     private $pdo;
+
+    /**
+     * @var string
+     */
+    private $system;
 
     /**
      * Finder constructor.
@@ -26,6 +31,8 @@ class Finder extends Hydrator{
      */
     public function __construct(Dic $dic, \PDO $pdo){
         $this->dic = $dic;
+        $this->system = $this->dic->load('orm')->system;
+
         $this->pdo = $pdo;
     }
 
@@ -37,23 +44,27 @@ class Finder extends Hydrator{
      */
     private function findBy(string $entity, string $where, array $arguments): array{
         try{
-            $table = lcfirst($entity);
-            $request = 'SELECT * FROM '."\"$table\"".' '.$where;
-
-            CreateLog::request($request, $this->dic->conf['config']['log']);
+            if($this->system == 'PGSQL'){
+                $table = lcfirst($entity);
+                $request = 'SELECT * FROM '."\"$table\"".' '.$where;
+            } else {
+                $request = 'SELECT * FROM '.lcfirst($entity).' '.$where;
+            }
 
             $req = $this->pdo->prepare($request);
             $req->execute($arguments);
             $res = $req->fetchAll(\PDO::FETCH_OBJ);
 
+            CreateLog::request($request, $this->dic->conf['config']['log']);
+
             $count = count($res);
             $array_obj = [];
-            $ent = ucfirst($entity);
+            $ent = 'Bundles\\'.$this->dic->bundle.'\Entity\\'.ucfirst($entity);
 
             $this->preloadHydration($this->dic->load('orm'), $this->dic);
 
             for($i = 0; $i < $count; $i++){
-                $array_obj[ $i ] = $this->hydration($res[ $i ], 'Bundles\\'.$this->dic->bundle.'\Entity\\'.$ent);
+                $array_obj[ $i ] = $this->hydration($res[ $i ], $ent);
             }
 
             return $array_obj;
@@ -70,14 +81,18 @@ class Finder extends Hydrator{
      */
     private function findOneBy(string $entity, string $where, array $arguments){
         try{
-            $table = lcfirst($entity);
-            $request = 'SELECT * FROM '."\"$table\"".' '.$where;
-
-            CreateLog::request($request, $this->dic->conf['config']['log']);
+            if($this->system == 'PGSQL'){
+                $table = lcfirst($entity);
+                $request = 'SELECT * FROM '."\"$table\"".' '.$where;
+            } else {
+                $request = 'SELECT * FROM '.lcfirst($entity).' '.$where;
+            }
 
             $req = $this->pdo->prepare($request);
             $req->execute($arguments);
             $res = $req->fetch(\PDO::FETCH_OBJ);
+
+            CreateLog::request($request, $this->dic->conf['config']['log']);
 
             $this->preloadHydration($this->dic->load('orm'), $this->dic);
             return $this->hydration($res, 'Bundles\\'.$this->dic->bundle.'\Entity\\'.ucfirst($entity));
@@ -99,9 +114,13 @@ class Finder extends Hydrator{
             $expl_method = explode('And', str_replace('findBy', '', $method));
 
             $array_method = [];
-            foreach($expl_method as $method){
-                $lc_method = lcfirst($method);
-                $array_method[] = "\"$lc_method\"".' = ?';
+            foreach($expl_method as $meth){
+                if($this->system == 'PGSQL'){
+                    $lc_method = lcfirst($meth);
+                    $array_method[] = "\"$lc_method\"".' = ?';
+                } else {
+                    $array_method[] = lcfirst($meth).' = ?';
+                }
             }
 
             return $this->findBy($entity, 'WHERE '.implode(' AND ', $array_method), $arg);
@@ -109,16 +128,28 @@ class Finder extends Hydrator{
             $expl_method = explode('And', str_replace('findOneBy', '', $method));
 
             $array_method = [];
-            foreach($expl_method as $method){
-                $lc_method = lcfirst($method);
-                $array_method[] = "\"$lc_method\"".' = ?';
+            foreach($expl_method as $meth){
+                if($this->system == 'PGSQL'){
+                    $lc_method = lcfirst($meth);
+                    $array_method[] = "\"$lc_method\"".' = ?';
+                } else {
+                    $array_method[] = lcfirst($meth).' = ?';
+                }
             }
 
             return $this->findOneBy($entity, 'WHERE '.implode(' AND ', $array_method), $arg);
         } elseif($method == 'find') {
-            return $this->findBy($entity, "WHERE \"id\" = ?", $arg);
+            if($this->system == 'PGSQL'){
+                return $this->findBy($entity, "WHERE \"id\" = ?", $arg);
+            } else {
+                return $this->findBy($entity, "WHERE id = ?", $arg);
+            }
         } elseif($method == 'findOne') {
-            return $this->findOneBy($entity, "WHERE \"id\" = ?", $arg);
+            if($this->system == 'PGSQL'){
+                return $this->findOneBy($entity, "WHERE \"id\" = ?", $arg);
+            } else {
+                return $this->findOneBy($entity, "WHERE id = ?", $arg);
+            }
         }
     }
 }

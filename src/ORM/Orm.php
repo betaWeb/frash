@@ -1,7 +1,6 @@
 <?php
 namespace Frash\ORM;
 use Frash\Framework\DIC\Dic;
-use Frash\Framework\Exception\Exception;
 
 /**
  * Class Orm
@@ -46,6 +45,10 @@ class Orm{
         }
     }
 
+    /**
+     * @param string $prop
+     * @return mixed
+     */
     public function __get(string $prop){
         return $this->$prop;
     }

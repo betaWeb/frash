@@ -1,5 +1,5 @@
 <?php
-namespace Frash\ORM;
+namespace Frash\ORM\Query;
 use Frash\Framework\DIC\Dic;
 use Frash\Framework\Log\CreateLog;
 use Frash\ORM\{ Hydrator, RequestInterface };
@@ -59,30 +59,7 @@ class QueryBuilder extends Hydrator{
                 return $this->conn->lastInsertId();
             }
         } catch(\Exception $e) {
-            CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
-        }
-    }
-
-    /**
-     * @param RequestInterface $select
-     * @param string $hydrat
-     * @return object
-     */
-    public function selectOne(RequestInterface $select, string $hydrat = 'without'){
-        try{
-            CreateLog::request($select->getRequest(), $this->dic->conf['config']['log']);
-
-            $request = $this->conn->prepare($select->getRequest());
-            $request->execute($select->getExecute());
-            $res = $request->fetch(\PDO::FETCH_OBJ);
-
-            if($hydrat == 'without'){
-                return $res;
-            } elseif($hydrat == 'with') {
-                return $this->hydration($res, 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity());
-            }
-        } catch(\Exception $e) {
-            CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
+            return $this->dic->load('exception')->publish($e->getMessage());
         }
     }
 
@@ -91,7 +68,7 @@ class QueryBuilder extends Hydrator{
      * @param string $hydrat
      * @return array
      */
-    public function selectMany(RequestInterface $select, string $hydrat = 'without'){
+    public function select(RequestInterface $select, string $hydrat = 'without'){
         try{
             CreateLog::request($select->getRequest(), $this->dic->conf['config']['log']);
 
@@ -99,21 +76,30 @@ class QueryBuilder extends Hydrator{
             $request->execute($select->getExecute());
             $res = $request->fetchAll(\PDO::FETCH_OBJ);
 
-            if($hydrat == 'without'){
-                return $res;
-            } elseif($hydrat == 'with') {
-                $count = count($res);
-                $array_obj = [];
-                $class = 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity();
+            $entity = 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity();
 
-                for($i = 0; $i < $count; $i++){
-                    $array_obj[ $i ] = $this->hydration($res[ $i ], $class);
+            if(count($res) == 1){
+                if($hydrat == 'without'){
+                    return $res[0];
+                } elseif($hydrat == 'with') {
+                    return $this->hydration($res[0], $entity);
                 }
+            } else {
+                if($hydrat == 'without'){
+                    return $res;
+                } elseif($hydrat == 'with') {
+                    $count = count($res);
+                    $array_obj = [];
 
-                return $array_obj;
+                    for($i = 0; $i < $count; $i++){
+                        $array_obj[ $i ] = $this->hydration($res[ $i ], $entity);
+                    }
+
+                    return $array_obj;
+                }
             }
         } catch(\Exception $e) {
-            CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
+            return $this->dic->load('exception')->publish($e->getMessage());
         }
     }
 
@@ -127,7 +113,7 @@ class QueryBuilder extends Hydrator{
 
             CreateLog::request($request->getRequest(), $this->dic->conf['config']['log']);
         } catch(\Exception $e) {
-            CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
+            return $this->dic->load('exception')->publish($e->getMessage());
         }
     }
 
@@ -141,7 +127,7 @@ class QueryBuilder extends Hydrator{
 
             CreateLog::request($request->getRequest(), $this->dic->conf['config']['log']);
         } catch(\Exception $e) {
-            CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
+            return $this->dic->load('exception')->publish($e->getMessage());
         }
     }
 
@@ -158,24 +144,7 @@ class QueryBuilder extends Hydrator{
 
             return $req->fetch(\PDO::FETCH_ASSOC);
         } catch(\Exception $e) {
-            CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
-        }
-    }
-
-    /**
-     * @param RequestInterface $request
-     * @return array
-     */
-    public function customMany(RequestInterface $request){
-        try{
-            CreateLog::request($request->getRequest(), $this->dic->conf['config']['log']);
-
-            $req = $this->conn->prepare($request->getRequest());
-            $req->execute($request->getExecute());
-
-            return $req->fetchAll(\PDO::FETCH_ASSOC);
-        } catch(\Exception $e) {
-            CreateLog::error($e->getMessage(), $this->dic->conf['config']['log']);
+            return $this->dic->load('exception')->publish($e->getMessage());
         }
     }
 }

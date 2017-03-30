@@ -145,4 +145,34 @@ abstract class SimpleTest{
 			return $this->conclusion('failure', false);
 		}
 	}
+
+	/**
+	 * @param string $regex
+	 * @param mixed $function
+	 * @return bool
+	 */
+	protected function checkNotRegex(string $regex, $function): bool{
+		$this->increment('nb_test');
+
+		if(!preg_match($regex, $function)){
+			return $this->conclusion('success', true);
+		} else {
+			return $this->conclusion('failure', false);
+		}
+	}
+
+	/**
+	 * @param string $regex
+	 * @param mixed $function
+	 * @return bool
+	 */
+	protected function checkRegex(string $regex, $function): bool{
+		$this->increment('nb_test');
+
+		if(preg_match($regex, $function)){
+			return $this->conclusion('success', true);
+		} else {
+			return $this->conclusion('failure', false);
+		}
+	}
 }

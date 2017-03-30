@@ -8,14 +8,10 @@ use Frash\Template\Extensions\Extend\ExtensionParseSimple;
  * @package Frash\Template\Extensions\Extensions\Escape\Html
  */
 class EscapeHtmlParse extends ExtensionParseSimple{
-    public function open(){
-    	$this->infos['level']['esc_html']++;
-    }
+    public function open(){}
 
     public function close(){
-    	$this->infos['level']['esc_html']--;
-
-		preg_match('/\{\{ esc_html \}\}(.*)\{\{ end_esc_html \}\}/Us', $this->infos['tpl'], $match);
+		preg_match('/\{\{ esc_html \}\}(.*)\{\{ end_esc_html \}\}/s', $this->infos['tpl'], $match);
 		$this->infos['tpl'] = str_replace($match[0], htmlentities($match[1]), $this->infos['tpl']);
     }
 }

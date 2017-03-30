@@ -18,6 +18,7 @@ class DependTemplEngine{
                 'Ajax' => self::EXTENSIONS.'.AjaxParse',
                 'BundleParse' => self::EXTENSIONS.'.Bundle.BundleParse',
                 'BundleTplParent' => self::EXTENSIONS.'.Bundle.BundleTplParent',
+                'CallParse' => self::EXTENSIONS.'.CallParse',
                 'ConditionParse' => self::EXTENSIONS.'.Condition.ConditionParse',
                 'EscapeHtmlParse' => self::EXTENSIONS.'.Escape.Html.EscapeHtmlParse',
                 'EscapeTpl' => self::EXTENSIONS.'.EscapeTpl',

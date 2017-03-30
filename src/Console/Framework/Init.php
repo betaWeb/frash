@@ -2,7 +2,7 @@
 namespace Frash\Console\Framework;
 use Frash\Console\CommandInterface;
 use Frash\Console\Bundle\CreateBundle;
-use Frash\Console\Framework\{ Configuration, Storage };
+use Frash\Console\Framework\{ Configuration, Storage, Traduction };
 use Frash\Framework\FileSystem\Directory;
 
 /**
@@ -65,5 +65,7 @@ class Init implements CommandInterface
         Storage::preinstall();
         Storage::cache();
         Storage::logs();
+
+        Traduction::create($dispo_lang);
     }
 }

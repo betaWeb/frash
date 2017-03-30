@@ -28,6 +28,11 @@ class CommandTest implements CommandInterface
 	private $microtime;
 
 	/**
+	 * @var object
+	 */
+	private $history = [];
+
+	/**
 	 * CommandTest constructor.
 	 * @param array $argv
 	 */
@@ -44,6 +49,8 @@ class CommandTest implements CommandInterface
 			if($this->flag['option'] == '--one' && !empty($argv[3])){
 				$this->class = $argv[3];
 			}
+
+			$this->history = (object) [ 'nb_test' => 0, 'success' => 0, 'failure' => 0 ];
 		}
 	}
 
@@ -59,6 +66,13 @@ class CommandTest implements CommandInterface
 				$class = TestUnit::define()[ $this->class ];
 				$this->run(new $class);
 			}
+
+			$this->microtime->set('end_unit_test');
+
+			echo 'Nombre de tests : '.$this->history->nb_test.PHP_EOL;
+			echo 'Succès : '.$this->history->success.PHP_EOL;
+			echo 'Fails : '.$this->history->failure.PHP_EOL.PHP_EOL;
+			echo 'Temps d\'exécution : '.$this->microtime->getTiming('start_unit_test', 'end_unit_test').PHP_EOL;
 		}
 	}
 
@@ -67,9 +81,10 @@ class CommandTest implements CommandInterface
 	 */
 	private function run($class){
 		$run = new Run($class);
-		$run->launch();
+		$result = $run->launch();
 
-		$this->microtime->set('end_unit_test');
-		echo 'Temps d\'exécution : '.$this->microtime->getTiming('start_unit_test', 'end_unit_test').PHP_EOL;
+		$this->history->nb_test += $result->tests;
+		$this->history->success += $result->success;
+		$this->history->failure += $result->fails;
 	}
 }
