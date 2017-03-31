@@ -49,7 +49,7 @@ class OrmFactory{
      * @return object
      */
     public function counter(){
-        $namespace = 'Frash\ORM\\'.$this->system.'\Counter';
+        $namespace = 'Frash\ORM\Query\Counter';
         return new $namespace($this->dic, $this->connexion);
     }
 
@@ -65,7 +65,7 @@ class OrmFactory{
      * @return object
      */
     public function finder(){
-        $namespace = 'Frash\ORM\\'.$this->system.'\Finder';
+        $namespace = 'Frash\ORM\Query\Finder';
         return new $namespace($this->dic, $this->connexion);
     }
 

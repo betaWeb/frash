@@ -1,5 +1,6 @@
 <?php
 namespace Frash\ORM;
+use Frash\Framework\DIC\Dic;
 
 /**
  * Class Hydrator

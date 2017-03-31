@@ -34,7 +34,27 @@ class CallParse extends ExtensionParseSimple{
 
 			$path = 'Bundles\\'.$bundle.'\Controllers\\'.$controller;
 			$call = new $path($this->infos['params']['dic']);
-			$call->$action();
+			$content = $call->$action();
+		} else {
+			if(!strstr($this->infos['params']['match'][3], ' ')){
+				return $this->infos['params']['dic']->load('exception')->publish('Call in templating : No request method');
+			}
+
+			list($method, $url) = explode(' ', $this->infos['params']['match'][3]);
+
+			if(substr($this->infos['params']['match'][3], 4) != 'http' && substr($this->infos['params']['match'][3], 3) != 'www'){
+				$road = explode('/', $url);
+
+	            foreach($road as $r){
+	                if(!empty($r) && $r[0] == '@'){
+	                    $url = str_replace($r, $this->dic_t->extension('ShowVarSimple')->parse(ltrim($r, '@')), $url);
+	                }
+	            }
+			}
+
+			$content = $this->infos['params']['dic']->load('browser')->route($url)->method($method)->go()->getContent();
 		}
+
+		$this->infos['tpl'] = str_replace($this->infos['params']['match'][0], $content, $this->infos['tpl']);
 	}
 }
