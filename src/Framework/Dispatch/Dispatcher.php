@@ -37,10 +37,12 @@ class Dispatcher{
 		$this->dic->load('microtime')->set('start', $this->start_time);
 		$route = $this->routing();
 
-		if($route->api === true){
-			$this->api();
-		} else {
-			$this->controller($route);
+		if(count($route) > 1){
+			if($route->api === true){
+				$this->api();
+			} else {
+				$this->controller($route);
+			}
 		}
 	}
 
