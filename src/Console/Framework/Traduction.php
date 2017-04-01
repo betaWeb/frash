@@ -1,5 +1,6 @@
 <?php
 namespace Frash\Console\Framework;
+use Frash\Framework\FileSystem\File;
 
 /**
  * Class Traduction
