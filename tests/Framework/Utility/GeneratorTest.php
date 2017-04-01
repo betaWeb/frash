@@ -9,7 +9,5 @@ class GeneratorTest extends SimpleTest{
 		$this->checkRegex('/^([a-z]*)$/', Generator::get(10, false, true, false, false));
 		$this->checkRegex('/^([A-Z]*)$/', Generator::get(10, false, false, true, false));
 		$this->checkRegex('/^([0-9]*)$/', Generator::get(10, true, false, false, false));
-
-		$this->checkRegex('/^([0-9]*)$/', Generator::get(10, true, false, false, true));
 	}
 }
