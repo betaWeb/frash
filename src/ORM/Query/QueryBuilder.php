@@ -10,11 +10,6 @@ use Frash\ORM\{ Hydrator, RequestInterface };
  */
 class QueryBuilder extends Hydrator{
     /**
-     * @var string
-     */
-    protected $bundle = '';
-
-    /**
      * @var \PDO
      */
     protected $conn;
@@ -32,14 +27,13 @@ class QueryBuilder extends Hydrator{
     /**
      * QueryBuilder constructor.
      * @param Dic $dic
-     * @param \PDO $conn
      */
-    public function __construct(Dic $dic, \PDO $conn){
+    public function __construct(Dic $dic){
         $this->dic = $dic;
 
-        $this->bundle = $this->dic->bundle;
-        $this->conn = $conn;
-        $this->system = $this->dic->load('orm')->system;
+        $orm = $this->dic->load('orm');
+        $this->conn = $orm->pdo;
+        $this->system = $orm->system;
     }
 
     /**
@@ -76,7 +70,7 @@ class QueryBuilder extends Hydrator{
             $request->execute($select->getExecute());
             $res = $request->fetchAll(\PDO::FETCH_OBJ);
 
-            $entity = 'Bundles\\'.$this->bundle.'\Entity\\'.$select->getEntity();
+            $entity = 'Bundles\\'. $this->dic->bundle.'\Entity\\'.$select->getEntity();
 
             if(count($res) == 1){
                 if($hydrat == 'without'){
@@ -89,7 +83,7 @@ class QueryBuilder extends Hydrator{
                     return $res;
                 } elseif($hydrat == 'with') {
                     $count = count($res);
-                    $array_obj = [];
+                    $this->preloadHydration($this->dic);
 
                     for($i = 0; $i < $count; $i++){
                         $array_obj[ $i ] = $this->hydration($res[ $i ], $entity);

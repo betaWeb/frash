@@ -15,11 +15,6 @@ class Finder extends Hydrator{
     private $dic;
 
     /**
-     * @var PDO
-     */
-    private $pdo;
-
-    /**
      * @var string
      */
     private $system;
@@ -27,13 +22,10 @@ class Finder extends Hydrator{
     /**
      * Finder constructor.
      * @param Dic $dic
-     * @param \PDO $pdo
      */
-    public function __construct(Dic $dic, \PDO $pdo){
+    public function __construct(Dic $dic){
         $this->dic = $dic;
         $this->system = $this->dic->load('orm')->system;
-
-        $this->pdo = $pdo;
     }
 
     /**
@@ -51,7 +43,7 @@ class Finder extends Hydrator{
                 $request = 'SELECT * FROM '.lcfirst($entity).' '.$where;
             }
 
-            $req = $this->pdo->prepare($request);
+            $req = $this->dic->pdo->prepare($request);
             $req->execute($arguments);
             $res = $req->fetchAll(\PDO::FETCH_OBJ);
 
@@ -61,7 +53,7 @@ class Finder extends Hydrator{
             $array_obj = [];
             $ent = 'Bundles\\'.$this->dic->bundle.'\Entity\\'.ucfirst($entity);
 
-            $this->preloadHydration($this->dic->load('orm'), $this->dic);
+            $this->preloadHydration($this->dic);
 
             for($i = 0; $i < $count; $i++){
                 $array_obj[ $i ] = $this->hydration($res[ $i ], $ent);
@@ -88,13 +80,13 @@ class Finder extends Hydrator{
                 $request = 'SELECT * FROM '.lcfirst($entity).' '.$where;
             }
 
-            $req = $this->pdo->prepare($request);
+            $req = $this->dic->pdo->prepare($request);
             $req->execute($arguments);
             $res = $req->fetch(\PDO::FETCH_OBJ);
 
             CreateLog::request($request, $this->dic->conf['config']['log']);
 
-            $this->preloadHydration($this->dic->load('orm'), $this->dic);
+            $this->preloadHydration($this->dic);
             return $this->hydration($res, 'Bundles\\'.$this->dic->bundle.'\Entity\\'.ucfirst($entity));
         } catch(\Exception $e) {
             return $this->dic->load('exception')->publish($e->getMessage());

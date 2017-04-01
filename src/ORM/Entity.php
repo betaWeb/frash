@@ -36,12 +36,12 @@ abstract class Entity{
 
 	/**
 	 * Entity constructor.
-	 * @param OrmFactory $orm
+	 * @param Dic $dic
 	 */
-	public function __construct(OrmFactory $orm, Dic $dic)
+	public function __construct(Dic $dic)
 	{
 		$this->dic = $dic;
-		$this->orm = $orm;
+		$this->orm = $this->dic->load('orm');
 
 		$coll = new Collection(explode('\\', get_called_class()));
 		$this->table = lcfirst($coll->last());
@@ -91,7 +91,7 @@ abstract class Entity{
 		$prim_key = $this->primary_key;
 		$select = $this->pathClass($this->orm->system).'\Request\Select';
 
-		$query = new QueryBuilder($this->dic, $this->orm->connexion);
+		$query = new QueryBuilder($this->dic);
 		$sel = new $select([ 'table' => $this->table ]);
         $sel->where($prim_key, ':id')->execute([ $this->$prim_key ]);
         $res = $query->selectOne($sel);

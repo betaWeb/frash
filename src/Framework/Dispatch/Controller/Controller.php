@@ -1,11 +1,11 @@
 <?php
-namespace Frash\Framework\Routing\Dispatch;
+namespace Frash\Framework\Dispatch\Controller;
 use Frash\Framework\DIC\Dic;
 use Frash\Framework\Routing\Verification\Middleware;
 
 /**
  * Class Controller
- * @package Frash\Framework\Routing\Dispatch
+ * @package Frash\Framework\Dispatch\Controller
  */
 class Controller
 {
@@ -23,6 +23,10 @@ class Controller
 		$this->dic = $dic;
 	}
 
+    /**
+     * @param object $routing
+     * @return mixed
+     */
 	public function work($routing)
 	{
 		if(!empty($routing->array_get)){
@@ -41,18 +45,16 @@ class Controller
                 if($result === false){
                     return $this->dic->load('exception')->publish('Failed during test of middleware');
                 }
-            } catch(Exception $e){
+            } catch(\Exception $e){
                 return $this->dic->load('exception')->publish($e->getMessage());
             }
 
             if($this->dic->conf['config']['analyzer'] == 'yes'){
                 $this->dic->load('analyzer')->getRegistry()->setRoute(str_replace('/', '.', $routing->lien));
-                $controller = $this->dic->load('controller');
-
-                $controller->call($path)->$action();
-                $controller->generationAnalyzer();
+                $this->callAction($bundle, $controller, $action);
+                $this->dic->load('analyzer')->generation();
             } else {
-                $this->dic->load('controller')->call($path)->$action();
+                $this->callAction($bundle, $controller, $action);
             }
         } elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')) {
             return $this->dic->load('exception')->publish('Controller '.$controller.' not found');
@@ -60,4 +62,33 @@ class Controller
             return $this->dic->load('exception')->publish('Action '.$action.' not found');
         }
 	}
+
+    /**
+     * @param string $bundle
+     * @param string $controller
+     * @param string $action
+     */
+    private function callAction(string $bundle, string $controller, string $action)
+    {
+        $path = 'Bundles\\'.$bundle.'\Controllers\\'.$controller;
+        $class = new \ReflectionClass($path);
+
+        if($class->isInstantiable()){
+            $method = new \ReflectionMethod($path, $action);
+            $params_method = $method->getParameters();
+            $params = [];
+
+            foreach($params_method as $param){
+                $type = $param->getType();
+
+                if($type == 'Frash\Framework\DIC\Dic'){
+                    $params[] = $this->dic;
+                } else {
+                    $params[] = $this->dic->loadSpecial($type, $param->name);
+                }
+            }
+
+            $method->invokeArgs(new $path($this->dic), $params);
+        }
+    }
 }

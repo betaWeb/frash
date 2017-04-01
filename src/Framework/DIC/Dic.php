@@ -75,12 +75,39 @@ class Dic{
         if(array_key_exists($key, $this->open)){
             return $this->open[ $key ];
         } elseif(array_key_exists($key, $this->dependencies)) {
-            $path = str_replace('.', '\\', $this->dependencies[ $key ]);
-
-            $class = new $path($this);
+            $class = new $this->dependencies[ $key ]($this);
             $this->open[ $key ] = $class;
+
+            if($key == 'orm'){
+                $this->pdo = $class->pdo;
+            }
 
             return $class;
         }
+    }
+
+    /**
+     * @param string $key
+     * @param string $name
+     * @return object
+     */
+    public function loadSpecial(string $key, string $name){
+        if(in_array($key, $this->dependencies)){
+            $key = array_search($key, $this->dependencies);
+
+            if(array_key_exists($key, $this->open)){
+                return $this->open[ $key ];
+            }
+
+            $class = new $this->dependencies[ $key ]($this);
+        } elseif(substr($key, -10) == 'Repository' || substr($key, -6) == 'Finder' || substr($key, -7) == 'Counter') {
+            $this->pdo = $this->load('orm')->pdo;
+            $class = new $key($this);
+        } else {
+            $class = new $key($this);
+        }
+
+        $this->open[ $name ] = $class;
+        return $class;
     }
 }
