@@ -14,18 +14,11 @@ class Counter{
     private $dic;
 
     /**
-     * @var PDO
-     */
-    private $pdo;
-
-    /**
      * Counter constructor.
      * @param Dic $dic
-     * @param PDO $pdo
      */
-    public function __construct(Dic $dic, \PDO $pdo){
+    public function __construct(Dic $dic){
         $this->dic = $dic;
-        $this->pdo = $pdo;
     }
 
     /**
@@ -45,7 +38,7 @@ class Counter{
             
             CreateLog::request($request, $this->dic->conf['config']['log']);
 
-            $req = $this->pdo->prepare($request);
+            $req = $this->dic->pdo->prepare($request);
             $req->execute($arguments);
             return $req->fetch(\PDO::FETCH_ASSOC)['count'];
         } catch(\Exception $e) {

@@ -13,9 +13,10 @@ class Microtime{
 
     /**
      * @param string $name
+     * @param integer $value
      */
-	public function set(string $name){
-		$this->microtime[ $name ] = microtime(true) * 1000;
+	public function set(string $name, int $value = 0){
+        $this->microtime[ $name ] = ($value == 0) ? microtime(true) * 1000 : $value;
 	}
 
     /**

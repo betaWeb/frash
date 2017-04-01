@@ -81,6 +81,8 @@ class Client{
 
 		$this->content = $content;
 		$this->response_header = $http_response_header;
+
+		return $this;
 	}
 
 	/**

@@ -14,14 +14,14 @@ class OrmFactory{
     private $bundle;
 
     /**
-     * @var \PDO
-     */
-    private $connexion;
-
-    /**
      * @var Dic
      */
     private $dic;
+
+    /**
+     * @var \PDO
+     */
+    private $pdo;
 
     /**
      * @var string
@@ -33,11 +33,11 @@ class OrmFactory{
      * @param Dic $dic
      */
     public function __construct(Dic $dic){
-        $this->bundle = $dic->bundle;
         $this->dic = $dic;
+        $this->bundle = $this->dic->bundle;
 
-        $orm = new Orm($this->dic);
-        $this->connexion = $orm->connexion;
+        $orm = new Orm($dic);
+        $this->pdo = $orm->connexion;
         $this->system = $orm->system;
     }
 
@@ -49,8 +49,8 @@ class OrmFactory{
      * @return object
      */
     public function counter(){
-        $namespace = 'Frash\ORM\\'.$this->system.'\Counter';
-        return new $namespace($this->dic, $this->connexion);
+        $namespace = 'Frash\ORM\Query\Counter';
+        return new $namespace($this->dic);
     }
 
     /**
@@ -58,15 +58,15 @@ class OrmFactory{
      */
     public function entity(string $entity){
         $namespace = 'Bundles\\'.$this->bundle.'\Entity\\'.$entity;
-        return new $namespace($this, $this->dic);
+        return new $namespace($this->dic);
     }
 
     /**
      * @return object
      */
     public function finder(){
-        $namespace = 'Frash\ORM\\'.$this->system.'\Finder';
-        return new $namespace($this->dic, $this->connexion);
+        $namespace = 'Frash\ORM\Query\Finder';
+        return new $namespace($this->dic);
     }
 
     /**
@@ -75,6 +75,6 @@ class OrmFactory{
      */
     public function request(string $request){
         $class = 'Bundles\\'.$this->bundle.'\Repository\\'.$request.'Repository';
-        return new $class($this->dic, $this->connexion);
+        return new $class($this->dic);
     }
 }

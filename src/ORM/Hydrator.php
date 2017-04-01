@@ -1,5 +1,6 @@
 <?php
 namespace Frash\ORM;
+use Frash\Framework\DIC\Dic;
 
 /**
  * Class Hydrator
@@ -12,17 +13,10 @@ class Hydrator{
     private $dic;
 
     /**
-     * @var Dic
-     */
-    private $orm;
-
-    /**
-     * @param OrmFactory $orm
      * @param Dic $dic
      */
-    public function preloadHydration(OrmFactory $orm, Dic $dic){
+    public function preloadHydration(Dic $dic){
         $this->dic = $dic;
-        $this->orm = $orm;
     }
 
     /**
@@ -31,7 +25,7 @@ class Hydrator{
      * @return object
      */
     public function hydration($object, $entity){
-        $ent = new $entity($this->orm, $this->dic);
+        $ent = new $entity($this->dic);
 
         foreach($object as $col => $val){
             $ent->$col = $val;
