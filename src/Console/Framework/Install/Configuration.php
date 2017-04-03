@@ -1,11 +1,11 @@
 <?php
-namespace Frash\Console\Framework;
-use Frash\Console\Framework\Configuration\{ Configuration as Conf, Console, Database, Dependencies, Routing, Service, TestUnit };
+namespace Frash\Console\Framework\Install;
+use Frash\Console\Framework\Configuration\Install\{ Configuration as Conf, Console, Database, Dependencies, Routing, Service, TestUnit };
 use Frash\Framework\FileSystem\{ Directory, File, Json };
 
 /**
  * Class Configuration
- * @package Frash\Console\Framework
+ * @package Frash\Console\Framework\Install
  */
 class Configuration{
     public static function preinstall(){

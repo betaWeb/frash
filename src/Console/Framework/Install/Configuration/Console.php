@@ -1,9 +1,9 @@
 <?php
-namespace Frash\Console\Framework\Configuration;
+namespace Frash\Console\Framework\Configuration\Install;
 
 /**
  * Class Console
- * @package Frash\Console\Framework\Configuration
+ * @package Frash\Console\Framework\Configuration\Install
  */
 class Console{
 	/**
@@ -17,10 +17,11 @@ class Console{
 		$content .= '		return ['."\n";
 		$content .= '			\'default\' => ['."\n";
 		$content .= '				\'Bundle:generate\' => \'Frash.Console.Bundle.GenerateBundle\','."\n";
+		$content .= '				\'Check:routing\' => \'Frash.Console.Framework.Routing\','."\n";
 		$content .= '				\'Clear:Cache\' => \'Frash.Console.Files.ClearCache\','."\n";
 		$content .= '				\'Controller:generate\' => \'Frash.Console.Bundle.GenerateController\','."\n";
 		$content .= '				\'Documentation:create\' => \'Frash.Console.Documentation.DocGen\','."\n";
-		$content .= '				\'Framework:init\' => \'Frash.Console.Framework.Init\','."\n";
+		$content .= '				\'Framework:init\' => \'Frash.Console.Framework.Install.Init\','."\n";
 		$content .= '				\'ORM:addentity\' => \'Frash.Console.ORM.Addentity\','."\n";
 		$content .= '				\'ORM:createdb\' => \'Frash.Console.ORM.Createdb\','."\n";
 		$content .= '				\'Test:Unit:run\' => \'Frash.UnitTest.CommandTest\''."\n";

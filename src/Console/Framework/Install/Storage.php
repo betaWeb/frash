@@ -1,10 +1,10 @@
 <?php
-namespace Frash\Console\Framework;
+namespace Frash\Console\Framework\Install;
 use Frash\Framework\FileSystem\{ Directory, File };
 
 /**
  * Class Storage
- * @package Frash\Console\Framework
+ * @package Frash\Console\Framework\Install
  */
 class Storage{
     public static function preinstall(){

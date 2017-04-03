@@ -1,9 +1,9 @@
 <?php
-namespace Frash\Console\Framework\Configuration;
+namespace Frash\Console\Framework\Configuration\Install;
 
 /**
  * Class Configuration
- * @package Frash\Console\Framework\Configuration
+ * @package Frash\Console\Framework\Configuration\Install
  */
 class Configuration{
 	/**

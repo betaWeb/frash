@@ -1,13 +1,13 @@
 <?php
-namespace Frash\Console\Framework;
+namespace Frash\Console\Framework\Install;
 use Frash\Console\CommandInterface;
 use Frash\Console\Bundle\CreateBundle;
-use Frash\Console\Framework\{ Configuration, Storage, Traduction };
+use Frash\Console\Framework\Install\{ Configuration, Storage, Traduction };
 use Frash\Framework\FileSystem\Directory;
 
 /**
  * Class Init
- * @package Frash\Console\Framework
+ * @package Frash\Console\Framework\Install
  */
 class Init implements CommandInterface
 {

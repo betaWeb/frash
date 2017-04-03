@@ -1,22 +1,22 @@
 <?php
-namespace Frash\Console\Framework\Configuration;
+namespace Frash\Console\Framework\Configuration\Install;
 
 /**
- * Class Service
- * @package Frash\Console\Framework\Configuration
+ * Class TestUnit
+ * @package Frash\Console\Framework\Configuration\Install
  */
-class Service{
+class TestUnit{
 	/**
 	 * @return string                
 	 */
 	public static function file(): string{
 		$content = '<?php'."\n";
 		$content .= 'namespace Configuration;'."\n\n";
-		$content .= 'class Service{'."\n";
+		$content .= 'class TestUnit{'."\n";
 		$content .= '	public static function define(){'."\n";
 		$content .= '		return ['."\n";
-		$content .= '			\'middleware\' => [],'."\n";
-		$content .= '			\'templating\' => []'."\n";
+		$content .= '			\'CollectionTest\' => \'FrashTest\Framework\CollectionTest\','."\n";
+		$content .= '			\'GeneratorTest\' => \'FrashTest\Framework\Utility\GeneratorTest\''."\n";
 		$content .= '		];'."\n";
 		$content .= '	}'."\n";
 		$content .= '}';
