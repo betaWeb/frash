@@ -106,7 +106,6 @@ class Session{
 
     public function unsetAll(){
         $this->session = [];
-        $this->flashbag = [];
 
         session_unset();
         session_destroy();

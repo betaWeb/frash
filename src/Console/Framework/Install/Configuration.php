@@ -1,6 +1,6 @@
 <?php
 namespace Frash\Console\Framework\Install;
-use Frash\Console\Framework\Configuration\Install\{ Configuration as Conf, Console, Database, Dependencies, Routing, Service, TestUnit };
+use Frash\Console\Framework\Install\Configuration\{ Configuration as Conf, Console, Database, Dependencies, Routing, Service, TestUnit };
 use Frash\Framework\FileSystem\{ Directory, File, Json };
 
 /**

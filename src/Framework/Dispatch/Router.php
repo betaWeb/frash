@@ -146,16 +146,20 @@ class Router{
                 }
             }
 
-            return (object) [
-                'dic' => $this->dic,
-                'api' => $api,
-                'nb_expl' => $nb_expl,
-                'racine' => $racine,
-                'lien' => $lien,
-                'route' => $route,
-                'middleware' => $middleware,
-                'array_get' => $array_get
-            ];
+            if($route != ''){
+                return (object) [
+                    'dic' => $this->dic,
+                    'api' => $api,
+                    'nb_expl' => $nb_expl,
+                    'racine' => $racine,
+                    'lien' => $lien,
+                    'route' => $route,
+                    'middleware' => $middleware,
+                    'array_get' => $array_get
+                ];
+            } else {
+                return $this->dic->load('exception')->publish('Route '.$url.' not found.');
+            }
         }
     }
 }

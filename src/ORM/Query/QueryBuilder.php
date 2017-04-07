@@ -62,7 +62,32 @@ class QueryBuilder extends Hydrator{
      * @param string $hydrat
      * @return array
      */
-    public function select(RequestInterface $select, string $hydrat = 'without'){
+    public function single(RequestInterface $select, string $hydrat = 'without'){
+        try{
+            CreateLog::request($select->getRequest(), $this->dic->conf['config']['log']);
+
+            $request = $this->conn->prepare($select->getRequest());
+            $request->execute($select->getExecute());
+            $res = $request->fetch(\PDO::FETCH_OBJ);
+
+            $entity = 'Bundles\\'. $this->dic->bundle.'\Entity\\'.$select->getEntity();
+
+            if($hydrat == 'without'){
+                return $res;
+            } elseif($hydrat == 'with') {
+                return $this->hydration($res, 'Bundles\\'. $this->dic->bundle.'\Entity\\'.$select->getEntity());
+            }
+        } catch(\Exception $e) {
+            return $this->dic->load('exception')->publish($e->getMessage());
+        }
+    }
+
+    /**
+     * @param RequestInterface $select
+     * @param string $hydrat
+     * @return array
+     */
+    public function many(RequestInterface $select, string $hydrat = 'without'){
         try{
             CreateLog::request($select->getRequest(), $this->dic->conf['config']['log']);
 
@@ -72,25 +97,17 @@ class QueryBuilder extends Hydrator{
 
             $entity = 'Bundles\\'. $this->dic->bundle.'\Entity\\'.$select->getEntity();
 
-            if(count($res) == 1){
-                if($hydrat == 'without'){
-                    return $res[0];
-                } elseif($hydrat == 'with') {
-                    return $this->hydration($res[0], $entity);
-                }
-            } else {
-                if($hydrat == 'without'){
-                    return $res;
-                } elseif($hydrat == 'with') {
-                    $count = count($res);
-                    $this->preloadHydration($this->dic);
+            if($hydrat == 'without'){
+                return $res;
+            } elseif($hydrat == 'with') {
+                $count = count($res);
+                $this->preloadHydration($this->dic);
 
-                    for($i = 0; $i < $count; $i++){
-                        $array_obj[ $i ] = $this->hydration($res[ $i ], $entity);
-                    }
-
-                    return $array_obj;
+                for($i = 0; $i < $count; $i++){
+                    $array_obj[ $i ] = $this->hydration($res[ $i ], $entity);
                 }
+
+                return $array_obj;
             }
         } catch(\Exception $e) {
             return $this->dic->load('exception')->publish($e->getMessage());
