@@ -39,14 +39,16 @@ class Controller
         if(method_exists($path, $action)){
             $this->dic->bundle = $bundle;
 
-            try{
-                $result = Middleware::define($this->dic, $routing->middleware);
+            if(!empty($routing->middleware)){
+                try{
+                    $result = Middleware::define($this->dic, $routing->middleware);
 
-                if($result === false){
-                    return $this->dic->load('exception')->publish('Failed during test of middleware');
+                    if($result === false){
+                        return $this->dic->load('exception')->publish('Failed during test of middleware');
+                    }
+                } catch(\Exception $e){
+                    return $this->dic->load('exception')->publish($e->getMessage());
                 }
-            } catch(\Exception $e){
-                return $this->dic->load('exception')->publish($e->getMessage());
             }
 
             if($this->dic->conf['config']['analyzer'] == 'yes'){

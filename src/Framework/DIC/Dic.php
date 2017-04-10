@@ -39,7 +39,7 @@ class Dic{
         }
 
         if($env == 'navigator'){
-            $flashbags = Navigator::define($this, $env, $this->params['conf']['config']['stock_route']);
+            $flashbags = Navigator::define($this, $this->params['conf']['config']['stock_route']);
 
             foreach($flashbags as $flash => $value){
                 $this->params[ $flash ] = $value;

@@ -68,6 +68,8 @@ class Client{
 	}
 
 	public function go(){
+	    $this->session()->set('browser', true);
+
 		$context = stream_context_create([
 			'http' => [
 				'method' => $this->method,

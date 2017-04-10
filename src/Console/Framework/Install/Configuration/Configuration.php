@@ -34,7 +34,10 @@ class Configuration{
 		$content .= '		return ['."\n";
 		$content .= '			\'env\' => \'local\','."\n";
 		$content .= '			\'stock_route\' => \'yes\','."\n";
-		$content .= '			\'analyzer\' => \''.$analyzer.'\','."\n";
+        $content .= '           \'analyzer\' => ['."\n";
+        $content .= '               \'activ\' => \''.$analyzer.'\','."\n";
+        $content .= '               \'request\' => \'no\','."\n";
+        $content .= '           ],'."\n";
 		$content .= '			\'racine\' => \'\','."\n";
 		$content .= '			\'cache\' => ['."\n";
 		$content .= '				\'memcached\' => [],'."\n";

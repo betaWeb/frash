@@ -35,7 +35,7 @@ class Analyzer{
 	/**
 	 * @return AnalyzerRegistry
 	 */
-	public function getRegistry(){
+	public function registry(): AnalyzerRegistry{
 		return $this->registry;
 	}
 

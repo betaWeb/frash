@@ -102,6 +102,7 @@ class Session{
      */
     public function unset(string $session){
         unset($this->session[ $session ]);
+        unset($_SESSION[ $session ]);
     }
 
     public function unsetAll(){

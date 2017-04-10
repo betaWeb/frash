@@ -139,7 +139,7 @@ class Router{
                             $nb_expl = count($lien_array);
                             $lien = implode('/', $lien_array);
                             $route = $precision['path'];
-                            $middleware = $precision['middleware'];
+                            $middleware = (!empty($precision['middleware'])) ? $precision['middleware'] : '';
                             $api = (!empty($precision['api']) && $precision['api']) ? true : false;
                         }
                     }
