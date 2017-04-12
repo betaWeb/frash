@@ -16,7 +16,10 @@ class Service{
 		$content .= '	public static function define(){'."\n";
 		$content .= '		return ['."\n";
 		$content .= '			\'middleware\' => [],'."\n";
-		$content .= '			\'templating\' => []'."\n";
+		$content .= '			\'templating\' => ['."\n";
+		$content .= '			    \'filter\' => [],'."\n";
+		$content .= '			    \'extension\' => []'."\n";
+		$content .= '			]'."\n";
 		$content .= '		];'."\n";
 		$content .= '	}'."\n";
 		$content .= '}';

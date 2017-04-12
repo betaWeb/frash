@@ -24,18 +24,26 @@ class Dispatcher{
     /**
      * Dispatcher constructor.
      * @param string $script_name
-     * @param int $start_time
+     * @param float $start_time
      */
-	public function __construct(string $script_name, int $start_time){
-		$this->start_time = $start_time;
+	public function __construct(string $script_name, float $start_time)
+    {
+        $this->dic = new Dic();
 
-		$this->dic = new Dic();
-		$this->dic->prefix = Prefix::define($script_name);
+        $this->dic->prefix = Prefix::define($script_name);
+        $this->dic->uri = substr(Server::uri(), strlen($this->dic->prefix));
+
+        $this->dic->preloading();
+        $this->dic->load('microtime')->set('start', $start_time);
 	}
 
 	public function work(){
 		$this->dic->load('microtime')->set('start', $this->start_time);
-		$route = $this->routing();
+
+        $router = new Router($this->dic);
+        $route = $router->define();
+
+        $this->dic = $route->dic;
 
 		if(count((array) $route) > 1){
 			if($route->api === true){
@@ -44,17 +52,6 @@ class Dispatcher{
 				$this->controller($route);
 			}
 		}
-	}
-
-	/**
-	 * @return object
-	 */
-	private function routing(){
-		$router = new Router($this->dic);
-		$route = $router->route(substr(Server::requestUri(), strlen($this->dic->prefix)));
-
-		$this->dic = $route->dic;
-		return $route;
 	}
 
 	/**

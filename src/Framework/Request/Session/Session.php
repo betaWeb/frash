@@ -1,10 +1,10 @@
 <?php
-namespace Frash\Framework\Request;
+namespace Frash\Framework\Request\Session;
 use Frash\Framework\DIC\Dic;
 
 /**
  * Class Session
- * @package Frash\Framework\Request
+ * @package Frash\Framework\Request\Session
  */
 class Session{
     /**

@@ -1,18 +1,38 @@
 <?php
 namespace Frash\Framework\DIC;
 use Configuration\{ Config, Console, Database, Dependencies, Routing, Service };
-use Frash\Framework\ExtensionLoaded;
-use Frash\Framework\Request\Session;
+use Frash\Framework\Request\Session\StockRoute;
 
 /**
  * Class Dic
  * @package Frash\Framework\DIC
  */
-class Dic{
+class Dic
+{
+    /**
+     * @var array
+     */
+    private $config = [];
+
+    /**
+     * @var array
+     */
+    private $console = [];
+
+    /**
+     * @var array
+     */
+    private $database = [];
+
     /**
      * @var array
      */
     private $dependencies = [];
+
+    /**
+     * @var string
+     */
+    private $env = '';
 
     /**
      * @var array
@@ -25,26 +45,27 @@ class Dic{
     private $params = [];
 
     /**
+     * @var Routing
+     */
+    private $routing;
+
+    /**
+     * @var array
+     */
+    private $service = [];
+
+    /**
      * Dic constructor.
      * @param string $env
      */
-    public function __construct(string $env = 'navigator'){
-        $this->conf = [ 'config' => Config::define(), 'console' => Console::define(), 'database' => Database::define(), 'routing' => new Routing($this), 'service' => Service::define() ];
+    public function __construct(string $env = 'navigator')
+    {
+        $this->env = $env;
+    }
 
-        $this->dependencies = Dependencies::define();
-        $this->memcached = ExtensionLoaded::memcached();
-
-        if($this->memcached === true){
-            $this->load('memcached')->server();
-        }
-
-        if($env == 'navigator'){
-            $flashbags = Navigator::define($this, $this->params['conf']['config']['stock_route']);
-
-            foreach($flashbags as $flash => $value){
-                $this->params[ $flash ] = $value;
-            }
-        }
+    public function preloading()
+    {
+        $this->loadDependencies()->loadConfiguration()->loadFlashbag();
     }
 
     /**
@@ -52,10 +73,14 @@ class Dic{
      * @return mixed
      */
     public function __get(string $key){
-        if(empty($this->params[ $key ])){
-            return '';
+        if($key != 'config' && $key != 'database' && $key != 'routing' && $key != 'service' && $key != 'console'){
+            if(empty($this->params[ $key ])){
+                return '';
+            } else {
+                return $this->params[ $key ];
+            }
         } else {
-            return $this->params[ $key ];
+            return $this->$key;
         }
     }
 
@@ -71,7 +96,8 @@ class Dic{
      * @param string $key
      * @return object
      */
-    public function load(string $key){
+    public function load(string $key)
+    {
         if(array_key_exists($key, $this->open)){
             return $this->open[ $key ];
         } elseif(array_key_exists($key, $this->dependencies)) {
@@ -91,7 +117,8 @@ class Dic{
      * @param string $name
      * @return object
      */
-    public function loadSpecial(string $key, string $name){
+    public function loadSpecial(string $key, string $name)
+    {
         if(in_array($key, $this->dependencies)){
             $key = array_search($key, $this->dependencies);
 
@@ -109,5 +136,71 @@ class Dic{
 
         $this->open[ $name ] = $class;
         return $class;
+    }
+
+    /**
+     * @return Dic
+     */
+    private function loadConfiguration(): Dic
+    {
+        if(!class_exists('Configuration\Config')){
+            die('Configuration file could not be loaded.');
+        }
+
+        $this->config = Config::define();
+        $this->checkLoad([ 'Database', 'Routing', 'Service' ]);
+
+        $this->database = Database::define();
+        $this->routing = new Routing($this);
+        $this->service = Service::define();
+
+        if($this->env == 'console'){
+            $this->checkLoad('Console');
+            $this->console = Console::define();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Dic
+     */
+    private function loadDependencies(): Dic
+    {
+        if(!class_exists('Configuration\Dependencies')){
+            die('Dependencies file could not be loaded.');
+        }
+
+        $this->dependencies = Dependencies::define();
+        return $this;
+    }
+
+    /**
+     * @return Dic
+     */
+    private function loadFlashbag(): Dic
+    {
+        StockRoute::create($this->config, $this);
+        $this->params['flashbag'] = $this->load('session')->list_flashbag();
+
+        return $this;
+    }
+
+    /**
+     * @param string|array $class
+     */
+    private function checkLoad($class)
+    {
+        if(is_array($class)){
+            foreach($class as $name_class){
+                if(!class_exists('Configuration\\'.$name_class)){
+                    $this->load('exception')->publish($name_class.' file could not be loaded');
+                }
+            }
+        } else {
+            if(!class_exists('Configuration\\'.$class)){
+                $this->load('exception')->publish($class.' file could not be loaded');
+            }
+        }
     }
 }

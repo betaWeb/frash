@@ -1,6 +1,6 @@
 <?php
 namespace Frash\Console\Framework\Install;
-use Frash\Console\CommandInterface;
+use Frash\Console\{ Answer, CommandInterface };
 use Frash\Console\Bundle\CreateBundle;
 use Frash\Console\Framework\Install\{ Configuration, Storage, Traduction };
 use Frash\Framework\FileSystem\Directory;
@@ -19,32 +19,11 @@ class Init implements CommandInterface
 
     public function work()
     {
-        fwrite(STDOUT, 'Activation de l\'analyzer (yes/no) : ');
-        $analyzer = (string) trim(fgets(STDIN));
-
-        fwrite(STDOUT, 'Activation du cache de template (yes/no) : ');
-        $cache = (string) trim(fgets(STDIN));
-
-        fwrite(STDOUT, 'Langue par défaut (fr) : ');
-        $default_lang = (string) trim(fgets(STDIN));
-
-        fwrite(STDOUT, 'Langues disponibles (fr/en/de/...) : ');
-        $dispo_lang = (string) trim(fgets(STDIN));
-
-        fwrite(STDOUT, 'Log d\'access (yes/no) : ');
-        $access_log = (string) trim(fgets(STDIN));
-
-        fwrite(STDOUT, 'Log pour l\'ajax (yes/no) : ');
-        $ajax_log = (string) trim(fgets(STDIN));
-
-        fwrite(STDOUT, 'Log d\'error (yes/no) : ');
-        $error_log = (string) trim(fgets(STDIN));
-
-        fwrite(STDOUT, 'Log de request (yes/no) : ');
-        $request_log = (string) trim(fgets(STDIN));
-
-        fwrite(STDOUT, 'Nom du premier bundle (AppBundle) : ');
-        $bundle = (string) trim(fgets(STDIN));
+        $inspecter = Answer::define('Activation de l\'analyzer (yes/no) : ');
+        $cache = Answer::define('Activation du cache de template (yes/no) : ');
+        $default_lang = Answer::define('Langue par défaut (fr) : ');
+        $dispo_lang = Answer::define('Langues disponibles (fr/en/de/...) : ');
+        $bundle = Answer::define('Nom du premier bundle (AppBundle) : ');
 
         CreateBundle::verifDirExist();
         CreateBundle::createDir($bundle);
@@ -54,7 +33,7 @@ class Init implements CommandInterface
 
         Configuration::preinstall();
         Configuration::htaccess();
-        Configuration::config($analyzer, $cache, $default_lang, $dispo_lang, $access_log, $ajax_log, $error_log, $request_log);
+        Configuration::config($inspecter, $cache, $default_lang, $dispo_lang);
         Configuration::database($bundle);
         Configuration::dependencies();
         Configuration::routing();

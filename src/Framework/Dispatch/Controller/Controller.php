@@ -51,10 +51,9 @@ class Controller
                 }
             }
 
-            if($this->dic->conf['config']['analyzer'] == 'yes'){
-                $this->dic->load('analyzer')->getRegistry()->setRoute(str_replace('/', '.', $routing->lien));
+            if($this->dic->config['inspecter']['activ'] == 'yes'){
+                $this->dic->load('inspecter')->registry()->setRoute(str_replace('/', '.', $routing->lien));
                 $this->callAction($bundle, $controller, $action);
-                $this->dic->load('analyzer')->generation();
             } else {
                 $this->callAction($bundle, $controller, $action);
             }

@@ -1,6 +1,6 @@
 <?php
 namespace Frash\Console\Bundle;
-use Frash\Console\CommandInterface;
+use Frash\Console\{ Answer, CommandInterface };
 use Frash\Framework\FileSystem\File;
 
 /**
@@ -15,14 +15,9 @@ class GenerateController implements CommandInterface{
     public function __construct(array $argv){}
 
     public function work(){
-        fwrite(STDOUT, 'Nom du controller : ');
-        $name = (string) trim(fgets(STDIN));
-
-        fwrite(STDOUT, 'Nom du bundle : ');
-        $bundle = (string) trim(fgets(STDIN));
-
-        fwrite(STDOUT, 'Des actions ? (Séparez les noms par /) ');
-        $action = (string) trim(fgets(STDIN));
+        $name = Answer::define('Nom du controller : ');
+        $bundle = Answer::define('Nom du bundle : ');
+        $action = Answer::define('Des actions ? (Séparez les noms par /) ');
 
         $list = explode('/', $action);
 

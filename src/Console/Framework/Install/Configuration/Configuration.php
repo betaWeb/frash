@@ -11,13 +11,9 @@ class Configuration{
 	 * @param string $cache
 	 * @param string $default_lang
 	 * @param string $dispo_lang
-	 * @param string $access_log
-	 * @param string $ajax_log
-	 * @param string $error_log
-	 * @param string $request_log
 	 * @return string                
 	 */
-	public static function file(string $analyzer, string $cache, string $default_lang, string $dispo_lang, string $access_log, string $ajax_log, string $error_log, string $request_log): string{
+	public static function file(string $analyzer, string $cache, string $default_lang, string $dispo_lang): string{
 		$expl = explode('/', $dispo_lang);
 		$array_lang = [];
 
@@ -34,25 +30,40 @@ class Configuration{
 		$content .= '		return ['."\n";
 		$content .= '			\'env\' => \'local\','."\n";
 		$content .= '			\'stock_route\' => \'yes\','."\n";
-        $content .= '           \'analyzer\' => ['."\n";
-        $content .= '               \'activ\' => \''.$analyzer.'\','."\n";
-        $content .= '               \'request\' => \'no\','."\n";
-        $content .= '           ],'."\n";
+        $content .= '			\'inspecter\' => ['."\n";
+        $content .= '			    \'activ\' => \''.$analyzer.'\','."\n";
+        $content .= '			    \'request\' => \'no\','."\n";
+        $content .= '			],'."\n";
 		$content .= '			\'racine\' => \'\','."\n";
 		$content .= '			\'cache\' => ['."\n";
 		$content .= '				\'memcached\' => [],'."\n";
 		$content .= '				\'tpl\' => \''.$cache.'\''."\n";
 		$content .= '			],'."\n";
 		$content .= '			\'traduction\' => ['."\n";
-		$content .= '				\'geoloc\' => \'no\','."\n";
 		$content .= '				\'default\' => \''.$default_lang.'\','."\n";
 		$content .= '				\'available\' => [ '.$trad_av.' ]'."\n";
 		$content .= '			],'."\n";
 		$content .= '			\'log\' => ['."\n";
-		$content .= '				\'access\' => \''.$access_log.'\','."\n";
-		$content .= '				\'ajax\' => \''.$ajax_log.'\','."\n";
-		$content .= '				\'error\' => \''.$error_log.'\','."\n";
-		$content .= '				\'request\' => \''.$request_log.'\','."\n";
+		$content .= '			    \'access\' => ['."\n";
+		$content .= '			        \'activ\' => \'yes\','."\n";
+		$content .= '			        \'format\' => \'continu\''."\n";
+		$content .= '			    ],'."\n";
+        $content .= '			    \'ajax\' => ['."\n";
+        $content .= '			        \'activ\' => \'yes\','."\n";
+        $content .= '			        \'format\' => \'continu\''."\n";
+        $content .= '			    ],'."\n";
+        $content .= '			    \'error\' => ['."\n";
+        $content .= '			        \'activ\' => \'yes\','."\n";
+        $content .= '			        \'format\' => \'continu\''."\n";
+        $content .= '			    ],'."\n";
+        $content .= '			    \'request\' => ['."\n";
+        $content .= '			        \'activ\' => \'yes\','."\n";
+        $content .= '			        \'format\' => \'continu\''."\n";
+        $content .= '			    ],'."\n";
+        $content .= '			    \'simulation\' => ['."\n";
+        $content .= '			        \'activ\' => \'yes\','."\n";
+        $content .= '			        \'format\' => \'continu\''."\n";
+        $content .= '			    ],'."\n";
 		$content .= '			]'."\n";
 		$content .= '		];'."\n";
 		$content .= '	}'."\n";

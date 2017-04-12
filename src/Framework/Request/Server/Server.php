@@ -216,7 +216,7 @@ class Server{
     /**
      * @return string
      */
-    public static function requestUri(): string{
+    public static function uri(): string{
         return $_SERVER['REQUEST_URI'];
     }
 

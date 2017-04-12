@@ -27,7 +27,7 @@ class Exception{
      */
     public function publish(string $message)
     {
-        CreateLog::error($message, $this->dic->conf['config']['log']);
+        CreateLog::error($message, $this->dic->config['log']);
 
         ob_start();
         debug_print_backtrace();

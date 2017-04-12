@@ -1,7 +1,7 @@
 <?php
 namespace Frash\Framework\Browser;
 use Frash\Framework\DIC\Dic;
-use Frash\Framework\Request\Session;
+use Frash\Framework\Request\Session\Session;
 use Frash\Framework\Request\Server\Server;
 
 class Client{
