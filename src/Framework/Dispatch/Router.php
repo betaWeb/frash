@@ -1,5 +1,6 @@
 <?php
 namespace Frash\Framework\Dispatch;
+use Configuration\Routing;
 use Frash\Framework\DIC\Dic;
 use Frash\Framework\Exception\Exception;
 use Frash\Framework\Log\CreateLog;
@@ -66,7 +67,8 @@ class Router{
 
             return (object) [ 'dic' => $this->dic ];
         } else {
-        	$routarr = $this->dic->routing->list(strtolower(Server::requestMethod()));
+            $call_routarr = new Routing($this->dic);
+        	$routarr = $call_routarr->list(strtolower(Server::requestMethod()));
 
             $api = false;
             $array_get = [];

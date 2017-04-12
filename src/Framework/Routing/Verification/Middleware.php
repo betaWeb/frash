@@ -16,7 +16,7 @@ class Middleware{
 		if(empty($middlewares) || count($middlewares) == 0){
 			return true;
 		} else {
-			$service = $dic->conf['service']['middleware'];
+			$service = $dic->service['middleware'];
 
 			foreach($middlewares as $midw){
 				if(!strstr($service[ $midw ], '@')){

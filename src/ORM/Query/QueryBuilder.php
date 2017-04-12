@@ -42,7 +42,7 @@ class QueryBuilder extends Hydrator{
      */
     public function insert(RequestInterface $request): int{
         try{
-            CreateLog::request($request->getRequest(), $this->dic->conf['config']['log']);
+            CreateLog::request($request->getRequest(), $this->dic->config['log']);
 
             $req = $this->conn->prepare($request->getRequest());
             $req->execute($request->getExecute());
@@ -64,7 +64,7 @@ class QueryBuilder extends Hydrator{
      */
     public function single(RequestInterface $select, string $hydrat = 'without'){
         try{
-            CreateLog::request($select->getRequest(), $this->dic->conf['config']['log']);
+            CreateLog::request($select->getRequest(), $this->dic->config['log']);
 
             $request = $this->conn->prepare($select->getRequest());
             $request->execute($select->getExecute());
@@ -89,7 +89,7 @@ class QueryBuilder extends Hydrator{
      */
     public function many(RequestInterface $select, string $hydrat = 'without'){
         try{
-            CreateLog::request($select->getRequest(), $this->dic->conf['config']['log']);
+            CreateLog::request($select->getRequest(), $this->dic->config['log']);
 
             $request = $this->conn->prepare($select->getRequest());
             $request->execute($select->getExecute());
@@ -122,7 +122,7 @@ class QueryBuilder extends Hydrator{
             $req = $this->conn->prepare($request->getRequest());
             $req->execute($request->getExecute());
 
-            CreateLog::request($request->getRequest(), $this->dic->conf['config']['log']);
+            CreateLog::request($request->getRequest(), $this->dic->config['log']);
         } catch(\Exception $e) {
             return $this->dic->load('exception')->publish($e->getMessage());
         }
@@ -136,7 +136,7 @@ class QueryBuilder extends Hydrator{
             $req = $this->conn->prepare($request->getRequest());
             $req->execute($request->getExecute());
 
-            CreateLog::request($request->getRequest(), $this->dic->conf['config']['log']);
+            CreateLog::request($request->getRequest(), $this->dic->config['log']);
         } catch(\Exception $e) {
             return $this->dic->load('exception')->publish($e->getMessage());
         }
@@ -148,7 +148,7 @@ class QueryBuilder extends Hydrator{
      */
     public function custom(RequestInterface $request){
         try{
-            CreateLog::request($request->getRequest(), $this->dic->conf['config']['log']);
+            CreateLog::request($request->getRequest(), $this->dic->config['log']);
 
             $req = $this->conn->prepare($request->getRequest());
             $req->execute($request->getExecute());

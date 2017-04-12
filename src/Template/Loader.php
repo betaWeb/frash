@@ -65,7 +65,7 @@ class Loader{
 
         $this->dic_t = new DependTemplEngine;
         $this->dic_t->setParams([
-            'config' => $dic->conf['config'],
+            'config' => $dic->config,
             'nurl' => $nurl,
             'params' => $this->params,
             'prefix' => $this->dic->prefix,

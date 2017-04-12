@@ -1,6 +1,6 @@
 <?php
 namespace Frash\Framework\DIC;
-use Configuration\{ Config, Console, Database, Dependencies, Routing, Service };
+use Configuration\{ Config, Console, Database, Dependencies, Service };
 use Frash\Framework\Request\Session\StockRoute;
 
 /**
@@ -45,9 +45,9 @@ class Dic
     private $params = [];
 
     /**
-     * @var Routing
+     * @var \PDO
      */
-    private $routing;
+    private $pdo;
 
     /**
      * @var array
@@ -73,7 +73,7 @@ class Dic
      * @return mixed
      */
     public function __get(string $key){
-        if($key != 'config' && $key != 'database' && $key != 'routing' && $key != 'service' && $key != 'console'){
+        if($key != 'config' && $key != 'database' && $key != 'service' && $key != 'console'){
             if(empty($this->params[ $key ])){
                 return '';
             } else {
@@ -151,7 +151,6 @@ class Dic
         $this->checkLoad([ 'Database', 'Routing', 'Service' ]);
 
         $this->database = Database::define();
-        $this->routing = new Routing($this);
         $this->service = Service::define();
 
         if($this->env == 'console'){
