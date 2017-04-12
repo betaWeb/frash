@@ -73,7 +73,7 @@ class Dic
      * @return mixed
      */
     public function __get(string $key){
-        if($key != 'config' && $key != 'database' && $key != 'service' && $key != 'console'){
+        if($key != 'config' && $key != 'database' && $key != 'service' && $key != 'console' && $key != 'pdo'){
             if(empty($this->params[ $key ])){
                 return '';
             } else {
