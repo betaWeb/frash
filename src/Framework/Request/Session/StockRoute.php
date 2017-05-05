@@ -7,7 +7,7 @@ class StockRoute
 {
     public static function create(array $config, Dic $dic)
     {
-        if(!empty($config['stock_route']) && $config['stock_route'] == 'yes'){
+        if(!empty($config['stock_route']) && $config['stock_route'] == 'yes' && $dic->env != 'console'){
             $session = $dic->load('session');
 
             if($session->has('frash_current_url')){

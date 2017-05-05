@@ -1,9 +1,13 @@
 <?php
     $array = [
-        'Bundle:generate:nombundle      ' => 'Générer un bundle',
-        'Clear:Cache                    ' => 'Supprimer le cache',
-        'Controller:generate            ' => 'Générer un controller',
-        'Documentation:create			' => 'Générer une documentation',
-        'ORM:addentity:bundle:table     ' => 'Générer une entité',
-        'ORM:createdb                   ' => 'Créer la base de données'
+        'Check:routing 					' => 'Check routing',
+        'Clear:cache 					' => 'Remove cache',
+        'Framework:init 				' => 'Install framework',
+        'Generate:bundle 				' => 'Generate bundle',
+        'Generate:controller 			' => 'Generate controller',
+        'Generate:documentation 		' => 'Generate documentation',
+        'ORM:addentity 					' => 'Generate entity',
+        'ORM:import 					' => 'Import JSON or CSV file, and create table',
+        'ORM:migration 					' => 'Migrate database with parameters config',
+        'Test:Unit:run 					' => 'Execute unit tests'
     ];

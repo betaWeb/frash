@@ -17,7 +17,7 @@ class Session{
      * @param Dic $dic
      */
     public function __construct(Dic $dic){
-        if(empty($this->session) && empty($this->flashbag)){
+        if(empty($this->session) && empty($this->flashbag) && $dic->env != 'console'){
             foreach($_SESSION as $session => $val){
                 if($session == 'flashbag'){
                     foreach($val as $sess => $val_flash){

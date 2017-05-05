@@ -55,7 +55,7 @@ class Router{
         array_shift($path);
 
         if($conf['inspecter']['activ'] == 'yes' && $this->dic->load('session')->has('browser')){
-            $this->dic->url_analyzer = (empty($path[0])) ? $conf['racine'].'/' : implode('/', $path);
+            $this->dic->url_analyzer = (empty($path[0])) ? $conf['racine'] : implode('/', $path);
             $this->dic->load('inspecter')->registry()->setConfigPHP();
         }
 
