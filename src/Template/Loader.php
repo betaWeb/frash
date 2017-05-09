@@ -4,6 +4,7 @@ use Frash\Framework\DIC\Dic;
 use Frash\Framework\Exception\Exception;
 use Frash\Framework\FileSystem\{ Directory, File };
 use Frash\Framework\Request\Server\Server;
+use Frash\Framework\Utility\Generator;
 use Frash\Template\{ DependTemplEngine, Parser };
 
 /**
@@ -109,16 +110,10 @@ class Loader{
             return $this->dic->load('exception')->publish('Template '.$this->file.' not found.');
         }
 
-        $name_file = 'TemplateOf'.md5('Bundles/'.$this->bundle.'/Views/'.$this->file);
+        $name_file = 'Template'.Generator::get(10, true, true, true, false).md5(time().'Bundles/'.$this->bundle.'/Views/'.$this->file);
 
-        if(Server::refresh() && File::exist('Storage/Cache/Templating/'.$name_file.'.php')){
-            File::delete('Storage/Cache/Templating/'.$name_file.'.php');
-        }
-
-        if(!File::exist('Storage/Cache/Templating/'.$name_file.'.php')){
-            $parser = new Parser('Bundles/'.$this->bundle.'/Views/'.$this->file, $this->params, $this->dic, $this->dic_t, $name_file);
-            $parser->parse();
-        }
+        $parser = new Parser('Bundles/'.$this->bundle.'/Views/'.$this->file, $this->params, $this->dic, $this->dic_t, $name_file);
+        $parser->parse();
 
         $path_class = 'Storage\Cache\Templating\\'.$name_file;
         $tpl_class = new $path_class($this->dic, $this->dic_t, $this->params, $this->dic->env);

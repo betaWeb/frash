@@ -57,7 +57,7 @@ class Controller
             } else {
                 $this->callAction($bundle, $controller, $action);
             }
-        } elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')) {
+        } elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.$controller.'.php')) {
             return $this->dic->load('exception')->publish('Controller '.$controller.' not found');
         } elseif(!method_exists($path, $action)) {
             return $this->dic->load('exception')->publish('Action '.$action.' not found');

@@ -1,6 +1,6 @@
 <?php
-namespace FrashTest\Framework;
-use Frash\Framework\Collection;
+namespace FrashTest\Framework\Utility\Formatting;
+use Frash\Framework\Utility\Formatting\Collection;
 use Frash\UnitTest\Extend\SimpleTest;
 
 class CollectionTest extends SimpleTest{

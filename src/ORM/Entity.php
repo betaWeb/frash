@@ -1,7 +1,7 @@
 <?php
 namespace Frash\ORM;
-use Frash\Framework\Collection;
 use Frash\Framework\DIC\Dic;
+use Frash\Framework\Utility\Formatting\Collection;
 use Frash\ORM\{ OrmFactory, QueryBuilder };
 
 /**
