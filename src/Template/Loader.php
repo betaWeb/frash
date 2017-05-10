@@ -5,7 +5,8 @@ use Frash\Framework\Exception\Exception;
 use Frash\Framework\FileSystem\{ Directory, File };
 use Frash\Framework\Request\Server\Server;
 use Frash\Framework\Utility\Generator;
-use Frash\Template\{ DependTemplEngine, Parser };
+use Frash\Template\DependTemplEngine;
+use Frash\Template\Parsing\PreParser;
 
 /**
  * Class Loader
@@ -38,11 +39,6 @@ class Loader{
     private $no_cache = false;
 
     /**
-     * @var array
-     */
-    private $params = [];
-
-    /**
      * Loader constructor.
      * @param string $file
      * @param array $params
@@ -65,7 +61,7 @@ class Loader{
         }
 
         $this->dic_t = new DependTemplEngine;
-        $this->dic_t->setParams([
+        $this->dic_t->sets([
             'config' => $dic->config,
             'nurl' => $nurl,
             'params' => $this->params,
@@ -87,12 +83,12 @@ class Loader{
         }
 
         if(!File::exist('Storage/Cache/Templating/'.$name_file.'.php')){
-            $parser = new Parser($this->file, $this->params, $this->dic, $this->dic_t, $name_file);
+            $parser = new PreParser($this->file, $this->dic, $this->dic_t, $name_file);
             $parser->parse($type);
         }
 
         $path_class = 'Storage\Cache\Templating\\'.$name_file;
-        $tpl_class = new $path_class($this->dic, $this->dic_t, $this->params, $this->dic->env);
+        $tpl_class = new $path_class($this->dic, $this->dic_t, $this->dic->env);
         echo $tpl_class->display();
 
         $this->ifNoCache('Display'.$type);
@@ -106,17 +102,17 @@ class Loader{
         $this->no_cache = $no_cache;
         Directory::notExistAndCreate('Storage/Cache/Templating');
 
-        if(File::exist('Bundles/'.$this->bundle.'/Views/'.$this->file) === false){
-            return $this->dic->load('exception')->publish('Template '.$this->file.' not found.');
+        if(!File::exist('Bundles/'.$this->bundle.'/Views/'.$this->file)){
+            return $this->dic->load('exception')->publish('Template '.$this->file.' not found');
         }
 
         $name_file = 'Template'.Generator::get(10, true, true, true, false).md5(time().'Bundles/'.$this->bundle.'/Views/'.$this->file);
 
-        $parser = new Parser('Bundles/'.$this->bundle.'/Views/'.$this->file, $this->params, $this->dic, $this->dic_t, $name_file);
+        $parser = new PreParser('Bundles/'.$this->bundle.'/Views/'.$this->file, $this->dic, $this->dic_t, $name_file);
         $parser->parse();
 
         $path_class = 'Storage\Cache\Templating\\'.$name_file;
-        $tpl_class = new $path_class($this->dic, $this->dic_t, $this->params, $this->dic->env);
+        $tpl_class = new $path_class($this->dic, $this->dic_t, $this->dic->env);
         echo $tpl_class->display();
 
         $this->ifNoCache($name_file);

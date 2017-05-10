@@ -1,13 +1,13 @@
 <?php
 namespace Frash\Template\Parsing;
-use Frash\Template\DependTemplEngine;
-use Frash\Template\Parsing\ParseArray;
+use Frash\Template\{ DependTemplEngine, RegexParse };
 
 /**
  * Class ParseParent
  * @package Frash\Template\Parsing
  */
-class ParseParent extends ParseArray{
+class ParseParent extends RegexParse
+{
     /**
      * @var array
      */
@@ -66,13 +66,13 @@ class ParseParent extends ParseArray{
 			switch(true){
 				case $this->attributes['level']['escape_tpl'] == 0:
 					switch(true){
-						case preg_match($this->extension['default']['else'], $tag[0]):
+						case preg_match($this->extension['condition']['else'], $tag[0]):
 							$condition[ $this->attributes['level']['condition'] ][] = [ 'type' => 'else', 'condition' => 'else' ];
 							break;
-						case preg_match($this->extension['default']['elseif'], $tag[0]):
+						case preg_match($this->extension['condition']['elseif'], $tag[0]):
 							$condition[ $this->attributes['level']['condition'] ][] = [ 'type' => 'elseif', 'condition' => $res_split[ $key ][2] ];
 							break;
-						case preg_match($this->extension['default']['end_condition'], $tag[0]):
+						case preg_match($this->extension['condition']['end'], $tag[0]):
 							$condition[ $this->attributes['level']['condition'] ][] = [ 'type' => 'end', 'condition' => '/condition' ];
 
 							$cp = $this->dic_t->extension('Condition')->parse($condition[ $this->attributes['level']['condition'] ], $value);
@@ -82,24 +82,24 @@ class ParseParent extends ParseArray{
 							unset($condition[ $this->attributes['level']['condition'] ]);
                             $this->attributes['level']['condition']--;
 							break;
-						case preg_match($this->extension['default']['if'], $tag[0]):
+						case preg_match($this->extension['condition']['if'], $tag[0]):
                             $this->attributes['level']['condition']++;
 							$condition[ $this->attributes['level']['condition'] ][] = [ 'type' => 'if', 'condition' => $res_split[ $key ][2] ];
 							break;
-                        case preg_match($this->extension['default']['public'], $tag[0]):
+                        case preg_match($this->extension['public'], $tag[0]):
                             $value = str_replace($res_split[ $key ][0], $this->dic_t->extension('Public')->parse($res_split[ $key ][4]), $value);
                             break;
-						case preg_match($this->extension['default']['route'], $tag[0]):
+						case preg_match($this->extension['route'], $tag[0]):
                             $ext = $this->dic_t->callExtension()->parseParent('RouteParent', 'parse', $this->attributes, [ 'match' => $res_split[ $key ] ]);
                             $this->returnExtension($ext);
 							break;
-						case preg_match($this->extension['default']['show_var'], $tag[0]):
+						case preg_match($this->extension['show_var'], $tag[0]):
 							if($this->attributes['level']['foreach'] == 0 && $this->attributes['level']['for'] == 0 && $this->attributes['level']['index'] == 0 && $this->attributes['level']['itvl'] == 0){
 								$value = str_replace($res_split[ $key ][0], $this->dic_t->extension('ShowVar')->parse($res_split[ $key ][4]), $value);
 							}
 
 							break;
-                        case preg_match($this->extension['default']['traduction'], $tag[0]):
+                        case preg_match($this->extension['traduction'], $tag[0]):
                             $value_trad = $res_split[ $key ][4];
                             $value = str_replace($res_split[ $key ][0], str_replace('\'', "\'", $this->trad->$value_trad), $value);
                             break;

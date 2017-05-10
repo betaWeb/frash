@@ -51,11 +51,11 @@ class ForeachParse extends ExtensionParseForeach{
 			switch(true){
 				case $this->infos['level']['esc_tpl'] == 0:
 					switch(true){
-						case preg_match($this->infos['params']['parsing']['default']['route'], $tag[0]):
+						case preg_match($this->infos['params']['parsing']['route'], $tag[0]):
                             $infos = $this->dic_t->callExtension()->parseForeach('RouteForeach', 'parse', $this->infos, [ 'match' => $match_all[ $key ], 'params_foreach' => [ 'k' => $k, 'v' => $v ] ])->getInfos();
                             $this->content = str_replace($match_all[ $key ][0], $infos['content'], $this->content);
 							break;
-						case preg_match($this->infos['params']['parsing']['default']['show_var_for'], $tag[0]):
+						case preg_match($this->infos['params']['parsing']['show_var_for'], $tag[0]):
                             $infos = $this->dic_t->callExtension()->parseForeach('ShowVarParseForeach', 'parse', $this->infos, [ 'match' => $match_all[ $key ], 'params_foreach' => [ 'k' => $k, 'v' => $v ] ])->getInfos();
                             $this->content = str_replace($match_all[ $key ][0], $infos['content'], $this->content);
 							break;
