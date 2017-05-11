@@ -94,7 +94,7 @@ class DependTemplEngine{
      * @param string $name
      * @return mixed
      */
-    public function getParam(string $name){
+    public function get(string $name){
         return $this->params[ $name ];
     }
 
@@ -102,14 +102,14 @@ class DependTemplEngine{
      * @param string $name
      * @param mixed $param
      */
-	public function setParam(string $name, $param){
+	public function set(string $name, $param){
 		$this->params[ $name ] = $param;
 	}
 
     /**
      * @param array $params
      */
-    public function setParams(array $params){
+    public function sets(array $params){
         foreach($params as $name => $param){
             $this->params[ $name ] = $param;
         }
@@ -118,7 +118,7 @@ class DependTemplEngine{
     /**
      * @param string $name
      */
-	public function unsetParams(string $name){
+	public function unset(string $name){
 		unset($this->params[ $name ]);
 	}
 }

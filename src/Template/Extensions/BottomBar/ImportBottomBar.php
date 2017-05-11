@@ -42,7 +42,7 @@ class ImportBottomBar{
      */
 	public function parse(): string{
 		$microtime = $this->dic->load('microtime');
-        $dump = $this->dic_t->getParam('params')['dump'];
+        $dump = $this->dic_t->get('params')['dump'];
 
         $analyzer = $this->dic->load('getUrl')->url('__analyzer/');
         $url_analyzer = $this->dic->url_analyzer;

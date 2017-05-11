@@ -50,15 +50,15 @@ class ConditionParse extends ExtensionParseSimple{
 		for($i = 0; $i <= $count; $i++){
 			if($this->infos['condition'][ $level_condition ][ $i ]['type'] != 'end' && $this->infos['condition'][ $level_condition ][ $i ]['type'] != 'else'){
 				if($this->infos['condition'][ $level_condition ][ $i + 1 ]['type'] == 'end'){
-					preg_match('/\{\{ '.$this->infos['condition'][ $level_condition ][ $i ]['condition'].' \}\}(.*)\{\{ end_if \}\}/Us', $this->infos['tpl'], $value_cond);
+					preg_match('/\{\{ '.preg_quote($this->infos['condition'][ $level_condition ][ $i ]['condition']).' \}\}(.*)\{\{ end_if \}\}/Us', $this->infos['tpl'], $value_cond);
 				} else {
-					preg_match('/\{\{ '.$this->infos['condition'][ $level_condition ][ $i ]['condition'].' \}\}(.*)\{\{ '.$this->infos['condition'][ $level_condition ][ $i + 1 ]['condition'].' \}\}/Us', $this->infos['tpl'], $value_cond);
+					preg_match('/\{\{ '.preg_quote($this->infos['condition'][ $level_condition ][ $i ]['condition']).' \}\}(.*)\{\{ '.$this->infos['condition'][ $level_condition ][ $i + 1 ]['condition'].' \}\}/Us', $this->infos['tpl'], $value_cond);
 				}
 
 				preg_match('/(\w+) (.*\S) (.*\S) (.*\S)/', $this->infos['condition'][ $level_condition ][ $i ]['condition'], $split_cond);
 
-				if($split_cond[2][0] == '@'){
-					$split_cond[2] = '$this->params'.$this->dic_t->extension('FormatVar')->parse(ltrim($split_cond[2], '@'));
+				if($split_cond[2][0] == '$'){
+					$split_cond[2] = '$this->params'.$this->dic_t->extension('FormatVar')->parse(ltrim($split_cond[2], '$'));
 				} elseif($split_cond[2][0] == '!'){
 					$split_cond[2] = '$'.$this->dic_t->extension('FormatVar')->parseForeach(ltrim($split_cond[2], '!'));
 				}
@@ -75,7 +75,7 @@ class ConditionParse extends ExtensionParseSimple{
 					$treatment .= '	'.$split_cond[1].'('.$split_cond[2].' '.$split_cond[3].' '.$split_cond[4].'){'."\n";
 					$treatment .= '			$content .= \''.trim($value_cond[1]).'\';'."\n";
 					$treatment .= '		}'."\n";
-				} elseif($split_cond[4][0] == '@') {
+				} elseif($split_cond[4][0] == '$') {
 					$treatment .= '	'.$split_cond[1].'('.$split_cond[2].' '.$split_cond[3].' $this->params'.$this->dic_t->extension('FormatVar')->parse($split_cond[4]).'){'."\n";
 					$treatment .= '			$content .= \''.trim($value_cond[1]).'\';'."\n";
 					$treatment .= '		}'."\n";
@@ -93,7 +93,7 @@ class ConditionParse extends ExtensionParseSimple{
 		$code .= '	'.$treatment."\n";
 		$code .= '		$content .= \'';
 
-        preg_match('/'.$start.'(.*)\{\{ end_if \}\}/Us', $this->infos['tpl'], $match);
+        preg_match('/'.preg_quote($start).'(.*)\{\{ end_if \}\}/Us', $this->infos['tpl'], $match);
         $this->infos['tpl'] = str_replace($match[0], $code, $this->infos['tpl']);
 
         unset($this->infos['condition'][ $level_condition ]);

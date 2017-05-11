@@ -39,24 +39,25 @@ class Controller
         if(method_exists($path, $action)){
             $this->dic->bundle = $bundle;
 
-            try{
-                $result = Middleware::define($this->dic, $routing->middleware);
+            if(!empty($routing->middleware)){
+                try{
+                    $result = Middleware::define($this->dic, $routing->middleware);
 
-                if($result === false){
-                    return $this->dic->load('exception')->publish('Failed during test of middleware');
+                    if($result === false){
+                        return $this->dic->load('exception')->publish('Failed during test of middleware');
+                    }
+                } catch(\Exception $e){
+                    return $this->dic->load('exception')->publish($e->getMessage());
                 }
-            } catch(\Exception $e){
-                return $this->dic->load('exception')->publish($e->getMessage());
             }
 
-            if($this->dic->conf['config']['analyzer'] == 'yes'){
-                $this->dic->load('analyzer')->getRegistry()->setRoute(str_replace('/', '.', $routing->lien));
+            if($this->dic->config['inspecter']['activ'] == 'yes'){
+                $this->dic->load('inspecter')->registry()->setRoute(str_replace('/', '.', $routing->lien));
                 $this->callAction($bundle, $controller, $action);
-                $this->dic->load('analyzer')->generation();
             } else {
                 $this->callAction($bundle, $controller, $action);
             }
-        } elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.ucfirst($controller).'.php')) {
+        } elseif(!file_exists('Bundles/'.$bundle.'/Controllers/'.$controller.'.php')) {
             return $this->dic->load('exception')->publish('Controller '.$controller.' not found');
         } elseif(!method_exists($path, $action)) {
             return $this->dic->load('exception')->publish('Action '.$action.' not found');

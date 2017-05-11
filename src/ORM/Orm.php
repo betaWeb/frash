@@ -23,9 +23,9 @@ class Orm{
      * @return Exception
      */
     public function __construct(Dic $dic){
-        if(!empty($dic->conf['database']) && !empty($dic->conf['database'][ $dic->bundle ])){
+        if(!empty($dic->database[ $dic->bundle ])){
             try{
-                $conf = $dic->conf['database'][ $dic->bundle ];
+                $conf = $dic->database[ $dic->bundle ];
                 $this->system = $conf['system'];
 
                 switch($conf['system']){

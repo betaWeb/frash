@@ -1,10 +1,10 @@
 <?php
-namespace Frash\Framework\Request;
+namespace Frash\Framework\Request\Session;
 use Frash\Framework\DIC\Dic;
 
 /**
  * Class Session
- * @package Frash\Framework\Request
+ * @package Frash\Framework\Request\Session
  */
 class Session{
     /**
@@ -17,7 +17,7 @@ class Session{
      * @param Dic $dic
      */
     public function __construct(Dic $dic){
-        if(empty($this->session) && empty($this->flashbag)){
+        if(empty($this->session) && empty($this->flashbag) && $dic->env != 'console'){
             foreach($_SESSION as $session => $val){
                 if($session == 'flashbag'){
                     foreach($val as $sess => $val_flash){
@@ -102,11 +102,11 @@ class Session{
      */
     public function unset(string $session){
         unset($this->session[ $session ]);
+        unset($_SESSION[ $session ]);
     }
 
     public function unsetAll(){
         $this->session = [];
-        $this->flashbag = [];
 
         session_unset();
         session_destroy();

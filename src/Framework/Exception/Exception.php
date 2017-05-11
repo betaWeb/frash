@@ -2,8 +2,6 @@
 namespace Frash\Framework\Exception;
 use Frash\Framework\DIC\Dic;
 use Frash\Framework\Log\CreateLog;
-use Frash\Framework\Request\Server\Server;
-use Frash\Framework\Collection;
 
 /**
  * Class Exception
@@ -29,7 +27,7 @@ class Exception{
      */
     public function publish(string $message)
     {
-        CreateLog::error($message, $this->dic->conf['config']['log']);
+        CreateLog::error($message, $this->dic->config['log']);
 
         ob_start();
         debug_print_backtrace();
@@ -48,13 +46,14 @@ class Exception{
 
         foreach($histo_stacktrace as $content){
             preg_match_all('/\[(.*)\]/Us', $content, $matches, PREG_SET_ORDER);
+            $matches_pop = array_pop($matches);
 
-            if(preg_match('/(.*):(\d+)/', array_pop($matches)[1], $match)){
+            if(preg_match('/(.*):(\d+)/', $matches_pop[1], $match)){
                 $cf = $this->contentFile($match[1], $match[2]);
 
                 $stacktrace[] = [
                     'file' => $match[1],
-                    'trace' => $content,
+                    'trace' => (strlen($content) > 200) ? $matches_pop[1] : $content,
                     'line' => $match[2],
                     'code_before' => $cf->content_before,
                     'code_line' => $cf->content_line,

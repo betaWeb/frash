@@ -1,9 +1,9 @@
 <?php
-namespace Frash\Console\Framework\Configuration;
+namespace Frash\Console\Framework\Install\Configuration;
 
 /**
  * Class Service
- * @package Frash\Console\Framework\Configuration
+ * @package Frash\Console\Framework\Install\Configuration
  */
 class Service{
 	/**
@@ -16,7 +16,10 @@ class Service{
 		$content .= '	public static function define(){'."\n";
 		$content .= '		return ['."\n";
 		$content .= '			\'middleware\' => [],'."\n";
-		$content .= '			\'templating\' => []'."\n";
+		$content .= '			\'templating\' => ['."\n";
+		$content .= '			    \'filter\' => [],'."\n";
+		$content .= '			    \'extension\' => []'."\n";
+		$content .= '			]'."\n";
 		$content .= '		];'."\n";
 		$content .= '	}'."\n";
 		$content .= '}';

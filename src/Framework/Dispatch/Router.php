@@ -1,5 +1,6 @@
 <?php
 namespace Frash\Framework\Dispatch;
+use Configuration\Routing;
 use Frash\Framework\DIC\Dic;
 use Frash\Framework\Exception\Exception;
 use Frash\Framework\Log\CreateLog;
@@ -30,17 +31,16 @@ class Router{
 	 * @param string $url
 	 * @return object
 	 */
-    public function route(string $url)
+    public function define()
     {
-        $conf = $this->dic->conf['config'];
-        CreateLog::access($url, $conf['log']);
+        $conf = $this->dic->config;
+        CreateLog::access($this->dic->uri, $conf['log']);
 
-        $this->dic->uri = $url;
         $this->dic->cache_tpl = $conf['cache']['tpl'];
         $this->dic->env = $conf['env'];
-        $this->dic->analyzer = $conf['analyzer'];
+        $this->dic->analyzer = $conf['inspecter'];
 
-        $path = explode('/', $url);
+        $path = explode('/', $this->dic->uri);
 
         if(in_array($path[0], $conf['traduction']['available'])){
             $this->dic->lang = $path[0];
@@ -54,20 +54,21 @@ class Router{
         array_unshift($path, 0);
         array_shift($path);
 
-        if($conf['analyzer'] == 'yes'){
-            $this->dic->url_analyzer = (empty($path[0])) ? $conf['racine'].'/' : implode('/', $path);
-            $this->dic->load('analyzer')->getRegistry()->setConfigPHP();
+        if($conf['inspecter']['activ'] == 'yes' && $this->dic->load('session')->has('browser')){
+            $this->dic->url_analyzer = (empty($path[0])) ? $conf['racine'] : implode('/', $path);
+            $this->dic->load('inspecter')->registry()->setConfigPHP();
         }
 
         if(!empty($path[0]) && $path[0][0].$path[0][1] == '__'){
-            if($path[0] == '__analyzer'){
+            if($path[0] == '__inspect'){
                 array_shift($path);
-                $this->dic->load('analyzer')->display(implode('/', $path), rtrim(implode('.', $path), '.'));
+                $this->dic->load('inspecter')->simulation(implode('/', $path))->display();
             }
 
             return (object) [ 'dic' => $this->dic ];
         } else {
-        	$routarr = $this->dic->conf['routing']->list(strtolower(Server::requestMethod()));
+            $call_routarr = new Routing($this->dic);
+        	$routarr = $call_routarr->list(strtolower(Server::requestMethod()));
 
             $api = false;
             $array_get = [];
@@ -127,7 +128,7 @@ class Router{
                                         $array_get[ $sub_get ] = $path[ $i ];
                                         $lien_array[ $sub_get ] = $expl_key[ $i ];
                                     } else {
-                                        return $this->dic->load('exception')->publish('Get : Url incorrecte.');
+                                        return $this->dic->load('exception')->publish('Get : Url incorrecte');
                                     }
                                 }
                             } else {
@@ -139,23 +140,27 @@ class Router{
                             $nb_expl = count($lien_array);
                             $lien = implode('/', $lien_array);
                             $route = $precision['path'];
-                            $middleware = $precision['middleware'];
+                            $middleware = (!empty($precision['middleware'])) ? $precision['middleware'] : '';
                             $api = (!empty($precision['api']) && $precision['api']) ? true : false;
                         }
                     }
                 }
             }
 
-            return (object) [
-                'dic' => $this->dic,
-                'api' => $api,
-                'nb_expl' => $nb_expl,
-                'racine' => $racine,
-                'lien' => $lien,
-                'route' => $route,
-                'middleware' => $middleware,
-                'array_get' => $array_get
-            ];
+            if($route != ''){
+                return (object) [
+                    'dic' => $this->dic,
+                    'api' => $api,
+                    'nb_expl' => $nb_expl,
+                    'racine' => $racine,
+                    'lien' => $lien,
+                    'route' => $route,
+                    'middleware' => $middleware,
+                    'array_get' => $array_get
+                ];
+            } else {
+                return $this->dic->load('exception')->publish('Route '.$this->dic->uri.' not found');
+            }
         }
     }
 }

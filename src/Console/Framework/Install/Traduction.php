@@ -1,9 +1,10 @@
 <?php
-namespace Frash\Console\Framework;
+namespace Frash\Console\Framework\Install;
+use Frash\Framework\FileSystem\File;
 
 /**
  * Class Traduction
- * @package Frash\Console\Framework
+ * @package Frash\Console\Framework\Install
  */
 class Traduction{
 	/**

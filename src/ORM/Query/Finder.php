@@ -47,7 +47,7 @@ class Finder extends Hydrator{
             $req->execute($arguments);
             $res = $req->fetchAll(\PDO::FETCH_OBJ);
 
-            CreateLog::request($request, $this->dic->conf['config']['log']);
+            CreateLog::request($request, $this->dic->config['log']);
 
             $count = count($res);
             $array_obj = [];
@@ -84,7 +84,7 @@ class Finder extends Hydrator{
             $req->execute($arguments);
             $res = $req->fetch(\PDO::FETCH_OBJ);
 
-            CreateLog::request($request, $this->dic->conf['config']['log']);
+            CreateLog::request($request, $this->dic->config['log']);
 
             $this->preloadHydration($this->dic);
             return $this->hydration($res, 'Bundles\\'.$this->dic->bundle.'\Entity\\'.ucfirst($entity));

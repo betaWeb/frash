@@ -1,11 +1,11 @@
 <?php
-namespace Frash\Console\Framework;
-use Frash\Console\Framework\Configuration\{ Configuration as Conf, Console, Database, Dependencies, Routing, Service, TestUnit };
+namespace Frash\Console\Framework\Install;
+use Frash\Console\Framework\Install\Configuration\{ Configuration as Conf, Console, Database, Dependencies, Routing, Service, TestUnit };
 use Frash\Framework\FileSystem\{ Directory, File, Json };
 
 /**
  * Class Configuration
- * @package Frash\Console\Framework
+ * @package Frash\Console\Framework\Install
  */
 class Configuration{
     public static function preinstall(){
@@ -21,13 +21,10 @@ class Configuration{
      * @param string $cache
      * @param string $default_lang
      * @param string $dispo_lang
-     * @param string $access_log
-     * @param string $error_log
-     * @param string $request_log
      */
-	public static function config(string $analyzer, string $cache, string $default_lang, string $dispo_lang, string $access_log, string $ajax_log, string $error_log, string $request_log)
+	public static function config(string $analyzer, string $cache, string $default_lang, string $dispo_lang)
     {
-		File::create('Configuration/Config.php', Conf::file($analyzer, $cache, $default_lang, $dispo_lang, $access_log, $ajax_log, $error_log, $request_log));
+		File::create('Configuration/Config.php', Conf::file($analyzer, $cache, $default_lang, $dispo_lang));
 	}
 
     /**

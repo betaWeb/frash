@@ -1,16 +1,16 @@
 <?php
-namespace Frash\Template;
+namespace Frash\Template\Parsing;
 use Frash\Framework\DIC\Dic;
 use Frash\Framework\FileSystem\File;
 use Frash\Template\DependTemplEngine;
 use Frash\Template\Cache\CreateClassCache;
-use Frash\Template\Parsing\{ ParseWithExtend, ParseWithoutExtend };
+use Frash\Template\Parsing\Parser;
 
 /**
- * Class Parser
- * @package Frash\Template
+ * Class PreParser
+ * @package Frash\Template\Parsing
  */
-class Parser{
+class PreParser{
     /**
      * @var Dic
      */
@@ -20,11 +20,6 @@ class Parser{
      * @var DependTemplEngine
      */
 	private $dic_t;
-
-    /**
-     * @var array
-     */
-	private $params = [];
 
     /**
      * @var string
@@ -47,50 +42,42 @@ class Parser{
     private $type = '';
 
     /**
-     * Parser constructor.
+     * PreParser constructor.
      * @param string $path
-     * @param array $params
      * @param Dic $dic
      * @param DependTemplEngine $dic_t
      * @param string $name_class
      */
-	public function __construct(string $path, array $params, Dic $dic, DependTemplEngine $dic_t, string $name_class){
+	public function __construct(string $path, Dic $dic, DependTemplEngine $dic_t, string $name_class){
 		$this->dic = $dic;
+		$this->dic_t = $dic_t;
 
-		$this->params = $params;
 		$this->tpl = str_replace("'", "\'", file_get_contents($path));
 		$this->name_class = $name_class;
 		$this->class_cache = CreateClassCache::create($this->name_class);
-
-		$this->dic_t = $dic_t;
 	}
 
 	/**
 	 * @param string $type
 	 */
 	public function parse(string $type = 'normal'){
-	    $this->type = $type;
+		$is_extend = [ 0 => 'no' ];
 
 		if(preg_match('/\{\{ extend (.*) \}\}/', $this->tpl, $extend)){
-			$parse = new ParseWithExtend(str_replace($extend[0], '', $this->tpl), $extend, $this->dic, $this->params, $this->dic_t);
-		} else {
-			$parse = new ParseWithoutExtend($this->tpl, $this->dic, $this->params, $this->dic_t);
+			$this->tpl = str_replace($extend[0], '', $this->tpl);
+			$is_extend = $extend;
 		}
 
+		$parse = new Parser($this->tpl, $is_extend, $this->dic, $this->dic_t);
         $this->class_cache .= $parse->parse();
-		$this->importBottomBar();
-		$this->class_cache .= CreateClassCache::endClass();
 
-		if($type == 'normal'){
-			File::create('Storage/Cache/Templating/'.$this->name_class.'.php', $this->class_cache);
-		} else {
-			File::create('Storage/Cache/Templating/Display'.$type.'.php', $this->class_cache);
-		}
-	}
-
-	private function importBottomBar(){
-		if($this->dic->env == 'local' && $this->type == 'normal'){
+        if($this->dic->config['env'] == 'local' && $type == 'normal'){
 			$this->class_cache = str_replace('</body>', '	\'.$this->bott_bar->parse().\''."\n".'	</body>', $this->class_cache);
 		}
+
+		$this->class_cache .= CreateClassCache::endClass();
+
+		$name_file = ($type == 'normal') ? $this->name_class : 'Display'.$type;
+		File::create('Storage/Cache/Templating/'.$name_file.'.php', $this->class_cache);
 	}
 }

@@ -36,7 +36,7 @@ class Counter{
                 $request = 'SELECT COUNT(*) as count FROM '.lcfirst($entity).' '.$where;
             }
             
-            CreateLog::request($request, $this->dic->conf['config']['log']);
+            CreateLog::request($request, $this->dic->config['log']);
 
             $req = $this->dic->pdo->prepare($request);
             $req->execute($arguments);

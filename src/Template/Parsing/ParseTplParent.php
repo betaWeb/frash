@@ -1,13 +1,13 @@
 <?php
 namespace Frash\Template\Parsing;
-use Frash\Template\DependTemplEngine;
-use Frash\Template\Parsing\ParseArray;
+use Frash\Template\{ DependTemplEngine, RegexParse };
 
 /**
  * Class ParseTplParent
  * @package Frash\Template\Parsing
  */
-class ParseTplParent extends ParseArray{
+class ParseTplParent extends RegexParse
+{
     /**
      * @var array
      */
@@ -67,24 +67,25 @@ class ParseTplParent extends ParseArray{
 			switch(true){
 				case $this->attributes['level']['esc_tpl'] == 0:
 					switch(true){
-                        case preg_match($this->extension['default']['ajax'], $tag[0]):
+                        case preg_match($this->extension['ajax'], $tag[0]):
                             $this->returnExtension($this->dic_t->callExtension()->parseTplParent('Ajax', 'parse', $this->attributes));
-						case preg_match($this->extension['default']['bundle'], $tag[0]):
+                            break;
+						case preg_match($this->extension['bundle'], $tag[0]):
                             $ext = $this->dic_t->callExtension()->parse('BundleTplParent', 'parse', $this->attributes, [ 'match' => $res_split[ $key ] ]);
                             $this->returnExtension($ext);
 							break;
-                        case preg_match($this->extension['default']['public'], $tag[0]):
+                        case preg_match($this->extension['public'], $tag[0]):
                             $this->display = str_replace($res_split[ $key ][0], $this->dic_t->extension('Public')->parse($res_split[ $key ][4]), $this->display);
                             break;
-						case preg_match($this->extension['default']['route'], $tag[0]):
+						case preg_match($this->extension['route'], $tag[0]):
                             $ext = $this->dic_t->callExtension()->parseTplParent('RouteTplParent', 'parse', $this->attributes, [ 'match' => $res_split[ $key ] ]);
                             $this->returnExtension($ext);
 							break;
-						case preg_match($this->extension['default']['traduction'], $tag[0]):
+						case preg_match($this->extension['traduction'], $tag[0]):
                             $key_trad = $res_split[ $key ][3];
                             $this->attributes['tpl'] = str_replace($res_split[ $key ][0], str_replace('\'', "\'", $this->trad->$key_trad), $this->attributes['tpl']);
 							break;
-						case preg_match($this->extension['default']['show_var'], $tag[0]):
+						case preg_match($this->extension['show_var'], $tag[0]):
                             $this->display = str_replace($res_split[ $key ][0], $this->dic_t->extension('ShowVar')->parse($res_split[ $key ][4]), $this->display);
 							break;
 					}

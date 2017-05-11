@@ -1,7 +1,7 @@
 <?php
 namespace Frash\Framework\Browser;
 use Frash\Framework\DIC\Dic;
-use Frash\Framework\Request\Session;
+use Frash\Framework\Request\Session\Session;
 use Frash\Framework\Request\Server\Server;
 
 class Client{
@@ -68,6 +68,8 @@ class Client{
 	}
 
 	public function go(){
+	    $this->session()->set('browser', true);
+
 		$context = stream_context_create([
 			'http' => [
 				'method' => $this->method,
