@@ -193,7 +193,7 @@ class Parser extends RegexParse{
 
                             break;
                         case preg_match($this->extension['show_var'], $tag[0]):
-                            $ext = $this->dic_t->callExtension()->parse('ShowVarParse', 'parse', $this->attributes, [ 'variable' => ltrim($match_all[ $key ][3], '@'), 'match' => $match_all[ $key ][0] ]);
+                            $ext = $this->dic_t->callExtension()->parse('ShowVarParse', 'parse', $this->attributes, [ 'variable' => ltrim($match_all[ $key ][3], '$'), 'match' => $match_all[ $key ][0] ]);
                             $this->returnExtension($ext);
                             break;
                         case preg_match($this->extension['traduction'], $tag[0]):

@@ -36,7 +36,7 @@ class RegexParse
         'public' => '/\{\{ public (.*) \}\}/',
         'route' => '/\{\{ route (.*) \}\}/',
         'set_var' => '/\{\{ define (\w+) \}\}/',
-        'show_var' => '/\{\{ @(.*) \}\}/',
+        'show_var' => '/\{\{ \$(.*) \}\}/',
         'show_var_for' => '/\{\{ !(.*) \}\}/',
         'traduction' => '/\{\{ traduction (.*) \}\}/'
 	];
