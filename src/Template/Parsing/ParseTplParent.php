@@ -78,7 +78,7 @@ class ParseTplParent extends RegexParse
                             $this->display = str_replace($res_split[ $key ][0], $this->dic_t->extension('Public')->parse($res_split[ $key ][4]), $this->display);
                             break;
 						case preg_match($this->extension['route'], $tag[0]):
-                            $ext = $this->dic_t->callExtension()->parseTplParent('RouteTplParent', 'parse', $this->attributes, [ 'match' => $res_split[ $key ] ]);
+                            $ext = $this->dic_t->callExtension()->parseTplParent('RouteParent', 'parse', $this->attributes, [ 'match' => $res_split[ $key ] ]);
                             $this->returnExtension($ext);
 							break;
 						case preg_match($this->extension['traduction'], $tag[0]):

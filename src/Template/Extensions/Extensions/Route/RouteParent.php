@@ -19,7 +19,7 @@ class RouteParent extends ExtensionParseParent{
     private $params = [];
 
     /**
-     * Route constructor.
+     * RouteParent constructor.
      * @param DependTemplEngine $dic_t
      * @param array $params
      */
@@ -34,8 +34,8 @@ class RouteParent extends ExtensionParseParent{
             $road = explode('/', $route);
 
             foreach($road as $r){
-                if(!empty($r) && $r[0] == '@'){
-                    $route = str_replace($r, $this->dic_t->extension('ShowVar')->parse(ltrim($r, '@')), $route);
+                if(!empty($r) && $r[0] == '$'){
+                    $route = str_replace($r, $this->dic_t->extension('ShowVar')->parse(ltrim($r, '$')), $route);
                 }
             }
 

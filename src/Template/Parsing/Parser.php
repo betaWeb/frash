@@ -48,7 +48,7 @@ class Parser extends RegexParse{
     private $trad;
 
     /**
-     * ParseWithExtend constructor.
+     * Parser constructor.
      * @param string $tpl
      * @param array $extend
      * @param Dic $dic
@@ -70,7 +70,7 @@ class Parser extends RegexParse{
             $this->pp = new ParseParent($this->trad, $this->attributes['bundle'], $this->dic_t);
 
             $this->attributes['display'] = '    public function display(){'."\n";
-            $this->attributes['display'] .= '       $content = \''.file_get_contents($this->determinatePathExtend(rtrim($extend[1]))).'\';'."\n\n";
+            $this->attributes['display'] .= '       $content = \''.$this->importExtend($extend[1]).'\';'."\n\n";
             $this->attributes['display'] .= '       return $content;'."\n";
             $this->attributes['display'] .= '   }'."\n";
         }
@@ -225,7 +225,8 @@ class Parser extends RegexParse{
      * @param string $extend
      * @return string
      */
-    private function determinatePathExtend(string $extend): string{
+    private function determinatePathExtend(string $extend): string
+    {
         if(strstr($extend, '::')){
             list($bundle, $file) = explode('::', $extend);
         } else {
@@ -236,12 +237,34 @@ class Parser extends RegexParse{
         return 'Bundles/'.$bundle.'/Views/'.$file;
     }
 
-    private function removeUnuseParts(){
+    private function removeUnuseParts()
+    {
         preg_match_all('/\{\{ part (\w+) \}\}(.*)\{\{ end_part (\w+) \}\}/Us', $this->attributes['class_cache'], $unuse, PREG_SET_ORDER);
         foreach($unuse as $u){
             if(!in_array($u[1], $this->attributes['parts_in_escape'])){
                 $this->attributes['class_cache'] = str_replace($u[0], '', $this->attributes['class_cache']);
             }
+        }
+    }
+
+    /**
+     * @param string $extend
+     * @return string
+     */
+    private function importExtend(string $extend): string
+    {
+        if(strstr($extend, ', ')){
+            $expl_extend = explode(', ', $extend);
+            $master_extend = file_get_contents($this->determinatePathExtend(rtrim($expl_extend[0])));
+            $count_extend = count($expl_extend);
+
+            for($i = 1; $i < $count_extend; $i++){
+                $master_extend .= "\n".file_get_contents($this->determinatePathExtend(rtrim($expl_extend[ $i ])));
+            }
+
+            return $master_extend;
+        } else {
+            return file_get_contents($this->determinatePathExtend(rtrim($extend)));
         }
     }
 }
