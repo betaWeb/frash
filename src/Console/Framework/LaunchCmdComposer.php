@@ -13,7 +13,7 @@ class LaunchCmdComposer
 {
 	public static function work()
 	{
-		$inspecter = Answer::define('Activation de l\'analyzer (yes/no) : ');
+		$inspecter = Answer::define('Activation de l\'inspecter (yes/no) : ');
         $cache = Answer::define('Activation du cache de template (yes/no) : ');
         $default_lang = Answer::define('Langue par défaut (fr) : ');
         $dispo_lang = Answer::define('Langues disponibles (fr/en/de/...) : ');
