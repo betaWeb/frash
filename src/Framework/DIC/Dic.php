@@ -1,6 +1,7 @@
 <?php
 namespace Frash\Framework\DIC;
 use Configuration\{ Config, Console, Database, Dependencies, Service };
+use Frash\Framework\Request\Server\Server;
 use Frash\Framework\Request\Session\StockRoute;
 
 /**
@@ -65,7 +66,7 @@ class Dic
 
     public function preloading()
     {
-        $this->loadDependencies()->loadConfiguration()->loadFlashbag();
+        $this->loadDependencies()->loadConfiguration()->loadSession();
     }
 
     /**
@@ -175,10 +176,19 @@ class Dic
     /**
      * @return Dic
      */
-    private function loadFlashbag(): Dic
+    private function loadSession(): Dic
     {
-        StockRoute::create($this->config, $this);
-        $this->params['flashbag'] = $this->load('session')->list_flashbag();
+        $session = $this->load('session');
+
+        if(!empty($this->config['stock_route']) && $this->config['stock_route'] == 'yes' && $this->env != 'console'){
+            if($session->has('frash_current_url')){
+                $session->set('frash_before_url', $session->get('frash_current_url'));
+            } else {
+                $session->set('frash_before_url', Server::httpReferer());
+            }
+
+            $session->set('frash_current_url', Server::uri());
+        }
 
         return $this;
     }
