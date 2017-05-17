@@ -23,10 +23,12 @@ class Session{
      */
     public function __construct(Dic $dic){
         if(empty($this->session) && empty($this->flashbag) && $dic->env != 'console' && !empty($_SESSION)){
-            $this->session += $_SESSION;
+            $this->session = $_SESSION;
 
-            if(array_key_exists('flashbag', $this->session)){
-                $this->flashbag = $this->session['flashbag'];
+            foreach(array_keys($this->session) as $sess){
+                if(substr($sess, 0, 9) == 'flashbag_'){
+                    $this->flashbag[ $sess ] = $this->session[ $sess ];
+                }
             }
         }
     }
@@ -60,14 +62,15 @@ class Session{
      */
     public function flashbag(string $name, $value = ''){
         if($value == ''){
-            if(!empty($this->flashbag) && array_key_exists($name, $this->flashbag)){
-                return $this->flashbag[ $name ];
+            if(array_key_exists('flashbag_'.$name, $this->flashbag)){
+                unset($_SESSION['flashbag_'.$name]);
+                return $this->flashbag['flashbag_'.$name];
             } else {
                 return false;
             }
         } else {
-            $this->flashbag[ $name ] = $value;
-            $_SESSION['flashbag'][ $name ] = $value;
+            $this->flashbag['flashbag_'.$name] = $value;
+            $_SESSION['flashbag_'.$name] = $value;
 
             return $value;
         }
