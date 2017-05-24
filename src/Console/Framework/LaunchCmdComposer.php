@@ -14,31 +14,31 @@ class LaunchCmdComposer
 	public static function work()
 	{
 		$inspecter = Answer::define('Activation de l\'inspecter (yes/no) : ');
-        $cache = Answer::define('Activation du cache de template (yes/no) : ');
-        $default_lang = Answer::define('Langue par défaut (fr) : ');
-        $dispo_lang = Answer::define('Langues disponibles (fr/en/de/...) : ');
-        $bundle = Answer::define('Nom du premier bundle (AppBundle) : ');
+                $cache = Answer::define('Activation du cache de template (yes/no) : ');
+                $default_lang = Answer::define('Langue par défaut (fr) : ');
+                $dispo_lang = Answer::define('Langues disponibles (fr/en/de/...) : ');
+                $bundle = Answer::define('Nom du premier bundle (AppBundle) : ');
 
-        CreateBundle::verifDirExist();
-        CreateBundle::createDir($bundle);
+                CreateBundle::verifDirExist();
+                CreateBundle::createDir($bundle);
 
-        Directory::notExistAndCreate('public/');
-        Directory::notExistAndCreate('Traductions/');
+                Directory::notExistAndCreate('public/');
+                Directory::notExistAndCreate('Traductions/');
 
-        Configuration::preinstall();
-        Configuration::htaccess();
-        Configuration::config($inspecter, $cache, $default_lang, $dispo_lang);
-        Configuration::database($bundle);
-        Configuration::dependencies();
-        Configuration::routing();
-        Configuration::console();
-        Configuration::service();
-        Configuration::testunit();
+                Configuration::preinstall();
+                Configuration::htaccess();
+                Configuration::config($inspecter, $cache, $default_lang, $dispo_lang);
+                Configuration::database($bundle);
+                Configuration::dependencies();
+                Configuration::routing();
+                Configuration::console();
+                Configuration::service();
+                Configuration::testunit();
 
-        Storage::preinstall();
-        Storage::cache();
-        Storage::logs();
+                Storage::preinstall();
+                Storage::cache();
+                Storage::logs();
 
-        Traduction::create($dispo_lang);
+                Traduction::create($dispo_lang);
 	}
 }

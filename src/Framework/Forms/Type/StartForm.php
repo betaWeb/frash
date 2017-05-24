@@ -27,7 +27,7 @@ class StartForm{
         }
 
         if(!empty($spec['action'])){
-            $this->input .= ' action="'.$dic->load('getUrl')->url($spec['action']).'"';
+            $this->input .= ' action="'.$dic->load('request')->url($spec['action']).'"';
         }
 
         if(!empty($spec['id'])){
