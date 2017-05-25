@@ -44,7 +44,7 @@ class ImportBottomBar{
 		$microtime = $this->dic->load('microtime');
         $dump = $this->dic_t->get('params')['dump'];
 
-        $analyzer = $this->dic->load('getUrl')->url('__analyzer/');
+        $analyzer = $this->dic->load('request')->url('__analyzer/');
         $url_analyzer = $this->dic->url_analyzer;
 
         if(!empty($url_analyzer)){

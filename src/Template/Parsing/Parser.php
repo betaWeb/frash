@@ -48,7 +48,11 @@ class Parser extends RegexParse{
     private $trad;
 
     /**
+<<<<<<< HEAD
      * ParseWithExtend constructor.
+=======
+     * Parser constructor.
+>>>>>>> 7b990247a5a94320df5cb8a042cfe01a3b875881
      * @param string $tpl
      * @param array $extend
      * @param Dic $dic
@@ -70,7 +74,7 @@ class Parser extends RegexParse{
             $this->pp = new ParseParent($this->trad, $this->attributes['bundle'], $this->dic_t);
 
             $this->attributes['display'] = '    public function display(){'."\n";
-            $this->attributes['display'] .= '       $content = \''.file_get_contents($this->determinatePathExtend(rtrim($extend[1]))).'\';'."\n\n";
+            $this->attributes['display'] .= '       $content = \''.$this->importExtend($extend[1]).'\';'."\n\n";
             $this->attributes['display'] .= '       return $content;'."\n";
             $this->attributes['display'] .= '   }'."\n";
         }
@@ -130,6 +134,10 @@ class Parser extends RegexParse{
                             $ext = $this->dic_t->callExtension()->parse('ConditionParse', 'typeEnd', $this->attributes, [ 'condition' => $match_all[ $key ][2] ]);
                             $this->returnExtension($ext);
                             break;
+                        case preg_match($this->extension['condition']['if'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parse('ConditionParse', 'typeIf', $this->attributes, [ 'condition' => $match_all[ $key ][1] ]);
+                            $this->returnExtension($ext);
+                            break;
                         case preg_match($this->extension['escape']['html']['close'], $tag[0]):
                             $ext = $this->dic_t->callExtension()->parse('EscapeHtmlParse', 'close', $this->attributes);
                             $this->returnExtension($ext);
@@ -156,10 +164,6 @@ class Parser extends RegexParse{
                             break;
                         case preg_match($this->extension['loop']['foreach']['open'], $tag[0]):
                             $ext = $this->dic_t->callExtension()->parse('ForeachParse', 'open', $this->attributes, [ 'match' => $match_all[ $key ] ]);
-                            $this->returnExtension($ext);
-                            break;
-                        case preg_match($this->extension['condition']['if'], $tag[0]):
-                            $ext = $this->dic_t->callExtension()->parse('ConditionParse', 'typeIf', $this->attributes, [ 'condition' => $match_all[ $key ][1] ]);
                             $this->returnExtension($ext);
                             break;
                         case preg_match($this->extension['include'], $tag[0]):
@@ -190,7 +194,6 @@ class Parser extends RegexParse{
                         case preg_match($this->extension['set_var'], $tag[0]):
                             preg_match('/\[define (\w+)\](.*)\[\/var\]/', $this->tpl, $set_var);
                             $this->attributes['params'][$set_var[1]] = $set_var[2];
-
                             break;
                         case preg_match($this->extension['show_var'], $tag[0]):
                             $ext = $this->dic_t->callExtension()->parse('ShowVarParse', 'parse', $this->attributes, [ 'variable' => ltrim($match_all[ $key ][3], '$'), 'match' => $match_all[ $key ][0] ]);
@@ -225,7 +228,8 @@ class Parser extends RegexParse{
      * @param string $extend
      * @return string
      */
-    private function determinatePathExtend(string $extend): string{
+    private function determinatePathExtend(string $extend): string
+    {
         if(strstr($extend, '::')){
             list($bundle, $file) = explode('::', $extend);
         } else {
@@ -236,12 +240,34 @@ class Parser extends RegexParse{
         return 'Bundles/'.$bundle.'/Views/'.$file;
     }
 
-    private function removeUnuseParts(){
+    private function removeUnuseParts()
+    {
         preg_match_all('/\{\{ part (\w+) \}\}(.*)\{\{ end_part (\w+) \}\}/Us', $this->attributes['class_cache'], $unuse, PREG_SET_ORDER);
         foreach($unuse as $u){
             if(!in_array($u[1], $this->attributes['parts_in_escape'])){
                 $this->attributes['class_cache'] = str_replace($u[0], '', $this->attributes['class_cache']);
             }
+        }
+    }
+
+    /**
+     * @param string $extend
+     * @return string
+     */
+    private function importExtend(string $extend): string
+    {
+        if(strstr($extend, ', ')){
+            $expl_extend = explode(', ', $extend);
+            $master_extend = file_get_contents($this->determinatePathExtend(rtrim($expl_extend[0])));
+            $count_extend = count($expl_extend);
+
+            for($i = 1; $i < $count_extend; $i++){
+                $master_extend .= "\n".file_get_contents($this->determinatePathExtend(rtrim($expl_extend[ $i ])));
+            }
+
+            return $master_extend;
+        } else {
+            return file_get_contents($this->determinatePathExtend(rtrim($extend)));
         }
     }
 }

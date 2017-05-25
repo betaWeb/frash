@@ -73,10 +73,10 @@ class Router{
 
 	/**
 	 * @param string $route
-	 * @param string $path
+	 * @param mixed $path
 	 * @param array $params
 	 */
-	protected function get(string $route, string $path, array $params = [])
+	protected function get(string $route, $path, array $params = [])
 	{
 		if(!empty($this->waiting['middleware']) || !empty($this->waiting['bundle']) || !empty($this->waiting['api'])){
 			$middlewares = [];
@@ -87,7 +87,12 @@ class Router{
                 }
             }
 
-			$new_path = (!empty($this->waiting['bundle'])) ? $this->waiting['bundle'].':'.$path : $path;
+            if(is_string($path)){
+            	$new_path = (!empty($this->waiting['bundle'])) ? $this->waiting['bundle'].':'.$path : $path;
+            } else {
+            	$new_path = $path;
+            }
+
 			$api = (!empty($this->waiting['api'])) ? $this->waiting['api'] : false;
 
 			$this->get[ $route ] = [ 'path' => $new_path, 'params' => $params, 'middleware' => $middlewares, 'api' => $api ];
@@ -114,7 +119,12 @@ class Router{
                 }
             }
 
-			$new_path = (!empty($this->waiting['bundle'])) ? $this->waiting['bundle'].':'.$path : $path;
+            if(is_string($path)){
+            	$new_path = (!empty($this->waiting['bundle'])) ? $this->waiting['bundle'].':'.$path : $path;
+            } else {
+            	$new_path = $path;
+            }
+
 			$api = (!empty($this->waiting['api'])) ? $this->waiting['api'] : false;
 
 			$this->post[ $route ] = [ 'path' => $new_path, 'params' => $params, 'middleware' => $middlewares, 'api' => $api ];

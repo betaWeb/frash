@@ -64,6 +64,12 @@ class Controller
         }
 	}
 
+    public function callable($routing)
+    {
+        $function = $routing->route;
+        $function($this->dic);
+    }
+
     /**
      * @param string $bundle
      * @param string $controller

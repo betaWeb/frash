@@ -16,11 +16,6 @@ class Select extends Where implements RequestInterface{
     /**
      * @var string
      */
-    private $entity = '';
-
-    /**
-     * @var string
-     */
     private $colSel = '*';
 
     /**
@@ -55,7 +50,6 @@ class Select extends Where implements RequestInterface{
     public function __construct(array $array){
         $table = $array['table'];
         $this->table = "\"$table\"";
-        $this->entity = ucfirst($table);
 
         if(!empty($array['order'])){
             $this->order = 'ORDER BY '.$array['order'];
@@ -153,6 +147,6 @@ class Select extends Where implements RequestInterface{
      * @return string
      */
     public function getEntity(): string{
-        return $this->entity;
+        return ucfirst($this->table);
     }
 }

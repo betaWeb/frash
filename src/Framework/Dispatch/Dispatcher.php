@@ -59,9 +59,14 @@ class Dispatcher{
 	 * @return object
 	 */
 	private function controller($routing){
-		if(($routing->nb_expl > 0 || $routing->racine === true) && $routing->lien != '' && $routing->route != ''){
-            $controller = new Controller($this->dic);
-            $controller->work($routing);
+		if(($routing->nb_expl > 0 || $routing->racine === true) && $routing->lien != '' && !empty($routing->route)){
+			$controller = new Controller($this->dic);
+
+			if(is_string($routing->route)){
+	            $controller->work($routing);
+			} elseif(is_callable($routing->route)) {
+				$controller->callable($routing);
+			}
         }
 	}
 }
