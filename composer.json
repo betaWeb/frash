@@ -1,0 +1,13 @@
+{
+  "name": "alixsperoza/frash",
+  "description": "PHP Framework - MVC",
+  "keywords": [ "Frash", "Framework", "MVC" ],
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "autoload": {
+  	"psr-4": {
+  		"Frash\\": "src/",
+      "FrashTest\\": "tests/"
+  	}
+  }
+}
