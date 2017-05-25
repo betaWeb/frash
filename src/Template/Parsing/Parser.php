@@ -130,6 +130,10 @@ class Parser extends RegexParse{
                             $ext = $this->dic_t->callExtension()->parse('ConditionParse', 'typeEnd', $this->attributes, [ 'condition' => $match_all[ $key ][2] ]);
                             $this->returnExtension($ext);
                             break;
+                        case preg_match($this->extension['condition']['if'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parse('ConditionParse', 'typeIf', $this->attributes, [ 'condition' => $match_all[ $key ][1] ]);
+                            $this->returnExtension($ext);
+                            break;
                         case preg_match($this->extension['escape']['html']['close'], $tag[0]):
                             $ext = $this->dic_t->callExtension()->parse('EscapeHtmlParse', 'close', $this->attributes);
                             $this->returnExtension($ext);
@@ -156,10 +160,6 @@ class Parser extends RegexParse{
                             break;
                         case preg_match($this->extension['loop']['foreach']['open'], $tag[0]):
                             $ext = $this->dic_t->callExtension()->parse('ForeachParse', 'open', $this->attributes, [ 'match' => $match_all[ $key ] ]);
-                            $this->returnExtension($ext);
-                            break;
-                        case preg_match($this->extension['condition']['if'], $tag[0]):
-                            $ext = $this->dic_t->callExtension()->parse('ConditionParse', 'typeIf', $this->attributes, [ 'condition' => $match_all[ $key ][1] ]);
                             $this->returnExtension($ext);
                             break;
                         case preg_match($this->extension['include'], $tag[0]):

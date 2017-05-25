@@ -31,7 +31,7 @@ class BundleTplParent extends ExtensionParseTplParent{
                 $file = $this->infos['params']['match'][3];
             }
 
-            $prefix = ($this->params['prefix'] == '/') ? '' : $this->params['prefix'];
+            $prefix = ($this->params['prefix'] == '/') ? '/' : $this->params['prefix'];
             $this->infos['tpl'] = str_replace($this->infos['params']['match'][0], $prefix.'Bundles/'.$bundle.'/Ressources/'.$file, $this->infos['tpl']);
         }
     }

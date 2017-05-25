@@ -31,6 +31,13 @@ class RouteParent extends ExtensionParseParent{
     public function parse(){
         if($this->infos['level']['foreach'] == 0){
             $route = rtrim($this->infos['params']['match'][3]);
+            $with_lang = true;
+
+            if(strstr($route, ' ')){
+                $route = explode(' ', $route)[1];
+                $with_lang = false;
+            }
+
             $road = explode('/', $route);
 
             foreach($road as $r){
@@ -39,7 +46,8 @@ class RouteParent extends ExtensionParseParent{
                 }
             }
 
-            $this->infos['tpl'] = str_replace($this->infos['params']['match'][0], $this->params['prefix_lang'].'/'.$route, $this->infos['tpl']);
+            $prefix = ($with_lang) ? $this->params['prefix_lang'] : rtrim($this->params['prefix'], '/');
+            $this->infos['tpl'] = str_replace($this->infos['params']['match'][0], $prefix.'/'.$route, $this->infos['tpl']);
         }
     }
 }

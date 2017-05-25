@@ -31,13 +31,13 @@ class BundleParse extends ExtensionParseSimple{
                 $file = $this->infos['params']['match'][3];
             }
 
-            $prefix = ($this->params['prefix'] == '/') ? '' : $this->params['prefix'];
+            $prefix = ($this->params['prefix'] == '/') ? '/' : $this->params['prefix'];
             $this->infos['tpl'] = str_replace($this->infos['params']['match'][0], $prefix.'Bundles/'.$bundle.'/Ressources/'.rtrim($file), $this->infos['tpl']);
         }
     }
 
     public function internal(){
-        $prefix = ($this->params['prefix'] == '/') ? '' : $this->params['prefix'];
+        $prefix = ($this->params['prefix'] == '/') ? '/' : $this->params['prefix'];
         $this->infos['tpl'] = str_replace($this->infos['params']['match'][0], $prefix.$this->infos['params']['match'][3], $this->infos['tpl']);
     }
 }
