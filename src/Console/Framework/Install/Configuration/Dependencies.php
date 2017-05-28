@@ -16,7 +16,6 @@ class Dependencies{
 		$content .= '	public static function define(){'."\n";
 		$content .= '		return ['."\n";
 		$content .= '			\'browser\' => \'Frash\\Framework\\Browser\\Client\','."\n";
-		$content .= '			\'controller\' => \'Frash\\Framework\\Controller\\Controller\','."\n";
 		$content .= '			\'exception\' => \'Frash\\Framework\\Exception\\Exception\','."\n";
 		$content .= '			\'form\' => \'Frash\\Framework\\Forms\\FormFactory\','."\n";
 		$content .= '			\'inspecter\' => \'Frash\\Framework\\Inspecter\\Inspecter\','."\n";
@@ -28,7 +27,7 @@ class Dependencies{
 		$content .= '			\'response\' => \'Frash\\Framework\\Request\\Response\','."\n";
 		$content .= '			\'service\' => \'Frash\\Framework\\Request\\Service\','."\n";
 		$content .= '			\'session\' => \'Frash\\Framework\\Request\\Session\\Session\','."\n";
-		$content .= '			\'trad\' => \'Frash\\Framework\\Controller\\TraductionFactory\','."\n";
+		$content .= '			\'trad\' => \'Frash\\Framework\\Controller\\Traduction\','."\n";
 		$content .= '			\'tpl\' => \'Frash\\Framework\\Controller\\Templating\''."\n";
 		$content .= '		];'."\n";
 		$content .= '	}'."\n";

@@ -50,8 +50,16 @@ class Mailer{
         $this->title = $array['title'];
     }
 
-    public function sendSimple(){
-        mail($this->mail, $this->title, $this->body);
+    /**
+     * @return bool
+     */
+    public function sendSimple(): bool
+    {
+        if(mail($this->mail, $this->title, $this->body)){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function sendComplex(){}

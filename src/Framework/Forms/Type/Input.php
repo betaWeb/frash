@@ -38,7 +38,7 @@ class Input{
             $input .= ' size="'.$params['size'].'"';
         }
 
-        if(!empty($params['required']) && $params['required'] === true){
+        if(!empty($params['require']) && $params['require'] === true){
             $input .= ' required';
         }
 

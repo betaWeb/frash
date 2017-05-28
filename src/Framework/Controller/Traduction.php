@@ -1,17 +1,34 @@
 <?php
 namespace Frash\Framework\Controller;
+use Frash\Framework\DIC\Dic;
 
 /**
- * Class TraductionFactory
+ * Class Traduction
  * @package Frash\Framework\Controller
  */
-class TraductionFactory{
+class Traduction
+{
+    /**
+     * @var Dic
+     */
+    private $dic;
+
+    /**
+     * Traduction constructor.
+     * @param Dic $dic
+     */
+    public function __construct(Dic $dic){
+        $this->dic = $dic;
+    }
+
     /**
      * @param string $lang
      * @return object
      */
-    public function trad(string $lang){
+    public function trad(string $lang = 'lang'){
+        $lang = ($lang == 'lang') ? $this->dic->lang : $lang;
         $class = (string) 'Traductions\\Trad'.ucfirst($lang);
+        
         return new $class;
     }
 
@@ -21,7 +38,8 @@ class TraductionFactory{
      * @param string $lang
      * @return mixed
      */
-    public function translate($string, $search, $lang){
+    public function translate($string, $search, string $lang = 'lang'){
+        $lang = ($lang == 'lang') ? $this->dic->lang : $lang;
         $class = (string) 'Traductions\\Trad'.ucfirst($lang);
         $trad = new $class;
 
@@ -40,7 +58,8 @@ class TraductionFactory{
      * @param string $spec
      * @return array|object
      */
-    public function multiple(string $lang, array $array, string $spec = 'object'){
+    public function multiple(string $lang = 'lang', array $array, string $spec = 'object'){
+        $lang = ($lang == 'lang') ? $this->dic->lang : $lang;
         $path = 'Traductions\\Trad'.ucfirst($lang);
         $arr_translate = (array) [];
 
