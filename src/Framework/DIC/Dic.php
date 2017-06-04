@@ -1,6 +1,7 @@
 <?php
 namespace Frash\Framework\DIC;
 use Configuration\{ Config, Console, Database, Dependencies, Service };
+use Frash\Framework\Request\Response;
 use Frash\Framework\Request\Server\Server;
 
 /**
@@ -179,8 +180,8 @@ class Dic
     {
         $session = $this->load('session');
 
-        if(!empty($this->config['stock_route']) && $this->config['stock_route'] == 'yes' && $this->env != 'console'){
-            if($session->has('frash_current_url')){
+        if(!empty($this->config['stock_route']) && $this->config['stock_route'] == 'yes' && $this->env != 'console' && !Response::xmlhttprequest()){
+            if($session->has('frash_current_url') || !Server::httpReferer()){
                 $session->set('frash_before_url', $session->get('frash_current_url'));
             } else {
                 $session->set('frash_before_url', Server::httpReferer());

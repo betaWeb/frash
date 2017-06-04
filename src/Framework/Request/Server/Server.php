@@ -130,10 +130,10 @@ class Server{
     }
 
     /**
-     * @return string
+     * @return string|bool
      */
-    public static function httpReferer(): string{
-        return $_SERVER['HTTP_REFERER'];
+    public static function httpReferer(){
+        return (!empty($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : false;
     }
 
     /**
