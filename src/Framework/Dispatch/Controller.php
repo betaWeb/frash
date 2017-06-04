@@ -1,11 +1,11 @@
 <?php
-namespace Frash\Framework\Dispatch\Controller;
+namespace Frash\Framework\Dispatch;
 use Frash\Framework\DIC\Dic;
 use Frash\Framework\Routing\Verification\Middleware;
 
 /**
  * Class Controller
- * @package Frash\Framework\Dispatch\Controller
+ * @package Frash\Framework\Dispatch
  */
 class Controller
 {

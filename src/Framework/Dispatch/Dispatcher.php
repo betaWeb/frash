@@ -4,7 +4,7 @@ use Frash\Framework\DIC\Dic;
 use Frash\Framework\Dispatch\Router;
 use Frash\Framework\Request\Server\Server;
 use Frash\Framework\Routing\Prefix;
-use Frash\Framework\Dispatch\Controller\Controller;
+use Frash\Framework\Dispatch\Controller;
 
 /**
  * Class Dispatcher
