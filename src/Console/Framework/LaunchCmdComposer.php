@@ -17,41 +17,33 @@ class LaunchCmdComposer
 
         if($package == 'alixsperoza/frash'){
             $inspecter = Answer::define('Activation de l\'inspecter (yes/no) : ');
-        } else {
-            $inspecter = 'no';
-        }
-
-        $cache = Answer::define('Activation du cache de template (yes/no) : ');
-        $default_lang = Answer::define('Langue par défaut (fr) : ');
-        $dispo_lang = Answer::define('Langues disponibles (fr/en/de/...) : ');
-
-        if($package == 'alixsperoza/frash'){
+            $default_lang = Answer::define('Langue par défaut (fr) : ');
+            $dispo_lang = Answer::define('Langues disponibles (fr/en/de/...) : ');
+            $cache = Answer::define('Activation du cache de template (yes/no) : ');
             $bundle = Answer::define('Nom du premier bundle (AppBundle) : ');
-        } else {
-            $bundle = 'CmsBundle';
-        }
 
-        CreateBundle::verifDirExist();
-        CreateBundle::createDir($bundle);
+            CreateBundle::verifDirExist();
+            CreateBundle::createDir($bundle);
+
+            Directory::notExistAndCreate('Traductions/');
+
+            Configuration::preinstall();
+            Configuration::htaccess();
+            Configuration::config($inspecter, $cache, $default_lang, $dispo_lang);
+            Configuration::database($bundle);
+            Configuration::dependencies();
+            Configuration::routing();
+            Configuration::console();
+            Configuration::service();
+            Configuration::testunit();
+            Traduction::create($dispo_lang);
+        }
 
         Directory::notExistAndCreate('public/');
-        Directory::notExistAndCreate('Traductions/');
-
-        Configuration::preinstall();
-        Configuration::htaccess();
-        Configuration::config($inspecter, $cache, $default_lang, $dispo_lang);
-        Configuration::database($bundle);
-        Configuration::dependencies();
-        Configuration::routing();
-        Configuration::console();
-        Configuration::service();
-        Configuration::testunit();
 
         Storage::preinstall();
         Storage::cache();
         Storage::logs();
-
-        Traduction::create($dispo_lang);
 	}
 
     /**
