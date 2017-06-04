@@ -62,6 +62,7 @@ class Dic
     public function __construct(string $env = 'navigator')
     {
         $this->env = $env;
+        $this->homepage = 'vendor/alixsperoza/frash/ressources/views/homepage.tpl';
     }
 
     public function preloading()
