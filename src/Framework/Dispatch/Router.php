@@ -70,7 +70,6 @@ class Router{
             $call_routarr = new Routing($this->dic);
         	$routarr = $call_routarr->list(strtolower(Server::requestMethod()));
 
-            $api = false;
             $array_get = [];
             $lien = '';
             $middleware = [];
@@ -95,10 +94,6 @@ class Router{
                 $nb_expl = 1;
                 $lien = $path[0];
                 $route = $routarr[ $lien ]['path'];
-
-                if(!empty($routarr[ $lien ]['api']) && $routarr[ $lien ]['api'] == 'true'){
-                    $api = true;
-                }
             } else {
                 foreach($routarr as $key => $precision){
                     $expl_key = explode('/', $key);
@@ -141,7 +136,6 @@ class Router{
                             $lien = implode('/', $lien_array);
                             $route = $precision['path'];
                             $middleware = (!empty($precision['middleware'])) ? $precision['middleware'] : '';
-                            $api = (!empty($precision['api']) && $precision['api']) ? true : false;
                         }
                     }
                 }
@@ -150,7 +144,6 @@ class Router{
             if($route != ''){
                 return (object) [
                     'dic' => $this->dic,
-                    'api' => $api,
                     'nb_expl' => $nb_expl,
                     'racine' => $racine,
                     'lien' => $lien,

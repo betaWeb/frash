@@ -46,27 +46,15 @@ class Dispatcher{
         $this->dic = $route->dic;
 
 		if(count((array) $route) > 1){
-			if($route->api === true){
-				$this->api();
-			} else {
-				$this->controller($route);
-			}
+			if(($route->nb_expl > 0 || $route->racine === true) && $route->lien != '' && !empty($route->route)){
+				$controller = new Controller($this->dic);
+
+				if(is_string($route->route)){
+		            $controller->work($route);
+				} elseif(is_callable($route->route)) {
+					$controller->callable($route);
+				}
+	        }
 		}
-	}
-
-	/**
-	 * @param object $routing
-	 * @return object
-	 */
-	private function controller($routing){
-		if(($routing->nb_expl > 0 || $routing->racine === true) && $routing->lien != '' && !empty($routing->route)){
-			$controller = new Controller($this->dic);
-
-			if(is_string($routing->route)){
-	            $controller->work($routing);
-			} elseif(is_callable($routing->route)) {
-				$controller->callable($routing);
-			}
-        }
 	}
 }
