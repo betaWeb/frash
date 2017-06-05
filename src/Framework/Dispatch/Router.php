@@ -86,10 +86,6 @@ class Router{
                 $lien = '/';
                 $route = $routarr[ $conf['racine'] ]['path'];
                 $racine = true;
-
-                if(!empty($routarr[ $conf['racine'] ]['api']) && $routarr[ $conf['racine'] ]['api'] == 'true'){
-                    $api = true;
-                }
             } elseif(count($path) == 2 && in_array($path[0], $routarr)) {
                 $nb_expl = 1;
                 $lien = $path[0];
