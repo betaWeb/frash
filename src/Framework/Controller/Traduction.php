@@ -58,8 +58,8 @@ class Traduction
      * @param string $spec
      * @return array|object
      */
-    public function multiple(string $lang = 'lang', array $array, string $spec = 'object'){
-        $lang = ($lang == 'lang') ? $this->dic->lang : $lang;
+    public function multiple(string $lang = 'auto', array $array, string $spec = 'object'){
+        $lang = ($lang == 'auto') ? $this->dic->lang : $lang;
         $path = 'Traductions\\Trad'.ucfirst($lang);
         $arr_translate = (array) [];
 
