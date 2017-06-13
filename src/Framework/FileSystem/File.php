@@ -35,10 +35,15 @@ class File{
 
     /**
      * @param string $path
-     * @return string
+     * @return bool|mixed
      */
-    public static function read(string $path): string{
-        return file_get_contents($path);
+    public static function read(string $path)
+    {
+        if(self::exist($path)){
+            return file_get_contents($path);
+        } else {
+            return false;
+        }
     }
 
     /**

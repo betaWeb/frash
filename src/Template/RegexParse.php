@@ -38,6 +38,6 @@ class RegexParse
         'set_var' => '/\{\{ define (\w+) \}\}/',
         'show_var' => '/\{\{ \$(.*) \}\}/',
         'show_var_for' => '/\{\{ !(.*) \}\}/',
-        'traduction' => '/\{\{ traduction (.*) \}\}/'
+        'traduction' => '/\{\{ trad (.*) \}\}/'
 	];
 }

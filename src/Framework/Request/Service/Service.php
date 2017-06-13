@@ -6,11 +6,12 @@ use Frash\Framework\DIC\Dic;
  * Class Service
  * @package Frash\Framework\Request\Service
  */
-class Service{
+class Service
+{
 	/**
-	 * @var array
+	 * @var Dic
 	 */
-	private $services = [];
+	private $dic;
 
 	/**
 	 * @var array
@@ -18,24 +19,37 @@ class Service{
 	private $open = [];
 
 	/**
+	 * @var array
+	 */
+	private $services = [];
+
+	/**
 	 * @param Dic $dic
 	 */
-	public function __construct(Dic $dic){
-		$this->services = $dic->conf['service'];
+	public function __construct(Dic $dic)
+	{
+		$this->dic = $dic;
+		$this->services = $this->dic->service['service'];
 	}
 
 	/**
 	 * @param string $service
 	 * @return object
 	 */
-	public function load(string $service){
+	public function load(string $service)
+	{
 		if(array_key_exists($service, $this->open)){
-            return $this->open[ $key ];
+            return $this->open[ $service ];
         } elseif(array_key_exists($service, $this->services)) {
-            $path = str_replace('.', '\\', $this->services[ $key ]);
+        	if(!strstr($this->services[ $service ], '@')){
+        		return $this->dic->load('exception')->publish('Missing bundle before service '.$service);
+        	}
 
-            $class = new $path($this);
-            $this->open[ $key ] = $class;
+        	list($bundle, $class) = explode('@', $this->services[ $service ]);
+            $path = 'Bundles\\'.$bundle.'\Service\\'.$class;
+
+            $class = new $path($this->dic);
+            $this->open[ $service ] = $class;
 
             return $class;
         }

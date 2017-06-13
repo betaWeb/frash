@@ -18,7 +18,6 @@ class Console{
 		$content .= '			\'default\' => ['."\n";
 		$content .= '				\'Check:routing\' => \'Frash.Console.Framework.Routing\','."\n";
 		$content .= '				\'Clear:Cache\' => \'Frash.Console.Files.ClearCache\','."\n";
-		$content .= '				\'Framework:init\' => \'Frash.Console.Framework.Install.Init\','."\n";
 		$content .= '				\'Generate:bundle\' => \'Frash.Console.Bundle.GenerateBundle\','."\n";
 		$content .= '				\'Generate:controller\' => \'Frash.Console.Bundle.GenerateController\','."\n";
 		$content .= '				\'Generate:documentation\' => \'Frash.Console.Documentation.DocGen\','."\n";

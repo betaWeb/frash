@@ -50,7 +50,15 @@ class Select{
                 $this->input .= ' selected';
             }
 
-            $this->input .= '>'.$v.'</option>';
+            if(is_array($v)){
+                if(!empty($v['disabled']) && $v['disabled'] === true){
+                    $this->input .= ' disabled';
+                }
+
+                $this->input .= '>'.$v['value'].'</option>';
+            } else {
+                $this->input .= '>'.$v.'</option>';
+            }
         }
 
         $this->input .= '</select>';

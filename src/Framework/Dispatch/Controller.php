@@ -1,11 +1,11 @@
 <?php
-namespace Frash\Framework\Dispatch\Controller;
+namespace Frash\Framework\Dispatch;
 use Frash\Framework\DIC\Dic;
 use Frash\Framework\Routing\Verification\Middleware;
 
 /**
  * Class Controller
- * @package Frash\Framework\Dispatch\Controller
+ * @package Frash\Framework\Dispatch
  */
 class Controller
 {
@@ -63,6 +63,12 @@ class Controller
             return $this->dic->load('exception')->publish('Action '.$action.' not found');
         }
 	}
+
+    public function callable($routing)
+    {
+        $function = $routing->route;
+        $function($this->dic);
+    }
 
     /**
      * @param string $bundle

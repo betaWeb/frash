@@ -36,10 +36,6 @@ class Router{
         $conf = $this->dic->config;
         CreateLog::access($this->dic->uri, $conf['log']);
 
-        $this->dic->cache_tpl = $conf['cache']['tpl'];
-        $this->dic->env = $conf['env'];
-        $this->dic->analyzer = $conf['inspecter'];
-
         $path = explode('/', $this->dic->uri);
 
         if(in_array($path[0], $conf['traduction']['available'])){
@@ -70,7 +66,6 @@ class Router{
             $call_routarr = new Routing($this->dic);
         	$routarr = $call_routarr->list(strtolower(Server::requestMethod()));
 
-            $api = false;
             $array_get = [];
             $lien = '';
             $middleware = [];
@@ -87,27 +82,18 @@ class Router{
                 $lien = '/';
                 $route = $routarr[ $conf['racine'] ]['path'];
                 $racine = true;
-
-                if(!empty($routarr[ $conf['racine'] ]['api']) && $routarr[ $conf['racine'] ]['api'] == 'true'){
-                    $api = true;
-                }
             } elseif(count($path) == 2 && in_array($path[0], $routarr)) {
                 $nb_expl = 1;
                 $lien = $path[0];
                 $route = $routarr[ $lien ]['path'];
-
-                if(!empty($routarr[ $lien ]['api']) && $routarr[ $lien ]['api'] == 'true'){
-                    $api = true;
-                }
             } else {
                 foreach($routarr as $key => $precision){
                     $expl_key = explode('/', $key);
 
                     if($path[0] == $expl_key[0] || $key[0] == ':'){
                         $lien_array = [];
-                        $count_for = count($expl_key) - 1;
 
-                        for($i = 0; $i <= $count_for; $i++){
+                        for($i = 0; $i < count($expl_key); $i++){
                             if(!empty($path[ $i ]) && $path[ $i ] == $expl_key[ $i ]){
                                 $lien_array[ 'part_'.$i ] = $expl_key[ $i ];
                             } elseif($expl_key[ $i ][0] == ':') {
@@ -132,6 +118,7 @@ class Router{
                                     }
                                 }
                             } else {
+                                $lien_array = [];
                                 break;
                             }
                         }
@@ -141,7 +128,6 @@ class Router{
                             $lien = implode('/', $lien_array);
                             $route = $precision['path'];
                             $middleware = (!empty($precision['middleware'])) ? $precision['middleware'] : '';
-                            $api = (!empty($precision['api']) && $precision['api']) ? true : false;
                         }
                     }
                 }
@@ -150,7 +136,6 @@ class Router{
             if($route != ''){
                 return (object) [
                     'dic' => $this->dic,
-                    'api' => $api,
                     'nb_expl' => $nb_expl,
                     'racine' => $racine,
                     'lien' => $lien,

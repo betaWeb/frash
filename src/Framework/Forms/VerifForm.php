@@ -27,7 +27,7 @@ class VerifForm{
      */
     public function csrf($csrf, string $name){
         if($csrf != ''){
-            return ($this->dic->$name == $csrf) ? true : false;
+            return ($this->dic->load('session')->flashbag($name) == $csrf) ? true : false;
         }
     }
 

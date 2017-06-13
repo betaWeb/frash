@@ -1,7 +1,8 @@
 <?php
 namespace Frash\Framework\DIC;
 use Configuration\{ Config, Console, Database, Dependencies, Service };
-use Frash\Framework\Request\Session\StockRoute;
+use Frash\Framework\Request\Response;
+use Frash\Framework\Request\Server\Server;
 
 /**
  * Class Dic
@@ -61,11 +62,12 @@ class Dic
     public function __construct(string $env = 'navigator')
     {
         $this->env = $env;
+        $this->homepage = 'vendor/alixsperoza/frash/ressources/views/homepage.tpl';
     }
 
     public function preloading()
     {
-        $this->loadDependencies()->loadConfiguration()->loadFlashbag();
+        $this->loadDependencies()->loadConfiguration()->loadSession();
     }
 
     /**
@@ -175,10 +177,19 @@ class Dic
     /**
      * @return Dic
      */
-    private function loadFlashbag(): Dic
+    private function loadSession(): Dic
     {
-        StockRoute::create($this->config, $this);
-        $this->params['flashbag'] = $this->load('session')->list_flashbag();
+        $session = $this->load('session');
+
+        if(!empty($this->config['stock_route']) && $this->config['stock_route'] == 'yes' && $this->env != 'console' && !Response::xmlhttprequest()){
+            if($session->has('frash_current_url') || !Server::httpReferer()){
+                $session->set('frash_before_url', $session->get('frash_current_url'));
+            } else {
+                $session->set('frash_before_url', Server::httpReferer());
+            }
+
+            $session->set('frash_current_url', Server::uri());
+        }
 
         return $this;
     }

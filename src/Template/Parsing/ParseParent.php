@@ -14,7 +14,8 @@ class ParseParent extends RegexParse
     private $attributes = [
         'bundle' => '',
         'tpl' => '',
-        'level' => [ 'condition' => 0, 'escape_tpl' => 0, 'for' => 0, 'foreach' => 0, 'index' => 0, 'itvl' => 0 ],
+        'level' => [ 'condition' => 0, 'esc_tpl' => 0, 'for' => 0, 'foreach' => 0, 'index' => 0, 'itvl' => 0 ],
+        'count' => [ 'general' => 0, 'condition' => 0, 'esc_tpl' => 0, 'for' => 0, 'foreach' => 0, 'index' => 0, 'itvl' => 0, 'part' => 0 ],
         'condition' => [],
         'foreach' => [],
         'function' => []
@@ -61,30 +62,28 @@ class ParseParent extends RegexParse
      */
 	public function parse(string $name, string $value): string{
 		$this->attributes['tpl'] = $value;
-		preg_match_all('/\{\{ (([a-zA-Z_]*)?\s?([a-zA-Z0-9\/@_!=:;+",<>\(\)\-\.\s]*)) \}\}/', $this->attributes['tpl'], $res_split, PREG_SET_ORDER);
+		preg_match_all('/\{\{ (([a-zA-Z_]*)?\s?([a-zA-Z0-9\/@\$\_!=:;+",<>\[\]\(\)\-\.\s]*)) \}\}/', $this->attributes['tpl'], $res_split, PREG_SET_ORDER);
 		foreach($res_split as $key => $tag){
 			switch(true){
-				case $this->attributes['level']['escape_tpl'] == 0:
+				case $this->attributes['level']['esc_tpl'] == 0:
 					switch(true){
+                        case preg_match($this->extension['bundle'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parseParent('BundleParse', 'parse', $this->attributes, [ 'match' => $res_split[ $key ] ]);
+                            $this->returnExtension($ext);
+                            break;
 						case preg_match($this->extension['condition']['else'], $tag[0]):
-							$condition[ $this->attributes['level']['condition'] ][] = [ 'type' => 'else', 'condition' => 'else' ];
+                            $ext = $this->dic_t->callExtension()->parse('ConditionParse', 'typeElse', $this->attributes, [ 'condition' => $res_split[ $key ][1] ]);
+                            $this->returnExtension($ext);
 							break;
 						case preg_match($this->extension['condition']['elseif'], $tag[0]):
-							$condition[ $this->attributes['level']['condition'] ][] = [ 'type' => 'elseif', 'condition' => $res_split[ $key ][2] ];
 							break;
 						case preg_match($this->extension['condition']['end'], $tag[0]):
-							$condition[ $this->attributes['level']['condition'] ][] = [ 'type' => 'end', 'condition' => '/condition' ];
-
-							$cp = $this->dic_t->extension('Condition')->parse($condition[ $this->attributes['level']['condition'] ], $value);
-							$this->attributes['tpl'] .= $cp['code'];
-							$value = str_replace($cp['replace'], '\'.$this->'.$cp['name'].'().\'', $value);
-
-							unset($condition[ $this->attributes['level']['condition'] ]);
-                            $this->attributes['level']['condition']--;
+                            $ext = $this->dic_t->callExtension()->parse('ConditionParse', 'typeEnd', $this->attributes, [ 'condition' => $res_split[ $key ][2] ]);
+                            $this->returnExtension($ext);
 							break;
 						case preg_match($this->extension['condition']['if'], $tag[0]):
-                            $this->attributes['level']['condition']++;
-							$condition[ $this->attributes['level']['condition'] ][] = [ 'type' => 'if', 'condition' => $res_split[ $key ][2] ];
+                            $ext = $this->dic_t->callExtension()->parse('ConditionParse', 'typeIf', $this->attributes, [ 'condition' => $res_split[ $key ][1] ]);
+                            $this->returnExtension($ext);
 							break;
                         case preg_match($this->extension['public'], $tag[0]):
                             $value = str_replace($res_split[ $key ][0], $this->dic_t->extension('Public')->parse($res_split[ $key ][4]), $value);
@@ -100,8 +99,8 @@ class ParseParent extends RegexParse
 
 							break;
                         case preg_match($this->extension['traduction'], $tag[0]):
-                            $value_trad = $res_split[ $key ][4];
-                            $value = str_replace($res_split[ $key ][0], str_replace('\'', "\'", $this->trad->$value_trad), $value);
+                            $key_trad = $res_split[ $key ][3];
+                            $this->attributes['tpl'] = str_replace($res_split[ $key ][0], str_replace('\'', "\'", $this->trad->$key_trad), $this->attributes['tpl']);
                             break;
 					}
 

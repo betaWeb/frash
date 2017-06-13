@@ -9,7 +9,7 @@
     <body>
         <div id="corps">
             <div class="card card-block bg-faded">
-                Route : {{ @true_route }}
+                Route : {{ $true_route }}
             </div><br><br>
             <div>
                 <div id="accordion" role="tablist" aria-multiselectable="true">

@@ -1,5 +1,6 @@
 <?php
 namespace Frash\Framework\Request;
+use Frash\Framework\DIC\Dic;
 
 /**
  * Class Request
@@ -24,7 +25,7 @@ class Request
 	/**
 	 * @return object
 	 */
-	public function collectGet()
+	public function get()
 	{
 		return (object) $_GET;
 	}
@@ -32,8 +33,21 @@ class Request
 	/**
 	 * @return object
 	 */
-	public function collectPost()
+	public function post()
 	{
 		return (object) $_POST;
 	}
+
+    /**
+     * @param string $url
+     * @return string
+     */
+    public function url(string $url, bool $type = true): string
+    {
+    	if($type){
+    		return $this->dic->prefix_lang.'/'.$url;
+    	} else {
+    		return $this->dic->prefix.'/'.$url;
+    	}
+    }
 }

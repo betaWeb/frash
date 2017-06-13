@@ -77,15 +77,12 @@ abstract class Entity{
 	/**
 	 * @param string $pk
 	 */
-	public function primaryKey(string $pk)
+	public function primary(string $pk)
 	{
 		$this->primary_key = $pk;
 		return $this;
 	}
 
-	/**
-	 * @return object
-	 */
 	public function find()
 	{
 		$prim_key = $this->primary_key;
@@ -94,7 +91,7 @@ abstract class Entity{
 		$query = new QueryBuilder($this->dic);
 		$sel = new $select([ 'table' => $this->table ]);
         $sel->where($prim_key, ':id')->execute([ $this->$prim_key ]);
-        $res = $query->selectOne($sel);
+        $res = $query->single($sel);
 
         foreach($res as $col => $value){
         	$this->$col = $value;

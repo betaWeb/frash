@@ -10,6 +10,11 @@ class Session{
     /**
      * @var array
      */
+    private $flashbag = [];
+
+    /**
+     * @var array
+     */
     private $session = [];
 
     /**
@@ -17,14 +22,12 @@ class Session{
      * @param Dic $dic
      */
     public function __construct(Dic $dic){
-        if(empty($this->session) && empty($this->flashbag) && $dic->env != 'console'){
-            foreach($_SESSION as $session => $val){
-                if($session == 'flashbag'){
-                    foreach($val as $sess => $val_flash){
-                        $this->session['flashbag'][ $sess ] = $val_flash;
-                    }
-                } else {
-                    $this->session[ $session ] = $val;
+        if(empty($this->session) && empty($this->flashbag) && $dic->env != 'console' && !empty($_SESSION)){
+            $this->session = $_SESSION;
+
+            foreach(array_keys($this->session) as $sess){
+                if(substr($sess, 0, 9) == 'flashbag_'){
+                    $this->flashbag[ $sess ] = $this->session[ $sess ];
                 }
             }
         }
@@ -59,30 +62,17 @@ class Session{
      */
     public function flashbag(string $name, $value = ''){
         if($value == ''){
-            if(!empty($this->session['flashbag']) && array_key_exists($name, $this->session['flashbag'])){
-                return $this->session['flashbag'][ $name ];
+            if(array_key_exists('flashbag_'.$name, $this->flashbag)){
+                unset($_SESSION['flashbag_'.$name]);
+                return $this->flashbag['flashbag_'.$name];
             } else {
                 return false;
             }
         } else {
-            $this->session['flashbag'][ $name ] = $value;
-            $_SESSION['flashbag'][ $name ] = $value;
+            $this->flashbag['flashbag_'.$name] = $value;
+            $_SESSION['flashbag_'.$name] = $value;
 
             return $value;
-        }
-    }
-
-    /**
-     * @return array
-     */
-    public function list_flashbag(): array{
-        if(!empty($this->session['flashbag'])){
-            $flashbags = $this->session['flashbag'];
-            $this->unset('flashbag');
-
-            return $flashbags;
-        } else {
-            return [];
         }
     }
 

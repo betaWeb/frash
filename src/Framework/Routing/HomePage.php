@@ -21,6 +21,6 @@ class HomePage{
 	}
 
 	public function show(){
-		return $this->dic->load('tpl')->internal('HomePage', 'vendor/alixsperoza/frash/ressources/views/homepage.tpl');
+		return $this->dic->load('tpl')->internal('HomePage', $this->dic->homepage);
 	}
 }

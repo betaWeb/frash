@@ -4,7 +4,7 @@ use Frash\Framework\DIC\Dic;
 use Frash\Framework\Dispatch\Router;
 use Frash\Framework\Request\Server\Server;
 use Frash\Framework\Routing\Prefix;
-use Frash\Framework\Dispatch\Controller\Controller;
+use Frash\Framework\Dispatch\Controller;
 
 /**
  * Class Dispatcher
@@ -46,22 +46,15 @@ class Dispatcher{
         $this->dic = $route->dic;
 
 		if(count((array) $route) > 1){
-			if($route->api === true){
-				$this->api();
-			} else {
-				$this->controller($route);
-			}
-		}
-	}
+			if(($route->nb_expl > 0 || $route->racine === true) && $route->lien != '' && !empty($route->route)){
+				$controller = new Controller($this->dic);
 
-	/**
-	 * @param object $routing
-	 * @return object
-	 */
-	private function controller($routing){
-		if(($routing->nb_expl > 0 || $routing->racine === true) && $routing->lien != '' && $routing->route != ''){
-            $controller = new Controller($this->dic);
-            $controller->work($routing);
-        }
+				if(is_string($route->route)){
+		            $controller->work($route);
+				} elseif(is_callable($route->route)) {
+					$controller->callable($route);
+				}
+	        }
+		}
 	}
 }

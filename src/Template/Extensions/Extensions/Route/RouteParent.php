@@ -19,7 +19,7 @@ class RouteParent extends ExtensionParseParent{
     private $params = [];
 
     /**
-     * Route constructor.
+     * RouteParent constructor.
      * @param DependTemplEngine $dic_t
      * @param array $params
      */
@@ -31,15 +31,23 @@ class RouteParent extends ExtensionParseParent{
     public function parse(){
         if($this->infos['level']['foreach'] == 0){
             $route = rtrim($this->infos['params']['match'][3]);
+            $with_lang = true;
+
+            if(strstr($route, ' ')){
+                $route = explode(' ', $route)[1];
+                $with_lang = false;
+            }
+
             $road = explode('/', $route);
 
             foreach($road as $r){
-                if(!empty($r) && $r[0] == '@'){
-                    $route = str_replace($r, $this->dic_t->extension('ShowVar')->parse(ltrim($r, '@')), $route);
+                if(!empty($r) && $r[0] == '$'){
+                    $route = str_replace($r, $this->dic_t->extension('ShowVar')->parse(ltrim($r, '$')), $route);
                 }
             }
 
-            $this->infos['tpl'] = str_replace($this->infos['params']['match'][0], $this->params['prefix_lang'].'/'.$route, $this->infos['tpl']);
+            $prefix = ($with_lang) ? $this->params['prefix_lang'] : rtrim($this->params['prefix'], '/');
+            $this->infos['tpl'] = str_replace($this->infos['params']['match'][0], $prefix.'/'.$route, $this->infos['tpl']);
         }
     }
 }
