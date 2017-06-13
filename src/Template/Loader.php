@@ -88,7 +88,7 @@ class Loader{
         }
 
         $path_class = 'Storage\Cache\Templating\\'.$name_file;
-        $tpl_class = new $path_class($this->dic, $this->dic_t, $this->dic->env);
+        $tpl_class = new $path_class($this->dic, $this->dic_t);
         echo $tpl_class->display();
 
         $this->ifNoCache('Display'.$type);
@@ -112,7 +112,7 @@ class Loader{
         $parser->parse();
 
         $path_class = 'Storage\Cache\Templating\\'.$name_file;
-        $tpl_class = new $path_class($this->dic, $this->dic_t, $this->dic->env);
+        $tpl_class = new $path_class($this->dic, $this->dic_t);
         echo $tpl_class->display();
 
         $this->ifNoCache($name_file);
@@ -122,7 +122,7 @@ class Loader{
      * @param string $file
      */
     private function ifNoCache(string $file){
-        if($this->dic->cache_tpl != 'yes' || $this->no_cache === true){
+        if($this->dic->config['cache']['tpl'] != 'yes' || $this->no_cache === true){
             File::delete('Storage/Cache/Templating/'.$file.'.php');
         }
     }

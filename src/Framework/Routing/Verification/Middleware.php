@@ -17,6 +17,7 @@ class Middleware{
 			return true;
 		} else {
 			$service = $dic->service['middleware'];
+			$result = false;
 
 			foreach($middlewares as $midw){
 				if(!strstr($service[ $midw ], '@')){
@@ -27,12 +28,14 @@ class Middleware{
 
 					if(class_exists($path)){
 						$class = new $path($dic);
-						return $class->define();
+						$result = $class->define();
 					} else {
-						return $this->dic->load('exception')->publish('Middleware '.$middleware.' not found');
+						return $dic->load('exception')->publish('Middleware '.$middleware.' not found');
 					}
 				}
 			}
+
+			return $result;
 		}
 	}
 }

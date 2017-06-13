@@ -63,7 +63,7 @@ class Configuration{
         $content .= '			    \'simulation\' => ['."\n";
         $content .= '			        \'activ\' => \'yes\','."\n";
         $content .= '			        \'format\' => \'continu\''."\n";
-        $content .= '			    ],'."\n";
+        $content .= '			    ]'."\n";
 		$content .= '			]'."\n";
 		$content .= '		];'."\n";
 		$content .= '	}'."\n";

@@ -36,10 +36,6 @@ class Router{
         $conf = $this->dic->config;
         CreateLog::access($this->dic->uri, $conf['log']);
 
-        $this->dic->cache_tpl = $conf['cache']['tpl'];
-        $this->dic->env = $conf['env'];
-        $this->dic->analyzer = $conf['inspecter'];
-
         $path = explode('/', $this->dic->uri);
 
         if(in_array($path[0], $conf['traduction']['available'])){
@@ -96,9 +92,8 @@ class Router{
 
                     if($path[0] == $expl_key[0] || $key[0] == ':'){
                         $lien_array = [];
-                        $count_for = count($expl_key) - 1;
 
-                        for($i = 0; $i <= $count_for; $i++){
+                        for($i = 0; $i < count($expl_key); $i++){
                             if(!empty($path[ $i ]) && $path[ $i ] == $expl_key[ $i ]){
                                 $lien_array[ 'part_'.$i ] = $expl_key[ $i ];
                             } elseif($expl_key[ $i ][0] == ':') {
@@ -123,6 +118,7 @@ class Router{
                                     }
                                 }
                             } else {
+                                $lien_array = [];
                                 break;
                             }
                         }
