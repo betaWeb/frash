@@ -25,7 +25,7 @@ class Dependencies{
 		$content .= '			\'redirect\' => \'Frash\\Framework\\Request\\Redirect\','."\n";
 		$content .= '			\'request\' => \'Frash\\Framework\\Request\\Request\','."\n";
 		$content .= '			\'response\' => \'Frash\\Framework\\Request\\Response\','."\n";
-		$content .= '			\'service\' => \'Frash\\Framework\\Request\\Service\','."\n";
+		$content .= '			\'service\' => \'Frash\\Framework\\Request\\Service\\Service\','."\n";
 		$content .= '			\'session\' => \'Frash\\Framework\\Request\\Session\\Session\','."\n";
 		$content .= '			\'trad\' => \'Frash\\Framework\\Controller\\Traduction\','."\n";
 		$content .= '			\'tpl\' => \'Frash\\Framework\\Controller\\Templating\''."\n";
