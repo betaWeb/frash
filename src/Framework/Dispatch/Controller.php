@@ -30,7 +30,7 @@ class Controller
 	public function work($routing)
 	{
 		if(!empty($routing->array_get)){
-            $this->dic->get = $routing->array_get;
+            $this->dic->load('request')->setCustomGet($routing->array_get);
         }
 
         list($bundle, $controller, $action) = explode(':', $routing->route);

@@ -9,6 +9,11 @@ use Frash\Framework\DIC\Dic;
 class Request
 {
 	/**
+	 * @var array
+	 */
+	private $custom_get = [];
+
+	/**
 	 * @var Dic
 	 */
 	private $dic;
@@ -23,11 +28,20 @@ class Request
 	}
 
 	/**
+	 * @param array $getUrl
+	 */
+	public function setCustomGet(array $getUrl)
+	{
+		$this->custom_get = $getUrl;
+	}
+
+	/**
 	 * @return object
 	 */
 	public function get()
 	{
-		return (object) $_GET;
+		$gets = array_merge($_GET, $this->custom_get);
+		return (object) $gets;
 	}
 
 	/**
