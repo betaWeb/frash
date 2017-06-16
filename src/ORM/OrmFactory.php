@@ -54,10 +54,14 @@ class OrmFactory{
     }
 
     /**
+     * @param string $entity
+     * @param string $bundle
      * @return object
      */
-    public function entity(string $entity){
-        $namespace = 'Bundles\\'.$this->bundle.'\Entity\\'.$entity;
+    public function entity(string $entity, string $bundle = ''){
+        $bund = (!empty($bundle)) ? $bundle : $this->bundle;
+
+        $namespace = 'Bundles\\'.$bund.'\Entity\\'.$entity;
         return new $namespace($this->dic);
     }
 
@@ -71,10 +75,13 @@ class OrmFactory{
 
     /**
      * @param string $request
+     * @param string $bundle
      * @return object
      */
-    public function request(string $request){
-        $class = 'Bundles\\'.$this->bundle.'\Repository\\'.$request.'Repository';
+    public function request(string $request, string $bundle = ''){
+        $bund = (!empty($bundle)) ? $bundle : $this->bundle;
+
+        $class = 'Bundles\\'.$bund.'\Repository\\'.$request.'Repository';
         return new $class($this->dic);
     }
 }

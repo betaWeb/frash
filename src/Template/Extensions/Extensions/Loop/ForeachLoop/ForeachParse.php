@@ -40,13 +40,13 @@ class ForeachParse extends ExtensionParseForeach{
 
 	public function close(){
 		$foreach = $this->infos['foreach'][ $this->infos['level']['foreach'] ]['param'];
-		preg_match('/\{\{ foreach '.$foreach.' \}\}(.*)\{\{ end_foreach \}\}/Us', $this->infos['tpl'], $match);
+		preg_match('/\{\{ foreach '.preg_quote($foreach).' \}\}(.*)\{\{ end_foreach \}\}/Us', $this->infos['tpl'], $match);
 		$this->content = $match[1];
 
 		list($array, $param) = explode(' :: ', $foreach);
 		list($k, $v) = explode(', ', $param);
 
-		preg_match_all('/\{\{ (([a-zA-Z_]*)?\s?([a-zA-Z0-9\/@_!=:;+",<>\(\)\-\.\s]*)) \}\}/', $this->content, $match_all, PREG_SET_ORDER);
+		preg_match_all('/\{\{ (([a-zA-Z_$]*)?\s?([a-zA-Z0-9\/@_!=:;+",<>\(\)\-\.\s]*)) \}\}/', $this->content, $match_all, PREG_SET_ORDER);
 		foreach($match_all as $key => $tag){
 			switch(true){
 				case $this->infos['level']['esc_tpl'] == 0:
@@ -65,10 +65,10 @@ class ForeachParse extends ExtensionParseForeach{
 			}
 		}
 
-		if($array[0] != '!'){
-			$expr = '$this->params[\''.$array.'\']';
+		if($array[0] == '$'){
+			$expr = '$this->params'.$this->dic_t->extension('FormatVar')->parseForeach(ltrim($array, '$'), '$');
 		} else {
-			$expr = '$'.$this->dic_t->extension('FormatVar')->parseForeach(ltrim($array, '!'));
+			$expr = '$'.$this->dic_t->extension('FormatVar')->parseForeach(ltrim($array, '!'), '!');
 		}
 
 		$code = '\';'."\n\n";

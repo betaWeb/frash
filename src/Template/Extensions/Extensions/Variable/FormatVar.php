@@ -68,10 +68,15 @@ class FormatVar{
 	 * @param string $variable
 	 * @return string
 	 */
-	public function parseForeach(string $variable): string{
+	public function parseForeach(string $variable, string $sign): string{
 		$expl = explode('.', $variable);
-		$new_var = $expl[0];
-		unset($expl[0]);
+
+		if($sign == '$'){
+			$new_var = '';
+		} else {
+			$new_var = $expl[0];
+			unset($expl[0]);
+		}
 
 		foreach($expl as $v){
 			$new_var .= '[\''.$v.'\']';

@@ -13,7 +13,7 @@
             </div><br><br>
             <div>
                 <div id="accordion" role="tablist" aria-multiselectable="true">
-                    {{ foreach stacktrace :: key, array }}
+                    {{ foreach $stacktrace :: key, array }}
                         <div class="card">
                             <div class="card-header" role="tab" id="heading{{ !key }}">
                                 <h5 class="mb-0"><a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ !key }}" aria-expanded="true" aria-controls="collapse{{ !key }}">{{ !array.trace }}</a></h5>

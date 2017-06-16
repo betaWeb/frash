@@ -48,11 +48,7 @@ class Parser extends RegexParse{
     private $trad;
 
     /**
-<<<<<<< HEAD
-     * ParseWithExtend constructor.
-=======
      * Parser constructor.
->>>>>>> 7b990247a5a94320df5cb8a042cfe01a3b875881
      * @param string $tpl
      * @param array $extend
      * @param Dic $dic

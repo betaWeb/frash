@@ -36,11 +36,17 @@ class Finder extends Hydrator{
      */
     private function findBy(string $entity, string $where, array $arguments): array{
         try{
+            if(strstr($entity, ':')){
+                list($bundle, $table) = explode(':', $entity);
+            } else {
+                $bundle = $this->dic->bundle;
+                $table = $entity;
+            }
+
             if($this->system == 'PGSQL'){
-                $table = lcfirst($entity);
                 $request = 'SELECT * FROM '."\"$table\"".' '.$where;
             } else {
-                $request = 'SELECT * FROM '.lcfirst($entity).' '.$where;
+                $request = 'SELECT * FROM '.$table.' '.$where;
             }
 
             $req = $this->dic->pdo->prepare($request);
@@ -51,8 +57,8 @@ class Finder extends Hydrator{
 
             $count = count($res);
             $array_obj = [];
-            $ent = 'Bundles\\'.$this->dic->bundle.'\Entity\\'.ucfirst($entity);
 
+            $ent = 'Bundles\\'.$bundle.'\Entity\\'.ucfirst($table);
             $this->preloadHydration($this->dic);
 
             for($i = 0; $i < $count; $i++){
@@ -73,11 +79,17 @@ class Finder extends Hydrator{
      */
     private function findOneBy(string $entity, string $where, array $arguments){
         try{
+            if(strstr($entity, ':')){
+                list($bundle, $table) = explode(':', $entity);
+            } else {
+                $bundle = $this->dic->bundle;
+                $table = $entity;
+            }
+
             if($this->system == 'PGSQL'){
-                $table = lcfirst($entity);
                 $request = 'SELECT * FROM '."\"$table\"".' '.$where;
             } else {
-                $request = 'SELECT * FROM '.lcfirst($entity).' '.$where;
+                $request = 'SELECT * FROM '.$table.' '.$where;
             }
 
             $req = $this->dic->pdo->prepare($request);
@@ -85,9 +97,9 @@ class Finder extends Hydrator{
             $res = $req->fetch(\PDO::FETCH_OBJ);
 
             CreateLog::request($request, $this->dic->config['log']);
-
             $this->preloadHydration($this->dic);
-            return $this->hydration($res, 'Bundles\\'.$this->dic->bundle.'\Entity\\'.ucfirst($entity));
+
+            return $this->hydration($res, 'Bundles\\'.$bundle.'\Entity\\'.ucfirst($table));
         } catch(\Exception $e) {
             return $this->dic->load('exception')->publish($e->getMessage());
         }

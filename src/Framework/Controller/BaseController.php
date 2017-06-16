@@ -30,6 +30,11 @@ class BaseController{
 	/**
 	 * @var object
 	 */
+	protected $service;
+
+	/**
+	 * @var object
+	 */
 	protected $session;
 
 	/**
@@ -45,6 +50,7 @@ class BaseController{
 		$this->dic = $dic;
 		$this->orm = $this->dic->load('orm');
 		$this->redirect = $this->dic->load('redirect');
+		$this->service = $this->dic->load('service');
 		$this->session = $this->dic->load('session');
 		$this->tpl = $this->dic->load('tpl');
 

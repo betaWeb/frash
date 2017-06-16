@@ -1,7 +1,6 @@
 <?php
 namespace Frash\Framework\Request;
 use Frash\Framework\DIC\Dic;
-use Frash\Framework\Request\Session;
 
 /**
  * Class Redirect
@@ -39,17 +38,14 @@ class Redirect{
      */
     public function __construct(Dic $dic){
         $this->dic = $dic;
+        $this->session = $this->dic->load('session');
         $this->prefix = (string) $this->dic->prefix_lang;
     }
 
     public function back(){
-        $stock_route = $this->dic->conf['config'];
+        $config = $this->dic->config;
 
-        if(!empty($stock_route['stock_route']) && $stock_route['stock_route'] == 'yes'){
-            if(empty($this->session)){
-                $this->session = $this->load('session');
-            }
-
+        if(!empty($config['stock_route']) && $config['stock_route'] == 'yes'){
             $this->url = $this->session->get('frash_before_url');
         }
     }
@@ -87,10 +83,6 @@ class Redirect{
      * @return object
      */
     public function with(string $key, $value){
-        if(empty($this->session)){
-            $this->session = $this->dic->load('session');
-        }
-
         $this->session->flashbag($key, $value);
         return $this;
     }

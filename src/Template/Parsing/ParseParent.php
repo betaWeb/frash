@@ -85,6 +85,14 @@ class ParseParent extends RegexParse
                             $ext = $this->dic_t->callExtension()->parse('ConditionParse', 'typeIf', $this->attributes, [ 'condition' => $res_split[ $key ][1] ]);
                             $this->returnExtension($ext);
 							break;
+                        case preg_match($this->extension['loop']['foreach']['close'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parse('ForeachParse', 'close', $this->attributes, [ 'match' => $res_split[ $key ], 'parsing' => $this->extension ]);
+                            $this->returnExtension($ext);
+                            break;
+                        case preg_match($this->extension['loop']['foreach']['open'], $tag[0]):
+                            $ext = $this->dic_t->callExtension()->parse('ForeachParse', 'open', $this->attributes, [ 'match' => $res_split[ $key ] ]);
+                            $this->returnExtension($ext);
+                            break;
                         case preg_match($this->extension['public'], $tag[0]):
                             $value = str_replace($res_split[ $key ][0], $this->dic_t->extension('Public')->parse($res_split[ $key ][4]), $value);
                             break;
