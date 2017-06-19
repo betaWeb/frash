@@ -48,6 +48,8 @@ class Redirect{
         if(!empty($config['stock_route']) && $config['stock_route'] == 'yes'){
             $this->url = $this->session->get('frash_before_url');
         }
+
+        return $this;
     }
 
     /**

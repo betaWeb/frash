@@ -104,8 +104,13 @@ class Router{
                                         $array_get[ $sub_get ] = $path[ $i ];
                                         $lien_array[ $sub_get ] = $expl_key[ $i ];
                                     } else {
-                                        $array_get[ $sub_get ] = '';
-                                        $lien_array[ $sub_get ] = $expl_key[ $i ];
+                                        if(isset($precision['params']['get'][ $sub_get ]['default'])){
+                                            $array_get[ $sub_get ] = $precision['params']['get'][ $sub_get ]['default'];
+                                            $lien_array[ $sub_get ] = $expl_key[ $i ];
+                                        } else {
+                                            $array_get[ $sub_get ] = '';
+                                            $lien_array[ $sub_get ] = $expl_key[ $i ];
+                                        }
                                     }
                                 } else {
                                     $sub_get = substr($expl_key[ $i ], 1);
