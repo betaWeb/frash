@@ -4,10 +4,10 @@ use Frash\ORM\RequestInterface;
 use Frash\ORM\PGSQL\Request\Where;
 
 /**
- * Class Select
+ * Class Join
  * @package Frash\ORM\PGSQL\Request
  */
-class Select extends Where implements RequestInterface
+class Join extends Where implements RequestInterface
 {
     /**
      * @var array
@@ -23,6 +23,11 @@ class Select extends Where implements RequestInterface
      * @var string
      */
     private $groupBy = '';
+
+    /**
+     * @var string
+     */
+    private $join = '';
 
     /**
      * @var string
@@ -45,7 +50,7 @@ class Select extends Where implements RequestInterface
     private $table = '';
 
     /**
-     * Select constructor.
+     * Join constructor.
      * @param string $table
      * @param array $array
      */
@@ -66,29 +71,59 @@ class Select extends Where implements RequestInterface
     }
 
     /**
-     * @return Select
+     * @return Join
      */
-    public function count(): Select
+    public function count(): Join
     {
         $this->colSel[] = 'COUNT(*) AS number_result';
         return $this;
     }
 
     /**
-     * @param string $cols
-     * @return Select
+     * @param string $col
+     * @param string $alias
+     * @return Join
      */
-    public function cols(string $cols): Select
+    public function colJoin(string $col, string $alias = ''): Join
     {
-        $this->colSel[] = $cols;
+    	if($alias == ''){
+    		$this->colSel[] = $col;
+    	} else {
+    		$this->colSel[] = $col.' AS '.$alias;
+    	}
+
+    	return $this;
+    }
+
+    /**
+     * @param string $cols
+     * @return Join
+     */
+    public function cols(string $cols): Join
+    {
+    	$this->colSel[] = $cols;
+        return $this;
+    }
+
+    /**
+     * @param string $type
+     * @param string $table
+     * @param string $col_one
+     * @param string $col_two
+     * @param string $sign
+     * @return Join
+     */
+    public function join(string $type, string $table, string $col_one, string $col_two, string $sign = '='): Join
+    {
+        $this->join .= $type.' '.$table.' ON '.$col_one.' '.$sign.' '.$col_two.' ';
         return $this;
     }
 
     /**
      * @param string $exec
-     * @return Select
+     * @return Join
      */
-    public function exec(string $exec): Select
+    public function exec(string $exec): Join
     {
         $this->arrayWhere[] = $exec;
         return $this;
@@ -97,9 +132,9 @@ class Select extends Where implements RequestInterface
     /**
      * @param string $col
      * @param string $having
-     * @return Select
+     * @return Join
      */
-    public function groupBy(string $col, string $having = ''): Select
+    public function groupBy(string $col, string $having = ''): Join
     {
         $this->groupBy = 'GROUP BY '.$col;
         $this->groupBy .= ($having == '') ? '' : ' HAVING '.$having;
@@ -109,9 +144,9 @@ class Select extends Where implements RequestInterface
 
     /**
      * @param array $exec
-     * @return Select
+     * @return Join
      */
-    public function execute(array $exec = []): Select
+    public function execute(array $exec = []): Join
     {
         if(count($exec) == count($this->arrayWhere)){
             $this->execute = array_combine($this->arrayWhere, $exec);
@@ -134,10 +169,10 @@ class Select extends Where implements RequestInterface
     public function getRequest(): string
     {
         if(!empty($this->table) && !empty($this->colSel)){
-            $colSel = (!empty($this->colSel)) ? implode(', ', $this->colSel) : '*';
+        	$colSel = (!empty($this->colSel)) ? implode(', ', $this->colSel) : '*';
             $where = ($this->where == 'WHERE ') ? '' : $this->where;
 
-            return 'SELECT '.$colSel.' FROM '.$this->table.' '.$where.' '.$this->groupBy.' '.$this->order.' '.$this->limit.' '.$this->offset;
+            return 'SELECT '.$colSel.' FROM '.$this->table.' '.$this->join.' '.$where.' '.$this->groupBy.' '.$this->order.' '.$this->limit.' '.$this->offset;
         }
     }
 

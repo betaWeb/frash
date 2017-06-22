@@ -115,6 +115,25 @@ class QueryBuilder extends Hydrator{
     }
 
     /**
+     * @param RequestInterface $join
+     * @return array
+     */
+    public function queryJoin(RequestInterface $join): array
+    {
+        try{
+            CreateLog::request($join->getRequest(), $this->dic->config['log']);
+
+            $request = $this->conn->prepare($join->getRequest());
+            $request->execute($join->getExecute());
+            $res = $request->fetchAll(\PDO::FETCH_ASSOC);
+
+            return $res;
+        } catch(\Exception $e) {
+            return $this->dic->load('exception')->publish($e->getMessage());
+        }
+    }
+
+    /**
      * @param RequestInterface $request
      */
     public function delete(RequestInterface $request){

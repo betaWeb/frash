@@ -23,6 +23,8 @@ class Where{
     private function defineFunc(string $where): string{
         if(substr($where, 0, 2) == 'f '){
             return substr($where, 2);
+        } elseif(strstr($where, '.')) {
+            return $where;
         } else {
             return "\"$where\"";
         }
