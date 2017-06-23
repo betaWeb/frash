@@ -87,7 +87,8 @@ class Router{
 
 	protected function __call($method, $arguments)
 	{
-		$response = call_user_func_array([ $this, $method ], $arguments);
+		array_unshift($arguments, $method);
+		$response = call_user_func_array([ $this, "call" ], $arguments);
 		if ($response === false)
 		{
 			throw new \Exception("Router_exception :: Method {$method} not found");
