@@ -85,29 +85,14 @@ class Router{
 		return $this;
 	}
 
-	protected function get(string $route, $path, array $params = [])
+	protected function __call($method, $arguments)
 	{
-		return $this->call('get', string $route, $path, array $params = []);
-	}
-
-	protected function post(string $route, $path, array $params = [])
-	{
-		return $this->call('post', string $route, $path, array $params = []);
-	}
-
-	protected function put(string $route, $path, array $params = [])
-	{
-		return $this->call('put', string $route, $path, array $params = []);
-	}
-
-	protected function delete(string $route, $path, array $params = [])
-	{
-		return $this->call('delete', string $route, $path, array $params = []);
-	}
-
-	protected function patch(string $route, $path, array $params = [])
-	{
-		return $this->call('patch', string $route, $path, array $params = []);
+		$response = call_user_func_array([ $this, $method ], $arguments);
+		if ($response === false)
+		{
+			throw new \Exception("Router_exception :: Method {$method} not found");
+		}
+		return $response;
 	}
 
 	/**
